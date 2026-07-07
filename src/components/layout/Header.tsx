@@ -47,8 +47,8 @@ export function Header() {
     <header className="fixed left-0 right-0 top-0 z-40">
       <div
         className={cn(
-          "pointer-events-none absolute left-0 right-0 top-2 mx-3 rounded-full border border-white/10 bg-background/45 shadow-lg shadow-black/5 transition-all duration-300 ease-out will-change-[transform,opacity,backdrop-filter]",
-          "md:top-3 md:mx-4 md:mx-auto md:max-w-4xl lg:max-w-5xl",
+          "pointer-events-none absolute left-0 right-0 top-2 mx-3 h-14 rounded-full border border-white/10 bg-background/45 shadow-lg shadow-black/5 transition-all duration-300 ease-out will-change-[transform,opacity,backdrop-filter]",
+          "md:top-3 md:mx-auto md:h-20 md:max-w-4xl lg:max-w-5xl",
         )}
         style={{
           opacity: scrollProgress,
