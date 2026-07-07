@@ -5,6 +5,7 @@ import { Mail, Phone, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useSiteSettings } from "@/hooks/use-services";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
+import { Button } from "@/components/ui/button";
 
 import { routeHead } from "@/lib/route-head";
 
@@ -89,13 +90,14 @@ function ContactPage() {
                 className="rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
               />
               {state === "error" && <p className="text-sm text-destructive">{errorMsg}</p>}
-              <button
+              <Button
                 type="submit"
+                size="lg"
                 disabled={state === "sending"}
-                className="inline-flex items-center justify-center gap-2 self-start rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                className="self-start"
               >
                 <Send className="h-4 w-4" /> {t("contact.send")}
-              </button>
+              </Button>
             </>
           )}
         </form>
