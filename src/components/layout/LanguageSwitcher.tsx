@@ -1,16 +1,15 @@
-import { Link, useRouterState, useRouter } from "@tanstack/react-router";
+import { useRouterState, useRouter } from "@tanstack/react-router";
 import { LANGUAGES, LANG_SHORT, type Lang } from "@/lib/language";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { cn } from "@/lib/utils";
 
 export function LanguageSwitcher() {
   const current = useCurrentLanguage();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const location = useRouterState({ select: (s) => s.location });
   const router = useRouter();
 
   function swapLang(target: Lang): string {
-    // Replace first segment
-    const parts = pathname.split("/").filter(Boolean);
+    const parts = location.pathname.split("/").filter(Boolean);
     if (parts.length === 0) return `/${target}`;
     parts[0] = target;
     return `/${parts.join("/")}`;
@@ -24,18 +23,20 @@ export function LanguageSwitcher() {
     >
       {LANGUAGES.map((l) => {
         const active = l === current;
-        const href = swapLang(l);
+        const pathname = swapLang(l);
+        const href = `${pathname}${location.searchStr ?? ""}${location.hash ? `#${location.hash}` : ""}`;
         return (
-          <Link
+          <a
             key={l}
-            to={href}
+            href={href}
             onClick={(e) => {
-              // ensure hard nav re-runs beforeLoad / correct params
-              if (active) e.preventDefault();
-              else {
-                e.preventDefault();
-                router.navigate({ to: href });
-              }
+              e.preventDefault();
+              if (active) return;
+              router.navigate({
+                to: pathname,
+                search: location.search as never,
+                hash: location.hash || undefined,
+              });
             }}
             className={cn(
               "rounded-full px-3 py-1 text-xs font-semibold tracking-wide transition-colors",
@@ -45,7 +46,7 @@ export function LanguageSwitcher() {
             )}
           >
             {LANG_SHORT[l]}
-          </Link>
+          </a>
         );
       })}
     </div>

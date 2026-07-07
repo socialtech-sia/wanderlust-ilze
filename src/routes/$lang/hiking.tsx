@@ -3,11 +3,21 @@ import { z } from "zod";
 import { ServicesListPage } from "@/components/services/ServicesListPage";
 
 const catSchema = z.enum(["action", "nature", "history", "culture"]).optional();
+const diffSchema = z.enum(["easy", "medium", "hard"]).optional();
 
 export const Route = createFileRoute("/$lang/hiking")({
-  validateSearch: z.object({ category: catSchema }),
-  component: () => {
-    const { category } = Route.useSearch();
-    return <ServicesListPage type="hiking" navKey="hiking" category={category} />;
-  },
+  validateSearch: z.object({ category: catSchema, difficulty: diffSchema }),
+  component: RouteComp,
 });
+
+function RouteComp() {
+  const { category, difficulty } = Route.useSearch();
+  return (
+    <ServicesListPage
+      type="hiking"
+      navKey="hiking"
+      category={category}
+      difficulty={difficulty}
+    />
+  );
+}

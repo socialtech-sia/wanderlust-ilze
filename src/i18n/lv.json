@@ -41,6 +41,7 @@
     "price_from": "No {{price}}",
     "price_per_person": "€ / personai",
     "price_per_trip": "€ / brauciens",
+    "difficulty": "Grūtība",
     "difficulty_easy": "Viegls",
     "difficulty_medium": "Vidējs",
     "difficulty_hard": "Grūts",

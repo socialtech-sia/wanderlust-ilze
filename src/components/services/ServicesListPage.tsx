@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 import { tField } from "@/lib/language";
 
 type Cat = Database["public"]["Enums"]["enter_gauja_category"];
+type Difficulty = Database["public"]["Enums"]["service_difficulty"];
+
+const DIFFICULTIES: Difficulty[] = ["easy", "medium", "hard"];
 
 const HERO_IMG: Record<ServiceType, { img: string; alt: string }> = {
   excursion: {
@@ -24,14 +27,18 @@ const HERO_IMG: Record<ServiceType, { img: string; alt: string }> = {
   },
 };
 
+type SearchShape = { category?: Cat; difficulty?: Difficulty };
+
 export function ServicesListPage({
   type,
   navKey,
   category,
+  difficulty,
 }: {
   type: ServiceType;
   navKey: "tours" | "hiking" | "transfers";
   category?: Cat;
+  difficulty?: Difficulty;
 }) {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
@@ -40,9 +47,16 @@ export function ServicesListPage({
   const { data: cats } = useEnterGaujaCategories();
   const hero = HERO_IMG[type];
 
-  const filtered = category
-    ? (data ?? []).filter((s) => (s.enter_gauja_categories ?? []).includes(category))
-    : (data ?? []);
+  const filtered = (data ?? []).filter((s) => {
+    if (category && !(s.enter_gauja_categories ?? []).includes(category)) return false;
+    if (difficulty && s.difficulty !== difficulty) return false;
+    return true;
+  });
+
+  const to = `/${lang}/${navKey}` as const;
+
+  const goto = (next: SearchShape) =>
+    navigate({ to, search: (prev: SearchShape) => ({ ...prev, ...next }) });
 
   return (
     <>
@@ -58,12 +72,11 @@ export function ServicesListPage({
       </section>
 
       <section className="container-editorial py-14">
-        {/* Category filter (only meaningful for tours + hiking) */}
         {type !== "transfer" && (
-          <div className="mb-10 flex flex-wrap gap-2">
+          <div className="mb-6 flex flex-wrap gap-2">
             <button
               type="button"
-              onClick={() => navigate({ to: `/${lang}/${navKey}` })}
+              onClick={() => goto({ category: undefined })}
               className={cn(
                 "rounded-full border px-4 py-1.5 text-sm transition-colors",
                 !category
@@ -80,9 +93,7 @@ export function ServicesListPage({
                 <button
                   key={c.key}
                   type="button"
-                  onClick={() =>
-                    navigate({ to: `/${lang}/${navKey}`, search: { category: c.key } })
-                  }
+                  onClick={() => goto({ category: active ? undefined : c.key })}
                   className={cn(
                     "rounded-full border px-4 py-1.5 text-sm transition-colors",
                     active ? "text-paper" : "hover:text-foreground",
@@ -94,6 +105,44 @@ export function ServicesListPage({
                   }
                 >
                   {tField(c, "name", lang)}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {type !== "transfer" && (
+          <div className="mb-10 flex flex-wrap items-center gap-2">
+            <span className="mr-1 text-xs uppercase tracking-widest text-ink-muted">
+              {t("service.difficulty")}
+            </span>
+            <button
+              type="button"
+              onClick={() => goto({ difficulty: undefined })}
+              className={cn(
+                "rounded-full border px-3 py-1 text-xs transition-colors",
+                !difficulty
+                  ? "border-foreground bg-foreground text-background"
+                  : "border-border/60 text-ink-muted hover:text-foreground",
+              )}
+            >
+              {t("categories.all")}
+            </button>
+            {DIFFICULTIES.map((d) => {
+              const active = difficulty === d;
+              return (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => goto({ difficulty: active ? undefined : d })}
+                  className={cn(
+                    "rounded-full border px-3 py-1 text-xs transition-colors",
+                    active
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border/60 text-ink-muted hover:text-foreground",
+                  )}
+                >
+                  {t(`service.difficulty_${d}`)}
                 </button>
               );
             })}
