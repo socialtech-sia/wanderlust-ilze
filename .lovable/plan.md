@@ -1,24 +1,51 @@
-## План правки header island
+# План: Cookie Policy, Terms of Service и Cookie Consent
 
-1. **Вернуть геометрию острова к аккуратной форме**
-   - Сделать glass-плашку привязанной к тому же максимальному контейнеру, что и контент header.
-   - Убрать визуальный перекос, где фон начинается/заканчивается не там, где элементы навигации.
-   - Настроить высоту, top-offset и скругление так, чтобы остров выглядел ровно на desktop и tablet.
+## 1. Новые страницы (routes)
 
-2. **Упростить слой стекла**
-   - Оставить один стабильный фон-подложку позади nav/logo/CTA.
-   - Не давать blur-плашке перекрывать контент или расширяться на всю ширину экрана.
-   - Сохранить читаемость текста и иконок на тёмной hero-картинке и на светлых секциях.
+**`src/routes/cookie-policy.tsx`** — `/cookie-policy`
+- head() с уникальными title/description/og
+- Секции: что такое cookies, какие мы используем (strictly necessary, analytics, marketing), сроки хранения, управление в браузере, ссылка на consent-настройки (кнопка "Изменить согласие")
+- Реквизиты social.tech SIA внизу
 
-3. **Стабилизировать scroll-анимацию**
-   - Оставить оптимизацию без лишних React re-render на скролле.
-   - Сделать opacity/blur/translate менее агрессивными, чтобы island не “прыгал” и не менял форму во время прокрутки.
-   - На слабых устройствах оставить облегчённый режим без дорогого blur.
+**`src/routes/terms-of-service.tsx`** — `/terms-of-service`
+- head() с уникальными meta
+- Секции: определения, услуги, права/обязанности пользователя, интеллектуальная собственность, ограничение ответственности, изменения, применимое право (Латвия), контакты social.tech SIA
+- Дата последнего обновления
 
-4. **Проверить визуально**
-   - Проверить `/lv` в текущей ширине около 1020px.
-   - Проверить desktop и mobile: island должен быть ровным, контент поверх фона, без кривого овала/тени/перекрытий.
+Обе страницы используют существующий design system (Montserrat, cyan #00BFFF, дизайн из Hero/Header), контейнер `container-editorial`, тёмная тема как на главной.
 
-## Технически
+## 2. Cookie Consent баннер
 
-Изменения будут только в `src/components/layout/Header.tsx`: поправлю размеры/позиционирование `pillRef`, классы контейнера и параметры rAF-анимации. Бизнес-логику и роуты не трогаю.
+**`src/components/cookie/CookieConsent.tsx`**
+- Фиксированная плашка снизу (glass-эффект в стиле Header)
+- Появляется если в `localStorage` нет `cookie-consent` (проверка в `useEffect`, чтобы избежать SSR mismatch — см. tanstack-execution-model)
+- Кнопки: "Принять все", "Только необходимые", "Настроить"
+- Модалка "Настроить" (shadcn Dialog) с тумблерами: Necessary (disabled, всегда on), Analytics, Marketing
+- Ссылки на `/cookie-policy` и `/terms-of-service`
+
+**`src/lib/cookie-consent.ts`**
+- Типы: `ConsentState = { necessary: true; analytics: boolean; marketing: boolean; timestamp: number }`
+- `getConsent()`, `setConsent()`, `clearConsent()` — обёртки над localStorage
+- Кастомное событие `cookie-consent-change` для реакции других частей приложения
+
+**`src/hooks/use-cookie-consent.ts`**
+- Хук возвращает `{ consent, isLoaded, accept, reject, updatePartial, reopen }`
+- Слушает событие изменения
+
+## 3. Интеграция
+
+- Монтировать `<CookieConsent />` в `src/routes/__root.tsx` после `<Outlet />` (клиентский рендер через `useHydrated`)
+- В футере (если есть общий footer — иначе в `__root.tsx` минимальный) добавить ссылки: Cookie Policy, Terms of Service, а также Privacy Policy если уже существует
+- Кнопка "Изменить cookie-настройки" на `/cookie-policy` вызывает `reopen()` из хука
+
+## 4. Что НЕ меняем
+- Header, Hero, существующие маршруты, стили glass-эффекта
+- Никакой backend/DB работы — согласие только в localStorage
+
+## Технические детали
+- Всё на клиенте, никаких server functions
+- SSR-safe: чтение localStorage только в `useEffect`
+- Тексты: English (workspace rule для внутренних дашбордов) — **уточните, если нужны LV/RU для клиентского сайта**
+
+## Открытый вопрос
+Язык страниц и баннера: EN, LV или RU? В прошлых сообщениях вы писали по-русски, но workspace default = EN для internal / LV для client-facing. Скажите какой — иначе сделаю **EN + возможность лёгкого перевода** (тексты вынесу в константы).
