@@ -173,7 +173,7 @@ export function Header() {
         aria-hidden="true"
       />
 
-      <div className="container-editorial flex h-14 items-center justify-between md:h-20">
+      <div className="container-editorial relative z-10 flex h-14 items-center justify-between md:h-20">
         <Link
           to="/$lang"
           params={{ lang }}
