@@ -1,57 +1,48 @@
-# Единый компонент кнопки + рефактор CTA по сайту
+# Редизайн экрана резервации
 
-Сейчас на сайте два набора кнопок: shadcn `<Button>` (по умолчанию `rounded-md`, h-9) и ~15 захардкоженных `<a class="rounded-full bg-primary px-6 py-3 …">` в Hero, Header, EnterGauja, contact, booking, cookie-consent. Форма/высоты/паддинги дублируются и слегка расходятся (`py-2` vs `py-2.5` vs `py-3`), состояний `active` нигде нет, focus-ring непоследовательный.
+Полная переработка `src/routes/$lang/book.tsx` — новый UX-flow с выбором типа услуги на первом шаге, обновлённый UI с живыми иконками, иллюстративной графикой и мягкой анимацией в существующей editorial-стилистике сайта.
 
-## Что меняем
+## Новый flow (5 шагов вместо 4)
 
-### 1. Переписываем `src/components/ui/button.tsx`
-- База: `rounded-full`, `font-medium`, `transition-all`, `focus-visible:ring-2 ring-ring/60 ring-offset-2 ring-offset-background`, `active:scale-[0.97]`, `disabled:opacity-50 disabled:pointer-events-none`.
-- Размеры (единая высота/паддинги для всего сайта):
-  - `sm` — `h-9 px-4 text-xs`
-  - `md` (default) — `h-11 px-6 text-sm`
-  - `lg` — `h-12 px-7 text-sm`
-  - `xl` — `h-14 px-8 text-base` (hero-CTA)
-  - `icon` — `h-10 w-10 p-0`
-- Варианты:
-  - `primary` (default) — `bg-moss-deep text-paper hover:bg-moss active:bg-moss-deep`
-  - `secondary` — `bg-paper text-ink hover:bg-paper/90` (для тёмных фонов, Hero)
-  - `outline` — `border border-border bg-transparent text-foreground hover:bg-accent`
-  - `outline-light` — `border border-paper/40 text-paper hover:bg-paper/10` (тёмный фон)
-  - `ghost` — `text-foreground hover:bg-accent`
-  - `link` — `underline-offset-4 hover:underline text-primary`
-  - `category` — принимает inline `style={{ backgroundColor }}`, base `text-white hover:-translate-y-0.5` (для Enter Gauja CTA с категорийным цветом)
-- Экспортируется тот же `Button` + `buttonVariants` — существующий shadcn API сохраняется.
+```
+[1] Тип услуги  →  [2] Конкретная услуга  →  [3] Когда  →  [4] Контакты  →  [5] Подтверждение
+```
 
-### 2. Рефакторим все CTA на `<Button asChild>` / `<Button>`
-Файлы:
-- `src/components/home/Hero.tsx` — 2 CTA → `variant="secondary" size="xl"` и `variant="outline-light" size="xl"`.
-- `src/components/layout/Header.tsx` — «Rezervēt» (desktop + mobile) → `variant="primary" size="md"`.
-- `src/routes/__root.tsx` — error-boundary кнопки → `Button asChild`.
-- `src/routes/$lang/contact.tsx` — submit → `Button size="lg"`.
-- `src/routes/$lang/s.$slug.tsx` — «Rezervēt šo» → `Button size="lg" className="w-full"`.
-- `src/routes/$lang/book.tsx` — prev (`variant="outline"`), next/submit (`variant="primary"`), календарь nav (`variant="outline" size="icon"`).
-- `src/routes/$lang/book.confirmed.$ref.tsx` — «Uz sākumu» → `Button asChild`.
-- `src/components/cookie/CookieConsent.tsx` — «Pieņemt visas» → `primary md`, «Tikai nepieciešamās» → `outline md`, «Iestatījumi» → `ghost sm`, «Saglabāt» → `primary md`.
-- `src/components/home/EnterGaujaBadge.tsx` — «Uzzināt» → `Button asChild variant="primary" size="md"`.
-- `src/components/entergauja/EnterGaujaBacklinkBlock.tsx` — CTA → `Button asChild variant="category" size="md"` с inline `style={{ backgroundColor: color }}`.
+1. **Тип услуги** — 3 крупные карточки-плитки: Excursion / Hiking / Transfer. Каждая с SVG-иллюстрацией (тропа, компас, микроавтобус в стиле Enter Gauja pictograms), названием, короткой подписью ("N услуг доступно"), hover-подъёмом. Если пользователь пришёл с `?service=…`, шаг пропускается автоматически (тип выводится из выбранной услуги).
+2. **Конкретная услуга** — фильтрованный список только выбранного типа. Карточки крупнее текущих: миниатюра/иконка, название, длительность, «от €X», короткое описание. Кнопка «← Изменить тип» в шапке шага.
+3. **Когда** — дата, время, персоны (как сейчас), но:
+   - grid time-слотов с сегментацией «Утро / День / Вечер»,
+   - persons — крупный степпер с иконками фигурок,
+   - inline-сводка выбранной услуги сверху (мини-карточка).
+4. **Контакты** — та же форма, но с иконками в полях (User, Mail, Phone, Globe, MessageSquare), floating-labels, аккуратной группировкой.
+5. **Подтверждение** — двухколоночный layout: слева иллюстрация/иконка выбранного типа + summary-карточка, справа терms + submit. Итоговая цена подсвечена.
 
-### 3. Не трогаем
-- `LanguageSwitcher` — это toggle-pill, не кнопка.
-- Категорийные плашки Enter Gauja (тайлы) — это карточки-ссылки, не CTA.
-- Иконки соцсетей в Footer — icon-круги, оставляем.
-- Инпуты, tabs, dropdown, dialog — не кнопки.
-- Партнёрская Enter Gauja строка в Footer.
+## UI / визуальные приёмы
 
-### 4. Побочно — hydration mismatch
-`entergauja.partner_body` рендерится сырым ключом на SSR из-за расхождения между default lang и `/lv`. Добавляем `defaultValue` во всех местах, где ключ выводится в основном потоке HTML (EnterGaujaBadge, EnterGaujaBacklinkBlock) — по паттерну, уже применённому в Footer. Это гарантированно снимает hydration warning без изменения i18n-инфраструктуры.
+- Прогресс-бар шагов: 5 сегментов, активный сегмент заполняется moss-deep с плавной анимацией; название текущего шага крупно под баром.
+- Плитки типа — квадратные SVG-иллюстрации (пиктограммы в духе Enter Gauja: линия+точки), фон `bg-paper-alt`, активная — moss-deep border + subtle inner shadow.
+- Микро-анимации через существующие `animate-fade-in` / `hover-scale` из tailwind config; переход между шагами — `fade-in` + slide (10px).
+- Фоновая декоративная графика: тонкий SVG-контур (волны/горы) внизу карточки, как ribbon в EG-компонентах.
+- Все кнопки — уже унифицированный `Button` (pill), без изменений системы.
+- Категорийные цвета: excursion=terracotta, hiking=moss-deep, transfer=lake-blue (используем существующие токены). Активная плитка и иконки полей подкрашиваются в цвет выбранного типа.
 
-## Технические детали
-- Никаких новых зависимостей.
-- `buttonVariants` остаётся экспортируемым — сохраняется совместимость с любым внешним использованием.
-- Все hover/active единообразны: `hover:brightness-110` не используем (ломает цвет на светлых фонах), вместо этого `hover:bg-{цвет}/90` + `hover:-translate-y-0.5` для акцентных CTA.
-- `size="md"` становится дефолтом — старый дефолт shadcn (h-9) переезжает в `sm`, что может слегка повлиять на кнопки, не указавшие size явно. Проверю каждое использование `<Button>` в проекте и добавлю `size="sm"` там, где нужна прежняя высота (в основном toolbar/иконки внутри диалогов).
-- Проверка `tsgo` после правок.
+## Технические изменения
 
-## Файлы
+**Файлы:**
+- `src/routes/$lang/book.tsx` — переписан: добавлен `Step = 1..5`, новое состояние `serviceType`, шаги вынесены в подкомпоненты.
+- `src/components/booking/StepType.tsx` — новый: 3 плитки категорий.
+- `src/components/booking/StepService.tsx` — новый: список услуг выбранного типа.
+- `src/components/booking/StepWhen.tsx`, `StepContact.tsx`, `StepReview.tsx` — вынесены из `book.tsx`, доработан UI.
+- `src/components/booking/BookingStepper.tsx` — новый прогресс-компонент (5 шагов).
+- `src/components/booking/ServiceTypeIcon.tsx` — новый: inline-SVG для excursion/hiking/transfer (в стиле EnterGauja pictograms).
+- `src/components/booking/BookingSummary.tsx` — мини-карточка выбранной услуги (используется на шагах 3–5).
+- `src/i18n/{en,lv,es}.json` — добавить ключи `booking.step_type`, `booking.type_*`, `booking.morning/afternoon/evening`, подписи описаний категорий.
 
-**Правки:** `src/components/ui/button.tsx`, `src/components/home/Hero.tsx`, `src/components/layout/Header.tsx`, `src/routes/__root.tsx`, `src/routes/$lang/contact.tsx`, `src/routes/$lang/s.$slug.tsx`, `src/routes/$lang/book.tsx`, `src/routes/$lang/book.confirmed.$ref.tsx`, `src/components/cookie/CookieConsent.tsx`, `src/components/home/EnterGaujaBadge.tsx`, `src/components/entergauja/EnterGaujaBacklinkBlock.tsx`.
+**Логика:**
+- `serviceType: 'excursion' | 'hiking' | 'transfer' | null` в state.
+- При preselected сервисе: `serviceType` выставляется из `preselected.type`, стартовый шаг = 3.
+- `canNext`: step 1 → `serviceType != null`; step 2 → `serviceId != null`; step 3 → date + persons; step 4 → name + email; step 5 → terms.
+- Кнопка «Изменить тип» на шаге 2 сбрасывает `serviceId` и возвращает к шагу 1.
+- Submit-логика (insert в `bookings`, редирект на confirmed) не меняется.
+
+**Не трогаем:** таблицу `bookings`, `book.confirmed.$ref.tsx`, систему кнопок, header/footer, роутинг.
