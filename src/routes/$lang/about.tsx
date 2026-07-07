@@ -6,7 +6,10 @@ import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { tField } from "@/lib/language";
 import { Award, Languages } from "lucide-react";
 
+import { routeHead } from "@/lib/route-head";
+
 export const Route = createFileRoute("/$lang/about")({
+  head: ({ params }) => routeHead({ params, routeKey: "about", path: "/about" }),
   component: AboutPage,
 });
 

@@ -21,8 +21,11 @@ const TIME_SLOTS = Array.from({ length: 25 }, (_, i) => {
   return `${String(h).padStart(2, "0")}:${m}`;
 });
 
+import { routeHead } from "@/lib/route-head";
+
 export const Route = createFileRoute("/$lang/book")({
   validateSearch: z.object({ service: z.string().optional() }),
+  head: ({ params }) => routeHead({ params, routeKey: "book", path: "/book" }),
   component: BookingPage,
 });
 

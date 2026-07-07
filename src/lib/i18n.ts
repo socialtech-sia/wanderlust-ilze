@@ -6,7 +6,10 @@ import es from "@/i18n/es.json";
 import { DEFAULT_LANG } from "@/lib/language";
 
 if (!i18n.isInitialized) {
-  void i18n.use(initReactI18next).init({
+  // initImmediate: false forces sync initialisation when resources are
+  // bundled inline — required so SSR / first render already has translations
+  // and no hydration mismatch occurs between server (raw keys) and client.
+  i18n.use(initReactI18next).init({
     resources: {
       lv: { translation: lv },
       en: { translation: en },
@@ -16,6 +19,7 @@ if (!i18n.isInitialized) {
     fallbackLng: "en",
     interpolation: { escapeValue: false },
     react: { useSuspense: false },
+    ...({ initImmediate: false } as Record<string, unknown>),
   });
 }
 

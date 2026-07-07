@@ -5,8 +5,10 @@ import { FeaturedServices } from "@/components/home/FeaturedServices";
 import { EnterGaujaTiles } from "@/components/home/EnterGaujaTiles";
 import { AboutPreview } from "@/components/home/AboutPreview";
 import { EnterGaujaBadge } from "@/components/home/EnterGaujaBadge";
+import { routeHead } from "@/lib/route-head";
 
 export const Route = createFileRoute("/$lang/")({
+  head: ({ params }) => routeHead({ params, routeKey: "home", path: "/" }),
   component: HomePage,
 });
 

@@ -4,11 +4,87 @@ import ReactMarkdown from "react-markdown";
 import { Clock, Users, MapPin, Route as RouteIcon, ChevronRight } from "lucide-react";
 import { useServiceBySlug, useEnterGaujaCategories } from "@/hooks/use-services";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
-import { tField, tSlug } from "@/lib/language";
+import { tField, tSlug, isLang, DEFAULT_LANG, type Lang } from "@/lib/language";
 import { formatDuration, formatPrice } from "@/lib/format";
 import { CategoryBadge } from "@/components/common/CategoryBadge";
+import { EnterGaujaBacklinkBlock } from "@/components/entergauja/EnterGaujaBacklinkBlock";
+import { pickPrimaryCategory, defaultCategoryForType } from "@/lib/enter-gauja";
+import {
+  absoluteUrl,
+  buildBreadcrumbList,
+  buildPageHead,
+  buildServiceSchema,
+  serviceImageAlt,
+} from "@/lib/seo";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/$lang/s/$slug")({
+  loader: async ({ params }) => {
+    const { data } = await supabase
+      .from("services")
+      .select("*")
+      .or(`slug_lv.eq.${params.slug},slug_en.eq.${params.slug},slug_es.eq.${params.slug}`)
+      .eq("is_active", true)
+      .maybeSingle();
+    return data;
+  },
+  head: ({ params, loaderData }) => {
+    const lang: Lang = isLang(params.lang) ? params.lang : DEFAULT_LANG;
+    if (!loaderData) {
+      return buildPageHead({
+        path: `/s/${params.slug}`,
+        lang,
+        title: "Not found",
+        description: "The requested service could not be found.",
+        noindex: true,
+      });
+    }
+    const title = tField(loaderData, "title", lang) || params.slug;
+    const short =
+      tField(loaderData, "short_description", lang) ||
+      tField(loaderData, "description", lang).slice(0, 155);
+    const cat = pickPrimaryCategory({
+      enter_gauja_categories: (loaderData.enter_gauja_categories as string[] | null) ?? null,
+    }) ?? defaultCategoryForType(loaderData.type as string);
+    const canonicalSlug = tSlug(loaderData, lang) || params.slug;
+    const path = `/s/${canonicalSlug}`;
+    const image =
+      (loaderData.hero_image_storage_path as string | null) ?? undefined;
+    const jsonLd: object[] = [
+      buildBreadcrumbList(lang, [
+        { name: "Home", path: "/" },
+        { name: "Tours", path: "/tours" },
+        { name: title, path },
+      ]),
+    ];
+    if (cat) {
+      jsonLd.push(
+        buildServiceSchema({
+          category: cat,
+          title,
+          description: short,
+          imageUrl: image ?? absoluteUrl(lang, "/og/default.jpg"),
+          path,
+          lang,
+          priceEur:
+            loaderData.price_from_eur != null ? Number(loaderData.price_from_eur) : null,
+          locationName: (loaderData.location_name as string | null) ?? null,
+          latitude: (loaderData.location_lat as number | null) ?? null,
+          longitude: (loaderData.location_lng as number | null) ?? null,
+        }),
+      );
+    }
+    return buildPageHead({
+      path,
+      lang,
+      title,
+      description: short,
+      category: cat?.key,
+      ogImage: image ?? undefined,
+      ogType: "article",
+      jsonLd,
+    });
+  },
   component: ServiceDetail,
 });
 
@@ -40,7 +116,17 @@ function ServiceDetail() {
     <>
       {/* Hero */}
       <section className="relative -mt-16 flex min-h-[62vh] items-end overflow-hidden md:-mt-20 md:min-h-[72vh]">
-        <img src={HERO} alt={title} className="absolute inset-0 h-full w-full object-cover" />
+        <img
+          src={HERO}
+          alt={serviceImageAlt({
+            title,
+            location: service.location_name,
+            category: pickPrimaryCategory({
+              enter_gauja_categories: service.enter_gauja_categories,
+            }) ?? defaultCategoryForType(service.type),
+          })}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/20 to-ink/75" />
         <div className="container-editorial relative z-10 pb-14 pt-32 text-paper md:pb-20 md:pt-40">
           {/* Breadcrumbs */}
@@ -129,6 +215,14 @@ function ServiceDetail() {
           </aside>
         </div>
       </section>
+
+      {/* Enter Gauja backlink (guidelines p.29) */}
+      <EnterGaujaBacklinkBlock
+        category={
+          pickPrimaryCategory({ enter_gauja_categories: service.enter_gauja_categories }) ??
+          defaultCategoryForType(service.type)
+        }
+      />
     </>
   );
 }

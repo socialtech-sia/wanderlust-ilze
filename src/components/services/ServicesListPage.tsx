@@ -53,10 +53,14 @@ export function ServicesListPage({
     return true;
   });
 
-  const to = `/${lang}/${navKey}` as const;
+  const to = `/$lang/${navKey}` as "/$lang/tours";
 
   const goto = (next: SearchShape) =>
-    navigate({ to, search: (prev: SearchShape) => ({ ...prev, ...next }) });
+    navigate({
+      to,
+      params: { lang },
+      search: (prev: SearchShape) => ({ ...prev, ...next }),
+    });
 
   return (
     <>

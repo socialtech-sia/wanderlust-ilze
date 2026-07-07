@@ -287,5 +287,12 @@
       "title": "Kontakti",
       "text": "Jautājumi par noteikumiem: info@socialtech.lv, +371 20042830."
     }
+  },
+  "entergauja": {
+    "footer_title": "Enter Gauja kopienas partneris",
+    "partner_body": "Wanderlust.lv ir Enter Gauja kopienas partneris — vienotā Gaujas nacionālā parka tūrisma tīkla daļa, kas apvieno dabu, vēsturi, kultūru un aktīvo atpūtu.",
+    "backlink_body": "Mēs esam Enter Gauja kopienas partneri. Atklāj vairāk par dabas takām, pilīm un kultūras pasākumiem Gaujas ielejā.",
+    "cta_view": "Apskatīt Enter Gauja",
+    "cta_view_category": "Apskatīt {{category}}"
   }
 }

@@ -287,5 +287,12 @@
       "title": "Contact",
       "text": "Questions about these terms: info@socialtech.lv, +371 20042830."
     }
+  },
+  "entergauja": {
+    "footer_title": "Enter Gauja community partner",
+    "partner_body": "Wanderlust.lv is an Enter Gauja community partner — part of the unified Gauja National Park tourism network that connects nature, history, culture and active recreation.",
+    "backlink_body": "We are Enter Gauja community partners. Discover more nature trails, castles and cultural events across the Gauja Valley.",
+    "cta_view": "View Enter Gauja",
+    "cta_view_category": "View {{category}}"
   }
 }
