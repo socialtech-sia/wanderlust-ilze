@@ -72,16 +72,15 @@ export function Header() {
 
       // Round to reduce style thrash / filter recompute.
       const op = Math.round(smooth * 100) / 100;
-      const ty = Math.round((1 - smooth) * -10 * 10) / 10;
+      const ty = Math.round((1 - smooth) * -6 * 10) / 10;
       el.style.opacity = String(op);
       el.style.transform = `translate3d(0, ${ty}px, 0)`;
 
       if (!lowEnd) {
-        const maxBlur = isMobile ? 10 : 18;
-        const blur = Math.round(smooth * maxBlur + (isDark ? 4 : 0));
-        const blurStr = blur > 0 ? `blur(${blur}px)` : "none";
+        const maxBlur = isMobile ? 8 : 14;
+        const blur = Math.round(smooth * maxBlur + (isDark ? 2 : 0));
+        const blurStr = op > 0 && blur > 0 ? `blur(${blur}px)` : "none";
         el.style.backdropFilter = blurStr;
-        (el.style as CSSStyleDeclaration & { webkitBackdropFilter?: string }).webkitBackdropFilter = blurStr;
       }
     };
 
@@ -147,8 +146,8 @@ export function Header() {
 
   const isDark = tone === "dark";
   const pillClass = isDark
-    ? "border-white/20 bg-ink/35 shadow-lg shadow-black/20"
-    : "border-white/15 bg-background/65 shadow-lg shadow-black/5";
+    ? "border-white/20 bg-ink/45 shadow-lg shadow-black/20"
+    : "border-ink/10 bg-background/85 shadow-lg shadow-black/10";
   const textColor = isDark ? "text-paper" : "text-foreground";
   const mutedColor = isDark
     ? "text-paper/70 hover:text-paper"
@@ -156,24 +155,25 @@ export function Header() {
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40" data-tone={tone}>
-      <div
-        ref={pillRef}
-        className={cn(
-          "pointer-events-none absolute left-0 right-0 top-2 mx-3 h-14 rounded-full border transition-[background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-          "md:top-3 md:mx-auto md:h-20 md:max-w-4xl lg:max-w-5xl",
-          pillClass,
-        )}
-        style={{
-          opacity: 0,
-          transform: "translate3d(0,-10px,0)",
-          willChange: "transform, opacity, backdrop-filter",
-          contain: "layout paint style",
-          backfaceVisibility: "hidden",
-        }}
-        aria-hidden="true"
-      />
+      <div className="container-editorial relative z-10">
+        <div
+          ref={pillRef}
+          className={cn(
+            "pointer-events-none absolute inset-x-2 top-2 h-12 rounded-full border transition-[background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            "md:inset-x-4 md:h-16",
+            pillClass,
+          )}
+          style={{
+            opacity: 0,
+            transform: "translate3d(0,-6px,0)",
+            willChange: "transform, opacity, backdrop-filter",
+            contain: "layout paint style",
+            backfaceVisibility: "hidden",
+          }}
+          aria-hidden="true"
+        />
 
-      <div className="container-editorial relative z-10 flex h-14 items-center justify-between md:h-20">
+        <div className="relative z-10 flex h-16 items-center justify-between md:h-20">
         <Link
           to="/$lang"
           params={{ lang }}
@@ -226,6 +226,7 @@ export function Header() {
             {mobileOpen ? <X className="h-5 w-5 drop-shadow-text" /> : <Menu className="h-5 w-5 drop-shadow-text" />}
           </button>
         </div>
+      </div>
       </div>
 
       {mobileOpen && (
