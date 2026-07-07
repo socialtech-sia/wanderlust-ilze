@@ -17,6 +17,8 @@ const NAV = [
 
 const SCROLL_END = 72;
 
+type Tone = "light" | "dark";
+
 export function Header() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
@@ -24,6 +26,7 @@ export function Header() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [smoothProgress, setSmoothProgress] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [tone, setTone] = useState<Tone>("light");
   const matchRoute = useMatchRoute();
 
   useEffect(() => {
@@ -57,14 +60,51 @@ export function Header() {
     return () => cancelAnimationFrame(rafId);
   }, [scrollProgress]);
 
-  const blurPx = smoothProgress * (isMobile ? 10 : 18);
+  // Detect tone of the section currently behind the header pill.
+  useEffect(() => {
+    const detect = () => {
+      const probeY = isMobile ? 36 : 56;
+      const probeX = Math.round(window.innerWidth / 2);
+      const els = document.elementsFromPoint(probeX, probeY) as HTMLElement[];
+      let found: Tone | null = null;
+      for (const el of els) {
+        const t = el.dataset?.headerTone as Tone | undefined;
+        if (t === "dark" || t === "light") {
+          found = t;
+          break;
+        }
+      }
+      setTone(found ?? "light");
+    };
+    detect();
+    const onScroll = () => detect();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [isMobile]);
+
+  const isDark = tone === "dark";
+  // Over dark hero: less opaque pill (image reads through), stronger blur.
+  // Over light content: more opaque pill for contrast, lighter blur.
+  const blurPx = smoothProgress * (isMobile ? 10 : 18) + (isDark ? 4 : 0);
+
+  const pillClass = isDark
+    ? "border-white/20 bg-ink/35 shadow-lg shadow-black/20"
+    : "border-white/15 bg-background/65 shadow-lg shadow-black/5";
+
+  const textColor = isDark ? "text-paper" : "text-foreground";
+  const mutedColor = isDark ? "text-paper/70 hover:text-paper" : "text-ink-muted hover:text-foreground";
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-40">
+    <header className="fixed left-0 right-0 top-0 z-40" data-tone={tone}>
       <div
         className={cn(
-          "pointer-events-none absolute left-0 right-0 top-2 mx-3 h-14 rounded-full border border-white/15 bg-background/65 shadow-lg shadow-black/5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,opacity,backdrop-filter]",
+          "pointer-events-none absolute left-0 right-0 top-2 mx-3 h-14 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,opacity,backdrop-filter]",
           "md:top-3 md:mx-auto md:h-20 md:max-w-4xl lg:max-w-5xl",
+          pillClass,
         )}
         style={{
           opacity: smoothProgress,
@@ -79,7 +119,10 @@ export function Header() {
         <Link
           to="/$lang"
           params={{ lang }}
-          className="font-display text-2xl tracking-tight text-foreground text-shadow-sm transition-colors"
+          className={cn(
+            "font-display text-2xl tracking-tight text-shadow-sm transition-colors",
+            textColor,
+          )}
           aria-label="Wanderlust.lv"
         >
           Wanderlust<span className="text-moss">.</span>lv
@@ -95,9 +138,7 @@ export function Header() {
                 params={{ lang }}
                 className={cn(
                   "text-sm font-medium transition-colors",
-                  active
-                    ? "text-foreground"
-                    : "text-ink-muted hover:text-foreground",
+                  active ? textColor : mutedColor,
                 )}
               >
                 {t(`nav.${item.key}`)}
@@ -118,7 +159,10 @@ export function Header() {
           <button
             type="button"
             aria-label="Menu"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-foreground text-shadow-sm transition-colors md:hidden"
+            className={cn(
+              "inline-flex h-10 w-10 items-center justify-center rounded-full text-shadow-sm transition-colors md:hidden",
+              textColor,
+            )}
             onClick={() => setMobileOpen((v) => !v)}
           >
             {mobileOpen ? <X className="h-5 w-5 drop-shadow-text" /> : <Menu className="h-5 w-5 drop-shadow-text" />}
