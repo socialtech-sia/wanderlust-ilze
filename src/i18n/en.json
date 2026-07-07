@@ -41,6 +41,7 @@
     "price_from": "From {{price}}",
     "price_per_person": "€ / person",
     "price_per_trip": "€ / trip",
+    "difficulty": "Difficulty",
     "difficulty_easy": "Easy",
     "difficulty_medium": "Medium",
     "difficulty_hard": "Hard",
