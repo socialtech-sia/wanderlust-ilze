@@ -124,6 +124,18 @@
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
+    scrollbar-width: thin;
+  }
+  ::-webkit-scrollbar {
+    width: 1px;
+    height: 1px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-soft);
+    border-radius: 0;
   }
   h1, h2, h3, h4, h5 {
     font-family: var(--font-serif);
