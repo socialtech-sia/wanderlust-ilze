@@ -65,9 +65,9 @@ export function StepService({
               <div className="min-w-0 flex-1">
                 <p className="font-medium text-foreground">{tField(s, "title", lang)}</p>
                 <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-muted">
-                  {s.duration_min != null && (
+                  {s.duration_minutes != null && (
                     <span className="inline-flex items-center gap-1">
-                      <Clock className="h-3 w-3" /> {formatDuration(Number(s.duration_min), t)}
+                      <Clock className="h-3 w-3" /> {formatDuration(Number(s.duration_minutes), t)}
                     </span>
                   )}
                   {s.price_from_eur != null && (
