@@ -13,6 +13,7 @@ import {
 } from "@/lib/enter-gauja";
 import { EnterGaujaLogo } from "@/components/entergauja/EnterGaujaLogo";
 import { EnterGaujaGlyph } from "@/components/entergauja/EnterGaujaCategoryIcon";
+import { Button } from "@/components/ui/button";
 
 export function EnterGaujaBadge() {
   const { t } = useTranslation();
