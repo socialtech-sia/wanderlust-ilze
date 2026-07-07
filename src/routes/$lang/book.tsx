@@ -3,13 +3,23 @@ import { z } from "zod";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
-import { CalendarDays, Users, ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { enUS, es, lv } from "date-fns/locale";
+import { CalendarDays, Clock, Users, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { useAllServices, type Service } from "@/hooks/use-services";
 import { tField, tSlug, type Lang } from "@/lib/language";
 import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+const LOCALES = { en: enUS, es, lv } as const;
+const TIME_SLOTS = Array.from({ length: 25 }, (_, i) => {
+  const h = 8 + Math.floor(i / 2);
+  const m = i % 2 === 0 ? "00" : "30";
+  return `${String(h).padStart(2, "0")}:${m}`;
+});
 
 export const Route = createFileRoute("/$lang/book")({
   validateSearch: z.object({ service: z.string().optional() }),
