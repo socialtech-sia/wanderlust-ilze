@@ -92,7 +92,16 @@ export function Footer() {
       {/* Enter Gauja community partner block (guidelines p.16, 29) */}
       <div className="border-t border-border/50 bg-paper">
         <div className="container-editorial flex flex-col items-start gap-4 py-6 md:flex-row md:items-center md:justify-between">
-          <p className="text-eyebrow">{t("entergauja.footer_title")}</p>
+          <p className="text-eyebrow">
+            {t("entergauja.footer_title", {
+              defaultValue:
+                lang === "lv"
+                  ? "Enter Gauja kopienas partneris"
+                  : lang === "es"
+                    ? "Partner de la comunidad Enter Gauja"
+                    : "Enter Gauja community partner",
+            })}
+          </p>
           <div className="flex flex-wrap items-center gap-2">
             {ENTER_GAUJA_ORDER.map((k) => {
               const c = ENTER_GAUJA_CATEGORIES[k];
