@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/hero-gauja.jpg";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { useSiteSettings } from "@/hooks/use-services";
@@ -37,21 +38,17 @@ export function Hero() {
         </h1>
         <p className="mt-6 max-w-xl text-base text-paper/85 md:text-lg">{subline}</p>
         <div className="mt-8 flex flex-wrap items-center gap-3">
-          <Link
-            to="/$lang/book"
-            params={{ lang }}
-            className="inline-flex items-center gap-2 rounded-full bg-paper px-6 py-3 text-sm font-semibold text-ink transition-all hover:bg-paper/90"
-          >
-            {t("cta.book_now")}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            to="/$lang/tours"
-            params={{ lang }}
-            className="inline-flex items-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-medium text-paper transition-all hover:bg-paper/10"
-          >
-            {t("nav.tours")}
-          </Link>
+          <Button asChild variant="secondary" size="xl">
+            <Link to="/$lang/book" params={{ lang }}>
+              {t("cta.book_now")}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button asChild variant="outline-light" size="xl">
+            <Link to="/$lang/tours" params={{ lang }}>
+              {t("nav.tours")}
+            </Link>
+          </Button>
         </div>
       </div>
     </section>
