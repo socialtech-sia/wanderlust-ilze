@@ -109,6 +109,9 @@
     "language": "Valoda",
     "legal": "Juridiskā informācija",
     "privacy": "Privātuma politika",
+    "cookies": "Sīkdatņu politika",
+    "terms": "Lietošanas noteikumi",
+    "manage_cookies": "Sīkdatņu iestatījumi",
     "rights": "© {{year}} Wanderlust.lv. Visas tiesības aizsargātas."
   },
   "errors": {

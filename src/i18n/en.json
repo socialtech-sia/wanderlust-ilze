@@ -109,6 +109,9 @@
     "language": "Language",
     "legal": "Legal",
     "privacy": "Privacy policy",
+    "cookies": "Cookie policy",
+    "terms": "Terms of service",
+    "manage_cookies": "Cookie preferences",
     "rights": "© {{year}} Wanderlust.lv. All rights reserved."
   },
   "errors": {
