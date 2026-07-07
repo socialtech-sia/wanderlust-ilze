@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "tours": "Excursiones",
+    "hiking": "Senderismo",
+    "transfers": "Traslados",
+    "contact": "Contacto",
+    "faq": "FAQ",
+    "book": "Reservar"
+  },
+  "cta": {
+    "book_now": "Reservar",
+    "explore": "Saber más",
+    "view_all": "Ver todas",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "submit": "Enviar",
+    "close": "Cerrar"
+  },
+  "home": {
+    "featured_title": "Excursiones destacadas",
+    "featured_subtitle": "Un buen punto de partida si es tu primera vez en el valle del Gauja",
+    "categories_title": "Tres formas de disfrutar el Gauja",
+    "categories_subtitle": "Excursiones, senderismo y traslados: elige lo que mejor se adapte a tu día",
+    "gauja_title": "Descubre los temas Enter Gauja",
+    "gauja_subtitle": "Explora la región según tus intereses",
+    "about_eyebrow": "Conoce a tu guía",
+    "about_cta": "Más sobre Ilze",
+    "partner_text": "Miembro de la red Enter Gauja",
+    "partner_learn": "Conocer Enter Gauja"
+  },
+  "service": {
+    "excursion": "Excursión",
+    "hiking": "Caminata",
+    "transfer": "Traslado",
+    "duration": "Duración",
+    "min_short": "min",
+    "hours_short": "h",
+    "persons_max": "Hasta {{count}} personas",
+    "price_from": "Desde {{price}}",
+    "price_per_person": "€ / persona",
+    "price_per_trip": "€ / viaje",
+    "difficulty_easy": "Fácil",
+    "difficulty_medium": "Medio",
+    "difficulty_hard": "Difícil",
+    "location": "Ubicación",
+    "vehicle": "Vehículo",
+    "book_this": "Reservar esta",
+    "no_results": "Aún no hay excursiones"
+  },
+  "categories": {
+    "all": "Todas",
+    "action": "Aventura",
+    "nature": "Naturaleza",
+    "history": "Historia",
+    "culture": "Cultura"
+  },
+  "booking": {
+    "title": "Reservar",
+    "step_service": "Servicio",
+    "step_when": "Fecha",
+    "step_contact": "Contacto",
+    "step_review": "Revisar",
+    "date": "Fecha",
+    "time": "Hora",
+    "persons": "Personas",
+    "name": "Nombre completo",
+    "email": "Correo",
+    "phone": "Teléfono",
+    "country": "País",
+    "language": "Idioma preferido",
+    "notes": "Notas",
+    "notes_placeholder": "Preferencias, preguntas, necesidades especiales",
+    "terms": "Acepto la política de privacidad y los términos",
+    "submit": "Enviar solicitud",
+    "confirmed_title": "¡Gracias! Recibimos tu solicitud",
+    "confirmed_body": "Te contactaremos en menos de 24 horas para confirmar detalles y precio.",
+    "reference": "Referencia de reserva",
+    "save_code": "Guarda este código",
+    "back_home": "Volver al inicio"
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "subtitle": "Escríbenos y responderemos en menos de 24 horas.",
+    "name": "Nombre",
+    "email": "Correo",
+    "subject": "Asunto",
+    "message": "Mensaje",
+    "send": "Enviar",
+    "sent": "¡Gracias! Tu mensaje ha sido recibido.",
+    "phone": "Teléfono",
+    "or_write": "O escríbenos"
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "subtitle": "Si tu respuesta no está aquí, escríbenos"
+  },
+  "about": {
+    "title": "Sobre Ilze",
+    "certifications": "Certificaciones",
+    "languages": "Idiomas",
+    "years_experience": "años de experiencia"
+  },
+  "footer": {
+    "sitemap": "Páginas",
+    "contact": "Contacto",
+    "language": "Idioma",
+    "legal": "Legal",
+    "privacy": "Política de privacidad",
+    "rights": "© {{year}} Wanderlust.lv. Todos los derechos reservados."
+  },
+  "errors": {
+    "not_found_title": "Página no encontrada",
+    "not_found_body": "La página que buscas no existe o ha sido movida.",
+    "generic": "Algo salió mal. Inténtalo de nuevo."
+  }
+}
