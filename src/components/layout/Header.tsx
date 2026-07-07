@@ -79,9 +79,8 @@ export function Header() {
       if (!lowEnd) {
         const maxBlur = isMobile ? 8 : 14;
         const blur = Math.round(smooth * maxBlur + (isDark ? 2 : 0));
-        const blurStr = blur > 0 ? `blur(${blur}px)` : "none";
+        const blurStr = op > 0 && blur > 0 ? `blur(${blur}px)` : "none";
         el.style.backdropFilter = blurStr;
-        (el.style as CSSStyleDeclaration & { webkitBackdropFilter?: string }).webkitBackdropFilter = blurStr;
       }
     };
 
@@ -147,8 +146,8 @@ export function Header() {
 
   const isDark = tone === "dark";
   const pillClass = isDark
-    ? "border-white/20 bg-ink/35 shadow-lg shadow-black/20"
-    : "border-white/15 bg-background/65 shadow-lg shadow-black/5";
+    ? "border-white/20 bg-ink/45 shadow-lg shadow-black/20"
+    : "border-ink/10 bg-background/85 shadow-lg shadow-black/10";
   const textColor = isDark ? "text-paper" : "text-foreground";
   const mutedColor = isDark
     ? "text-paper/70 hover:text-paper"
