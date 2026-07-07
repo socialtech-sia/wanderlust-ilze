@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Sākums",
+    "about": "Par mani",
+    "tours": "Ekskursijas",
+    "hiking": "Pārgājieni",
+    "transfers": "Transferi",
+    "contact": "Kontakti",
+    "faq": "BUJ",
+    "book": "Rezervēt"
+  },
+  "cta": {
+    "book_now": "Rezervēt",
+    "explore": "Uzzināt vairāk",
+    "view_all": "Skatīt visus",
+    "back": "Atpakaļ",
+    "next": "Tālāk",
+    "submit": "Nosūtīt",
+    "close": "Aizvērt"
+  },
+  "home": {
+    "featured_title": "Populārākās ekskursijas",
+    "featured_subtitle": "Sākuma punkts, ja pirmo reizi apciemojat Gaujas ieleju",
+    "categories_title": "Trīs veidi, kā izbaudīt Gauju",
+    "categories_subtitle": "Ekskursijas, pārgājieni un transferi — izvēlaties pēc savas noskaņas",
+    "gauja_title": "Enter Gauja tēmas",
+    "gauja_subtitle": "Atklāj reģionu pēc interesēm",
+    "about_eyebrow": "Iepazīsimies",
+    "about_cta": "Vairāk par Ilzi",
+    "partner_text": "Enter Gauja sadarbības tīkla partneris",
+    "partner_learn": "Uzzināt par Enter Gauja"
+  },
+  "service": {
+    "excursion": "Ekskursija",
+    "hiking": "Pārgājiens",
+    "transfer": "Transfērs",
+    "duration": "Ilgums",
+    "min_short": "min",
+    "hours_short": "h",
+    "persons_max": "Līdz {{count}} personām",
+    "price_from": "No {{price}}",
+    "price_per_person": "€ / personai",
+    "price_per_trip": "€ / brauciens",
+    "difficulty_easy": "Viegls",
+    "difficulty_medium": "Vidējs",
+    "difficulty_hard": "Grūts",
+    "location": "Vieta",
+    "vehicle": "Transports",
+    "book_this": "Rezervēt šo",
+    "no_results": "Šeit vēl nav ekskursiju"
+  },
+  "categories": {
+    "all": "Visas",
+    "action": "Piedzīvojums",
+    "nature": "Daba",
+    "history": "Vēsture",
+    "culture": "Kultūra"
+  },
+  "booking": {
+    "title": "Rezervēt",
+    "step_service": "Pakalpojums",
+    "step_when": "Datums",
+    "step_contact": "Kontakti",
+    "step_review": "Apstiprināt",
+    "date": "Datums",
+    "time": "Laiks",
+    "persons": "Personu skaits",
+    "name": "Vārds un uzvārds",
+    "email": "E-pasts",
+    "phone": "Telefons",
+    "country": "Valsts",
+    "language": "Sazināties valodā",
+    "notes": "Papildu piezīmes",
+    "notes_placeholder": "Vēlmes, jautājumi, īpaši apstākļi",
+    "terms": "Piekrītu privātuma politikai un rezervēšanas noteikumiem",
+    "submit": "Nosūtīt pieprasījumu",
+    "confirmed_title": "Paldies! Jūsu pieprasījums saņemts",
+    "confirmed_body": "Sazināsimies ar Jums 24 stundu laikā, lai apstiprinātu detaļas un cenu.",
+    "reference": "Rezervācijas kods",
+    "save_code": "Saglabājiet šo kodu",
+    "back_home": "Uz sākumu"
+  },
+  "contact": {
+    "title": "Sazinieties ar mums",
+    "subtitle": "Uzrakstiet vēstuli, un mēs atbildēsim 24 stundu laikā.",
+    "name": "Vārds",
+    "email": "E-pasts",
+    "subject": "Temats",
+    "message": "Ziņa",
+    "send": "Nosūtīt",
+    "sent": "Paldies! Jūsu ziņa saņemta.",
+    "phone": "Telefons",
+    "or_write": "Vai rakstiet mums"
+  },
+  "faq": {
+    "title": "Biežāk uzdotie jautājumi",
+    "subtitle": "Ja atbilde nav šeit, rakstiet mums"
+  },
+  "about": {
+    "title": "Par Ilzi",
+    "certifications": "Sertifikāti",
+    "languages": "Valodas",
+    "years_experience": "gadu pieredze"
+  },
+  "footer": {
+    "sitemap": "Lapas",
+    "contact": "Kontakti",
+    "language": "Valoda",
+    "legal": "Juridiskā informācija",
+    "privacy": "Privātuma politika",
+    "rights": "© {{year}} Wanderlust.lv. Visas tiesības aizsargātas."
+  },
+  "errors": {
+    "not_found_title": "Lapa nav atrasta",
+    "not_found_body": "Meklētā lapa nav pieejama vai ir pārcelta.",
+    "generic": "Kaut kas nogāja greizi. Mēģiniet vēlreiz."
+  }
+}

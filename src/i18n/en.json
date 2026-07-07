@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "tours": "Tours",
+    "hiking": "Hiking",
+    "transfers": "Transfers",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "book": "Book"
+  },
+  "cta": {
+    "book_now": "Book now",
+    "explore": "Learn more",
+    "view_all": "View all",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Send",
+    "close": "Close"
+  },
+  "home": {
+    "featured_title": "Popular tours",
+    "featured_subtitle": "A good starting point if it's your first time in the Gauja Valley",
+    "categories_title": "Three ways to enjoy the Gauja",
+    "categories_subtitle": "Guided tours, hikes and transfers — pick what fits the day",
+    "gauja_title": "Explore Enter Gauja themes",
+    "gauja_subtitle": "Discover the region by your interests",
+    "about_eyebrow": "Meet your guide",
+    "about_cta": "More about Ilze",
+    "partner_text": "Enter Gauja partnership network member",
+    "partner_learn": "Learn about Enter Gauja"
+  },
+  "service": {
+    "excursion": "Tour",
+    "hiking": "Hike",
+    "transfer": "Transfer",
+    "duration": "Duration",
+    "min_short": "min",
+    "hours_short": "h",
+    "persons_max": "Up to {{count}} people",
+    "price_from": "From {{price}}",
+    "price_per_person": "€ / person",
+    "price_per_trip": "€ / trip",
+    "difficulty_easy": "Easy",
+    "difficulty_medium": "Medium",
+    "difficulty_hard": "Hard",
+    "location": "Location",
+    "vehicle": "Vehicle",
+    "book_this": "Book this",
+    "no_results": "No tours here yet"
+  },
+  "categories": {
+    "all": "All",
+    "action": "Action",
+    "nature": "Nature",
+    "history": "History",
+    "culture": "Culture"
+  },
+  "booking": {
+    "title": "Book",
+    "step_service": "Service",
+    "step_when": "Date",
+    "step_contact": "Contact",
+    "step_review": "Review",
+    "date": "Date",
+    "time": "Time",
+    "persons": "People",
+    "name": "Full name",
+    "email": "Email",
+    "phone": "Phone",
+    "country": "Country",
+    "language": "Preferred language",
+    "notes": "Notes",
+    "notes_placeholder": "Preferences, questions, special needs",
+    "terms": "I accept the privacy policy and booking terms",
+    "submit": "Send request",
+    "confirmed_title": "Thank you! We received your request",
+    "confirmed_body": "We'll contact you within 24 hours to confirm details and price.",
+    "reference": "Booking reference",
+    "save_code": "Please save this code",
+    "back_home": "Back home"
+  },
+  "contact": {
+    "title": "Get in touch",
+    "subtitle": "Write us a note and we'll reply within 24 hours.",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send",
+    "sent": "Thank you! Your message was received.",
+    "phone": "Phone",
+    "or_write": "Or write to us"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "subtitle": "If your answer isn't here, please write to us"
+  },
+  "about": {
+    "title": "About Ilze",
+    "certifications": "Certifications",
+    "languages": "Languages",
+    "years_experience": "years experience"
+  },
+  "footer": {
+    "sitemap": "Pages",
+    "contact": "Contact",
+    "language": "Language",
+    "legal": "Legal",
+    "privacy": "Privacy policy",
+    "rights": "© {{year}} Wanderlust.lv. All rights reserved."
+  },
+  "errors": {
+    "not_found_title": "Page not found",
+    "not_found_body": "The page you're looking for doesn't exist or has moved.",
+    "generic": "Something went wrong. Please try again."
+  }
+}
