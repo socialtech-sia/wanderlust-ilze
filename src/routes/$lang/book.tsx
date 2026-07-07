@@ -3,13 +3,23 @@ import { z } from "zod";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
-import { CalendarDays, Users, ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { enUS, es, lv } from "date-fns/locale";
+import { CalendarDays, Clock, Users, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { useAllServices, type Service } from "@/hooks/use-services";
 import { tField, tSlug, type Lang } from "@/lib/language";
 import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+const LOCALES = { en: enUS, es, lv } as const;
+const TIME_SLOTS = Array.from({ length: 25 }, (_, i) => {
+  const h = 8 + Math.floor(i / 2);
+  const m = i % 2 === 0 ? "00" : "30";
+  return `${String(h).padStart(2, "0")}:${m}`;
+});
 
 export const Route = createFileRoute("/$lang/book")({
   validateSearch: z.object({ service: z.string().optional() }),
@@ -157,7 +167,7 @@ function BookingPage() {
               onSelect={(id) => setForm({ ...form, serviceId: id })}
             />
           )}
-          {step === 2 && <StepWhen form={form} onChange={setForm} />}
+          {step === 2 && <StepWhen form={form} onChange={setForm} lang={lang} />}
           {step === 3 && <StepContact form={form} onChange={setForm} />}
           {step === 4 && (
             <StepReview form={form} service={selectedService} lang={lang} onChangeTerms={(v) => setForm({ ...form, terms: v })} />
@@ -263,30 +273,90 @@ function StepService({
   );
 }
 
-function StepWhen({ form, onChange }: { form: FormState; onChange: (v: FormState) => void }) {
+function StepWhen({
+  form,
+  onChange,
+  lang,
+}: {
+  form: FormState;
+  onChange: (v: FormState) => void;
+  lang: Lang;
+}) {
   const { t } = useTranslation();
+  const locale = LOCALES[lang];
+  const selectedDate = form.date ? new Date(form.date) : undefined;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   return (
     <div className="space-y-6">
       <div>
         <label className="mb-2 block text-sm font-medium text-foreground">
           <CalendarDays className="mr-1.5 inline h-4 w-4" /> {t("booking.date")}
         </label>
-        <input
-          type="date"
-          min={new Date().toISOString().slice(0, 10)}
-          value={form.date}
-          onChange={(e) => onChange({ ...form, date: e.target.value })}
-          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
-        />
+        <Popover>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              className={cn(
+                "flex w-full items-center justify-between rounded-xl border border-border bg-background px-4 py-3 text-left text-sm outline-none transition-colors hover:border-ink-soft focus:border-foreground",
+                !selectedDate && "text-ink-soft",
+              )}
+            >
+              <span className="flex items-center gap-2">
+                <CalendarDays className="h-4 w-4 text-ink-muted" />
+                {selectedDate ? format(selectedDate, "PPP", { locale }) : t("booking.date")}
+              </span>
+            </button>
+          </PopoverTrigger>
+          <PopoverContent
+            align="start"
+            className="pointer-events-auto w-auto rounded-2xl border-border bg-popover p-0 shadow-editorial"
+          >
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={(d) => onChange({ ...form, date: d ? format(d, "yyyy-MM-dd") : "" })}
+              disabled={{ before: today }}
+              locale={locale}
+              weekStartsOn={1}
+              showOutsideDays
+              captionLayout="dropdown"
+              initialFocus
+              className="pointer-events-auto p-4 [--cell-size:2.25rem]"
+              classNames={{
+                day: "group/day relative aspect-square h-full w-full select-none p-0 text-center",
+                today:
+                  "font-semibold text-moss-deep data-[selected=true]:text-primary-foreground",
+              }}
+            />
+          </PopoverContent>
+        </Popover>
       </div>
       <div>
-        <label className="mb-2 block text-sm font-medium text-foreground">{t("booking.time")}</label>
-        <input
-          type="time"
-          value={form.time}
-          onChange={(e) => onChange({ ...form, time: e.target.value })}
-          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
-        />
+        <label className="mb-2 block text-sm font-medium text-foreground">
+          <Clock className="mr-1.5 inline h-4 w-4" /> {t("booking.time")}
+        </label>
+        <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
+          {TIME_SLOTS.map((slot) => {
+            const active = form.time === slot;
+            return (
+              <button
+                key={slot}
+                type="button"
+                onClick={() => onChange({ ...form, time: slot })}
+                className={cn(
+                  "rounded-lg border px-2 py-2 text-sm font-medium transition-colors",
+                  active
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-background text-foreground hover:border-ink-soft hover:bg-paper-alt",
+                )}
+              >
+                {slot}
+              </button>
+            );
+          })}
+        </div>
       </div>
       <div>
         <label className="mb-2 block text-sm font-medium text-foreground">
