@@ -15,33 +15,41 @@ const NAV = [
   { key: "contact", to: "/$lang/contact" },
 ] as const;
 
-const SCROLL_THRESHOLD = 48;
+const SCROLL_END = 72;
 
 export function Header() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const matchRoute = useMatchRoute();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
+    const onScroll = () => {
+      const progress = Math.min(Math.max(window.scrollY / SCROLL_END, 0), 1);
+      setScrollProgress(progress);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const island = scrolled;
-
   return (
-    <header
-      className={cn(
-        "fixed left-0 right-0 top-0 z-40 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,background,box-shadow]",
-        island
-          ? "top-3 mx-4 rounded-full border border-white/10 bg-background/45 shadow-lg shadow-black/5 backdrop-blur-md md:mx-auto md:max-w-4xl lg:max-w-5xl"
-          : "bg-transparent",
-      )}
-    >
+    <header className="fixed left-0 right-0 top-0 z-40">
+      <div
+        className={cn(
+          "pointer-events-none absolute left-0 right-0 top-0 mx-4 rounded-full border border-white/10 bg-background/45 shadow-lg shadow-black/5 transition-all duration-300 ease-out will-change-[transform,opacity,backdrop-filter]",
+          "md:mx-auto md:max-w-4xl lg:max-w-5xl",
+        )}
+        style={{
+          opacity: scrollProgress,
+          transform: `translateY(${(1 - scrollProgress) * -10}px) scale(${0.98 + scrollProgress * 0.02})`,
+          backdropFilter: `blur(${scrollProgress * 12}px)`,
+          WebkitBackdropFilter: `blur(${scrollProgress * 12}px)`,
+        }}
+        aria-hidden="true"
+      />
+
       <div className="container-editorial flex h-16 items-center justify-between md:h-20">
         <Link
           to="/$lang"
