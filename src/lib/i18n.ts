@@ -19,7 +19,7 @@ if (!i18n.isInitialized) {
     fallbackLng: "en",
     interpolation: { escapeValue: false },
     react: { useSuspense: false },
-    initImmediate: false,
+    ...({ initImmediate: false } as Record<string, unknown>),
   });
 }
 
