@@ -22,6 +22,7 @@ export function Header() {
   const lang = useCurrentLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [smoothProgress, setSmoothProgress] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const matchRoute = useMatchRoute();
 
@@ -41,18 +42,33 @@ export function Header() {
     };
   }, []);
 
-  const blurPx = scrollProgress * (isMobile ? 10 : 18);
+  useEffect(() => {
+    let rafId: number;
+    const tick = () => {
+      setSmoothProgress((prev) => {
+        const diff = scrollProgress - prev;
+        const next = prev + diff * 0.12;
+        if (Math.abs(diff) < 0.001) return scrollProgress;
+        return next;
+      });
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [scrollProgress]);
+
+  const blurPx = smoothProgress * (isMobile ? 10 : 18);
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40">
       <div
         className={cn(
-          "pointer-events-none absolute left-0 right-0 top-2 mx-3 h-14 rounded-full border border-white/15 bg-background/65 shadow-lg shadow-black/5 transition-all duration-300 ease-out will-change-[transform,opacity,backdrop-filter]",
+          "pointer-events-none absolute left-0 right-0 top-2 mx-3 h-14 rounded-full border border-white/15 bg-background/65 shadow-lg shadow-black/5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,opacity,backdrop-filter]",
           "md:top-3 md:mx-auto md:h-20 md:max-w-4xl lg:max-w-5xl",
         )}
         style={{
-          opacity: scrollProgress,
-          transform: `translateY(${(1 - scrollProgress) * -10}px) scale(${0.98 + scrollProgress * 0.02})`,
+          opacity: smoothProgress,
+          transform: `translateY(${(1 - smoothProgress) * -10}px) scale(${0.98 + smoothProgress * 0.02})`,
           backdropFilter: `blur(${blurPx}px)`,
           WebkitBackdropFilter: `blur(${blurPx}px)`,
         }}
