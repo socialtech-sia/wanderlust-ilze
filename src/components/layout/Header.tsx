@@ -1,7 +1,7 @@
 import { Link, useMatchRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { cn } from "@/lib/utils";
@@ -19,98 +19,156 @@ const SCROLL_END = 72;
 
 type Tone = "light" | "dark";
 
+function detectLowEnd(): boolean {
+  if (typeof window === "undefined") return false;
+  const nav = navigator as Navigator & { deviceMemory?: number };
+  const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  const lowMem = typeof nav.deviceMemory === "number" && nav.deviceMemory <= 4;
+  const lowCpu = typeof nav.hardwareConcurrency === "number" && nav.hardwareConcurrency <= 4;
+  return !!reduced || lowMem || lowCpu;
+}
+
 export function Header() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [smoothProgress, setSmoothProgress] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const [tone, setTone] = useState<Tone>("light");
   const matchRoute = useMatchRoute();
 
+  const pillRef = useRef<HTMLDivElement | null>(null);
+  const lowEndRef = useRef(false);
+  const isMobileRef = useRef(false);
+  const toneRef = useRef<Tone>("light");
+
+  // Single rAF loop drives pill style directly, tone detection, and low-end fallbacks.
   useEffect(() => {
-    const onScroll = () => {
-      const progress = Math.min(Math.max(window.scrollY / SCROLL_END, 0), 1);
-      setScrollProgress(progress);
+    lowEndRef.current = detectLowEnd();
+    isMobileRef.current = window.innerWidth < 768;
+
+    let rafId = 0;
+    let pending = false;
+    let smooth = 0;
+    let target = 0;
+    let lastToneCheck = 0;
+
+    const readTarget = () => {
+      target = Math.min(Math.max(window.scrollY / SCROLL_END, 0), 1);
     };
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    onScroll();
-    onResize();
+
+    const applyPill = () => {
+      const el = pillRef.current;
+      if (!el) return;
+      const isMobile = isMobileRef.current;
+      const lowEnd = lowEndRef.current;
+      const isDark = toneRef.current === "dark";
+
+      // On low-end devices: snap to target, skip backdrop-filter entirely.
+      if (lowEnd) {
+        smooth = target;
+      } else {
+        smooth += (target - smooth) * 0.18;
+        if (Math.abs(target - smooth) < 0.002) smooth = target;
+      }
+
+      // Round to reduce style thrash / filter recompute.
+      const op = Math.round(smooth * 100) / 100;
+      const ty = Math.round((1 - smooth) * -10 * 10) / 10;
+      el.style.opacity = String(op);
+      el.style.transform = `translate3d(0, ${ty}px, 0)`;
+
+      if (!lowEnd) {
+        const maxBlur = isMobile ? 10 : 18;
+        const blur = Math.round(smooth * maxBlur + (isDark ? 4 : 0));
+        const blurStr = blur > 0 ? `blur(${blur}px)` : "none";
+        el.style.backdropFilter = blurStr;
+        (el.style as CSSStyleDeclaration & { webkitBackdropFilter?: string }).webkitBackdropFilter = blurStr;
+      }
+    };
+
+    const detectTone = () => {
+      const probeY = isMobileRef.current ? 36 : 56;
+      const probeX = Math.round(window.innerWidth / 2);
+      const els = document.elementsFromPoint(probeX, probeY) as HTMLElement[];
+      let found: Tone | null = null;
+      for (const el of els) {
+        const dt = el.dataset?.headerTone as Tone | undefined;
+        if (dt === "dark" || dt === "light") {
+          found = dt;
+          break;
+        }
+      }
+      const next = found ?? "light";
+      if (next !== toneRef.current) {
+        toneRef.current = next;
+        setTone(next);
+      }
+    };
+
+    const tick = (ts: number) => {
+      pending = false;
+      applyPill();
+      if (ts - lastToneCheck > 120) {
+        lastToneCheck = ts;
+        detectTone();
+      }
+      // Keep animating until smooth reaches target.
+      if (smooth !== target) {
+        rafId = requestAnimationFrame(tick);
+        pending = true;
+      }
+    };
+
+    const schedule = () => {
+      if (pending) return;
+      pending = true;
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const onScroll = () => {
+      readTarget();
+      schedule();
+    };
+    const onResize = () => {
+      isMobileRef.current = window.innerWidth < 768;
+      readTarget();
+      schedule();
+    };
+
+    readTarget();
+    schedule();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", onResize, { passive: true });
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
     };
   }, []);
 
-  useEffect(() => {
-    let rafId: number;
-    const tick = () => {
-      setSmoothProgress((prev) => {
-        const diff = scrollProgress - prev;
-        const next = prev + diff * 0.12;
-        if (Math.abs(diff) < 0.001) return scrollProgress;
-        return next;
-      });
-      rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [scrollProgress]);
-
-  // Detect tone of the section currently behind the header pill.
-  useEffect(() => {
-    const detect = () => {
-      const probeY = isMobile ? 36 : 56;
-      const probeX = Math.round(window.innerWidth / 2);
-      const els = document.elementsFromPoint(probeX, probeY) as HTMLElement[];
-      let found: Tone | null = null;
-      for (const el of els) {
-        const t = el.dataset?.headerTone as Tone | undefined;
-        if (t === "dark" || t === "light") {
-          found = t;
-          break;
-        }
-      }
-      setTone(found ?? "light");
-    };
-    detect();
-    const onScroll = () => detect();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [isMobile]);
-
   const isDark = tone === "dark";
-  // Over dark hero: less opaque pill (image reads through), stronger blur.
-  // Over light content: more opaque pill for contrast, lighter blur.
-  const blurPx = smoothProgress * (isMobile ? 10 : 18) + (isDark ? 4 : 0);
-
   const pillClass = isDark
     ? "border-white/20 bg-ink/35 shadow-lg shadow-black/20"
     : "border-white/15 bg-background/65 shadow-lg shadow-black/5";
-
   const textColor = isDark ? "text-paper" : "text-foreground";
-  const mutedColor = isDark ? "text-paper/70 hover:text-paper" : "text-ink-muted hover:text-foreground";
+  const mutedColor = isDark
+    ? "text-paper/70 hover:text-paper"
+    : "text-ink-muted hover:text-foreground";
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40" data-tone={tone}>
       <div
+        ref={pillRef}
         className={cn(
-          "pointer-events-none absolute left-0 right-0 top-2 mx-3 h-14 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,opacity,backdrop-filter]",
+          "pointer-events-none absolute left-0 right-0 top-2 mx-3 h-14 rounded-full border transition-[background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
           "md:top-3 md:mx-auto md:h-20 md:max-w-4xl lg:max-w-5xl",
           pillClass,
         )}
         style={{
-          opacity: smoothProgress,
-          transform: `translateY(${(1 - smoothProgress) * -10}px) scale(${0.98 + smoothProgress * 0.02})`,
-          backdropFilter: `blur(${blurPx}px)`,
-          WebkitBackdropFilter: `blur(${blurPx}px)`,
+          opacity: 0,
+          transform: "translate3d(0,-10px,0)",
+          willChange: "transform, opacity, backdrop-filter",
+          contain: "layout paint style",
+          backfaceVisibility: "hidden",
         }}
         aria-hidden="true"
       />
