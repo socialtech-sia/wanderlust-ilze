@@ -1,11 +1,10 @@
 /**
- * Sticky Enter Gauja partner badge — right edge on desktop, floating bottom
- * on mobile, per brand guidelines page 17.
+ * Sticky Enter Gauja partner badge — right edge on desktop, per brand
+ * guidelines page 17.
  *
- * "Elementu ar logotipu un kategorijas nosaukumu ieteicams piestiprināt
- *  ekrāna labajā pusē. Ritinot lapu, logotips paliks lietotājam redzamajā
- *  acu skatiena laukā. Nospiežot uz logotipu, lietotājs tiks novirzīts
- *  uz Enter Gauja sākumlapu ar konkrētā partnera pakalpojumiem."
+ * Two-tier layout from the guidelines: white block with the Enter Gauja
+ * wordmark on top, category-color plate underneath. Site-friendly rounding
+ * and shadow so it does not clash with the editorial aesthetic.
  */
 
 import { useEffect, useState } from "react";
@@ -13,6 +12,10 @@ import {
   ENTER_GAUJA_ROOT_URL,
   type EnterGaujaCategoryInfo,
 } from "@/lib/enter-gauja";
+import { EnterGaujaLogo } from "./EnterGaujaLogo";
+
+// Re-export so existing imports of `EnterGaujaLogo` from this module keep working.
+export { EnterGaujaLogo } from "./EnterGaujaLogo";
 
 interface Props {
   category?: EnterGaujaCategoryInfo;
@@ -30,7 +33,7 @@ export function EnterGaujaPartnerBadge({ category, href }: Props) {
   }, []);
 
   const target = href ?? category?.url ?? ENTER_GAUJA_ROOT_URL;
-  const color = category?.color ?? "#4F6F19";
+  const color = category?.color ?? "#7A8A2E";
 
   return (
     <a
@@ -40,19 +43,24 @@ export function EnterGaujaPartnerBadge({ category, href }: Props) {
       aria-label={`Enter Gauja${category ? ` — ${category.label}` : ""}`}
       className={[
         "fixed z-40 select-none transition-all duration-300",
-        "right-3 top-1/2 -translate-y-1/2",
-        "hidden md:flex",
-        visible ? "opacity-100 translate-x-0" : "pointer-events-none opacity-0 translate-x-4",
+        "right-4 top-1/2 -translate-y-1/2",
+        "hidden md:block",
+        visible
+          ? "opacity-100 translate-x-0"
+          : "pointer-events-none opacity-0 translate-x-4",
       ].join(" ")}
     >
-      <div className="flex flex-col items-stretch overflow-hidden rounded-sm bg-white shadow-lg ring-1 ring-black/10">
-        <div className="flex items-center justify-center bg-white px-3 py-2">
-          <EnterGaujaLogo className="h-10 w-auto" />
+      <div className="flex flex-col overflow-hidden rounded-xl bg-white shadow-[0_10px_40px_-12px_rgba(0,0,0,0.25)] ring-1 ring-black/5">
+        <div className="flex items-center justify-center bg-white px-3 pt-3 pb-2">
+          <EnterGaujaLogo className="h-16 w-16" />
         </div>
         {category && (
           <div
-            className="flex items-center justify-center px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white"
-            style={{ backgroundColor: color, fontFamily: "'Barlow Condensed', 'DIN Alternate', sans-serif" }}
+            className="flex items-center justify-center px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white"
+            style={{
+              backgroundColor: color,
+              fontFamily: "'Barlow Condensed', 'DIN Alternate', sans-serif",
+            }}
           >
             {category.label}
           </div>
@@ -63,51 +71,38 @@ export function EnterGaujaPartnerBadge({ category, href }: Props) {
 }
 
 /**
- * Compact horizontal variant for mobile / inline use.
- * Guidelines page 17 — placed within footer / next to page CTAs.
+ * Compact horizontal variant for inline / footer use. Pill radius so it
+ * blends with the editorial UI. Mobile-friendly.
  */
-export function EnterGaujaPartnerChip({ category }: { category?: EnterGaujaCategoryInfo }) {
+export function EnterGaujaPartnerChip({
+  category,
+}: {
+  category?: EnterGaujaCategoryInfo;
+}) {
   const target = category?.url ?? ENTER_GAUJA_ROOT_URL;
-  const color = category?.color ?? "#4F6F19";
+  const color = category?.color ?? "#7A8A2E";
   return (
     <a
       href={target}
       target="_blank"
       rel="noopener"
       aria-label={`Enter Gauja${category ? ` — ${category.label}` : ""}`}
-      className="inline-flex items-stretch overflow-hidden rounded-sm bg-white shadow ring-1 ring-black/10"
+      className="inline-flex items-stretch overflow-hidden rounded-full bg-white shadow ring-1 ring-black/10"
     >
-      <span className="flex items-center bg-white px-2.5 py-1.5">
-        <EnterGaujaLogo className="h-6 w-auto" />
+      <span className="flex items-center bg-white px-3 py-1.5">
+        <EnterGaujaLogo className="h-7 w-7" />
       </span>
       {category && (
         <span
-          className="flex items-center px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white"
-          style={{ backgroundColor: color, fontFamily: "'Barlow Condensed', 'DIN Alternate', sans-serif" }}
+          className="flex items-center px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white"
+          style={{
+            backgroundColor: color,
+            fontFamily: "'Barlow Condensed', 'DIN Alternate', sans-serif",
+          }}
         >
           {category.label}
         </span>
       )}
     </a>
-  );
-}
-
-/**
- * Text-based Enter Gauja wordmark (SVG) — approximates the low-poly wordmark
- * from the brand book without requiring the licensed DIN Pro font.
- * If/when the user provides the official logo SVG, swap this for an <img>.
- */
-export function EnterGaujaLogo({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 88 44" className={className} role="img" aria-label="Enter Gauja">
-      <rect x="0" y="0" width="88" height="44" fill="#4F6F19" />
-      <g fill="#FFFFFF" fontFamily="'Barlow Condensed', 'DIN Alternate', sans-serif" fontWeight="900">
-        <text x="6" y="14" fontSize="12">EN</text>
-        <text x="30" y="14" fontSize="12">TER</text>
-        <text x="6" y="27" fontSize="12">GAU</text>
-        <text x="34" y="27" fontSize="12">JA</text>
-        <text x="6" y="40" fontSize="6" letterSpacing="0.6">GAUJA NATIONAL PARK</text>
-      </g>
-    </svg>
   );
 }
