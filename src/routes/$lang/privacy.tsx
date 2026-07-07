@@ -1,22 +1,94 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import type { ReactNode } from "react";
 
 export const Route = createFileRoute("/$lang/privacy")({
-  component: () => (
+  component: PrivacyPage,
+});
+
+function PrivacyPage() {
+  const { t } = useTranslation();
+
+  const collectedItems = t("privacy.collected.items", { returnObjects: true }) as string[];
+  const usageItems = t("privacy.usage.items", { returnObjects: true }) as string[];
+  const legalBasisItems = t("privacy.legal_basis.items", { returnObjects: true }) as string[];
+  const rightsItems = t("privacy.rights.items", { returnObjects: true }) as string[];
+
+  return (
     <div className="container-editorial py-16 md:py-24">
-      <div className="mx-auto max-w-3xl prose prose-neutral">
-        <h1 className="font-display">Privacy policy</h1>
-        <p className="text-ink-muted">
-          Placeholder — full policy will be added by the operator. Personal data submitted through
-          the booking or contact forms is processed only to respond to your request and is stored in
-          our backend. We do not share it with third parties beyond what is needed to fulfil the
-          service you booked.
-        </p>
-        <h2>Data controller</h2>
-        <p>
-          social.tech SIA, Reg. 40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Latvia. On
-          behalf of Ilze Gulbe (SIA "Creatus Real Estate").
-        </p>
+      <div className="mx-auto max-w-3xl">
+        <h1 className="font-display text-4xl md:text-5xl">{t("privacy.title")}</h1>
+        <p className="mt-4 text-ink-muted">{t("privacy.intro")}</p>
+
+        <PrivacySection title={t("privacy.controller.title")}>
+          <p>{t("privacy.controller.text")}</p>
+        </PrivacySection>
+
+        <PrivacySection title={t("privacy.collected.title")}>
+          <ul className="list-disc space-y-2 pl-5">
+            {collectedItems.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </PrivacySection>
+
+        <PrivacySection title={t("privacy.usage.title")}>
+          <ul className="list-disc space-y-2 pl-5">
+            {usageItems.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </PrivacySection>
+
+        <PrivacySection title={t("privacy.legal_basis.title")}>
+          <ul className="list-disc space-y-2 pl-5">
+            {legalBasisItems.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </PrivacySection>
+
+        <PrivacySection title={t("privacy.sharing.title")}>
+          <p>{t("privacy.sharing.text")}</p>
+        </PrivacySection>
+
+        <PrivacySection title={t("privacy.retention.title")}>
+          <p>{t("privacy.retention.text")}</p>
+        </PrivacySection>
+
+        <PrivacySection title={t("privacy.rights.title")}>
+          <ul className="list-disc space-y-2 pl-5">
+            {rightsItems.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </PrivacySection>
+
+        <PrivacySection title={t("privacy.cookies.title")}>
+          <p>{t("privacy.cookies.text")}</p>
+        </PrivacySection>
+
+        <PrivacySection title={t("privacy.security.title")}>
+          <p>{t("privacy.security.text")}</p>
+        </PrivacySection>
+
+        <PrivacySection title={t("privacy.changes.title")}>
+          <p>{t("privacy.changes.text")}</p>
+        </PrivacySection>
+
+        <PrivacySection title={t("privacy.contact.title")}>
+          <p>{t("privacy.contact.text")}</p>
+        </PrivacySection>
       </div>
     </div>
-  ),
-});
+  );
+}
+
+function PrivacySection({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section className="mt-10">
+      <h2 className="font-display text-2xl">{title}</h2>
+      <div className="mt-3 space-y-3 text-ink/90">{children}</div>
+    </section>
+  );
+}
