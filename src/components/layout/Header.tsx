@@ -229,7 +229,7 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-border/60 bg-background/95 backdrop-blur-xl md:hidden">
+        <div className="relative z-10 border-t border-border/60 bg-background/95 backdrop-blur-xl md:hidden">
           <nav className="container-editorial flex flex-col gap-1 py-4">
             {NAV.map((item) => (
               <Link
