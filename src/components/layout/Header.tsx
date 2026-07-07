@@ -36,9 +36,9 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed left-0 right-0 top-0 z-40 transition-all duration-300 ease-out",
+        "fixed left-0 right-0 top-0 z-40 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,background,box-shadow]",
         island
-          ? "top-3 mx-4 rounded-2xl border border-white/20 bg-background/70 shadow-xl shadow-black/5 backdrop-blur-xl md:mx-auto md:max-w-4xl lg:max-w-5xl"
+          ? "top-3 mx-4 rounded-full border border-white/10 bg-background/45 shadow-lg shadow-black/5 backdrop-blur-md md:mx-auto md:max-w-4xl lg:max-w-5xl"
           : "bg-transparent",
       )}
     >
