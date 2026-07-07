@@ -114,5 +114,72 @@
     "not_found_title": "Página no encontrada",
     "not_found_body": "La página que buscas no existe o ha sido movida.",
     "generic": "Algo salió mal. Inténtalo de nuevo."
+  },
+  "privacy": {
+    "title": "Política de privacidad",
+    "intro": "Esta página explica cómo Wanderlust.lv recopila, utiliza y protege tus datos personales cuando visitas el sitio, usas el formulario de contacto o realizas una solicitud de reserva.",
+    "controller": {
+      "title": "Responsable del tratamiento",
+      "text": "Wanderlust.lv es operado por social.tech SIA (Reg. 40203514705, IVA LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Letonia), en nombre de Ilze Gulbe (SIA \"Creatus Real Estate\"). Si tienes alguna pregunta sobre esta política, escríbenos a info@socialtech.lv."
+    },
+    "collected": {
+      "title": "Qué datos recopilamos",
+      "items": [
+        "Información que nos proporcionas: nombre, dirección de correo electrónico, número de teléfono, país, idioma preferido, detalles de la excursión o traslado, y cualquier petición especial o nota.",
+        "Detalles de la reserva: servicio elegido, fecha, hora, número de personas e información relacionada con el viaje.",
+        "Datos técnicos: dirección IP, tipo de navegador, información del dispositivo y cookies (consulta la sección de Cookies más abajo)."
+      ]
+    },
+    "usage": {
+      "title": "Cómo usamos tus datos",
+      "items": [
+        "Para responder a tu consulta y confirmar tu reserva.",
+        "Para organizar y proporcionar la excursión, caminata o traslado solicitado.",
+        "Para comunicarnos contigo antes y después del servicio.",
+        "Para mejorar el sitio web y entender cómo lo utilizan los visitantes."
+      ]
+    },
+    "legal_basis": {
+      "title": "Base legal para el tratamiento",
+      "items": [
+        "Ejecución de un contrato o medidas precontractuales cuando realizas una reserva.",
+        "Tu consentimiento para cookies opcionales y comunicaciones de marketing.",
+        "Interés legítimo en mejorar nuestros servicios y mantener el sitio web seguro."
+      ]
+    },
+    "sharing": {
+      "title": "Con quién compartimos los datos",
+      "text": "No vendemos tus datos personales. Solo los compartimos con proveedores de servicios de confianza cuando sea necesario para cumplir tu solicitud (por ejemplo, procesadores de pago, operadores de transporte o servicios de correo electrónico), y siempre bajo obligaciones de confidencialidad."
+    },
+    "retention": {
+      "title": "Cuánto tiempo conservamos tus datos",
+      "text": "Conservamos tus datos personales durante el tiempo necesario para cumplir tu reserva, satisfacer obligaciones legales, resolver disputas y hacer cumplir nuestros acuerdos. Normalmente, los registros de reservas se conservan durante un máximo de dos años, salvo que la ley exija un periodo más largo."
+    },
+    "rights": {
+      "title": "Tus derechos",
+      "items": [
+        "Acceder a los datos personales que tenemos sobre ti.",
+        "Solicitar la corrección o eliminación de tus datos.",
+        "Oponerte o limitar ciertas actividades de tratamiento.",
+        "Retirar tu consentimiento en cualquier momento.",
+        "Presentar una reclamación ante la Inspección Estatal de Datos de Letonia u otra autoridad de control competente."
+      ]
+    },
+    "cookies": {
+      "title": "Cookies y analítica",
+      "text": "Usamos cookies esenciales para que el sitio funcione. También podemos usar cookies de análisis para entender cómo los visitantes usan el sitio. Puedes gestionar tus preferencias desde la configuración de tu navegador."
+    },
+    "security": {
+      "title": "Seguridad",
+      "text": "Utilizamos medidas técnicas y organizativas apropiadas para proteger tus datos, incluyendo conexiones cifradas (HTTPS), controles de acceso y alojamiento seguro. Sin embargo, ningún método de transmisión por internet es completamente seguro."
+    },
+    "changes": {
+      "title": "Cambios en esta política",
+      "text": "Podemos actualizar esta política de privacidad de vez en cuando. Cualquier cambio se publicará en esta página con una fecha de entrada en vigor actualizada."
+    },
+    "contact": {
+      "title": "Contáctanos",
+      "text": "Si tienes alguna pregunta sobre esta política de privacidad o tus datos personales, contáctanos en info@socialtech.lv o por teléfono al +371 20042830."
+    }
   }
 }

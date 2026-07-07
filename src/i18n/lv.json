@@ -114,5 +114,72 @@
     "not_found_title": "Lapa nav atrasta",
     "not_found_body": "Meklētā lapa nav pieejama vai ir pārcelta.",
     "generic": "Kaut kas nogāja greizi. Mēģiniet vēlreiz."
+  },
+  "privacy": {
+    "title": "Privātuma politika",
+    "intro": "Šajā lapā izskaidrots, kā Wanderlust.lv vāc, izmanto un aizsargā Jūsu personīgos datus, kad apmeklējat vietni, izmantojat kontaktu formu vai iesniedzat rezervēšanas pieprasījumu.",
+    "controller": {
+      "title": "Datu pārvaldnieks",
+      "text": "Wanderlust.lv pārvalda social.tech SIA (Reģ. 40203514705, PVN LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Latvija), Ilzes Gulbes (SIA \"Creatus Real Estate\") vārdā. Ja Jums ir jautājumi par šo politiku, lūdzu, rakstiet uz info@socialtech.lv."
+    },
+    "collected": {
+      "title": "Kādus datus mēs vācām",
+      "items": [
+        "Jūsu norādītā informācija: vārds, e-pasta adrese, telefona numurs, valsts, vēlamā valoda, ekskursijas vai transfera detaļas, kā arī īpašas vēlmes vai piezīmes.",
+        "Rezervācijas detaļas: izvēlētais pakalpojums, datums, laiks, personu skaits un ar ceļojumu saistīta informācija.",
+        "Tehniskie dati: IP adrese, pārlūka tips, ierīces informācija un sīkdatnes (skatiet sīkdatņu sadaļu zemāk)."
+      ]
+    },
+    "usage": {
+      "title": "Kā mēs izmantojam Jūsu datus",
+      "items": [
+        "Lai atbildētu uz Jūsu pieprasījumu un apstiprinātu rezervāciju.",
+        "Lai noorganizētu un nodrošinātu izvēlēto ekskursiju, pārgājienu vai transferu.",
+        "Lai sazinātos ar Jums pirms un pēc pakalpojuma.",
+        "Lai uzlabotu vietni un izprastu, kā apmeklētāji to izmanto."
+      ]
+    },
+    "legal_basis": {
+      "title": "Tiesiskais pamats apstrādei",
+      "items": [
+        "Līguma izpilde vai pirmslīgumiskas darbības, kad veicat rezervāciju.",
+        "Jūsu piekrišana neobligātajām sīkdatnēm un mārketinga komunikācijām.",
+        "Leģitīmā interese uzlabot mūsu pakalpojumus un uzturēt vietnes drošību."
+      ]
+    },
+    "sharing": {
+      "title": "Ar ko mēs kopīgojam datus",
+      "text": "Mēs nepārdodam Jūsu personas datus. Mēs tos kopīgojam tikai ar uzticamiem pakalpojumu sniedzējiem, ja tas nepieciešams, lai izpildītu Jūsu pieprasījumu (piemēram, maksājumu apstrādātāji, pārvadātāji vai e-pasta pakalpojumi), un tikai konfidencialitātes saistību ietvaros."
+    },
+    "retention": {
+      "title": "Cik ilgi mēs glabājam Jūsu datus",
+      "text": "Mēs glabājam Jūsu personas datus tik ilgi, cik nepieciešams, lai izpildītu rezervāciju, ievērotu likumīgas saistības, atrisinātu strīdus un nodrošinātu mūsu līgumu izpildi. Parasti rezervācijas ieraksti tiek glabāti līdz diviem gadiem, ja vien likums neprasa ilgāku periodu."
+    },
+    "rights": {
+      "title": "Jūsu tiesības",
+      "items": [
+        "Pieprasīt piekļuvi Jūsu personas datiem.",
+        "Pieprasīt datu labošanu vai dzēšanu.",
+        "Iebilst pret vai ierobežot noteiktas apstrādes darbības.",
+        "Jebkurā brīdī atsaukt savu piekrišanu.",
+        "Iesniegt sūdzību Latvijas Datu valsts inspekcijā vai citā kompetentā uzraudzības iestādē."
+      ]
+    },
+    "cookies": {
+      "title": "Sīkdatnes un analītika",
+      "text": "Mēs izmantojam būtiskās sīkdatnes, lai vietne darbotos. Mēs varam izmantot arī analītikas sīkdatnes, lai izprastu, kā apmeklētāji izmanto vietni. Jūs varat pārvaldīt savas preferences pārlūka iestatījumos."
+    },
+    "security": {
+      "title": "Drošība",
+      "text": "Mēs izmantojam piemērotus tehniskus un organizatoriskus pasākumus, lai aizsargātu Jūsu datus, tostarp šifrētas savienojumus (HTTPS), piekļuves kontroli un drošu mitināšanu. Tomēr neviens datu pārraides veids internetā nav pilnībā drošs."
+    },
+    "changes": {
+      "title": "Izmaiņas šajā politikā",
+      "text": "Mēs varam laiku pa laikam atjaunināt šo privātuma politiku. Jebkādas izmaiņas tiks publicētas šajā lapā ar atjauninātu spēkā esošanas datumu."
+    },
+    "contact": {
+      "title": "Sazinieties ar mums",
+      "text": "Ja Jums ir jautājumi par šo privātuma politiku vai Jūsu personas datiem, lūdzu, sazinieties ar mums, rakstot uz info@socialtech.lv vai zvanot +371 20042830."
+    }
   }
 }

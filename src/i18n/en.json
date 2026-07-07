@@ -114,5 +114,72 @@
     "not_found_title": "Page not found",
     "not_found_body": "The page you're looking for doesn't exist or has moved.",
     "generic": "Something went wrong. Please try again."
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "intro": "This page explains how Wanderlust.lv collects, uses and protects your personal data when you visit the website, use the contact form or make a booking request.",
+    "controller": {
+      "title": "Data controller",
+      "text": "Wanderlust.lv is operated by social.tech SIA (Reg. 40203514705, VAT LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Latvia), on behalf of Ilze Gulbe (SIA \"Creatus Real Estate\"). If you have any questions about this policy, please email us at info@socialtech.lv."
+    },
+    "collected": {
+      "title": "What data we collect",
+      "items": [
+        "Information you provide: name, email address, phone number, country, preferred language, tour or transfer details, and any special requests or notes.",
+        "Booking details: chosen service, date, time, number of people and related travel information.",
+        "Technical data: IP address, browser type, device information, and cookies (see the Cookies section below)."
+      ]
+    },
+    "usage": {
+      "title": "How we use your data",
+      "items": [
+        "To respond to your enquiry and confirm your booking.",
+        "To arrange and provide the requested tour, hike or transfer.",
+        "To communicate with you before and after the service.",
+        "To improve the website and understand how visitors use it."
+      ]
+    },
+    "legal_basis": {
+      "title": "Legal basis for processing",
+      "items": [
+        "Performance of a contract or pre-contractual steps when you make a booking.",
+        "Your consent for optional cookies and marketing communications.",
+        "Legitimate interest in improving our services and keeping the website secure."
+      ]
+    },
+    "sharing": {
+      "title": "Who we share data with",
+      "text": "We do not sell your personal data. We only share it with trusted service providers when necessary to fulfil your request (for example, payment processors, transport operators or email services), and only under confidentiality obligations."
+    },
+    "retention": {
+      "title": "How long we keep your data",
+      "text": "We keep your personal data for as long as necessary to fulfil your booking, comply with legal obligations, resolve disputes and enforce our agreements. Typically, booking records are retained for up to two years unless a longer period is required by law."
+    },
+    "rights": {
+      "title": "Your rights",
+      "items": [
+        "Access the personal data we hold about you.",
+        "Request correction or deletion of your data.",
+        "Object to or restrict certain processing activities.",
+        "Withdraw your consent at any time.",
+        "Lodge a complaint with the Latvian Data State Inspectorate or another relevant supervisory authority."
+      ]
+    },
+    "cookies": {
+      "title": "Cookies and analytics",
+      "text": "We use essential cookies to make the website work. We may also use analytics cookies to understand how visitors use the site. You can manage your preferences through your browser settings."
+    },
+    "security": {
+      "title": "Security",
+      "text": "We use appropriate technical and organisational measures to protect your data, including encrypted connections (HTTPS), access controls, and secure hosting. No method of transmission over the internet is completely secure, however."
+    },
+    "changes": {
+      "title": "Changes to this policy",
+      "text": "We may update this privacy policy from time to time. Any changes will be posted on this page with an updated effective date."
+    },
+    "contact": {
+      "title": "Contact us",
+      "text": "If you have any questions about this privacy policy or your personal data, please contact us at info@socialtech.lv or by phone at +371 20042830."
+    }
   }
 }
