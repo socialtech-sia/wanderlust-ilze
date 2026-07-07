@@ -22,6 +22,7 @@ export function Header() {
   const lang = useCurrentLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const matchRoute = useMatchRoute();
 
   useEffect(() => {
@@ -29,10 +30,18 @@ export function Header() {
       const progress = Math.min(Math.max(window.scrollY / SCROLL_END, 0), 1);
       setScrollProgress(progress);
     };
+    const onResize = () => setIsMobile(window.innerWidth < 768);
     onScroll();
+    onResize();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
+
+  const blurPx = scrollProgress * (isMobile ? 6 : 12);
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40">
