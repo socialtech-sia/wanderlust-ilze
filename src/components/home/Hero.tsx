@@ -14,7 +14,11 @@ export function Hero() {
   const subline = (settings?.[`hero_subline_${lang}`] as string) ?? "";
 
   return (
-    <section className="relative isolate -mt-16 flex min-h-[92vh] items-end overflow-hidden md:-mt-20">
+    <section
+      data-header-tone="dark"
+      className="relative isolate -mt-16 flex min-h-[92vh] items-end overflow-hidden md:-mt-20"
+    >
+
       <img
         src={heroImg}
         alt=""
