@@ -10,6 +10,7 @@ import { ArrowUpRight } from "lucide-react";
 import { EnterGaujaLogo } from "./EnterGaujaLogo";
 import { EnterGaujaPin } from "./EnterGaujaCategoryIcon";
 import { EnterGaujaRibbon } from "./EnterGaujaRibbon";
+import { Button } from "@/components/ui/button";
 import type { EnterGaujaCategoryInfo, EnterGaujaKey } from "@/lib/enter-gauja";
 
 export function EnterGaujaBacklinkBlock({
@@ -60,22 +61,21 @@ export function EnterGaujaBacklinkBlock({
               {category?.label ?? "Enter Gauja"}
             </p>
             <p className="mt-2 font-display text-xl leading-snug text-foreground md:text-2xl">
-              {t("entergauja.backlink_body")}
+              {t("entergauja.backlink_body", {
+                defaultValue:
+                  "Mēs esam Enter Gauja kopienas partneri. Atklāj vairāk par dabas takām, pilīm un kultūras pasākumiem Gaujas ielejā.",
+              })}
             </p>
           </div>
 
           {/* Right — CTA + wordmark */}
           <div className="flex flex-col items-center gap-4 md:items-end">
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener"
-              className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-white transition-transform hover:-translate-y-0.5"
-              style={{ backgroundColor: color }}
-            >
-              {cta}
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
+            <Button asChild variant="category" size="md" style={{ backgroundColor: color }}>
+              <a href={href} target="_blank" rel="noopener" className="group">
+                {cta}
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+            </Button>
             <EnterGaujaLogo className="h-14 w-14 opacity-90" />
           </div>
         </div>

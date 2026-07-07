@@ -8,6 +8,7 @@ import { tField, tSlug, isLang, DEFAULT_LANG, type Lang } from "@/lib/language";
 import { formatDuration, formatPrice } from "@/lib/format";
 import { CategoryBadge } from "@/components/common/CategoryBadge";
 import { EnterGaujaBacklinkBlock } from "@/components/entergauja/EnterGaujaBacklinkBlock";
+import { Button } from "@/components/ui/button";
 import { pickPrimaryCategory, defaultCategoryForType } from "@/lib/enter-gauja";
 import {
   absoluteUrl,
@@ -200,14 +201,15 @@ function ServiceDetail() {
                   </p>
                 </>
               )}
-              <Link
-                to="/$lang/book"
-                params={{ lang }}
-                search={{ service: canonicalSlug }}
-                className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                {t("service.book_this")}
-              </Link>
+              <Button asChild size="lg" className="mt-6 w-full">
+                <Link
+                  to="/$lang/book"
+                  params={{ lang }}
+                  search={{ service: canonicalSlug }}
+                >
+                  {t("service.book_this")}
+                </Link>
+              </Button>
               <p className="mt-4 text-center text-xs text-ink-muted">
                 {t("booking.confirmed_body")}
               </p>

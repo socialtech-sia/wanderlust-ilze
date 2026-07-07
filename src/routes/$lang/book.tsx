@@ -13,6 +13,7 @@ import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 
 const LOCALES = { en: enUS, es, lv } as const;
 const TIME_SLOTS = Array.from({ length: 25 }, (_, i) => {
@@ -183,32 +184,32 @@ function BookingPage() {
           )}
 
           <div className="mt-8 flex items-center justify-between">
-            <button
+            <Button
               type="button"
+              variant="outline"
+              size="sm"
               disabled={step === 1}
               onClick={() => setStep((s) => (s > 1 ? ((s - 1) as Step) : s))}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-foreground disabled:opacity-40"
             >
               <ArrowLeft className="h-4 w-4" /> {t("cta.back")}
-            </button>
+            </Button>
             {step < 4 ? (
-              <button
+              <Button
                 type="button"
+                size="sm"
                 disabled={!canNext()}
                 onClick={() => setStep((s) => (s < 4 ? ((s + 1) as Step) : s))}
-                className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground disabled:opacity-40"
               >
                 {t("cta.next")} <ArrowRight className="h-4 w-4" />
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
                 type="button"
                 disabled={!canNext() || submitting}
                 onClick={submit}
-                className="inline-flex items-center gap-1.5 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-40"
               >
                 {submitting ? "…" : t("booking.submit")}
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -366,21 +367,23 @@ function StepWhen({
           <Users className="mr-1.5 inline h-4 w-4" /> {t("booking.persons")}
         </label>
         <div className="inline-flex items-center gap-3">
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="icon"
             onClick={() => onChange({ ...form, persons: Math.max(1, form.persons - 1) })}
-            className="h-10 w-10 rounded-full border border-border text-lg"
           >
             −
-          </button>
+          </Button>
           <span className="w-8 text-center text-lg font-medium">{form.persons}</span>
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="icon"
             onClick={() => onChange({ ...form, persons: form.persons + 1 })}
-            className="h-10 w-10 rounded-full border border-border text-lg"
           >
             +
-          </button>
+          </Button>
         </div>
       </div>
     </div>

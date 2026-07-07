@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { Button } from "@/components/ui/button";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { cn } from "@/lib/utils";
 
@@ -207,13 +208,11 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
-          <Link
-            to="/$lang/book"
-            params={{ lang }}
-            className="hidden rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-all hover:bg-primary/90 md:inline-flex"
-          >
-            {t("cta.book_now")}
-          </Link>
+          <Button asChild size="sm" className="hidden md:inline-flex">
+            <Link to="/$lang/book" params={{ lang }}>
+              {t("cta.book_now")}
+            </Link>
+          </Button>
           <button
             type="button"
             aria-label="Menu"
@@ -243,14 +242,15 @@ export function Header() {
                 {t(`nav.${item.key}`)}
               </Link>
             ))}
-            <Link
-              to="/$lang/book"
-              params={{ lang }}
-              onClick={() => setMobileOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground"
-            >
-              {t("cta.book_now")}
-            </Link>
+            <Button asChild className="mt-2 w-full">
+              <Link
+                to="/$lang/book"
+                params={{ lang }}
+                onClick={() => setMobileOpen(false)}
+              >
+                {t("cta.book_now")}
+              </Link>
+            </Button>
           </nav>
         </div>
       )}
