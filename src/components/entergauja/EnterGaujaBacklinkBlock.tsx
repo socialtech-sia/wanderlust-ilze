@@ -10,6 +10,7 @@ import { ArrowUpRight } from "lucide-react";
 import { EnterGaujaLogo } from "./EnterGaujaLogo";
 import { EnterGaujaPin } from "./EnterGaujaCategoryIcon";
 import { EnterGaujaRibbon } from "./EnterGaujaRibbon";
+import { Button } from "@/components/ui/button";
 import type { EnterGaujaCategoryInfo, EnterGaujaKey } from "@/lib/enter-gauja";
 
 export function EnterGaujaBacklinkBlock({

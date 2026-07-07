@@ -26,22 +26,22 @@ export function EnterGaujaBadge() {
             <div>
               <p className="text-eyebrow">Enter Gauja</p>
               <p className="mt-2 max-w-xl font-display text-2xl leading-tight text-foreground">
-                {t("home.partner_text")}
+                {t("home.partner_text", { defaultValue: "Enter Gauja partnership network member" })}
               </p>
               <p className="mt-3 max-w-xl text-sm text-ink-muted">
-                {t("entergauja.partner_body")}
+                {t("entergauja.partner_body", {
+                  defaultValue:
+                    "Wanderlust.lv ir Enter Gauja kopienas partneris — vienotā Gaujas nacionālā parka tūrisma tīkla daļa, kas apvieno dabu, vēsturi, kultūru un aktīvo atpūtu.",
+                })}
               </p>
             </div>
           </div>
-          <a
-            href={ENTER_GAUJA_ROOT_URL}
-            target="_blank"
-            rel="noopener"
-            className="group inline-flex items-center gap-2 rounded-full bg-moss-deep px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-moss"
-          >
-            {t("home.partner_learn")}
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
+          <Button asChild size="md">
+            <a href={ENTER_GAUJA_ROOT_URL} target="_blank" rel="noopener" className="group">
+              {t("home.partner_learn", { defaultValue: "Uzzināt par Enter Gauja" })}
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          </Button>
         </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
