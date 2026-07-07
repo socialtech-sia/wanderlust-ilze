@@ -1,61 +1,57 @@
-# Enter Gauja визуальный редизайн
+# Единый компонент кнопки + рефактор CTA по сайту
 
-Сейчас все EG-блоки на сайте (`EnterGaujaBadge`, `EnterGaujaPartnerBadge`, `EnterGaujaBacklinkBlock`) выглядят топорно: острые прямоугольники `rounded-sm`, кнопки не соответствуют pill-стилю сайта (навигация и `Rezervēt` — полностью скруглённые), SVG-логотип Enter Gauja собран из текстовых нод и не похож на настоящий, а фирменные графические элементы из вадлиний (пин-иконки категорий, "Sadarbība ar Enter Gauja" лента, лого-плашка) не задействованы. Плюс i18n-ключ `entergauja.partner_body` не отрендерился → hydration warning.
+Сейчас на сайте два набора кнопок: shadcn `<Button>` (по умолчанию `rounded-md`, h-9) и ~15 захардкоженных `<a class="rounded-full bg-primary px-6 py-3 …">` в Hero, Header, EnterGauja, contact, booking, cookie-consent. Форма/высоты/паддинги дублируются и слегка расходятся (`py-2` vs `py-2.5` vs `py-3`), состояний `active` нигде нет, focus-ring непоследовательный.
 
-## Что извлечём из PDF (стр. 16–22)
+## Что меняем
 
-1. **Логотип Enter Gauja** — низкополигональная плашка `EN/TER/GAU/JA` с оливковым фоном `#7A8A2E` и белым текстом + подпись `GAUJA NATIONAL PARK LATVIA`. Соберём как чистый SVG-компонент (форма без текстовых нод — как настоящий wordmark из PDF).
-2. **Категорийные пин-иконки** (стр. 19–22) — трапециевидный "флажок" в цвете категории с белой пиктограммой внутри: `Eat&drink` — бокал, `Get-around` — автобус, `Nature` — ёлка/лист, `Culture` — цветок, `History` — колонна. Соберём как SVG-компоненты (5 иконок).
-3. **Горная/природная лента** "Sadarbība ar Enter Gauja" (стр. 19) — угловатый silhouette-график гор + жёлтая полоса с шевроном. Воссоздадим как SVG-декор для нижнего партнёрского блока.
-4. **Категорийная плашка "Enter Gauja + подпись"** — вертикальный логотип + горизонтальная плашка снизу в цвете категории (как на стр. 16 и 21). Это правильная форма для sticky-badge справа.
+### 1. Переписываем `src/components/ui/button.tsx`
+- База: `rounded-full`, `font-medium`, `transition-all`, `focus-visible:ring-2 ring-ring/60 ring-offset-2 ring-offset-background`, `active:scale-[0.97]`, `disabled:opacity-50 disabled:pointer-events-none`.
+- Размеры (единая высота/паддинги для всего сайта):
+  - `sm` — `h-9 px-4 text-xs`
+  - `md` (default) — `h-11 px-6 text-sm`
+  - `lg` — `h-12 px-7 text-sm`
+  - `xl` — `h-14 px-8 text-base` (hero-CTA)
+  - `icon` — `h-10 w-10 p-0`
+- Варианты:
+  - `primary` (default) — `bg-moss-deep text-paper hover:bg-moss active:bg-moss-deep`
+  - `secondary` — `bg-paper text-ink hover:bg-paper/90` (для тёмных фонов, Hero)
+  - `outline` — `border border-border bg-transparent text-foreground hover:bg-accent`
+  - `outline-light` — `border border-paper/40 text-paper hover:bg-paper/10` (тёмный фон)
+  - `ghost` — `text-foreground hover:bg-accent`
+  - `link` — `underline-offset-4 hover:underline text-primary`
+  - `category` — принимает inline `style={{ backgroundColor }}`, base `text-white hover:-translate-y-0.5` (для Enter Gauja CTA с категорийным цветом)
+- Экспортируется тот же `Button` + `buttonVariants` — существующий shadcn API сохраняется.
 
-## Что редизайним
+### 2. Рефакторим все CTA на `<Button asChild>` / `<Button>`
+Файлы:
+- `src/components/home/Hero.tsx` — 2 CTA → `variant="secondary" size="xl"` и `variant="outline-light" size="xl"`.
+- `src/components/layout/Header.tsx` — «Rezervēt» (desktop + mobile) → `variant="primary" size="md"`.
+- `src/routes/__root.tsx` — error-boundary кнопки → `Button asChild`.
+- `src/routes/$lang/contact.tsx` — submit → `Button size="lg"`.
+- `src/routes/$lang/s.$slug.tsx` — «Rezervēt šo» → `Button size="lg" className="w-full"`.
+- `src/routes/$lang/book.tsx` — prev (`variant="outline"`), next/submit (`variant="primary"`), календарь nav (`variant="outline" size="icon"`).
+- `src/routes/$lang/book.confirmed.$ref.tsx` — «Uz sākumu» → `Button asChild`.
+- `src/components/cookie/CookieConsent.tsx` — «Pieņemt visas» → `primary md`, «Tikai nepieciešamās» → `outline md`, «Iestatījumi» → `ghost sm`, «Saglabāt» → `primary md`.
+- `src/components/home/EnterGaujaBadge.tsx` — «Uzzināt» → `Button asChild variant="primary" size="md"`.
+- `src/components/entergauja/EnterGaujaBacklinkBlock.tsx` — CTA → `Button asChild variant="category" size="md"` с inline `style={{ backgroundColor: color }}`.
 
-### Кнопки и радиусы
-Сайт использует полностью скруглённые pill-кнопки (`rounded-full`) и мягкие карточки `rounded-3xl`. Все EG CTA (`Apskatīt {category}`, `Uzzināt vairāk par Enter Gauja`, категорийные тайлы) переведём на `rounded-full` с более щедрым паддингом (`px-6 py-3`), тонкой рамкой в цвете категории и мягкой тенью — сохраняя цвет категории как заливку или border, но с формой сайта. Категорийная типографика (`DIN Pro Bold` / `Barlow Condensed`) остаётся только на подписи под лого, кнопки — базовым serif/sans сайта.
+### 3. Не трогаем
+- `LanguageSwitcher` — это toggle-pill, не кнопка.
+- Категорийные плашки Enter Gauja (тайлы) — это карточки-ссылки, не CTA.
+- Иконки соцсетей в Footer — icon-круги, оставляем.
+- Инпуты, tabs, dropdown, dialog — не кнопки.
+- Партнёрская Enter Gauja строка в Footer.
 
-### `EnterGaujaPartnerBadge` (sticky справа)
-- Настоящая двухуровневая плашка из PDF: белый блок с SVG-лого сверху, цветная плашка категории снизу.
-- Радиус `rounded-2xl`, тень `shadow-elegant`, `ring-1` вместо жёсткого `ring-black/10`.
-- Мобильная версия — не sticky, а плавающий чип в футере страницы.
+### 4. Побочно — hydration mismatch
+`entergauja.partner_body` рендерится сырым ключом на SSR из-за расхождения между default lang и `/lv`. Добавляем `defaultValue` во всех местах, где ключ выводится в основном потоке HTML (EnterGaujaBadge, EnterGaujaBacklinkBlock) — по паттерну, уже применённому в Footer. Это гарантированно снимает hydration warning без изменения i18n-инфраструктуры.
 
-### `EnterGaujaBadge` (главная, партнёрский блок)
-- Слева — новый SVG-лого + короткий заголовок и параграф.
-- Справа — pill-CTA "Uzzināt vairāk" в moss-стиле сайта (не жёлтый прямоугольник).
-- 4 категорийных тайла: карточка `rounded-2xl` с цветной вертикальной полосой слева, SVG-иконкой категории, названием (DIN/Barlow) и стрелкой. Hover — приподнимание + мягкий shadow, без ExternalLink иконки-костыля.
-
-### `EnterGaujaBacklinkBlock` (снизу сервисных страниц)
-- Композиция из стр. 19 PDF: слева категорийный пин-графика (SVG гора + иконка категории), по центру — параграф, справа — pill-CTA категорийного цвета.
-- Верхняя полоса с шевроном "Sadarbība ar Enter Gauja" (декоративная SVG-лента цвета категории).
-- Фон блока `paper-alt`, `rounded-3xl`, `border-border/60` — как остальные секции сайта.
-
-### `EnterGaujaTiles` (главная)
-- Пересобрать тайлы в тех же карточках, что и `ServiceCategories`, но с категорийной цветной акцентной полосой и SVG-иконкой категории — чтобы вписывались в сетку сайта, а не выглядели чужеродным блоком.
+## Технические детали
+- Никаких новых зависимостей.
+- `buttonVariants` остаётся экспортируемым — сохраняется совместимость с любым внешним использованием.
+- Все hover/active единообразны: `hover:brightness-110` не используем (ломает цвет на светлых фонах), вместо этого `hover:bg-{цвет}/90` + `hover:-translate-y-0.5` для акцентных CTA.
+- `size="md"` становится дефолтом — старый дефолт shadcn (h-9) переезжает в `sm`, что может слегка повлиять на кнопки, не указавшие size явно. Проверю каждое использование `<Button>` в проекте и добавлю `size="sm"` там, где нужна прежняя высота (в основном toolbar/иконки внутри диалогов).
+- Проверка `tsgo` после правок.
 
 ## Файлы
 
-**Новые:**
-- `src/components/entergauja/EnterGaujaLogo.tsx` — вынесенный чистый SVG-лого (без текстовых нод).
-- `src/components/entergauja/EnterGaujaCategoryIcon.tsx` — 5 SVG-пиктограмм категорий + пин-обёртка.
-- `src/components/entergauja/EnterGaujaRibbon.tsx` — декоративная "Sadarbība ar Enter Gauja" полоса.
-
-**Правки:**
-- `src/components/entergauja/EnterGaujaPartnerBadge.tsx` — новая двухуровневая плашка, pill-скругления, использует новый Logo.
-- `src/components/entergauja/EnterGaujaBacklinkBlock.tsx` — новая композиция с Ribbon + пин-иконка + pill-CTA.
-- `src/components/home/EnterGaujaBadge.tsx` — pill-кнопки, новые категорийные тайлы, новый Logo.
-- `src/components/home/EnterGaujaTiles.tsx` — карточки в стиле `ServiceCategories`, SVG-иконки.
-- `src/i18n/{lv,en,es}.json` — добавить недостающий `entergauja.partner_body` (сейчас пусто в `lv` → hydration mismatch), проверить `entergauja.backlink_body`, `entergauja.cta_view_category`, `entergauja.cta_view`.
-
-## Технические детали
-
-- Все SVG inline-компоненты (без внешних файлов) — категории, пины, лого — чтобы работали в SSR без FOUC и не требовали preload.
-- Цвета берутся из `ENTER_GAUJA_CATEGORIES[key].color` (уже есть в `src/lib/enter-gauja.ts`) — не хардкодим.
-- Радиусы: `rounded-full` для всех CTA, `rounded-2xl`/`rounded-3xl` для карточек, `rounded-xl` для sticky-плашки. Единая тень — `shadow-elegant` из design system.
-- Категорийный шрифт (`Barlow Condensed`) остаётся ТОЛЬКО на подписи категории внутри плашки — по вадлиниям (стр. 16 требует DIN Pro Bold именно там). Кнопки и body — стандартные фонты сайта.
-- Hydration-fix: `entergauja.partner_body` добавляется во все три локали синхронно.
-
-## Открытые вопросы
-
-1. Хочешь ли ты, чтобы я использовал **официальный SVG-логотип Enter Gauja** (если у тебя есть файл — прикрепи), или воссоздать его вручную как аккуратный SVG по образцу из PDF? Второй вариант — на 100% без риска нарушения бренда, но выглядит "приближённо".
-2. Иконки категорий (бокал, автобус, дерево, цветок, колонна) — рисуем как **минималистичные монолинейные SVG** в стиле сайта, или пытаемся повторить **пин-графику из PDF** с жёлтой горой и белой пиктограммой? Первое лучше вписывается в editorial-стиль сайта, второе — ближе к вадлиниям.
-3. Оставить категорийную плашку sticky **справа посередине экрана** (как требуют вадлинии стр. 17) или перенести её в углу футера чтобы не перекрывать контент на узких десктопах?
+**Правки:** `src/components/ui/button.tsx`, `src/components/home/Hero.tsx`, `src/components/layout/Header.tsx`, `src/routes/__root.tsx`, `src/routes/$lang/contact.tsx`, `src/routes/$lang/s.$slug.tsx`, `src/routes/$lang/book.tsx`, `src/routes/$lang/book.confirmed.$ref.tsx`, `src/components/cookie/CookieConsent.tsx`, `src/components/home/EnterGaujaBadge.tsx`, `src/components/entergauja/EnterGaujaBacklinkBlock.tsx`.
