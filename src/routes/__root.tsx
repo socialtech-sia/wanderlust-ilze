@@ -74,21 +74,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Wanderlust.lv — Certified guide in the Gauja Valley, Latvia" },
-      {
-        name: "description",
-        content:
-          "Guided tours, hikes and private transfers in Sigulda, Cēsis, Līgatne and Gauja National Park with certified guide Ilze Gulbe.",
-      },
       { name: "author", content: "Ilze Gulbe · social.tech SIA" },
-      { property: "og:title", content: "Wanderlust.lv — Guided tours in the Gauja Valley" },
-      {
-        property: "og:description",
-        content:
-          "Guided tours, hikes and private transfers in Sigulda, Cēsis, Līgatne and Gauja National Park.",
-      },
-      { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Wanderlust.lv" },
+      { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -98,7 +86,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&family=Barlow+Condensed:wght@700;900&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "TravelAgency",
+          name: "Wanderlust.lv",
+          url: "https://wanderlust.lv",
+          logo: "https://wanderlust.lv/logo.png",
+          areaServed: "Gauja National Park, Latvia",
+          knowsAbout: [
+            "Enter Gauja",
+            "Enter Nature",
+            "Enter History",
+            "Enter Culture",
+            "Sigulda",
+            "Cēsis",
+            "Līgatne",
+            "Turaida",
+          ],
+        }),
       },
     ],
   }),

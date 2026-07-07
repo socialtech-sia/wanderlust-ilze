@@ -10,7 +10,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+import { routeHead } from "@/lib/route-head";
+
 export const Route = createFileRoute("/$lang/faq")({
+  head: ({ params }) => routeHead({ params, routeKey: "faq", path: "/faq" }),
   component: FaqPage,
 });
 

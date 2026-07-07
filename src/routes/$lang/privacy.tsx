@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import type { ReactNode } from "react";
 
+import { routeHead } from "@/lib/route-head";
+
 export const Route = createFileRoute("/$lang/privacy")({
+  head: ({ params }) => routeHead({ params, routeKey: "privacy", path: "/privacy" }),
   component: PrivacyPage,
 });
 

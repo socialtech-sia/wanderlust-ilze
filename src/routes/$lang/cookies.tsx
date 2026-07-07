@@ -3,26 +3,12 @@ import { useTranslation } from "react-i18next";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { openConsentSettings } from "@/lib/cookie-consent";
+import { routeHead } from "@/lib/route-head";
 
 const UPDATED = "2026-07-07";
 
 export const Route = createFileRoute("/$lang/cookies")({
-  head: () => ({
-    meta: [
-      { title: "Cookie policy — Wanderlust.lv" },
-      {
-        name: "description",
-        content:
-          "How Wanderlust.lv uses cookies and how you can manage your preferences.",
-      },
-      { property: "og:title", content: "Cookie policy — Wanderlust.lv" },
-      {
-        property: "og:description",
-        content: "How Wanderlust.lv uses cookies and manages consent.",
-      },
-      { name: "robots", content: "index,follow" },
-    ],
-  }),
+  head: ({ params }) => routeHead({ params, routeKey: "cookies", path: "/cookies" }),
   component: CookiesPage,
 });
 

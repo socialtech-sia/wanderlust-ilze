@@ -6,7 +6,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSiteSettings } from "@/hooks/use-services";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 
+import { routeHead } from "@/lib/route-head";
+
 export const Route = createFileRoute("/$lang/contact")({
+  head: ({ params }) => routeHead({ params, routeKey: "contact", path: "/contact" }),
   component: ContactPage,
 });
 

@@ -1,27 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import type { ReactNode } from "react";
+import { routeHead } from "@/lib/route-head";
 
 const UPDATED = "2026-07-07";
 
 export const Route = createFileRoute("/$lang/terms")({
-  head: () => ({
-    meta: [
-      { title: "Terms of service — Wanderlust.lv" },
-      {
-        name: "description",
-        content:
-          "Terms governing the use of Wanderlust.lv and its guided tours, hikes and transfers.",
-      },
-      { property: "og:title", content: "Terms of service — Wanderlust.lv" },
-      {
-        property: "og:description",
-        content:
-          "Terms governing the use of Wanderlust.lv services.",
-      },
-      { name: "robots", content: "index,follow" },
-    ],
-  }),
+  head: ({ params }) => routeHead({ params, routeKey: "terms", path: "/terms" }),
   component: TermsPage,
 });
 
