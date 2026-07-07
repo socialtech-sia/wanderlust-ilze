@@ -1,136 +1,61 @@
-# План: приведение Wanderlust.lv в соответствие с Enter Gauja Guidelines 2025
+# Enter Gauja визуальный редизайн
 
-## Что говорят guidelines и где сайт уже совпадает
+Сейчас все EG-блоки на сайте (`EnterGaujaBadge`, `EnterGaujaPartnerBadge`, `EnterGaujaBacklinkBlock`) выглядят топорно: острые прямоугольники `rounded-sm`, кнопки не соответствуют pill-стилю сайта (навигация и `Rezervēt` — полностью скруглённые), SVG-логотип Enter Gauja собран из текстовых нод и не похож на настоящий, а фирменные графические элементы из вадлиний (пин-иконки категорий, "Sadarbība ar Enter Gauja" лента, лого-плашка) не задействованы. Плюс i18n-ключ `entergauja.partner_body` не отрендерился → hydration warning.
 
-Enter Gauja выстраивает единую партнёрскую экосистему: общий бренд, четыре первичные категории (**Enter Nature / History / Culture / Action**), обязательная визуальная привязка (лого + плашка категории справа/в футере, ссылка на entergauja.lv), единый SEO-стандарт (H1/H2/H3, meta, Open Graph, Schema.org, BreadcrumbList, hreflang, Core Web Vitals, sitemap/robots), cross-linking и backlink-блок партнёра.
+## Что извлечём из PDF (стр. 16–22)
 
-Совпадения с текущим сайтом:
-- Категории `action / nature / history / culture` уже есть в `tours.tsx` — прямое попадание в первичную типологию Enter Gauja.
-- Есть компоненты `EnterGaujaTiles`, `EnterGaujaBadge`, footer с "Enter Gauja partner".
-- Мультиязычность LV/EN/ES (guidelines требуют lv/en/ru — обсудим ниже).
-- Есть privacy/cookies/terms, header/footer, i18n.
+1. **Логотип Enter Gauja** — низкополигональная плашка `EN/TER/GAU/JA` с оливковым фоном `#7A8A2E` и белым текстом + подпись `GAUJA NATIONAL PARK LATVIA`. Соберём как чистый SVG-компонент (форма без текстовых нод — как настоящий wordmark из PDF).
+2. **Категорийные пин-иконки** (стр. 19–22) — трапециевидный "флажок" в цвете категории с белой пиктограммой внутри: `Eat&drink` — бокал, `Get-around` — автобус, `Nature` — ёлка/лист, `Culture` — цветок, `History` — колонна. Соберём как SVG-компоненты (5 иконок).
+3. **Горная/природная лента** "Sadarbība ar Enter Gauja" (стр. 19) — угловатый silhouette-график гор + жёлтая полоса с шевроном. Воссоздадим как SVG-декор для нижнего партнёрского блока.
+4. **Категорийная плашка "Enter Gauja + подпись"** — вертикальный логотип + горизонтальная плашка снизу в цвете категории (как на стр. 16 и 21). Это правильная форма для sticky-badge справа.
 
-Пробелы (что нужно закрыть):
-1. Нет системных `head()` c title/description/OG/Schema/Breadcrumbs/hreflang для страниц.
-2. Логотип Enter Gauja + плашка категории не размещены по правилу "правая сторона, sticky, кликабельно на entergauja.lv/enter-{category}".
-3. Мапинг Wanderlust-категорий на цвета Enter Gauja не унифицирован (в guidelines заданы конкретные RGB для каждой из 4 категорий).
-4. Тексты страниц не приведены к шаблону "ievad 70–100 vārdi + H2 4–7 + FAQ + CTA `Apskatīt Enter {Category}`".
-5. Отсутствуют backlink-блок партнёра, sitemap.xml, robots.txt, JSON-LD для TouristAttraction / LandmarksOrHistoricalBuildings / Event / SportsActivityLocation, BreadcrumbList, hreflang.
-6. Alt-тексты изображений и имена файлов не следуют схеме `gauja-{category}-{object}-{location}.jpg` / `alt="… (Enter {Category})"`.
+## Что редизайним
 
----
+### Кнопки и радиусы
+Сайт использует полностью скруглённые pill-кнопки (`rounded-full`) и мягкие карточки `rounded-3xl`. Все EG CTA (`Apskatīt {category}`, `Uzzināt vairāk par Enter Gauja`, категорийные тайлы) переведём на `rounded-full` с более щедрым паддингом (`px-6 py-3`), тонкой рамкой в цвете категории и мягкой тенью — сохраняя цвет категории как заливку или border, но с формой сайта. Категорийная типографика (`DIN Pro Bold` / `Barlow Condensed`) остаётся только на подписи под лого, кнопки — базовым serif/sans сайта.
 
-## Категорийный мэпинг (Wanderlust → Enter Gauja)
+### `EnterGaujaPartnerBadge` (sticky справа)
+- Настоящая двухуровневая плашка из PDF: белый блок с SVG-лого сверху, цветная плашка категории снизу.
+- Радиус `rounded-2xl`, тень `shadow-elegant`, `ring-1` вместо жёсткого `ring-black/10`.
+- Мобильная версия — не sticky, а плавающий чип в футере страницы.
 
-| Услуга Wanderlust | Enter Gauja категория | Основной цвет |
-|---|---|---|
-| Hiking / пешие маршруты | **Enter Nature** | #4F6F19 / #679A40 (зелёный) |
-| Экскурсии в замки (Turaida, Cēsis, Sigulda) | **Enter History** | #E38F25 / #9B4922 (охра/терракот) |
-| Культурные экскурсии, концерты в замках | **Enter Culture** | #51869D / #003F62 (сине-голубой) |
-| Активные туры (rafting, zip-line, велосипед, если добавятся) | **Enter Action** | розово-красный |
-| Transfers | вторичная: **Gauja Get-around** | без изменения основной палитры |
+### `EnterGaujaBadge` (главная, партнёрский блок)
+- Слева — новый SVG-лого + короткий заголовок и параграф.
+- Справа — pill-CTA "Uzzināt vairāk" в moss-стиле сайта (не жёлтый прямоугольник).
+- 4 категорийных тайла: карточка `rounded-2xl` с цветной вертикальной полосой слева, SVG-иконкой категории, названием (DIN/Barlow) и стрелкой. Hover — приподнимание + мягкий shadow, без ExternalLink иконки-костыля.
 
-Каждая карточка услуги в базе (`services.category`) уже несёт `action/nature/history/culture` — используем как ключ и для цветовых токенов, и для SEO-разметки.
+### `EnterGaujaBacklinkBlock` (снизу сервисных страниц)
+- Композиция из стр. 19 PDF: слева категорийный пин-графика (SVG гора + иконка категории), по центру — параграф, справа — pill-CTA категорийного цвета.
+- Верхняя полоса с шевроном "Sadarbība ar Enter Gauja" (декоративная SVG-лента цвета категории).
+- Фон блока `paper-alt`, `rounded-3xl`, `border-border/60` — как остальные секции сайта.
 
----
+### `EnterGaujaTiles` (главная)
+- Пересобрать тайлы в тех же карточках, что и `ServiceCategories`, но с категорийной цветной акцентной полосой и SVG-иконкой категории — чтобы вписывались в сетку сайта, а не выглядели чужеродным блоком.
 
-## Реализация по этапам
+## Файлы
 
-### Этап 1. Дизайн-система категорий (design tokens)
-- Добавить в `src/styles.css` CSS-переменные `--eg-nature`, `--eg-nature-alt`, `--eg-history`, `--eg-culture`, `--eg-action` с RGB из guidelines (все 4 базовых + по 1 акценту), плюс `--eg-get-around`, `--eg-eat-drink`.
-- Утилита `src/lib/enter-gauja.ts`: `getEnterGaujaCategory(serviceCategory)` → `{ key, label, color, hoverColor, url }` (url = `https://entergauja.lv/enter-{key}/`).
-- Кнопки "APSKATĪT" в карточках и на страницах категорий используют цвет соответствующей категории (REGULAR/ACTIVE вариант из guidelines).
+**Новые:**
+- `src/components/entergauja/EnterGaujaLogo.tsx` — вынесенный чистый SVG-лого (без текстовых нод).
+- `src/components/entergauja/EnterGaujaCategoryIcon.tsx` — 5 SVG-пиктограмм категорий + пин-обёртка.
+- `src/components/entergauja/EnterGaujaRibbon.tsx` — декоративная "Sadarbība ar Enter Gauja" полоса.
 
-### Этап 2. Компонент `EnterGaujaBadge` (по правилу стр. 16–17)
-- Sticky-элемент в правом крае вьюпорта (desktop) / фиксированный внизу (mobile): лого Enter Gauja + плашка с именем категории (`DIN Pro Bold`, центрировано, прямоугольник без скруглений).
-- На страницах категорий (`/[lang]/tours?category=nature` и т.д. + hiking/transfers) плашка показывает соответствующую категорию.
-- Клик ведёт на `https://entergauja.lv/enter-{key}/`.
-- Шрифт DIN Pro Bold подключаем через Google Fonts аналог (DIN Pro не бесплатен → использовать **Barlow Condensed 700** или **DIN Alternate**; либо оставить текущий display font только для этой плашки с visual matching). Уточнить с пользователем.
+**Правки:**
+- `src/components/entergauja/EnterGaujaPartnerBadge.tsx` — новая двухуровневая плашка, pill-скругления, использует новый Logo.
+- `src/components/entergauja/EnterGaujaBacklinkBlock.tsx` — новая композиция с Ribbon + пин-иконка + pill-CTA.
+- `src/components/home/EnterGaujaBadge.tsx` — pill-кнопки, новые категорийные тайлы, новый Logo.
+- `src/components/home/EnterGaujaTiles.tsx` — карточки в стиле `ServiceCategories`, SVG-иконки.
+- `src/i18n/{lv,en,es}.json` — добавить недостающий `entergauja.partner_body` (сейчас пусто в `lv` → hydration mismatch), проверить `entergauja.backlink_body`, `entergauja.cta_view_category`, `entergauja.cta_view`.
 
-### Этап 3. SEO-модуль (централизованно)
-Создать `src/lib/seo.ts` с фабриками:
-- `buildPageHead({ title, description, ogImage, category, path })` → массив `{meta, links}` для TanStack `head()` включая:
-  - `<title>` по шаблону `Enter {Category} | {topic} — Wanderlust.lv`.
-  - `meta description` 120–160 симв. с core keyword.
-  - Open Graph (`og:title`, `og:description`, `og:image` абсолютный URL, `og:type`, `og:url`).
-  - Twitter card.
-  - `link rel=canonical` на текущий язык.
-  - `link rel=alternate hreflang="lv|en|es|x-default"` (в guidelines написано lv/en/ru — сейчас у сайта es; см. вопрос ниже).
-- `buildBreadcrumbList(items)` → JSON-LD.
-- `buildTouristAttraction(service)` / `buildLandmark(service)` / `buildEvent(service)` / `buildSportsActivity(service)` в зависимости от категории.
-- JSON-LD рендерим через `scripts: [{ type: "application/ld+json", children: JSON.stringify(...) }]` в `head()`.
+## Технические детали
 
-Обновить `head()` во всех route-файлах: `__root.tsx` (глобальный fallback + организация), `$lang/route.tsx` (hreflang + org), `$lang/index.tsx` (WebSite), `tours.tsx`, `hiking.tsx`, `transfers.tsx`, `about.tsx`, `contact.tsx`, `faq.tsx`, `book.tsx`, `s.$slug.tsx` (детальная услуга с category-schema + Breadcrumbs).
+- Все SVG inline-компоненты (без внешних файлов) — категории, пины, лого — чтобы работали в SSR без FOUC и не требовали preload.
+- Цвета берутся из `ENTER_GAUJA_CATEGORIES[key].color` (уже есть в `src/lib/enter-gauja.ts`) — не хардкодим.
+- Радиусы: `rounded-full` для всех CTA, `rounded-2xl`/`rounded-3xl` для карточек, `rounded-xl` для sticky-плашки. Единая тень — `shadow-elegant` из design system.
+- Категорийный шрифт (`Barlow Condensed`) остаётся ТОЛЬКО на подписи категории внутри плашки — по вадлиниям (стр. 16 требует DIN Pro Bold именно там). Кнопки и body — стандартные фонты сайта.
+- Hydration-fix: `entergauja.partner_body` добавляется во все три локали синхронно.
 
-### Этап 4. Структура контента (стр. 12–13 guidelines)
-Для каждой страницы категории и hub-страниц (tours, hiking, transfers):
-- Один **H1** ≤12 слов с core keyword + Enter {Category}.
-- 4–7 **H2** (перевести существующие секции; добавить недостающие: "Sezonas piedāvājumi", "Praktiskā informācija").
-- 5–10 **H3** для конкретных объектов/услуг.
-- **Ievadteksts** 70–100 слов с core keyword в первом предложении (заменить/расширить в i18n).
-- **CTA-блок** в конце: "Apskatīt Enter {Category}" → ссылка на entergauja.lv.
-- **FAQ** 3–5 вопросов в конце (у нас уже есть страница FAQ — вынести в компонент FAQBlock + добавить `FAQPage` schema).
+## Открытые вопросы
 
-### Этап 5. Cross-linking & Backlink block (стр. 14, 29)
-- Компонент `<EnterGaujaBacklinkBlock category="nature" />` для внутренностей страниц (готовый HTML-паттерн из guidelines стр. 29).
-- В карточках услуг добавить nearby-cross-links: Nature → Eat&Drink/Relax/Action; History → Culture; и т.п. (у Wanderlust нет Eat&Drink — ссылаемся на entergauja.lv/enter-eat-drink/).
-- В `Footer` добавить блок "Enter Gauja kopienas partneris" со ссылкой на 4 категории.
-
-### Этап 6. Технический SEO
-- `public/robots.txt`: с `Sitemap:` и `Allow: /*` (проверить, есть ли).
-- `src/routes/api/public/sitemap[.]xml.ts` — server route, генерит XML из услуг Supabase (все языки, priority 0.8, changefreq monthly, `<xhtml:link rel="alternate" hreflang="...">` per URL).
-- `<link rel="canonical">` на всех страницах через `buildPageHead`.
-- Проверить/добавить `loading="lazy"` и `<img>` `alt` по шаблону во всех карточках (компоненты `ServiceCard`, `Hero`, галереи).
-- Установить/подтвердить WebP/AVIF конверсию (изображения из Supabase Storage — включить трансформацию через `?format=webp&quality=80`).
-- Core Web Vitals: проверить LCP (Hero image `preload as="image"`), CLS (задать `width/height` картинкам, aspect-ratio).
-
-### Этап 7. Alt-тексты и имена файлов
-- Пройтись по компонентам, использующим `<img>` без `alt` или с общим alt: `Hero`, `ServiceCard`, `FeaturedServices`, `EnterGaujaTiles`, `AboutPreview`, детальная страница услуги.
-- Внедрить хелпер `serviceImageAlt(service)` → `"{title} — {location} (Enter {Category})"`.
-- Для новых загрузок в БД — не переименовываем сохранённые файлы, но alt даём по шаблону.
-
-### Этап 8. Обновление i18n-текстов
-- Перевести/переписать ievadtekst (70–100 слов) и H1/H2/H3 для tours, hiking, transfers, index (hero), about — во всех трёх языках, с core keyword по таблицам guidelines (стр. 26/33/40/48).
-- Добавить ключи `entergauja.*` в LV/EN/ES (labels категорий, CTA "Apskatīt Enter Nature", подписи badge).
-
-### Этап 9. Валидация
-- `bun run build` + `tsgo` — типы.
-- Playwright: скриншот главной + `/lv/tours?category=nature` + `/en/hiking`: проверить badge, H1, breadcrumb, ссылки на entergauja.lv.
-- В консоли DevTools проверить `<script type="application/ld+json">` (Rich Results Test-ready).
-- `curl -s http://localhost:8080/sitemap.xml | head` — проверить sitemap.
-
----
-
-## Файлы, которые появятся / изменятся
-
-Новые:
-- `src/lib/enter-gauja.ts` — маппинг категорий, цвета, URL.
-- `src/lib/seo.ts` — фабрики meta + JSON-LD.
-- `src/components/entergauja/EnterGaujaBadge.tsx` (переписать текущий) — sticky-badge по правилам.
-- `src/components/entergauja/EnterGaujaBacklinkBlock.tsx` — блок стр. 29.
-- `src/components/common/FaqBlock.tsx` + FAQ schema.
-- `src/routes/api/public/sitemap[.]xml.ts` — sitemap.
-- `public/robots.txt` (или обновить существующий).
-
-Изменяемые:
-- `src/routes/__root.tsx`, `src/routes/$lang/route.tsx` — глобальный head + hreflang.
-- Все route-страницы `$lang/*` — добавить `head()` через `buildPageHead`.
-- `src/styles.css` — токены Enter Gauja.
-- `src/i18n/{lv,en,es}.json` — новые ключи, обновлённые тексты.
-- `src/components/layout/Footer.tsx` — 4 категорийные ссылки на entergauja.lv.
-- `src/components/services/ServiceCard.tsx` — alt-хелпер, цвет-акцент по категории, ссылка "Apskatīt Enter {Cat}".
-- Существующий `EnterGaujaBadge` / `EnterGaujaTiles` — сверить с правилами.
-
-Что НЕ трогаем: бизнес-логику Supabase, бронирование, схемы БД, аутентификацию.
-
----
-
-## Открытые вопросы (нужно решить до реализации)
-
-1. **Языки**: guidelines требуют `lv/en/ru`, сайт сейчас `lv/en/es`. Оставляем `es`, добавляем `ru`, убираем `es`, или делаем hreflang только для `lv/en`?
-2. **Шрифт DIN Pro** — платный. Использовать бесплатный близнец (**Barlow Condensed 700** или **Oswald**) только для плашки категории?
-3. **Enter Action** — сейчас у Wanderlust нет rafting/zip-line услуг. Оставляем категорию "спящей" (без страницы) или маппим сюда `transfers` как compromise? Рекомендую первое.
-4. **Sitemap** — генерить динамически из Supabase (server route) или статически при билде? Предлагаю server route для актуальности.
-5. **OG-обложки** — генерить одну общую hero-картинку на категорию (4 файла в `src/assets/og-{category}.jpg`) или per-service? Начнём с per-category.
-
-После ответов на 1–5 приступаем к реализации Этапов 1→9 последовательно, каждый этап — отдельный коммит через мои сообщения.
+1. Хочешь ли ты, чтобы я использовал **официальный SVG-логотип Enter Gauja** (если у тебя есть файл — прикрепи), или воссоздать его вручную как аккуратный SVG по образцу из PDF? Второй вариант — на 100% без риска нарушения бренда, но выглядит "приближённо".
+2. Иконки категорий (бокал, автобус, дерево, цветок, колонна) — рисуем как **минималистичные монолинейные SVG** в стиле сайта, или пытаемся повторить **пин-графику из PDF** с жёлтой горой и белой пиктограммой? Первое лучше вписывается в editorial-стиль сайта, второе — ближе к вадлиниям.
+3. Оставить категорийную плашку sticky **справа посередине экрана** (как требуют вадлинии стр. 17) или перенести её в углу футера чтобы не перекрывать контент на узких десктопах?
