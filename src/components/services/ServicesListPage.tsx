@@ -59,7 +59,7 @@ export function ServicesListPage({
     navigate({
       to,
       params: { lang },
-      search: (prev) => ({ ...(prev as SearchShape), ...next }),
+      search: (prev: SearchShape) => ({ ...prev, ...next }),
     });
 
   return (
