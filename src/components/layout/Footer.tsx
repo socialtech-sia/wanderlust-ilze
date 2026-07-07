@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { useSiteSettings } from "@/hooks/use-services";
 import { Instagram, Facebook, Mail, Phone } from "lucide-react";
+import { openConsentSettings } from "@/lib/cookie-consent";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -87,11 +88,26 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-border/50">
-        <div className="container-editorial flex flex-col items-start justify-between gap-2 py-5 text-xs text-ink-muted md:flex-row md:items-center">
+        <div className="container-editorial flex flex-col items-start justify-between gap-3 py-5 text-xs text-ink-muted md:flex-row md:items-center">
           <p>{t("footer.rights", { year })}</p>
-          <Link to="/$lang/privacy" params={{ lang }} className="hover:text-foreground">
-            {t("footer.privacy")}
-          </Link>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <Link to="/$lang/privacy" params={{ lang }} className="hover:text-foreground">
+              {t("footer.privacy")}
+            </Link>
+            <Link to="/$lang/cookies" params={{ lang }} className="hover:text-foreground">
+              {t("footer.cookies")}
+            </Link>
+            <Link to="/$lang/terms" params={{ lang }} className="hover:text-foreground">
+              {t("footer.terms")}
+            </Link>
+            <button
+              type="button"
+              onClick={openConsentSettings}
+              className="hover:text-foreground"
+            >
+              {t("footer.manage_cookies")}
+            </button>
+          </div>
         </div>
       </div>
     </footer>

@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, notFound } from "@tanstack/react-router";
 import { isLang } from "@/lib/language";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { CookieConsent } from "@/components/cookie/CookieConsent";
 
 export const Route = createFileRoute("/$lang")({
   beforeLoad: ({ params }) => {
@@ -18,6 +19,7 @@ function LangLayout() {
         <Outlet />
       </main>
       <Footer />
+      <CookieConsent />
     </div>
   );
 }

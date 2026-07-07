@@ -109,6 +109,9 @@
     "language": "Valoda",
     "legal": "Juridiskā informācija",
     "privacy": "Privātuma politika",
+    "cookies": "Sīkdatņu politika",
+    "terms": "Lietošanas noteikumi",
+    "manage_cookies": "Sīkdatņu iestatījumi",
     "rights": "© {{year}} Wanderlust.lv. Visas tiesības aizsargātas."
   },
   "errors": {
@@ -181,6 +184,108 @@
     "contact": {
       "title": "Sazinieties ar mums",
       "text": "Ja Jums ir jautājumi par šo privātuma politiku vai Jūsu personas datiem, lūdzu, sazinieties ar mums, rakstot uz info@socialtech.lv vai zvanot +371 20042830."
+    }
+  },
+  "consent": {
+    "title": "Mēs izmantojam sīkdatnes",
+    "body": "Mēs izmantojam būtiskās sīkdatnes, lai vietne darbotos, un neobligātās sīkdatnes, lai analizētu apmeklējumu un uzlabotu Jūsu pieredzi. Izvēlieties, ko atļaut.",
+    "accept_all": "Pieņemt visas",
+    "reject": "Tikai nepieciešamās",
+    "customize": "Iestatījumi",
+    "save": "Saglabāt izvēli",
+    "necessary": "Nepieciešamās",
+    "necessary_desc": "Vietnes pamatfunkcijas. Nevar atslēgt.",
+    "analytics": "Analītika",
+    "analytics_desc": "Palīdz saprast, kā apmeklētāji izmanto vietni.",
+    "marketing": "Mārketings",
+    "marketing_desc": "Personalizētas reklāmas un satura mērījumi.",
+    "learn_more": "Uzzināt vairāk",
+    "settings_title": "Sīkdatņu iestatījumi"
+  },
+  "cookies": {
+    "title": "Sīkdatņu politika",
+    "updated": "Pēdējoreiz atjaunināts: {{date}}",
+    "intro": "Šī politika izskaidro, kā Wanderlust.lv izmanto sīkdatnes un līdzīgas tehnoloģijas, kad apmeklējat mūsu vietni.",
+    "what": {
+      "title": "Kas ir sīkdatnes",
+      "text": "Sīkdatnes ir nelieli teksta faili, ko pārlūkprogramma saglabā jūsu ierīcē, lai vietne varētu atcerēties Jūsu izvēli un apkopot statistiku."
+    },
+    "types": {
+      "title": "Kādas sīkdatnes mēs izmantojam",
+      "necessary": "Nepieciešamās — nodrošina vietnes darbību, valodas izvēli un drošību. Nevar atslēgt.",
+      "analytics": "Analītikas — palīdz saprast, kā apmeklētāji lieto vietni (piemēram, Google Analytics). Iespējojas tikai ar Jūsu piekrišanu.",
+      "marketing": "Mārketinga — mēra reklāmu efektivitāti un personalizē saturu. Iespējojas tikai ar Jūsu piekrišanu."
+    },
+    "retention": {
+      "title": "Cik ilgi sīkdatnes glabājas",
+      "text": "Sesijas sīkdatnes tiek dzēstas, kad aizverat pārlūku. Pastāvīgās sīkdatnes glabājas līdz 12 mēnešiem, ja vien Jūs tās neizdzēšat agrāk."
+    },
+    "manage": {
+      "title": "Kā pārvaldīt sīkdatnes",
+      "text": "Jūs jebkurā brīdī varat mainīt savu izvēli, atverot sīkdatņu iestatījumus. Sīkdatnes var arī pārvaldīt vai dzēst pārlūkprogrammas iestatījumos.",
+      "button": "Atvērt sīkdatņu iestatījumus"
+    },
+    "changes": {
+      "title": "Izmaiņas politikā",
+      "text": "Mēs varam atjaunināt šo politiku. Aktuālā versija vienmēr būs pieejama šajā lapā."
+    },
+    "contact": {
+      "title": "Kontakti",
+      "text": "Jautājumi par sīkdatnēm: info@socialtech.lv, +371 20042830."
+    }
+  },
+  "terms": {
+    "title": "Lietošanas noteikumi",
+    "updated": "Pēdējoreiz atjaunināts: {{date}}",
+    "intro": "Šie noteikumi regulē Wanderlust.lv vietnes un pakalpojumu izmantošanu. Izmantojot vietni, Jūs piekrītat šiem noteikumiem.",
+    "provider": {
+      "title": "Pakalpojumu sniedzējs",
+      "text": "Vietni Wanderlust.lv pārvalda social.tech SIA (Reģ. 40203514705, PVN LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Latvija) Ilzes Gulbes (SIA \"Creatus Real Estate\") vārdā. Kontakti: info@socialtech.lv, +371 20042830."
+    },
+    "services": {
+      "title": "Pakalpojumi",
+      "text": "Vietne piedāvā informāciju par ekskursijām, pārgājieniem un transferiem Gaujas ielejā, kā arī rezervēšanas pieprasījumu iesniegšanu. Rezervācija tiek uzskatīta par apstiprinātu tikai pēc rakstiska apstiprinājuma saņemšanas."
+    },
+    "booking": {
+      "title": "Rezervācijas un maksājumi",
+      "items": [
+        "Rezervācijas pieprasījums nav līgums, kamēr nav saņemts apstiprinājums.",
+        "Cenas ir norādītas EUR, ieskaitot piemērojamos nodokļus.",
+        "Apmaksas un atcelšanas nosacījumi tiek paziņoti pirms rezervācijas apstiprināšanas.",
+        "Nepieciešamā piemērota apģērba, apavu un fiziskās sagatavotības nodrošināšana ir apmeklētāja atbildība."
+      ]
+    },
+    "user": {
+      "title": "Lietotāja pienākumi",
+      "items": [
+        "Sniegt patiesu un precīzu informāciju rezervācijas laikā.",
+        "Ievērot gida norādījumus un drošības noteikumus ekskursijas laikā.",
+        "Nelietot vietni pretlikumīgiem mērķiem vai tās darbības traucēšanai."
+      ]
+    },
+    "ip": {
+      "title": "Intelektuālais īpašums",
+      "text": "Viss vietnes saturs — teksti, attēli, logotipi un dizains — ir aizsargāts ar autortiesībām un pieder social.tech SIA vai tās partneriem. Reproducēšana bez rakstiskas atļaujas ir aizliegta."
+    },
+    "liability": {
+      "title": "Atbildības ierobežojums",
+      "text": "Mēs cenšamies nodrošināt precīzu informāciju, bet negarantējam tās pilnīgu pareizību. Pilnā likuma ļautajā mērā mēs neuzņemamies atbildību par netiešiem zaudējumiem, kas radušies vietnes vai pakalpojumu izmantošanas rezultātā, izņemot rupjas neuzmanības vai tīša pārkāpuma gadījumus."
+    },
+    "force": {
+      "title": "Nepārvaramas varas apstākļi",
+      "text": "Mēs neatbildam par saistību neizpildi, ja to izraisījuši laika apstākļi, dabas katastrofas, valsts iestāžu rīcība vai citi ārpus mūsu kontroles esoši apstākļi."
+    },
+    "changes": {
+      "title": "Izmaiņas noteikumos",
+      "text": "Mēs varam laiku pa laikam atjaunināt šos noteikumus. Aktuālā versija vienmēr būs pieejama šajā lapā."
+    },
+    "law": {
+      "title": "Piemērojamie tiesību akti",
+      "text": "Šos noteikumus regulē Latvijas Republikas likumi. Strīdus risina Latvijas Republikas kompetentās tiesas."
+    },
+    "contact": {
+      "title": "Kontakti",
+      "text": "Jautājumi par noteikumiem: info@socialtech.lv, +371 20042830."
     }
   }
 }

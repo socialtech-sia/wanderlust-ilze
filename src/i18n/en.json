@@ -109,6 +109,9 @@
     "language": "Language",
     "legal": "Legal",
     "privacy": "Privacy policy",
+    "cookies": "Cookie policy",
+    "terms": "Terms of service",
+    "manage_cookies": "Cookie preferences",
     "rights": "© {{year}} Wanderlust.lv. All rights reserved."
   },
   "errors": {
@@ -181,6 +184,108 @@
     "contact": {
       "title": "Contact us",
       "text": "If you have any questions about this privacy policy or your personal data, please contact us at info@socialtech.lv or by phone at +371 20042830."
+    }
+  },
+  "consent": {
+    "title": "We use cookies",
+    "body": "We use essential cookies to make the site work, and optional cookies to analyse traffic and improve your experience. Choose what to allow.",
+    "accept_all": "Accept all",
+    "reject": "Only necessary",
+    "customize": "Customize",
+    "save": "Save choice",
+    "necessary": "Necessary",
+    "necessary_desc": "Core site functionality. Cannot be disabled.",
+    "analytics": "Analytics",
+    "analytics_desc": "Helps us understand how visitors use the site.",
+    "marketing": "Marketing",
+    "marketing_desc": "Personalised ads and content measurement.",
+    "learn_more": "Learn more",
+    "settings_title": "Cookie settings"
+  },
+  "cookies": {
+    "title": "Cookie policy",
+    "updated": "Last updated: {{date}}",
+    "intro": "This policy explains how Wanderlust.lv uses cookies and similar technologies when you visit our website.",
+    "what": {
+      "title": "What cookies are",
+      "text": "Cookies are small text files that your browser stores on your device so the site can remember your choices and collect statistics."
+    },
+    "types": {
+      "title": "Cookies we use",
+      "necessary": "Necessary — required for the site to function, language selection and security. Cannot be disabled.",
+      "analytics": "Analytics — help us understand how visitors use the site (e.g. Google Analytics). Only set with your consent.",
+      "marketing": "Marketing — measure ad effectiveness and personalise content. Only set with your consent."
+    },
+    "retention": {
+      "title": "How long cookies are kept",
+      "text": "Session cookies are deleted when you close your browser. Persistent cookies are kept for up to 12 months unless you delete them earlier."
+    },
+    "manage": {
+      "title": "How to manage cookies",
+      "text": "You can change your choice at any time by opening the cookie settings. Cookies can also be managed or deleted from your browser settings.",
+      "button": "Open cookie settings"
+    },
+    "changes": {
+      "title": "Changes to this policy",
+      "text": "We may update this policy. The current version will always be available on this page."
+    },
+    "contact": {
+      "title": "Contact",
+      "text": "Questions about cookies: info@socialtech.lv, +371 20042830."
+    }
+  },
+  "terms": {
+    "title": "Terms of service",
+    "updated": "Last updated: {{date}}",
+    "intro": "These terms govern the use of the Wanderlust.lv website and services. By using the site, you agree to these terms.",
+    "provider": {
+      "title": "Service provider",
+      "text": "Wanderlust.lv is operated by social.tech SIA (Reg. 40203514705, VAT LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Latvia) on behalf of Ilze Gulbe (SIA \"Creatus Real Estate\"). Contact: info@socialtech.lv, +371 20042830."
+    },
+    "services": {
+      "title": "Services",
+      "text": "The website offers information about guided tours, hikes and transfers in the Gauja Valley and allows you to submit booking requests. A booking is considered confirmed only after a written confirmation is received."
+    },
+    "booking": {
+      "title": "Bookings and payments",
+      "items": [
+        "A booking request is not a contract until confirmed.",
+        "Prices are shown in EUR, including applicable taxes.",
+        "Payment and cancellation terms are communicated before confirming the booking.",
+        "Suitable clothing, footwear and physical fitness are the visitor's responsibility."
+      ]
+    },
+    "user": {
+      "title": "User obligations",
+      "items": [
+        "Provide truthful and accurate information when booking.",
+        "Follow the guide's instructions and safety rules during the tour.",
+        "Do not use the site for unlawful purposes or to disrupt its operation."
+      ]
+    },
+    "ip": {
+      "title": "Intellectual property",
+      "text": "All site content — text, images, logos and design — is protected by copyright and belongs to social.tech SIA or its partners. Reproduction without written permission is prohibited."
+    },
+    "liability": {
+      "title": "Limitation of liability",
+      "text": "We aim to provide accurate information but do not guarantee its complete correctness. To the fullest extent permitted by law, we are not liable for indirect losses arising from the use of the site or services, except in cases of gross negligence or wilful misconduct."
+    },
+    "force": {
+      "title": "Force majeure",
+      "text": "We are not liable for failure to perform obligations caused by weather, natural disasters, actions of public authorities or other circumstances beyond our control."
+    },
+    "changes": {
+      "title": "Changes to these terms",
+      "text": "We may update these terms from time to time. The current version will always be available on this page."
+    },
+    "law": {
+      "title": "Applicable law",
+      "text": "These terms are governed by the laws of the Republic of Latvia. Disputes are resolved by the competent courts of the Republic of Latvia."
+    },
+    "contact": {
+      "title": "Contact",
+      "text": "Questions about these terms: info@socialtech.lv, +371 20042830."
     }
   }
 }
