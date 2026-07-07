@@ -116,7 +116,17 @@ function ServiceDetail() {
     <>
       {/* Hero */}
       <section className="relative -mt-16 flex min-h-[62vh] items-end overflow-hidden md:-mt-20 md:min-h-[72vh]">
-        <img src={HERO} alt={title} className="absolute inset-0 h-full w-full object-cover" />
+        <img
+          src={HERO}
+          alt={serviceImageAlt({
+            title,
+            location: service.location_name,
+            category: pickPrimaryCategory({
+              enter_gauja_categories: service.enter_gauja_categories,
+            }) ?? defaultCategoryForType(service.type),
+          })}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/20 to-ink/75" />
         <div className="container-editorial relative z-10 pb-14 pt-32 text-paper md:pb-20 md:pt-40">
           {/* Breadcrumbs */}
@@ -205,6 +215,14 @@ function ServiceDetail() {
           </aside>
         </div>
       </section>
+
+      {/* Enter Gauja backlink (guidelines p.29) */}
+      <EnterGaujaBacklinkBlock
+        category={
+          pickPrimaryCategory({ enter_gauja_categories: service.enter_gauja_categories }) ??
+          defaultCategoryForType(service.type)
+        }
+      />
     </>
   );
 }
