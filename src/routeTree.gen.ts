@@ -12,6 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LangRouteRouteImport } from './routes/$lang/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LangIndexRouteImport } from './routes/$lang/index'
+import { Route as LangTransfersRouteImport } from './routes/$lang/transfers'
+import { Route as LangToursRouteImport } from './routes/$lang/tours'
+import { Route as LangPrivacyRouteImport } from './routes/$lang/privacy'
+import { Route as LangHikingRouteImport } from './routes/$lang/hiking'
+import { Route as LangFaqRouteImport } from './routes/$lang/faq'
+import { Route as LangContactRouteImport } from './routes/$lang/contact'
+import { Route as LangBookRouteImport } from './routes/$lang/book'
+import { Route as LangAboutRouteImport } from './routes/$lang/about'
+import { Route as LangSSlugRouteImport } from './routes/$lang/s.$slug'
+import { Route as LangBookConfirmedRefRouteImport } from './routes/$lang/book.confirmed.$ref'
 
 const LangRouteRoute = LangRouteRouteImport.update({
   id: '/$lang',
@@ -28,28 +38,147 @@ const LangIndexRoute = LangIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LangRouteRoute,
 } as any)
+const LangTransfersRoute = LangTransfersRouteImport.update({
+  id: '/transfers',
+  path: '/transfers',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+const LangToursRoute = LangToursRouteImport.update({
+  id: '/tours',
+  path: '/tours',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+const LangPrivacyRoute = LangPrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+const LangHikingRoute = LangHikingRouteImport.update({
+  id: '/hiking',
+  path: '/hiking',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+const LangFaqRoute = LangFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+const LangContactRoute = LangContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+const LangBookRoute = LangBookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+const LangAboutRoute = LangAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+const LangSSlugRoute = LangSSlugRouteImport.update({
+  id: '/s/$slug',
+  path: '/s/$slug',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+const LangBookConfirmedRefRoute = LangBookConfirmedRefRouteImport.update({
+  id: '/confirmed/$ref',
+  path: '/confirmed/$ref',
+  getParentRoute: () => LangBookRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$lang': typeof LangRouteRouteWithChildren
+  '/$lang/about': typeof LangAboutRoute
+  '/$lang/book': typeof LangBookRouteWithChildren
+  '/$lang/contact': typeof LangContactRoute
+  '/$lang/faq': typeof LangFaqRoute
+  '/$lang/hiking': typeof LangHikingRoute
+  '/$lang/privacy': typeof LangPrivacyRoute
+  '/$lang/tours': typeof LangToursRoute
+  '/$lang/transfers': typeof LangTransfersRoute
   '/$lang/': typeof LangIndexRoute
+  '/$lang/s/$slug': typeof LangSSlugRoute
+  '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$lang/about': typeof LangAboutRoute
+  '/$lang/book': typeof LangBookRouteWithChildren
+  '/$lang/contact': typeof LangContactRoute
+  '/$lang/faq': typeof LangFaqRoute
+  '/$lang/hiking': typeof LangHikingRoute
+  '/$lang/privacy': typeof LangPrivacyRoute
+  '/$lang/tours': typeof LangToursRoute
+  '/$lang/transfers': typeof LangTransfersRoute
   '/$lang': typeof LangIndexRoute
+  '/$lang/s/$slug': typeof LangSSlugRoute
+  '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$lang': typeof LangRouteRouteWithChildren
+  '/$lang/about': typeof LangAboutRoute
+  '/$lang/book': typeof LangBookRouteWithChildren
+  '/$lang/contact': typeof LangContactRoute
+  '/$lang/faq': typeof LangFaqRoute
+  '/$lang/hiking': typeof LangHikingRoute
+  '/$lang/privacy': typeof LangPrivacyRoute
+  '/$lang/tours': typeof LangToursRoute
+  '/$lang/transfers': typeof LangTransfersRoute
   '/$lang/': typeof LangIndexRoute
+  '/$lang/s/$slug': typeof LangSSlugRoute
+  '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$lang' | '/$lang/'
+  fullPaths:
+    | '/'
+    | '/$lang'
+    | '/$lang/about'
+    | '/$lang/book'
+    | '/$lang/contact'
+    | '/$lang/faq'
+    | '/$lang/hiking'
+    | '/$lang/privacy'
+    | '/$lang/tours'
+    | '/$lang/transfers'
+    | '/$lang/'
+    | '/$lang/s/$slug'
+    | '/$lang/book/confirmed/$ref'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$lang'
-  id: '__root__' | '/' | '/$lang' | '/$lang/'
+  to:
+    | '/'
+    | '/$lang/about'
+    | '/$lang/book'
+    | '/$lang/contact'
+    | '/$lang/faq'
+    | '/$lang/hiking'
+    | '/$lang/privacy'
+    | '/$lang/tours'
+    | '/$lang/transfers'
+    | '/$lang'
+    | '/$lang/s/$slug'
+    | '/$lang/book/confirmed/$ref'
+  id:
+    | '__root__'
+    | '/'
+    | '/$lang'
+    | '/$lang/about'
+    | '/$lang/book'
+    | '/$lang/contact'
+    | '/$lang/faq'
+    | '/$lang/hiking'
+    | '/$lang/privacy'
+    | '/$lang/tours'
+    | '/$lang/transfers'
+    | '/$lang/'
+    | '/$lang/s/$slug'
+    | '/$lang/book/confirmed/$ref'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,15 +209,115 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangIndexRouteImport
       parentRoute: typeof LangRouteRoute
     }
+    '/$lang/transfers': {
+      id: '/$lang/transfers'
+      path: '/transfers'
+      fullPath: '/$lang/transfers'
+      preLoaderRoute: typeof LangTransfersRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
+    '/$lang/tours': {
+      id: '/$lang/tours'
+      path: '/tours'
+      fullPath: '/$lang/tours'
+      preLoaderRoute: typeof LangToursRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
+    '/$lang/privacy': {
+      id: '/$lang/privacy'
+      path: '/privacy'
+      fullPath: '/$lang/privacy'
+      preLoaderRoute: typeof LangPrivacyRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
+    '/$lang/hiking': {
+      id: '/$lang/hiking'
+      path: '/hiking'
+      fullPath: '/$lang/hiking'
+      preLoaderRoute: typeof LangHikingRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
+    '/$lang/faq': {
+      id: '/$lang/faq'
+      path: '/faq'
+      fullPath: '/$lang/faq'
+      preLoaderRoute: typeof LangFaqRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
+    '/$lang/contact': {
+      id: '/$lang/contact'
+      path: '/contact'
+      fullPath: '/$lang/contact'
+      preLoaderRoute: typeof LangContactRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
+    '/$lang/book': {
+      id: '/$lang/book'
+      path: '/book'
+      fullPath: '/$lang/book'
+      preLoaderRoute: typeof LangBookRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
+    '/$lang/about': {
+      id: '/$lang/about'
+      path: '/about'
+      fullPath: '/$lang/about'
+      preLoaderRoute: typeof LangAboutRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
+    '/$lang/s/$slug': {
+      id: '/$lang/s/$slug'
+      path: '/s/$slug'
+      fullPath: '/$lang/s/$slug'
+      preLoaderRoute: typeof LangSSlugRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
+    '/$lang/book/confirmed/$ref': {
+      id: '/$lang/book/confirmed/$ref'
+      path: '/confirmed/$ref'
+      fullPath: '/$lang/book/confirmed/$ref'
+      preLoaderRoute: typeof LangBookConfirmedRefRouteImport
+      parentRoute: typeof LangBookRoute
+    }
   }
 }
 
+interface LangBookRouteChildren {
+  LangBookConfirmedRefRoute: typeof LangBookConfirmedRefRoute
+}
+
+const LangBookRouteChildren: LangBookRouteChildren = {
+  LangBookConfirmedRefRoute: LangBookConfirmedRefRoute,
+}
+
+const LangBookRouteWithChildren = LangBookRoute._addFileChildren(
+  LangBookRouteChildren,
+)
+
 interface LangRouteRouteChildren {
+  LangAboutRoute: typeof LangAboutRoute
+  LangBookRoute: typeof LangBookRouteWithChildren
+  LangContactRoute: typeof LangContactRoute
+  LangFaqRoute: typeof LangFaqRoute
+  LangHikingRoute: typeof LangHikingRoute
+  LangPrivacyRoute: typeof LangPrivacyRoute
+  LangToursRoute: typeof LangToursRoute
+  LangTransfersRoute: typeof LangTransfersRoute
   LangIndexRoute: typeof LangIndexRoute
+  LangSSlugRoute: typeof LangSSlugRoute
 }
 
 const LangRouteRouteChildren: LangRouteRouteChildren = {
+  LangAboutRoute: LangAboutRoute,
+  LangBookRoute: LangBookRouteWithChildren,
+  LangContactRoute: LangContactRoute,
+  LangFaqRoute: LangFaqRoute,
+  LangHikingRoute: LangHikingRoute,
+  LangPrivacyRoute: LangPrivacyRoute,
+  LangToursRoute: LangToursRoute,
+  LangTransfersRoute: LangTransfersRoute,
   LangIndexRoute: LangIndexRoute,
+  LangSSlugRoute: LangSSlugRoute,
 }
 
 const LangRouteRouteWithChildren = LangRouteRoute._addFileChildren(
