@@ -242,14 +242,15 @@ export function Header() {
                 {t(`nav.${item.key}`)}
               </Link>
             ))}
-            <Link
-              to="/$lang/book"
-              params={{ lang }}
-              onClick={() => setMobileOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground"
-            >
-              {t("cta.book_now")}
-            </Link>
+            <Button asChild className="mt-2 w-full">
+              <Link
+                to="/$lang/book"
+                params={{ lang }}
+                onClick={() => setMobileOpen(false)}
+              >
+                {t("cta.book_now")}
+              </Link>
+            </Button>
           </nav>
         </div>
       )}
