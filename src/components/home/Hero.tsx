@@ -28,7 +28,7 @@ export function Hero() {
       />
       <div className="container-editorial relative z-10 pb-16 pt-32 text-paper md:pb-24 md:pt-40">
         <p className="text-eyebrow text-paper/90">Gauja · Sigulda · Cēsis · Līgatne</p>
-        <h1 className="mt-4 max-w-3xl font-display text-4xl leading-[1.05] md:text-6xl lg:text-7xl">
+        <h1 className="mt-4 max-w-3xl font-display text-4xl leading-[1.05] text-paper drop-shadow-md md:text-6xl lg:text-7xl">
           {headline || t("home.categories_title")}
         </h1>
         <p className="mt-6 max-w-xl text-base text-paper/85 md:text-lg">{subline}</p>
