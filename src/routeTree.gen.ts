@@ -14,9 +14,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LangIndexRouteImport } from './routes/$lang/index'
 import { Route as LangTransfersRouteImport } from './routes/$lang/transfers'
 import { Route as LangToursRouteImport } from './routes/$lang/tours'
+import { Route as LangTermsRouteImport } from './routes/$lang/terms'
 import { Route as LangPrivacyRouteImport } from './routes/$lang/privacy'
 import { Route as LangHikingRouteImport } from './routes/$lang/hiking'
 import { Route as LangFaqRouteImport } from './routes/$lang/faq'
+import { Route as LangCookiesRouteImport } from './routes/$lang/cookies'
 import { Route as LangContactRouteImport } from './routes/$lang/contact'
 import { Route as LangBookRouteImport } from './routes/$lang/book'
 import { Route as LangAboutRouteImport } from './routes/$lang/about'
@@ -48,6 +50,11 @@ const LangToursRoute = LangToursRouteImport.update({
   path: '/tours',
   getParentRoute: () => LangRouteRoute,
 } as any)
+const LangTermsRoute = LangTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => LangRouteRoute,
+} as any)
 const LangPrivacyRoute = LangPrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -61,6 +68,11 @@ const LangHikingRoute = LangHikingRouteImport.update({
 const LangFaqRoute = LangFaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+const LangCookiesRoute = LangCookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
   getParentRoute: () => LangRouteRoute,
 } as any)
 const LangContactRoute = LangContactRouteImport.update({
@@ -95,9 +107,11 @@ export interface FileRoutesByFullPath {
   '/$lang/about': typeof LangAboutRoute
   '/$lang/book': typeof LangBookRouteWithChildren
   '/$lang/contact': typeof LangContactRoute
+  '/$lang/cookies': typeof LangCookiesRoute
   '/$lang/faq': typeof LangFaqRoute
   '/$lang/hiking': typeof LangHikingRoute
   '/$lang/privacy': typeof LangPrivacyRoute
+  '/$lang/terms': typeof LangTermsRoute
   '/$lang/tours': typeof LangToursRoute
   '/$lang/transfers': typeof LangTransfersRoute
   '/$lang/': typeof LangIndexRoute
@@ -109,9 +123,11 @@ export interface FileRoutesByTo {
   '/$lang/about': typeof LangAboutRoute
   '/$lang/book': typeof LangBookRouteWithChildren
   '/$lang/contact': typeof LangContactRoute
+  '/$lang/cookies': typeof LangCookiesRoute
   '/$lang/faq': typeof LangFaqRoute
   '/$lang/hiking': typeof LangHikingRoute
   '/$lang/privacy': typeof LangPrivacyRoute
+  '/$lang/terms': typeof LangTermsRoute
   '/$lang/tours': typeof LangToursRoute
   '/$lang/transfers': typeof LangTransfersRoute
   '/$lang': typeof LangIndexRoute
@@ -125,9 +141,11 @@ export interface FileRoutesById {
   '/$lang/about': typeof LangAboutRoute
   '/$lang/book': typeof LangBookRouteWithChildren
   '/$lang/contact': typeof LangContactRoute
+  '/$lang/cookies': typeof LangCookiesRoute
   '/$lang/faq': typeof LangFaqRoute
   '/$lang/hiking': typeof LangHikingRoute
   '/$lang/privacy': typeof LangPrivacyRoute
+  '/$lang/terms': typeof LangTermsRoute
   '/$lang/tours': typeof LangToursRoute
   '/$lang/transfers': typeof LangTransfersRoute
   '/$lang/': typeof LangIndexRoute
@@ -142,9 +160,11 @@ export interface FileRouteTypes {
     | '/$lang/about'
     | '/$lang/book'
     | '/$lang/contact'
+    | '/$lang/cookies'
     | '/$lang/faq'
     | '/$lang/hiking'
     | '/$lang/privacy'
+    | '/$lang/terms'
     | '/$lang/tours'
     | '/$lang/transfers'
     | '/$lang/'
@@ -156,9 +176,11 @@ export interface FileRouteTypes {
     | '/$lang/about'
     | '/$lang/book'
     | '/$lang/contact'
+    | '/$lang/cookies'
     | '/$lang/faq'
     | '/$lang/hiking'
     | '/$lang/privacy'
+    | '/$lang/terms'
     | '/$lang/tours'
     | '/$lang/transfers'
     | '/$lang'
@@ -171,9 +193,11 @@ export interface FileRouteTypes {
     | '/$lang/about'
     | '/$lang/book'
     | '/$lang/contact'
+    | '/$lang/cookies'
     | '/$lang/faq'
     | '/$lang/hiking'
     | '/$lang/privacy'
+    | '/$lang/terms'
     | '/$lang/tours'
     | '/$lang/transfers'
     | '/$lang/'
@@ -223,6 +247,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangToursRouteImport
       parentRoute: typeof LangRouteRoute
     }
+    '/$lang/terms': {
+      id: '/$lang/terms'
+      path: '/terms'
+      fullPath: '/$lang/terms'
+      preLoaderRoute: typeof LangTermsRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
     '/$lang/privacy': {
       id: '/$lang/privacy'
       path: '/privacy'
@@ -242,6 +273,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/$lang/faq'
       preLoaderRoute: typeof LangFaqRouteImport
+      parentRoute: typeof LangRouteRoute
+    }
+    '/$lang/cookies': {
+      id: '/$lang/cookies'
+      path: '/cookies'
+      fullPath: '/$lang/cookies'
+      preLoaderRoute: typeof LangCookiesRouteImport
       parentRoute: typeof LangRouteRoute
     }
     '/$lang/contact': {
@@ -298,9 +336,11 @@ interface LangRouteRouteChildren {
   LangAboutRoute: typeof LangAboutRoute
   LangBookRoute: typeof LangBookRouteWithChildren
   LangContactRoute: typeof LangContactRoute
+  LangCookiesRoute: typeof LangCookiesRoute
   LangFaqRoute: typeof LangFaqRoute
   LangHikingRoute: typeof LangHikingRoute
   LangPrivacyRoute: typeof LangPrivacyRoute
+  LangTermsRoute: typeof LangTermsRoute
   LangToursRoute: typeof LangToursRoute
   LangTransfersRoute: typeof LangTransfersRoute
   LangIndexRoute: typeof LangIndexRoute
@@ -311,9 +351,11 @@ const LangRouteRouteChildren: LangRouteRouteChildren = {
   LangAboutRoute: LangAboutRoute,
   LangBookRoute: LangBookRouteWithChildren,
   LangContactRoute: LangContactRoute,
+  LangCookiesRoute: LangCookiesRoute,
   LangFaqRoute: LangFaqRoute,
   LangHikingRoute: LangHikingRoute,
   LangPrivacyRoute: LangPrivacyRoute,
+  LangTermsRoute: LangTermsRoute,
   LangToursRoute: LangToursRoute,
   LangTransfersRoute: LangTransfersRoute,
   LangIndexRoute: LangIndexRoute,
