@@ -185,5 +185,107 @@
       "title": "Contáctanos",
       "text": "Si tienes alguna pregunta sobre esta política de privacidad o tus datos personales, contáctanos en info@socialtech.lv o por teléfono al +371 20042830."
     }
+  },
+  "consent": {
+    "title": "Usamos cookies",
+    "body": "Usamos cookies esenciales para que el sitio funcione y cookies opcionales para analizar el tráfico y mejorar tu experiencia. Elige qué permitir.",
+    "accept_all": "Aceptar todas",
+    "reject": "Solo necesarias",
+    "customize": "Personalizar",
+    "save": "Guardar elección",
+    "necessary": "Necesarias",
+    "necessary_desc": "Funciones esenciales del sitio. No se pueden desactivar.",
+    "analytics": "Analítica",
+    "analytics_desc": "Nos ayuda a entender cómo los visitantes usan el sitio.",
+    "marketing": "Marketing",
+    "marketing_desc": "Anuncios personalizados y medición de contenido.",
+    "learn_more": "Más información",
+    "settings_title": "Ajustes de cookies"
+  },
+  "cookies": {
+    "title": "Política de cookies",
+    "updated": "Última actualización: {{date}}",
+    "intro": "Esta política explica cómo Wanderlust.lv usa cookies y tecnologías similares cuando visitas nuestro sitio web.",
+    "what": {
+      "title": "Qué son las cookies",
+      "text": "Las cookies son pequeños archivos de texto que tu navegador guarda en tu dispositivo para que el sitio recuerde tus preferencias y recopile estadísticas."
+    },
+    "types": {
+      "title": "Cookies que usamos",
+      "necessary": "Necesarias — permiten que el sitio funcione, la selección de idioma y la seguridad. No se pueden desactivar.",
+      "analytics": "Analítica — nos ayudan a entender cómo se usa el sitio (por ejemplo, Google Analytics). Solo se activan con tu consentimiento.",
+      "marketing": "Marketing — miden la eficacia de los anuncios y personalizan el contenido. Solo se activan con tu consentimiento."
+    },
+    "retention": {
+      "title": "Cuánto tiempo se conservan",
+      "text": "Las cookies de sesión se eliminan al cerrar el navegador. Las cookies persistentes se conservan hasta 12 meses, salvo que las elimines antes."
+    },
+    "manage": {
+      "title": "Cómo gestionar las cookies",
+      "text": "Puedes cambiar tu elección en cualquier momento abriendo los ajustes de cookies. También puedes gestionar o eliminar las cookies desde la configuración del navegador.",
+      "button": "Abrir ajustes de cookies"
+    },
+    "changes": {
+      "title": "Cambios en esta política",
+      "text": "Podemos actualizar esta política. La versión vigente estará siempre disponible en esta página."
+    },
+    "contact": {
+      "title": "Contacto",
+      "text": "Preguntas sobre cookies: info@socialtech.lv, +371 20042830."
+    }
+  },
+  "terms": {
+    "title": "Términos del servicio",
+    "updated": "Última actualización: {{date}}",
+    "intro": "Estos términos regulan el uso del sitio web y los servicios de Wanderlust.lv. Al usar el sitio, aceptas estos términos.",
+    "provider": {
+      "title": "Prestador del servicio",
+      "text": "Wanderlust.lv es operado por social.tech SIA (Reg. 40203514705, IVA LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Letonia) en nombre de Ilze Gulbe (SIA \"Creatus Real Estate\"). Contacto: info@socialtech.lv, +371 20042830."
+    },
+    "services": {
+      "title": "Servicios",
+      "text": "El sitio ofrece información sobre excursiones guiadas, caminatas y traslados en el Valle del Gauja y permite enviar solicitudes de reserva. Una reserva se considera confirmada solo tras recibir confirmación por escrito."
+    },
+    "booking": {
+      "title": "Reservas y pagos",
+      "items": [
+        "Una solicitud de reserva no es un contrato hasta que se confirma.",
+        "Los precios se muestran en EUR, incluidos los impuestos aplicables.",
+        "Las condiciones de pago y cancelación se comunican antes de confirmar la reserva.",
+        "La ropa, el calzado y la forma física adecuados son responsabilidad del visitante."
+      ]
+    },
+    "user": {
+      "title": "Obligaciones del usuario",
+      "items": [
+        "Proporcionar información veraz y precisa al reservar.",
+        "Seguir las instrucciones del guía y las normas de seguridad durante la excursión.",
+        "No usar el sitio con fines ilícitos ni para alterar su funcionamiento."
+      ]
+    },
+    "ip": {
+      "title": "Propiedad intelectual",
+      "text": "Todo el contenido del sitio — textos, imágenes, logotipos y diseño — está protegido por derechos de autor y pertenece a social.tech SIA o a sus socios. Se prohíbe la reproducción sin autorización por escrito."
+    },
+    "liability": {
+      "title": "Limitación de responsabilidad",
+      "text": "Nos esforzamos por ofrecer información precisa, pero no garantizamos su total corrección. En la máxima medida permitida por la ley, no somos responsables de daños indirectos derivados del uso del sitio o los servicios, salvo en casos de negligencia grave o dolo."
+    },
+    "force": {
+      "title": "Fuerza mayor",
+      "text": "No somos responsables del incumplimiento de obligaciones causado por el clima, catástrofes naturales, acciones de autoridades públicas u otras circunstancias fuera de nuestro control."
+    },
+    "changes": {
+      "title": "Cambios en los términos",
+      "text": "Podemos actualizar estos términos periódicamente. La versión vigente estará siempre disponible en esta página."
+    },
+    "law": {
+      "title": "Ley aplicable",
+      "text": "Estos términos se rigen por las leyes de la República de Letonia. Los litigios se resolverán ante los tribunales competentes de la República de Letonia."
+    },
+    "contact": {
+      "title": "Contacto",
+      "text": "Preguntas sobre estos términos: info@socialtech.lv, +371 20042830."
+    }
   }
 }
