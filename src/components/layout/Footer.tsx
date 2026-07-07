@@ -127,25 +127,24 @@ export function Footer() {
       </div>
 
       <div className="border-t border-border/50">
-
         <div className="container-editorial flex flex-col items-start justify-between gap-3 py-5 text-xs text-ink-muted md:flex-row md:items-center">
-          <p>{t("footer.rights", { year })}</p>
+          <p>{t("footer.rights", { year, defaultValue: `© ${year} Wanderlust.lv` })}</p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <Link to="/$lang/privacy" params={{ lang }} className="hover:text-foreground">
-              {t("footer.privacy")}
+              {LEGAL_LABELS[lang].privacy}
             </Link>
             <Link to="/$lang/cookies" params={{ lang }} className="hover:text-foreground">
-              {t("footer.cookies")}
+              {LEGAL_LABELS[lang].cookies}
             </Link>
             <Link to="/$lang/terms" params={{ lang }} className="hover:text-foreground">
-              {t("footer.terms")}
+              {LEGAL_LABELS[lang].terms}
             </Link>
             <button
               type="button"
               onClick={openConsentSettings}
               className="hover:text-foreground"
             >
-              {t("footer.manage_cookies")}
+              {LEGAL_LABELS[lang].manage}
             </button>
           </div>
         </div>
@@ -153,3 +152,24 @@ export function Footer() {
     </footer>
   );
 }
+
+const LEGAL_LABELS = {
+  lv: {
+    privacy: "Privātuma politika",
+    cookies: "Sīkdatņu politika",
+    terms: "Lietošanas noteikumi",
+    manage: "Sīkdatņu iestatījumi",
+  },
+  en: {
+    privacy: "Privacy policy",
+    cookies: "Cookie policy",
+    terms: "Terms of service",
+    manage: "Cookie preferences",
+  },
+  es: {
+    privacy: "Política de privacidad",
+    cookies: "Política de cookies",
+    terms: "Términos del servicio",
+    manage: "Preferencias de cookies",
+  },
+} as const;
