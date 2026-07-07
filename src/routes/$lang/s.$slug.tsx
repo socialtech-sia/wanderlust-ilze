@@ -43,17 +43,13 @@ export const Route = createFileRoute("/$lang/s/$slug")({
     const short =
       tField(loaderData, "short_description", lang) ||
       tField(loaderData, "description", lang).slice(0, 155);
-    const cat =
-      pickPrimaryCategory({
-        enter_gauja_categories: loaderData.enter_gauja_categories as string[] | null,
-        category: loaderData.category as string | null,
-      }) ?? defaultCategoryForType(loaderData.type as string);
+    const cat = pickPrimaryCategory({
+      enter_gauja_categories: (loaderData.enter_gauja_categories as string[] | null) ?? null,
+    }) ?? defaultCategoryForType(loaderData.type as string);
     const canonicalSlug = tSlug(loaderData, lang) || params.slug;
     const path = `/s/${canonicalSlug}`;
     const image =
-      (loaderData.hero_image_url as string | null) ??
-      (loaderData.cover_image_url as string | null) ??
-      undefined;
+      (loaderData.hero_image_storage_path as string | null) ?? undefined;
     const jsonLd: object[] = [
       buildBreadcrumbList(lang, [
         { name: "Home", path: "/" },
@@ -73,8 +69,8 @@ export const Route = createFileRoute("/$lang/s/$slug")({
           priceEur:
             loaderData.price_from_eur != null ? Number(loaderData.price_from_eur) : null,
           locationName: (loaderData.location_name as string | null) ?? null,
-          latitude: (loaderData.latitude as number | null) ?? null,
-          longitude: (loaderData.longitude as number | null) ?? null,
+          latitude: (loaderData.location_lat as number | null) ?? null,
+          longitude: (loaderData.location_lng as number | null) ?? null,
         }),
       );
     }
