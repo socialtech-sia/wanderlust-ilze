@@ -63,13 +63,13 @@ export function Header() {
         <Link
           to="/$lang"
           params={{ lang }}
-          className="font-display text-2xl tracking-tight text-foreground transition-colors"
+          className="font-display text-2xl tracking-tight text-foreground text-shadow-sm transition-colors"
           aria-label="Wanderlust.lv"
         >
           Wanderlust<span className="text-moss">.</span>lv
         </Link>
 
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-7 text-shadow-sm md:flex">
           {NAV.map((item) => {
             const active = !!matchRoute({ to: item.to, params: { lang } });
             return (
@@ -102,10 +102,10 @@ export function Header() {
           <button
             type="button"
             aria-label="Menu"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-foreground md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-foreground text-shadow-sm transition-colors md:hidden"
             onClick={() => setMobileOpen((v) => !v)}
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileOpen ? <X className="h-5 w-5 drop-shadow-text" /> : <Menu className="h-5 w-5 drop-shadow-text" />}
           </button>
         </div>
       </div>
