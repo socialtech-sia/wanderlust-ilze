@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 
 export const Route = createFileRoute("/$lang/book/confirmed/$ref")({
@@ -24,13 +25,11 @@ function Confirmed() {
           <p className="mt-1 font-display text-2xl tracking-widest text-foreground">{ref}</p>
         </div>
         <p className="mt-4 text-xs text-ink-muted">{t("booking.save_code")}</p>
-        <Link
-          to="/$lang"
-          params={{ lang }}
-          className="mt-10 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-        >
-          {t("booking.back_home")}
-        </Link>
+        <Button asChild className="mt-10">
+          <Link to="/$lang" params={{ lang }}>
+            {t("booking.back_home")}
+          </Link>
+        </Button>
       </div>
     </div>
   );
