@@ -173,7 +173,7 @@ export function Header() {
         aria-hidden="true"
       />
 
-      <div className="container-editorial flex h-14 items-center justify-between md:h-20">
+      <div className="container-editorial relative z-10 flex h-14 items-center justify-between md:h-20">
         <Link
           to="/$lang"
           params={{ lang }}
@@ -229,7 +229,7 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-border/60 bg-background/95 backdrop-blur-xl md:hidden">
+        <div className="relative z-10 border-t border-border/60 bg-background/95 backdrop-blur-xl md:hidden">
           <nav className="container-editorial flex flex-col gap-1 py-4">
             {NAV.map((item) => (
               <Link
