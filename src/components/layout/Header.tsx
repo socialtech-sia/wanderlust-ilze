@@ -47,19 +47,19 @@ export function Header() {
     <header className="fixed left-0 right-0 top-0 z-40">
       <div
         className={cn(
-          "pointer-events-none absolute left-0 right-0 top-0 mx-4 rounded-full border border-white/10 bg-background/45 shadow-lg shadow-black/5 transition-all duration-300 ease-out will-change-[transform,opacity,backdrop-filter]",
-          "md:mx-auto md:max-w-4xl lg:max-w-5xl",
+          "pointer-events-none absolute left-0 right-0 top-2 mx-3 rounded-full border border-white/10 bg-background/45 shadow-lg shadow-black/5 transition-all duration-300 ease-out will-change-[transform,opacity,backdrop-filter]",
+          "md:top-3 md:mx-4 md:mx-auto md:max-w-4xl lg:max-w-5xl",
         )}
         style={{
           opacity: scrollProgress,
           transform: `translateY(${(1 - scrollProgress) * -10}px) scale(${0.98 + scrollProgress * 0.02})`,
-          backdropFilter: `blur(${scrollProgress * 12}px)`,
-          WebkitBackdropFilter: `blur(${scrollProgress * 12}px)`,
+          backdropFilter: `blur(${blurPx}px)`,
+          WebkitBackdropFilter: `blur(${blurPx}px)`,
         }}
         aria-hidden="true"
       />
 
-      <div className="container-editorial flex h-16 items-center justify-between md:h-20">
+      <div className="container-editorial flex h-14 items-center justify-between md:h-20">
         <Link
           to="/$lang"
           params={{ lang }}
