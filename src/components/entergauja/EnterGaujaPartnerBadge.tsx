@@ -7,6 +7,7 @@
 
 import { useEffect, useState } from "react";
 import {
+  EG_LOGO_ASSET,
   ENTER_GAUJA_ROOT_URL,
   type EnterGaujaCategoryInfo,
 } from "@/lib/enter-gauja";
@@ -38,24 +39,20 @@ export function EnterGaujaPartnerBadge({ category, href }: Props) {
       aria-label={`Enter Gauja${category ? ` — ${category.label}` : ""}`}
       className={[
         "eg-badge fixed right-0 top-[120px] z-40 hidden w-[132px] shadow-[0_2px_10px_rgba(0,0,0,0.15)] transition-all duration-300 md:block",
-        "max-md:fixed max-md:bottom-[90px] max-md:top-auto max-md:w-[96px]",
         visible ? "opacity-100 translate-x-0" : "pointer-events-none opacity-0 translate-x-4",
       ].join(" ")}
     >
       <img
-        src={EG_LOGO_ASSET_URL}
+        src={EG_LOGO_ASSET.url}
         alt="Enter Gauja — Gauja National Park Latvia"
-        className="block w-full"
+        className="block w-full bg-white"
         loading="lazy"
         decoding="async"
       />
       {category && (
         <span
           className="font-eg-plate flex h-[30px] items-center justify-center text-[14px] font-bold uppercase text-white"
-          style={{
-            backgroundColor: category.color,
-            letterSpacing: "0.02em",
-          }}
+          style={{ backgroundColor: category.color, letterSpacing: "0.02em" }}
         >
           {category.label}
         </span>
@@ -63,11 +60,6 @@ export function EnterGaujaPartnerBadge({ category, href }: Props) {
     </a>
   );
 }
-
-// Local re-export to avoid a duplicate <EnterGaujaLogo/> component tree for a
-// tiny image. Import at module scope for SSR.
-import { EG_LOGO_ASSET } from "@/lib/enter-gauja";
-const EG_LOGO_ASSET_URL = EG_LOGO_ASSET.url;
 
 /** Compact horizontal variant — inline / footer use. */
 export function EnterGaujaPartnerChip({
