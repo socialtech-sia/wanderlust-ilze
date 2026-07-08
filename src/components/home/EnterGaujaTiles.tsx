@@ -38,16 +38,14 @@ export function EnterGaujaTiles() {
                 className="absolute left-0 top-0 h-full w-1"
                 style={{ backgroundColor: color }}
               />
+              <EnterGaujaGlyph category={key} className="h-16 w-16" size={64} />
               <span
-                className="inline-flex h-12 w-12 items-center justify-center rounded-xl text-white"
-                style={{ backgroundColor: color }}
+                className="font-eg-plate mt-4 inline-flex self-start px-3 py-1 text-[11px] font-bold uppercase text-white"
+                style={{ backgroundColor: color, letterSpacing: "0.02em" }}
               >
-                <EnterGaujaGlyph category={key} className="h-6 w-6" />
-              </span>
-              <h3 className="mt-5 font-display text-xl text-foreground">
                 {tField(cat, "name", lang)}
-              </h3>
-              <p className="mt-2 text-sm text-ink-muted">
+              </span>
+              <p className="mt-3 text-sm text-ink-muted">
                 {tField(cat, "description", lang)}
               </p>
               <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-ink-muted">

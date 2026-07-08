@@ -1,6 +1,7 @@
 /**
- * "Sadarbība ar Enter Gauja" opening ribbon — decorative chevron strip in the
- * category color, echoing the top-of-block marker from brand book page 19.
+ * "Sadarbība ar Enter Gauja" ribbon — rectangular category-color strip
+ * with the label in DIN Pro Bold white (guidelines §1: plate corners
+ * must not be rounded).
  */
 
 export function EnterGaujaRibbon({
@@ -13,25 +14,13 @@ export function EnterGaujaRibbon({
   className?: string;
 }) {
   return (
-    <div className={["relative flex justify-center", className].filter(Boolean).join(" ")}>
-      <div
-        className="relative inline-flex items-center gap-2 px-6 py-2 text-white"
-        style={{
-          backgroundColor: color,
-          fontFamily: "'Barlow Condensed', 'DIN Alternate', sans-serif",
-          fontWeight: 700,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          fontSize: "12px",
-          clipPath:
-            "polygon(6% 0, 94% 0, 100% 55%, 94% 100%, 6% 100%, 0 55%)",
-        }}
-      >
-        <svg viewBox="0 0 12 8" className="h-2 w-3" fill="currentColor" aria-hidden>
-          <polygon points="0,8 6,0 12,8" />
-        </svg>
-        {label}
-      </div>
+    <div
+      className={["font-eg-plate flex items-center justify-center px-6 py-2 text-[12px] font-bold uppercase text-white", className]
+        .filter(Boolean)
+        .join(" ")}
+      style={{ backgroundColor: color, letterSpacing: "0.08em" }}
+    >
+      {label}
     </div>
   );
 }

@@ -166,3 +166,10 @@
   filter: drop-shadow(0 1px 2px color-mix(in oklab, var(--background) 80%, transparent));
 }
 
+
+/* Enter Gauja plate/label — DIN Pro Bold with web fallbacks (guidelines §1). */
+@utility font-eg-plate {
+  font-family: "DIN Pro", "Barlow Semi Condensed", "Barlow Condensed", "Archivo", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
