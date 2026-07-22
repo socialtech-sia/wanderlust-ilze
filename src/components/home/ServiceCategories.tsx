@@ -9,18 +9,21 @@ const CATEGORIES = [
     to: "/$lang/tours" as const,
     icon: Compass,
     img: "https://images.unsplash.com/photo-1568486004327-9e2af64ac2ac?auto=format&fit=crop&w=1600&q=70",
+    alt: "Turaida medieval castle tower rising above the Gauja valley",
   },
   {
     key: "hiking" as const,
     to: "/$lang/hiking" as const,
     icon: Mountain,
     img: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1600&q=70",
+    alt: "Forest hiking trail winding through Gauja National Park pines",
   },
   {
     key: "transfers" as const,
     to: "/$lang/transfers" as const,
     icon: Car,
     img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1600&q=70",
+    alt: "Scenic Latvian countryside road used for private transfers",
   },
 ];
 
@@ -65,7 +68,7 @@ export function ServiceCategories() {
             >
               <img
                 src={c.img}
-                alt=""
+                alt={c.alt}
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
               />

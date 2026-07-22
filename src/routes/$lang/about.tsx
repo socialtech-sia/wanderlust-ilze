@@ -24,7 +24,7 @@ function AboutPage() {
       <section className="relative -mt-16 min-h-[42vh] overflow-hidden md:-mt-20 md:min-h-[52vh]">
         <img
           src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1920&q=70"
-          alt=""
+          alt="Misty Gauja river valley at sunrise, seen from Sigulda ridge"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/20 to-ink/70" />

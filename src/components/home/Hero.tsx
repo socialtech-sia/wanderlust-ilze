@@ -22,7 +22,7 @@ export function Hero() {
 
       <img
         src={heroImg}
-        alt=""
+        alt="Aerial view of the Gauja river valley with sandstone cliffs and pine forest, Sigulda, Latvia"
         width={1920}
         height={1280}
         className="absolute inset-0 h-full w-full object-cover"
