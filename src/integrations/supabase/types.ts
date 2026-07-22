@@ -127,7 +127,7 @@ export type Database = {
           reference_code: string
           requested_date: string
           requested_time: string | null
-          service_id: string | null
+          service_id: string
           service_snapshot: Json | null
           status: Database["public"]["Enums"]["booking_status"]
           updated_at: string
@@ -152,7 +152,7 @@ export type Database = {
           reference_code?: string
           requested_date: string
           requested_time?: string | null
-          service_id?: string | null
+          service_id: string
           service_snapshot?: Json | null
           status?: Database["public"]["Enums"]["booking_status"]
           updated_at?: string
@@ -177,7 +177,7 @@ export type Database = {
           reference_code?: string
           requested_date?: string
           requested_time?: string | null
-          service_id?: string | null
+          service_id?: string
           service_snapshot?: Json | null
           status?: Database["public"]["Enums"]["booking_status"]
           updated_at?: string
@@ -232,6 +232,7 @@ export type Database = {
           created_at: string
           id: string
           role: string
+          session_id: string | null
           tokens_used: number | null
         }
         Insert: {
@@ -240,6 +241,7 @@ export type Database = {
           created_at?: string
           id?: string
           role: string
+          session_id?: string | null
           tokens_used?: number | null
         }
         Update: {
@@ -248,6 +250,7 @@ export type Database = {
           created_at?: string
           id?: string
           role?: string
+          session_id?: string | null
           tokens_used?: number | null
         }
         Relationships: [
@@ -682,13 +685,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
