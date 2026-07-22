@@ -13,21 +13,25 @@ export function routeHead({
   routeKey,
   path,
   breadcrumbs,
+  extraJsonLd,
 }: {
   params: { lang: string };
   routeKey: keyof typeof ROUTE_SEO;
   path: string;
   breadcrumbs?: BreadcrumbItem[];
+  extraJsonLd?: object[];
 }) {
   const lang: Lang = isLang(params.lang) ? params.lang : DEFAULT_LANG;
   const seo = ROUTE_SEO[routeKey];
-  const jsonLd = breadcrumbs ? [buildBreadcrumbList(lang, breadcrumbs)] : undefined;
+  const jsonLd: object[] = [];
+  if (breadcrumbs) jsonLd.push(buildBreadcrumbList(lang, breadcrumbs));
+  if (extraJsonLd?.length) jsonLd.push(...extraJsonLd);
   return buildPageHead({
     path,
     lang,
     title: seo.title[lang],
     description: seo.description[lang],
     category: seo.category,
-    jsonLd,
+    jsonLd: jsonLd.length ? jsonLd : undefined,
   });
 }
