@@ -15,15 +15,15 @@ const DIFFICULTIES: Difficulty[] = ["easy", "medium", "hard"];
 const HERO_IMG: Record<ServiceType, { img: string; alt: string }> = {
   excursion: {
     img: "https://images.unsplash.com/photo-1568486004327-9e2af64ac2ac?auto=format&fit=crop&w=1920&q=70",
-    alt: "Castle",
+    alt: "Medieval castle ruins overlooking the Gauja valley in Latvia",
   },
   hiking: {
     img: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1920&q=70",
-    alt: "Forest hike",
+    alt: "Forest hiking trail through Gauja National Park",
   },
   transfer: {
     img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1920&q=70",
-    alt: "Road",
+    alt: "Scenic road transfer through the Latvian countryside",
   },
 };
 
