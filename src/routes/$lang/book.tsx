@@ -99,6 +99,7 @@ function BookingPage() {
             price_from_eur: selectedService.price_from_eur,
           }
         : null;
+      if (!form.serviceId) throw new Error(t("errors.generic"));
       const { data, error: err } = await supabase
         .from("bookings")
         .insert({
