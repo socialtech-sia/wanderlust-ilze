@@ -68,7 +68,7 @@ export function ServiceCategories() {
             >
               <img
                 src={c.img}
-                alt=""
+                alt={c.alt}
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
               />
