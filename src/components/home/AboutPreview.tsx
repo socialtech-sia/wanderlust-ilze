@@ -16,7 +16,7 @@ export function AboutPreview() {
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-paper-alt md:aspect-[3/4]">
           <img
             src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=1000&q=70"
-            alt={profile?.full_name ?? ""}
+            alt={profile?.full_name ? `${profile.full_name} — Wanderlust.lv guide in Gauja National Park` : "Wanderlust.lv local guide in Gauja National Park"}
             className="h-full w-full object-cover"
             loading="lazy"
           />
