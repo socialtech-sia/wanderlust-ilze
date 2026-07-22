@@ -251,3 +251,75 @@ export function serviceImageAlt(input: {
   const joined = parts.join(" — ");
   return input.category ? `${joined} (${input.category.label})` : joined;
 }
+
+// ------------------------------------------------------------ ItemList schema
+
+export interface ItemListEntry {
+  name: string;
+  path: string;
+  description?: string;
+  image?: string;
+  priceEur?: number | null;
+  category?: EnterGaujaCategoryInfo | null;
+  locationName?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+}
+
+/**
+ * Build an ItemList schema for a listing/index page (tours, hiking, transfers).
+ * Each element is embedded as the appropriate schema.org entity so crawlers can
+ * surface the individual services from the listing (rich results eligibility).
+ */
+export function buildItemList(
+  lang: Lang,
+  listName: string,
+  entries: ItemListEntry[],
+): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: listName,
+    numberOfItems: entries.length,
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    itemListElement: entries.map((e, i) => {
+      const url = absoluteUrl(lang, e.path);
+      const item: Record<string, unknown> = {
+        "@type": e.category?.schemaType ?? "TouristAttraction",
+        name: e.name,
+        url,
+        inLanguage: lang,
+      };
+      if (e.description) item.description = e.description;
+      if (e.image) item.image = e.image;
+      if (e.locationName) {
+        item.address = {
+          "@type": "PostalAddress",
+          addressLocality: e.locationName,
+          addressCountry: "LV",
+        };
+      }
+      if (e.latitude != null && e.longitude != null) {
+        item.geo = {
+          "@type": "GeoCoordinates",
+          latitude: e.latitude,
+          longitude: e.longitude,
+        };
+      }
+      if (e.priceEur != null) {
+        item.offers = {
+          "@type": "Offer",
+          url,
+          price: e.priceEur.toFixed(2),
+          priceCurrency: "EUR",
+        };
+      }
+      return {
+        "@type": "ListItem",
+        position: i + 1,
+        url,
+        item,
+      };
+    }),
+  };
+}
