@@ -3,6 +3,8 @@ import { MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useSiteSettings } from "@/hooks/use-services";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
+import { useCookieConsent } from "@/hooks/use-cookie-consent";
+import { cn } from "@/lib/utils";
 
 // Panel content is code-split: the initial bundle only carries this button.
 const ChatPanel = lazy(() =>
@@ -15,6 +17,9 @@ export function ChatWidget() {
   const { data: settings } = useSiteSettings();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { consent, isLoaded } = useCookieConsent();
+  // Cookie banner shares the bottom-right corner — lift the button while it is visible.
+  const bannerVisible = isLoaded && !consent;
 
   useEffect(() => setMounted(true), []);
 
@@ -30,7 +35,10 @@ export function ChatWidget() {
         type="button"
         aria-label={t("chat.title")}
         onClick={() => setOpen(true)}
-        className="group fixed bottom-20 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-moss-deep text-paper shadow-lg transition-transform duration-200 hover:scale-105 motion-reduce:transition-none md:bottom-24 md:right-6 md:h-14 md:w-14"
+        className={cn(
+          "group fixed right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-moss-deep text-paper shadow-lg transition-all duration-300 hover:scale-105 motion-reduce:transition-none md:right-6 md:h-14 md:w-14",
+          bannerVisible ? "bottom-[13.5rem] md:bottom-64" : "bottom-20 md:bottom-24",
+        )}
         style={{ marginBottom: "env(safe-area-inset-bottom)" }}
       >
         <MessageCircle className="h-5 w-5 md:h-6 md:w-6" />
