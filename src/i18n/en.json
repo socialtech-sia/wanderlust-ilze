@@ -36,7 +36,8 @@
     "featured_all": "See all offers",
     "years_label": "Experience",
     "years_value": "{{count}}+ years in the Gauja region",
-    "certs_label": "Certifications"
+    "certs_label": "Certifications",
+    "selection_eyebrow": "Selection"
   },
   "service": {
     "excursion": "Tour",
@@ -390,7 +391,8 @@
   },
   "testimonials": {
     "title": "What guests say",
-    "subtitle": "Notes from people we have walked with."
+    "subtitle": "Notes from people we have walked with.",
+    "eyebrow": "Reviews"
   },
   "finalcta": {
     "title": "Planning a day in the Gauja valley?",

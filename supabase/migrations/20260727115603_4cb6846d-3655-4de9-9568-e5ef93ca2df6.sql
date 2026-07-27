@@ -1,0 +1,1 @@
+ALTER POLICY testimonials_admin_all ON public.testimonials TO authenticated;

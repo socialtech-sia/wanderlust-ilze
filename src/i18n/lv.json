@@ -36,7 +36,8 @@
     "featured_all": "Skatīt visus piedāvājumus",
     "years_label": "Pieredze",
     "years_value": "{{count}}+ gadi Gaujas reģionā",
-    "certs_label": "Sertifikāti"
+    "certs_label": "Sertifikāti",
+    "selection_eyebrow": "Izlase"
   },
   "service": {
     "excursion": "Ekskursija",
@@ -390,7 +391,8 @@
   },
   "testimonials": {
     "title": "Ko saka viesi",
-    "subtitle": "Atsauksmes no cilvēkiem, ar kuriem esam gājuši kopā."
+    "subtitle": "Atsauksmes no cilvēkiem, ar kuriem esam gājuši kopā.",
+    "eyebrow": "Atsauksmes"
   },
   "finalcta": {
     "title": "Plānojat dienu Gaujas ielejā?",

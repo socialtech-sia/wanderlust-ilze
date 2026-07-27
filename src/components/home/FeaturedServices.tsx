@@ -17,7 +17,7 @@ export function FeaturedServices({ services = [] }: { services?: HomeService[] }
       <div className="container-editorial">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl">
-            <p className="text-eyebrow">04 · Selection</p>
+            <p className="text-eyebrow">04 · {t("home.selection_eyebrow")}</p>
             <h2 className="mt-2 font-display text-3xl md:text-5xl">
               {t("home.featured_title")}
             </h2>

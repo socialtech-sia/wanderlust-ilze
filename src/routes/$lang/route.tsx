@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, notFound, useMatches } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { isLang } from "@/lib/language";
+import i18n from "@/lib/i18n";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/cookie/CookieConsent";
@@ -10,6 +11,10 @@ import { getEnterGaujaCategory, type EnterGaujaKey } from "@/lib/enter-gauja";
 export const Route = createFileRoute("/$lang")({
   beforeLoad: ({ params }) => {
     if (!isLang(params.lang)) throw notFound();
+    // Keep i18n in sync during SSR so the server HTML is already translated.
+    if (i18n.language !== params.lang && typeof i18n.changeLanguage === "function") {
+      void i18n.changeLanguage(params.lang);
+    }
   },
   component: LangLayout,
 });

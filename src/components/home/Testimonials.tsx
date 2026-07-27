@@ -15,7 +15,7 @@ export function Testimonials({ items }: { items: HomeTestimonial[] }) {
     <section className="bg-paper-alt py-20 md:py-28">
       <div className="container-editorial">
         <div className="max-w-2xl">
-          <p className="text-eyebrow">11 · Atsauksmes</p>
+          <p className="text-eyebrow">11 · {t("testimonials.eyebrow")}</p>
           <h2 className="mt-2 font-display text-3xl md:text-4xl">{t("testimonials.title")}</h2>
           <p className="mt-3 text-ink-muted">{t("testimonials.subtitle")}</p>
         </div>
