@@ -28,7 +28,12 @@
     "about_eyebrow": "Iepazīsimies",
     "about_cta": "Vairāk par Ilzi",
     "partner_text": "Enter Gauja sadarbības tīkla partneris",
-    "partner_learn": "Uzzināt par Enter Gauja"
+    "partner_learn": "Uzzināt par Enter Gauja",
+    "hero_trust": "Sertificēta gide · 10+ gadu pieredze · LV · EN · RU · ES",
+    "options_count_one": "{{count}} maršruts",
+    "options_count_other": "{{count}} maršruti",
+    "price_from_short": "no {{price}}",
+    "featured_all": "Skatīt visus piedāvājumus"
   },
   "service": {
     "excursion": "Ekskursija",
@@ -317,5 +322,76 @@
     "backlink_body": "Mēs esam Enter Gauja kopienas partneri. Atklāj vairāk par dabas takām, pilīm un kultūras pasākumiem Gaujas ielejā.",
     "cta_view": "Apskatīt Enter Gauja",
     "cta_view_category": "Apskatīt {{category}}"
+  },
+  "facts": {
+    "certified_title": "Sertificēta gide",
+    "certified_text": "Oficiāli sertificēta Gaujas Nacionālā parka gide",
+    "groups_title": "Mazas grupas",
+    "groups_text": "2–8 cilvēki vienā maršrutā",
+    "languages_title": "Četras valodas",
+    "languages_text": "Latviešu, angļu, krievu, spāņu",
+    "custom_title": "Individuāli maršruti",
+    "custom_text": "Pielāgojam tempam un interesēm"
+  },
+  "howitworks": {
+    "title": "Kā tas notiek",
+    "subtitle": "Četri soļi no izvēles līdz maršrutam. Bez priekšapmaksas un bez starpniekiem.",
+    "s1_title": "Izvēlaties maršrutu",
+    "s1_text": "Apskatiet ekskursijas, pārgājienus vai transferus. Ja neesat pārliecināti, izvēlieties tuvāko un pierakstiet piezīmēs, ko vēlaties redzēt.",
+    "s2_title": "Nosūtāt pieteikumu",
+    "s2_text": "Norādāt datumu, cilvēku skaitu un kontaktus. Šajā brīdī nekas nav jāmaksā.",
+    "s3_title": "Ilze atbild personīgi",
+    "s3_text": "Parasti 24 stundu laikā — ar apstiprinājumu, precīzu tikšanās vietu, laiku un galīgo cenu.",
+    "s4_title": "Tiekamies un ejam",
+    "s4_text": "Satiekamies norunātajā vietā. Ja vajag, atbraucu pakaļ uz Rīgu, lidostu vai Jūrmalu."
+  },
+  "region": {
+    "title": "Kur mēs ejam",
+    "subtitle": "Četras vietas, ap kurām ir veidoti gandrīz visi maršruti.",
+    "cta": "Ekskursijas šeit",
+    "sigulda_title": "Sigulda",
+    "sigulda_text": "Gaujas senlejas stāvākā daļa ar smilšakmens klintīm, gravām un trim pilīm dažu kilometru rādiusā. Ērtākais sākuma punkts, ja rīcībā ir tikai viena diena.",
+    "turaida_title": "Turaida",
+    "turaida_text": "Sarkano ķieģeļu pils tornis virs ielejas, muzejrezervāts un Dainu kalns blakus. Vieta, kur vēsture un ainava sakrīt vienā skatā.",
+    "cesis_title": "Cēsis",
+    "cesis_text": "Viduslaiku pilsdrupas ar tumšajiem pagrabiem, klusas bruģa ieliņas un vecpilsēta, ko var apstaigāt kājām. Laba izvēle nesteidzīgai dienai.",
+    "ligatne_title": "Līgatne",
+    "ligatne_text": "Papīrfabrikas ciems ar alām smilšakmenī un meža takas Gaujas Nacionālā parka vidū. No četrām vietām šeit tūristu ir vismazāk."
+  },
+  "why": {
+    "title": "Kāpēc ar gidi",
+    "subtitle": "Ielejā var iet arī pašiem. Trīs lietas, ko pašiem izdarīt ir grūtāk.",
+    "i1_title": "Stāsti, kuru nav uz informācijas plāksnītēm",
+    "i1_text": "Kas šeit notika, kāpēc pils tika celta tieši šajā līkumā un kas dzīvoja ciemā pirms simt gadiem. Konteksts, kas ainavu pārvērš par vietu.",
+    "i2_title": "Maršruti ārpus galvenajām takām",
+    "i2_text": "Desmit gados izstaigātas arī tās takas, kuras nav kartēs pie stāvvietas. Zinu, kur skats ir labāks un kur tajā pašā brīdī nav autobusu grupu.",
+    "i3_title": "Viss noorganizēts, arī transports",
+    "i3_text": "Laiki, biļetes, pusdienu apstāšanās un transfērs no Rīgas vai lidostas. Jums jāatnāk tikai ar ērtiem apaviem."
+  },
+  "seasons": {
+    "title": "Gauja pa gadalaikiem",
+    "subtitle": "Ieleja katrā sezonā izskatās citādi — arī ārpus vasaras.",
+    "spring_title": "Pavasaris",
+    "spring_text": "Pali upē un kailas nogāzes. Redzamas klintis, ko vasarā aizsedz lapas, un pirmie ziedi mežā.",
+    "summer_title": "Vasara",
+    "summer_text": "Silta upe, gaišas dienas līdz vēlam vakaram un iespēja plānot garākus maršrutus.",
+    "autumn_title": "Rudens",
+    "autumn_text": "Ielejas krāsas septembra beigās un oktobrī — tas, kāpēc daudzi brauc tieši šurp.",
+    "winter_title": "Ziema",
+    "winter_text": "Klusums, sniegs uz takām un tukšas pilsdrupas. Īsāki maršruti un karsta tēja pa vidu."
+  },
+  "faqp": {
+    "title": "Biežāk uzdotie jautājumi",
+    "subtitle": "Īsas atbildes uz to, ko jautā visbiežāk.",
+    "cta": "Visi jautājumi"
+  },
+  "testimonials": {
+    "title": "Ko saka viesi",
+    "subtitle": "Atsauksmes no cilvēkiem, ar kuriem esam gājuši kopā."
+  },
+  "finalcta": {
+    "title": "Plānojat dienu Gaujas ielejā?",
+    "text": "Uzrakstiet, ko vēlaties redzēt un cik daudz laika ir. Ilze atbild personīgi 24 stundu laikā.",
+    "secondary": "Rakstīt"
   }
 }
