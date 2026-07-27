@@ -36,7 +36,8 @@
     "featured_all": "Ver todas las propuestas",
     "years_label": "Experiencia",
     "years_value": "{{count}}+ años en la región del Gauja",
-    "certs_label": "Certificaciones"
+    "certs_label": "Certificaciones",
+    "selection_eyebrow": "Selección"
   },
   "service": {
     "excursion": "Excursión",
@@ -390,7 +391,8 @@
   },
   "testimonials": {
     "title": "Lo que dicen los visitantes",
-    "subtitle": "Comentarios de personas con las que hemos caminado."
+    "subtitle": "Comentarios de personas con las que hemos caminado.",
+    "eyebrow": "Opiniones"
   },
   "finalcta": {
     "title": "¿Planeas un día en el valle del Gauja?",
