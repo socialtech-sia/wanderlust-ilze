@@ -57,18 +57,18 @@ export function CookieConsent() {
           role="dialog"
           aria-live="polite"
           aria-label={t("consent.title")}
-          className="fixed inset-x-3 bottom-3 z-[60] md:inset-x-auto md:right-6 md:bottom-6 md:max-w-md"
+          className="fixed inset-x-3 bottom-3 z-[60] md:inset-x-auto md:right-6 md:bottom-6 md:max-w-sm"
         >
-          <div className="rounded-2xl border border-border/70 bg-background/95 p-5 shadow-xl backdrop-blur supports-[backdrop-filter]:bg-background/80">
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <Cookie className="h-4 w-4" />
+          <div className="rounded-2xl border border-border/70 bg-background/95 p-3.5 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-background/80">
+            <div className="flex items-start gap-2.5">
+              <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <Cookie className="h-3.5 w-3.5" />
               </div>
               <div className="flex-1">
-                <h2 className="font-display text-base text-foreground">
+                <h2 className="font-display text-sm text-foreground">
                   {t("consent.title")}
                 </h2>
-                <p className="mt-1 text-sm text-ink-muted">
+                <p className="mt-1 text-xs leading-snug text-ink-muted">
                   {t("consent.body")}{" "}
                   <Link
                     to="/$lang/cookies"
@@ -78,19 +78,20 @@ export function CookieConsent() {
                     {t("consent.learn_more")}
                   </Link>
                 </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <Button size="sm" onClick={acceptAll}>
+                <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                  <Button size="sm" className="h-8 px-3.5 text-xs" onClick={acceptAll}>
                     {t("consent.accept_all")}
                   </Button>
-                  <Button size="sm" variant="outline" onClick={rejectOptional}>
+                  <Button size="sm" variant="outline" className="h-8 px-3.5 text-xs" onClick={rejectOptional}>
                     {t("consent.reject")}
                   </Button>
-                  <Button size="sm" variant="ghost" onClick={openSettings}>
+                  <Button size="sm" variant="ghost" className="h-8 px-2.5 text-xs" onClick={openSettings}>
                     {t("consent.customize")}
                   </Button>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       )}
