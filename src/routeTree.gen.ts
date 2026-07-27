@@ -28,6 +28,7 @@ import { Route as LangAboutRouteImport } from './routes/$lang/about'
 import { Route as AdminGateIndexRouteImport } from './routes/admin/_gate/index'
 import { Route as AdminGateTestimonialsRouteImport } from './routes/admin/_gate/testimonials'
 import { Route as AdminGateProfileRouteImport } from './routes/admin/_gate/profile'
+import { Route as AdminGateMessagesRouteImport } from './routes/admin/_gate/messages'
 import { Route as AdminGateMediaRouteImport } from './routes/admin/_gate/media'
 import { Route as AdminGateFaqRouteImport } from './routes/admin/_gate/faq'
 import { Route as AdminGateBookingsRouteImport } from './routes/admin/_gate/bookings'
@@ -131,6 +132,11 @@ const AdminGateProfileRoute = AdminGateProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AdminGateRoute,
 } as any)
+const AdminGateMessagesRoute = AdminGateMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminGateRoute,
+} as any)
 const AdminGateMediaRoute = AdminGateMediaRouteImport.update({
   id: '/media',
   path: '/media',
@@ -188,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/admin/bookings': typeof AdminGateBookingsRoute
   '/admin/faq': typeof AdminGateFaqRoute
   '/admin/media': typeof AdminGateMediaRoute
+  '/admin/messages': typeof AdminGateMessagesRoute
   '/admin/profile': typeof AdminGateProfileRoute
   '/admin/testimonials': typeof AdminGateTestimonialsRoute
   '/admin/': typeof AdminGateIndexRoute
@@ -214,6 +221,7 @@ export interface FileRoutesByTo {
   '/admin/bookings': typeof AdminGateBookingsRoute
   '/admin/faq': typeof AdminGateFaqRoute
   '/admin/media': typeof AdminGateMediaRoute
+  '/admin/messages': typeof AdminGateMessagesRoute
   '/admin/profile': typeof AdminGateProfileRoute
   '/admin/testimonials': typeof AdminGateTestimonialsRoute
   '/admin': typeof AdminGateIndexRoute
@@ -243,6 +251,7 @@ export interface FileRoutesById {
   '/admin/_gate/bookings': typeof AdminGateBookingsRoute
   '/admin/_gate/faq': typeof AdminGateFaqRoute
   '/admin/_gate/media': typeof AdminGateMediaRoute
+  '/admin/_gate/messages': typeof AdminGateMessagesRoute
   '/admin/_gate/profile': typeof AdminGateProfileRoute
   '/admin/_gate/testimonials': typeof AdminGateTestimonialsRoute
   '/admin/_gate/': typeof AdminGateIndexRoute
@@ -273,6 +282,7 @@ export interface FileRouteTypes {
     | '/admin/bookings'
     | '/admin/faq'
     | '/admin/media'
+    | '/admin/messages'
     | '/admin/profile'
     | '/admin/testimonials'
     | '/admin/'
@@ -299,6 +309,7 @@ export interface FileRouteTypes {
     | '/admin/bookings'
     | '/admin/faq'
     | '/admin/media'
+    | '/admin/messages'
     | '/admin/profile'
     | '/admin/testimonials'
     | '/admin'
@@ -327,6 +338,7 @@ export interface FileRouteTypes {
     | '/admin/_gate/bookings'
     | '/admin/_gate/faq'
     | '/admin/_gate/media'
+    | '/admin/_gate/messages'
     | '/admin/_gate/profile'
     | '/admin/_gate/testimonials'
     | '/admin/_gate/'
@@ -478,6 +490,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGateProfileRouteImport
       parentRoute: typeof AdminGateRoute
     }
+    '/admin/_gate/messages': {
+      id: '/admin/_gate/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminGateMessagesRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
     '/admin/_gate/media': {
       id: '/admin/_gate/media'
       path: '/media'
@@ -580,6 +599,7 @@ interface AdminGateRouteChildren {
   AdminGateBookingsRoute: typeof AdminGateBookingsRoute
   AdminGateFaqRoute: typeof AdminGateFaqRoute
   AdminGateMediaRoute: typeof AdminGateMediaRoute
+  AdminGateMessagesRoute: typeof AdminGateMessagesRoute
   AdminGateProfileRoute: typeof AdminGateProfileRoute
   AdminGateTestimonialsRoute: typeof AdminGateTestimonialsRoute
   AdminGateIndexRoute: typeof AdminGateIndexRoute
@@ -591,6 +611,7 @@ const AdminGateRouteChildren: AdminGateRouteChildren = {
   AdminGateBookingsRoute: AdminGateBookingsRoute,
   AdminGateFaqRoute: AdminGateFaqRoute,
   AdminGateMediaRoute: AdminGateMediaRoute,
+  AdminGateMessagesRoute: AdminGateMessagesRoute,
   AdminGateProfileRoute: AdminGateProfileRoute,
   AdminGateTestimonialsRoute: AdminGateTestimonialsRoute,
   AdminGateIndexRoute: AdminGateIndexRoute,
