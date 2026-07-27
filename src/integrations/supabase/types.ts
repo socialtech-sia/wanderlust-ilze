@@ -750,7 +750,12 @@ export type Database = {
         | "completed"
         | "cancelled"
         | "no_show"
-      enter_gauja_category: "action" | "nature" | "history" | "culture"
+      enter_gauja_category:
+        | "action"
+        | "nature"
+        | "history"
+        | "culture"
+        | "getaround"
       service_difficulty: "easy" | "medium" | "hard"
       service_type: "excursion" | "hiking" | "transfer"
     }
@@ -890,7 +895,13 @@ export const Constants = {
         "cancelled",
         "no_show",
       ],
-      enter_gauja_category: ["action", "nature", "history", "culture"],
+      enter_gauja_category: [
+        "action",
+        "nature",
+        "history",
+        "culture",
+        "getaround",
+      ],
       service_difficulty: ["easy", "medium", "hard"],
       service_type: ["excursion", "hiking", "transfer"],
     },

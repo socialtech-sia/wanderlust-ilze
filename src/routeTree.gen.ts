@@ -13,6 +13,8 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as LangRouteRouteImport } from './routes/$lang/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LangIndexRouteImport } from './routes/$lang/index'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminGateRouteImport } from './routes/admin/_gate'
 import { Route as LangTransfersRouteImport } from './routes/$lang/transfers'
 import { Route as LangToursRouteImport } from './routes/$lang/tours'
 import { Route as LangTermsRouteImport } from './routes/$lang/terms'
@@ -23,6 +25,10 @@ import { Route as LangCookiesRouteImport } from './routes/$lang/cookies'
 import { Route as LangContactRouteImport } from './routes/$lang/contact'
 import { Route as LangBookRouteImport } from './routes/$lang/book'
 import { Route as LangAboutRouteImport } from './routes/$lang/about'
+import { Route as AdminGateIndexRouteImport } from './routes/admin/_gate/index'
+import { Route as AdminGateMediaRouteImport } from './routes/admin/_gate/media'
+import { Route as AdminGateFaqRouteImport } from './routes/admin/_gate/faq'
+import { Route as AdminGateBookingsRouteImport } from './routes/admin/_gate/bookings'
 import { Route as LangSSlugRouteImport } from './routes/$lang/s.$slug'
 import { Route as LangBookConfirmedRefRouteImport } from './routes/$lang/book.confirmed.$ref'
 
@@ -45,6 +51,16 @@ const LangIndexRoute = LangIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => LangRouteRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGateRoute = AdminGateRouteImport.update({
+  id: '/admin/_gate',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LangTransfersRoute = LangTransfersRouteImport.update({
   id: '/transfers',
@@ -96,6 +112,26 @@ const LangAboutRoute = LangAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => LangRouteRoute,
 } as any)
+const AdminGateIndexRoute = AdminGateIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateMediaRoute = AdminGateMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateFaqRoute = AdminGateFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateBookingsRoute = AdminGateBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => AdminGateRoute,
+} as any)
 const LangSSlugRoute = LangSSlugRouteImport.update({
   id: '/s/$slug',
   path: '/s/$slug',
@@ -121,8 +157,14 @@ export interface FileRoutesByFullPath {
   '/$lang/terms': typeof LangTermsRoute
   '/$lang/tours': typeof LangToursRoute
   '/$lang/transfers': typeof LangTransfersRoute
+  '/admin': typeof AdminGateRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/$lang/': typeof LangIndexRoute
   '/$lang/s/$slug': typeof LangSSlugRoute
+  '/admin/bookings': typeof AdminGateBookingsRoute
+  '/admin/faq': typeof AdminGateFaqRoute
+  '/admin/media': typeof AdminGateMediaRoute
+  '/admin/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
 }
 export interface FileRoutesByTo {
@@ -138,8 +180,13 @@ export interface FileRoutesByTo {
   '/$lang/terms': typeof LangTermsRoute
   '/$lang/tours': typeof LangToursRoute
   '/$lang/transfers': typeof LangTransfersRoute
+  '/admin/login': typeof AdminLoginRoute
   '/$lang': typeof LangIndexRoute
   '/$lang/s/$slug': typeof LangSSlugRoute
+  '/admin/bookings': typeof AdminGateBookingsRoute
+  '/admin/faq': typeof AdminGateFaqRoute
+  '/admin/media': typeof AdminGateMediaRoute
+  '/admin': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
 }
 export interface FileRoutesById {
@@ -157,8 +204,14 @@ export interface FileRoutesById {
   '/$lang/terms': typeof LangTermsRoute
   '/$lang/tours': typeof LangToursRoute
   '/$lang/transfers': typeof LangTransfersRoute
+  '/admin/_gate': typeof AdminGateRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/$lang/': typeof LangIndexRoute
   '/$lang/s/$slug': typeof LangSSlugRoute
+  '/admin/_gate/bookings': typeof AdminGateBookingsRoute
+  '/admin/_gate/faq': typeof AdminGateFaqRoute
+  '/admin/_gate/media': typeof AdminGateMediaRoute
+  '/admin/_gate/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
 }
 export interface FileRouteTypes {
@@ -177,8 +230,14 @@ export interface FileRouteTypes {
     | '/$lang/terms'
     | '/$lang/tours'
     | '/$lang/transfers'
+    | '/admin'
+    | '/admin/login'
     | '/$lang/'
     | '/$lang/s/$slug'
+    | '/admin/bookings'
+    | '/admin/faq'
+    | '/admin/media'
+    | '/admin/'
     | '/$lang/book/confirmed/$ref'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -194,8 +253,13 @@ export interface FileRouteTypes {
     | '/$lang/terms'
     | '/$lang/tours'
     | '/$lang/transfers'
+    | '/admin/login'
     | '/$lang'
     | '/$lang/s/$slug'
+    | '/admin/bookings'
+    | '/admin/faq'
+    | '/admin/media'
+    | '/admin'
     | '/$lang/book/confirmed/$ref'
   id:
     | '__root__'
@@ -212,8 +276,14 @@ export interface FileRouteTypes {
     | '/$lang/terms'
     | '/$lang/tours'
     | '/$lang/transfers'
+    | '/admin/_gate'
+    | '/admin/login'
     | '/$lang/'
     | '/$lang/s/$slug'
+    | '/admin/_gate/bookings'
+    | '/admin/_gate/faq'
+    | '/admin/_gate/media'
+    | '/admin/_gate/'
     | '/$lang/book/confirmed/$ref'
   fileRoutesById: FileRoutesById
 }
@@ -221,6 +291,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LangRouteRoute: typeof LangRouteRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AdminGateRoute: typeof AdminGateRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -252,6 +324,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/$lang/'
       preLoaderRoute: typeof LangIndexRouteImport
       parentRoute: typeof LangRouteRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_gate': {
+      id: '/admin/_gate'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminGateRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$lang/transfers': {
       id: '/$lang/transfers'
@@ -323,6 +409,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangAboutRouteImport
       parentRoute: typeof LangRouteRoute
     }
+    '/admin/_gate/': {
+      id: '/admin/_gate/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminGateIndexRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/media': {
+      id: '/admin/_gate/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminGateMediaRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/faq': {
+      id: '/admin/_gate/faq'
+      path: '/faq'
+      fullPath: '/admin/faq'
+      preLoaderRoute: typeof AdminGateFaqRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/bookings': {
+      id: '/admin/_gate/bookings'
+      path: '/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AdminGateBookingsRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
     '/$lang/s/$slug': {
       id: '/$lang/s/$slug'
       path: '/s/$slug'
@@ -386,10 +500,30 @@ const LangRouteRouteWithChildren = LangRouteRoute._addFileChildren(
   LangRouteRouteChildren,
 )
 
+interface AdminGateRouteChildren {
+  AdminGateBookingsRoute: typeof AdminGateBookingsRoute
+  AdminGateFaqRoute: typeof AdminGateFaqRoute
+  AdminGateMediaRoute: typeof AdminGateMediaRoute
+  AdminGateIndexRoute: typeof AdminGateIndexRoute
+}
+
+const AdminGateRouteChildren: AdminGateRouteChildren = {
+  AdminGateBookingsRoute: AdminGateBookingsRoute,
+  AdminGateFaqRoute: AdminGateFaqRoute,
+  AdminGateMediaRoute: AdminGateMediaRoute,
+  AdminGateIndexRoute: AdminGateIndexRoute,
+}
+
+const AdminGateRouteWithChildren = AdminGateRoute._addFileChildren(
+  AdminGateRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LangRouteRoute: LangRouteRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AdminGateRoute: AdminGateRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
