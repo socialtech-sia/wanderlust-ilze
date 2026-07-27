@@ -50,6 +50,9 @@ export function Hero() {
             </Link>
           </Button>
         </div>
+        <p className="mt-6 text-xs uppercase tracking-wider text-paper/80 md:text-sm md:normal-case md:tracking-normal">
+          {t("home.hero_trust")}
+        </p>
       </div>
     </section>
   );
