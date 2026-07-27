@@ -35,6 +35,7 @@ import { Route as AdminGateFaqRouteImport } from './routes/admin/_gate/faq'
 import { Route as AdminGateBookingsRouteImport } from './routes/admin/_gate/bookings'
 import { Route as LangSSlugRouteImport } from './routes/$lang/s.$slug'
 import { Route as AdminGateServicesIndexRouteImport } from './routes/admin/_gate/services/index'
+import { Route as AdminGateBlogIndexRouteImport } from './routes/admin/_gate/blog/index'
 import { Route as AdminGateServicesIdRouteImport } from './routes/admin/_gate/services/$id'
 import { Route as LangBookConfirmedRefRouteImport } from './routes/$lang/book.confirmed.$ref'
 
@@ -168,6 +169,11 @@ const AdminGateServicesIndexRoute = AdminGateServicesIndexRouteImport.update({
   path: '/services/',
   getParentRoute: () => AdminGateRoute,
 } as any)
+const AdminGateBlogIndexRoute = AdminGateBlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => AdminGateRoute,
+} as any)
 const AdminGateServicesIdRoute = AdminGateServicesIdRouteImport.update({
   id: '/services/$id',
   path: '/services/$id',
@@ -207,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
   '/admin/services/$id': typeof AdminGateServicesIdRoute
+  '/admin/blog/': typeof AdminGateBlogIndexRoute
   '/admin/services/': typeof AdminGateServicesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -235,6 +242,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
   '/admin/services/$id': typeof AdminGateServicesIdRoute
+  '/admin/blog': typeof AdminGateBlogIndexRoute
   '/admin/services': typeof AdminGateServicesIndexRoute
 }
 export interface FileRoutesById {
@@ -266,6 +274,7 @@ export interface FileRoutesById {
   '/admin/_gate/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
   '/admin/_gate/services/$id': typeof AdminGateServicesIdRoute
+  '/admin/_gate/blog/': typeof AdminGateBlogIndexRoute
   '/admin/_gate/services/': typeof AdminGateServicesIndexRoute
 }
 export interface FileRouteTypes {
@@ -298,6 +307,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/$lang/book/confirmed/$ref'
     | '/admin/services/$id'
+    | '/admin/blog/'
     | '/admin/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -326,6 +336,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/$lang/book/confirmed/$ref'
     | '/admin/services/$id'
+    | '/admin/blog'
     | '/admin/services'
   id:
     | '__root__'
@@ -356,6 +367,7 @@ export interface FileRouteTypes {
     | '/admin/_gate/'
     | '/$lang/book/confirmed/$ref'
     | '/admin/_gate/services/$id'
+    | '/admin/_gate/blog/'
     | '/admin/_gate/services/'
   fileRoutesById: FileRoutesById
 }
@@ -551,6 +563,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGateServicesIndexRouteImport
       parentRoute: typeof AdminGateRoute
     }
+    '/admin/_gate/blog/': {
+      id: '/admin/_gate/blog/'
+      path: '/blog'
+      fullPath: '/admin/blog/'
+      preLoaderRoute: typeof AdminGateBlogIndexRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
     '/admin/_gate/services/$id': {
       id: '/admin/_gate/services/$id'
       path: '/services/$id'
@@ -624,6 +643,7 @@ interface AdminGateRouteChildren {
   AdminGateTestimonialsRoute: typeof AdminGateTestimonialsRoute
   AdminGateIndexRoute: typeof AdminGateIndexRoute
   AdminGateServicesIdRoute: typeof AdminGateServicesIdRoute
+  AdminGateBlogIndexRoute: typeof AdminGateBlogIndexRoute
   AdminGateServicesIndexRoute: typeof AdminGateServicesIndexRoute
 }
 
@@ -637,6 +657,7 @@ const AdminGateRouteChildren: AdminGateRouteChildren = {
   AdminGateTestimonialsRoute: AdminGateTestimonialsRoute,
   AdminGateIndexRoute: AdminGateIndexRoute,
   AdminGateServicesIdRoute: AdminGateServicesIdRoute,
+  AdminGateBlogIndexRoute: AdminGateBlogIndexRoute,
   AdminGateServicesIndexRoute: AdminGateServicesIndexRoute,
 }
 
