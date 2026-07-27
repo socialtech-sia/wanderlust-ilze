@@ -14,12 +14,12 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { FinalCta } from "@/components/home/FinalCta";
 import { EnterGaujaBadge } from "@/components/home/EnterGaujaBadge";
 import { routeHead } from "@/lib/route-head";
-import { loadHomeData } from "@/lib/home-data";
+import { getHomeData } from "@/lib/home-data.functions";
 import { DEFAULT_LANG, isLang, tField, type Lang } from "@/lib/language";
 import { buildFaqPage } from "@/lib/seo";
 
 export const Route = createFileRoute("/$lang/")({
-  loader: () => loadHomeData(),
+  loader: () => getHomeData(),
   head: ({ params, loaderData }) => {
     const lang: Lang = isLang(params.lang) ? params.lang : DEFAULT_LANG;
     const faqItems = (loaderData?.faq ?? [])

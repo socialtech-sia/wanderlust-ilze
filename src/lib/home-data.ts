@@ -5,7 +5,6 @@
  * result instead of throwing, so an empty database never breaks the page.
  */
 
-import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 
 export type HomeService = Tables<"services">;
@@ -18,41 +17,6 @@ export interface HomeData {
   faq: HomeFaq[];
   profile: HomeProfile | null;
   testimonials: HomeTestimonial[];
-}
-
-export async function loadHomeData(): Promise<HomeData> {
-  const [servicesRes, faqRes, profileRes, testimonialsRes] = await Promise.all([
-    supabase
-      .from("services")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true }),
-    supabase
-      .from("faq")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true })
-      .limit(4),
-    supabase
-      .from("profile")
-      .select("*")
-      .order("created_at", { ascending: true })
-      .limit(1)
-      .maybeSingle(),
-    supabase
-      .from("testimonials")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true })
-      .limit(3),
-  ]);
-
-  return {
-    services: (servicesRes.data ?? []) as HomeService[],
-    faq: (faqRes.data ?? []) as HomeFaq[],
-    profile: (profileRes.data ?? null) as HomeProfile | null,
-    testimonials: (testimonialsRes.data ?? []) as HomeTestimonial[],
-  };
 }
 
 export interface TypeStats {
