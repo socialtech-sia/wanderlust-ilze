@@ -37,6 +37,7 @@ import { Route as LangSSlugRouteImport } from './routes/$lang/s.$slug'
 import { Route as AdminGateServicesIndexRouteImport } from './routes/admin/_gate/services/index'
 import { Route as AdminGateBlogIndexRouteImport } from './routes/admin/_gate/blog/index'
 import { Route as AdminGateServicesIdRouteImport } from './routes/admin/_gate/services/$id'
+import { Route as AdminGateBlogIdRouteImport } from './routes/admin/_gate/blog/$id'
 import { Route as LangBookConfirmedRefRouteImport } from './routes/$lang/book.confirmed.$ref'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -179,6 +180,11 @@ const AdminGateServicesIdRoute = AdminGateServicesIdRouteImport.update({
   path: '/services/$id',
   getParentRoute: () => AdminGateRoute,
 } as any)
+const AdminGateBlogIdRoute = AdminGateBlogIdRouteImport.update({
+  id: '/blog/$id',
+  path: '/blog/$id',
+  getParentRoute: () => AdminGateRoute,
+} as any)
 const LangBookConfirmedRefRoute = LangBookConfirmedRefRouteImport.update({
   id: '/confirmed/$ref',
   path: '/confirmed/$ref',
@@ -212,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/admin/testimonials': typeof AdminGateTestimonialsRoute
   '/admin/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
+  '/admin/blog/$id': typeof AdminGateBlogIdRoute
   '/admin/services/$id': typeof AdminGateServicesIdRoute
   '/admin/blog/': typeof AdminGateBlogIndexRoute
   '/admin/services/': typeof AdminGateServicesIndexRoute
@@ -241,6 +248,7 @@ export interface FileRoutesByTo {
   '/admin/testimonials': typeof AdminGateTestimonialsRoute
   '/admin': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
+  '/admin/blog/$id': typeof AdminGateBlogIdRoute
   '/admin/services/$id': typeof AdminGateServicesIdRoute
   '/admin/blog': typeof AdminGateBlogIndexRoute
   '/admin/services': typeof AdminGateServicesIndexRoute
@@ -273,6 +281,7 @@ export interface FileRoutesById {
   '/admin/_gate/testimonials': typeof AdminGateTestimonialsRoute
   '/admin/_gate/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
+  '/admin/_gate/blog/$id': typeof AdminGateBlogIdRoute
   '/admin/_gate/services/$id': typeof AdminGateServicesIdRoute
   '/admin/_gate/blog/': typeof AdminGateBlogIndexRoute
   '/admin/_gate/services/': typeof AdminGateServicesIndexRoute
@@ -306,6 +315,7 @@ export interface FileRouteTypes {
     | '/admin/testimonials'
     | '/admin/'
     | '/$lang/book/confirmed/$ref'
+    | '/admin/blog/$id'
     | '/admin/services/$id'
     | '/admin/blog/'
     | '/admin/services/'
@@ -335,6 +345,7 @@ export interface FileRouteTypes {
     | '/admin/testimonials'
     | '/admin'
     | '/$lang/book/confirmed/$ref'
+    | '/admin/blog/$id'
     | '/admin/services/$id'
     | '/admin/blog'
     | '/admin/services'
@@ -366,6 +377,7 @@ export interface FileRouteTypes {
     | '/admin/_gate/testimonials'
     | '/admin/_gate/'
     | '/$lang/book/confirmed/$ref'
+    | '/admin/_gate/blog/$id'
     | '/admin/_gate/services/$id'
     | '/admin/_gate/blog/'
     | '/admin/_gate/services/'
@@ -577,6 +589,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGateServicesIdRouteImport
       parentRoute: typeof AdminGateRoute
     }
+    '/admin/_gate/blog/$id': {
+      id: '/admin/_gate/blog/$id'
+      path: '/blog/$id'
+      fullPath: '/admin/blog/$id'
+      preLoaderRoute: typeof AdminGateBlogIdRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
     '/$lang/book/confirmed/$ref': {
       id: '/$lang/book/confirmed/$ref'
       path: '/confirmed/$ref'
@@ -642,6 +661,7 @@ interface AdminGateRouteChildren {
   AdminGateSettingsRoute: typeof AdminGateSettingsRoute
   AdminGateTestimonialsRoute: typeof AdminGateTestimonialsRoute
   AdminGateIndexRoute: typeof AdminGateIndexRoute
+  AdminGateBlogIdRoute: typeof AdminGateBlogIdRoute
   AdminGateServicesIdRoute: typeof AdminGateServicesIdRoute
   AdminGateBlogIndexRoute: typeof AdminGateBlogIndexRoute
   AdminGateServicesIndexRoute: typeof AdminGateServicesIndexRoute
@@ -656,6 +676,7 @@ const AdminGateRouteChildren: AdminGateRouteChildren = {
   AdminGateSettingsRoute: AdminGateSettingsRoute,
   AdminGateTestimonialsRoute: AdminGateTestimonialsRoute,
   AdminGateIndexRoute: AdminGateIndexRoute,
+  AdminGateBlogIdRoute: AdminGateBlogIdRoute,
   AdminGateServicesIdRoute: AdminGateServicesIdRoute,
   AdminGateBlogIndexRoute: AdminGateBlogIndexRoute,
   AdminGateServicesIndexRoute: AdminGateServicesIndexRoute,
