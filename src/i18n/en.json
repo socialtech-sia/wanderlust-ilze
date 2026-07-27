@@ -33,7 +33,10 @@
     "options_count_one": "{{count}} route",
     "options_count_other": "{{count}} routes",
     "price_from_short": "from {{price}}",
-    "featured_all": "See all offers"
+    "featured_all": "See all offers",
+    "years_label": "Experience",
+    "years_value": "{{count}}+ years in the Gauja region",
+    "certs_label": "Certifications"
   },
   "service": {
     "excursion": "Tour",

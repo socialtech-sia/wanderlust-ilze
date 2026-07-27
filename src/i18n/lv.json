@@ -33,7 +33,10 @@
     "options_count_one": "{{count}} maršruts",
     "options_count_other": "{{count}} maršruti",
     "price_from_short": "no {{price}}",
-    "featured_all": "Skatīt visus piedāvājumus"
+    "featured_all": "Skatīt visus piedāvājumus",
+    "years_label": "Pieredze",
+    "years_value": "{{count}}+ gadi Gaujas reģionā",
+    "certs_label": "Sertifikāti"
   },
   "service": {
     "excursion": "Ekskursija",
