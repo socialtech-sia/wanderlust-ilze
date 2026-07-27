@@ -97,10 +97,10 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
                 <CalendarDays className="mt-0.5 h-4 w-4 shrink-0 text-moss-deep" aria-hidden />
                 <div>
                   <dt className="text-xs uppercase tracking-wider text-ink-muted">
-                    {t("facts.certified_title")}
+                    {t("home.years_label")}
                   </dt>
                   <dd className="text-sm text-foreground">
-                    {profile.years_of_experience}+
+                    {t("home.years_value", { count: profile.years_of_experience })}
                   </dd>
                 </div>
               </div>
