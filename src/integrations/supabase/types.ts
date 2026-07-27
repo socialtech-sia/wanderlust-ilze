@@ -659,6 +659,59 @@ export type Database = {
         }
         Relationships: []
       }
+      testimonials: {
+        Row: {
+          author_country: string | null
+          author_name: string
+          created_at: string
+          id: string
+          is_active: boolean
+          rating: number
+          service_id: string | null
+          sort_order: number
+          text_en: string | null
+          text_es: string | null
+          text_lv: string | null
+          updated_at: string
+        }
+        Insert: {
+          author_country?: string | null
+          author_name: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          rating?: number
+          service_id?: string | null
+          sort_order?: number
+          text_en?: string | null
+          text_es?: string | null
+          text_lv?: string | null
+          updated_at?: string
+        }
+        Update: {
+          author_country?: string | null
+          author_name?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          rating?: number
+          service_id?: string | null
+          sort_order?: number
+          text_en?: string | null
+          text_es?: string | null
+          text_lv?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "testimonials_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string

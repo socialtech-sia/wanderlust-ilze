@@ -15,7 +15,7 @@ export function EnterGaujaTiles() {
   return (
     <section className="container-editorial py-20 md:py-28">
       <div className="max-w-2xl">
-        <p className="text-eyebrow">03 · Enter Gauja</p>
+        <p className="text-eyebrow">09 · Enter Gauja</p>
         <h2 className="mt-2 font-display text-3xl md:text-5xl">
           {t("home.gauja_title")}
         </h2>

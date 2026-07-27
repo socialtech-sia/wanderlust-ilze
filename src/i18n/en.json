@@ -28,7 +28,15 @@
     "about_eyebrow": "Meet your guide",
     "about_cta": "More about Ilze",
     "partner_text": "Enter Gauja partnership network member",
-    "partner_learn": "Learn about Enter Gauja"
+    "partner_learn": "Learn about Enter Gauja",
+    "hero_trust": "Certified guide · 10+ years of experience · LV · EN · RU · ES",
+    "options_count_one": "{{count}} route",
+    "options_count_other": "{{count}} routes",
+    "price_from_short": "from {{price}}",
+    "featured_all": "See all offers",
+    "years_label": "Experience",
+    "years_value": "{{count}}+ years in the Gauja region",
+    "certs_label": "Certifications"
   },
   "service": {
     "excursion": "Tour",
@@ -317,5 +325,76 @@
     "backlink_body": "We are Enter Gauja community partners. Discover more nature trails, castles and cultural events across the Gauja Valley.",
     "cta_view": "View Enter Gauja",
     "cta_view_category": "View {{category}}"
+  },
+  "facts": {
+    "certified_title": "Certified guide",
+    "certified_text": "Officially certified guide for Gauja National Park",
+    "groups_title": "Small groups",
+    "groups_text": "2–8 people per route",
+    "languages_title": "Four languages",
+    "languages_text": "Latvian, English, Russian, Spanish",
+    "custom_title": "Tailored routes",
+    "custom_text": "Adjusted to your pace and interests"
+  },
+  "howitworks": {
+    "title": "How it works",
+    "subtitle": "Four steps from choosing a route to walking it. No prepayment, no agencies in between.",
+    "s1_title": "Choose a route",
+    "s1_text": "Look through the tours, hikes and transfers. If you are not sure, pick the closest one and write what you would like to see in the notes.",
+    "s2_title": "Send a request",
+    "s2_text": "Give a date, the number of people and your contacts. Nothing is paid at this point.",
+    "s3_title": "Ilze replies personally",
+    "s3_text": "Usually within 24 hours — with confirmation, the exact meeting point, time and the final price.",
+    "s4_title": "We meet and go",
+    "s4_text": "We meet at the agreed place. If needed, I pick you up in Riga, at the airport or in Jūrmala."
+  },
+  "region": {
+    "title": "Where we go",
+    "subtitle": "Four places that nearly every route is built around.",
+    "cta": "Tours here",
+    "sigulda_title": "Sigulda",
+    "sigulda_text": "The steepest part of the ancient Gauja valley, with sandstone cliffs, ravines and three castles within a few kilometres. The easiest starting point if you only have one day.",
+    "turaida_title": "Turaida",
+    "turaida_text": "A red-brick castle tower above the valley, a museum reserve and the Song Hill next to it. A place where history and landscape line up in one view.",
+    "cesis_title": "Cēsis",
+    "cesis_text": "Medieval castle ruins with dark cellars, quiet cobbled lanes and an old town small enough to walk. A good choice for an unhurried day.",
+    "ligatne_title": "Līgatne",
+    "ligatne_text": "A paper mill village with sandstone caves and forest trails in the middle of Gauja National Park. Of the four places, this one has the fewest visitors."
+  },
+  "why": {
+    "title": "Why go with a guide",
+    "subtitle": "You can walk the valley on your own. Three things that are harder to do alone.",
+    "i1_title": "Stories that are not on the information boards",
+    "i1_text": "What happened here, why the castle was built at this particular bend, who lived in the village a hundred years ago. The context that turns scenery into a place.",
+    "i2_title": "Routes away from the main trails",
+    "i2_text": "Ten years of walking here also covers the paths that are not on the car park map. I know where the view is better and where the coach groups are not.",
+    "i3_title": "Everything arranged, transport included",
+    "i3_text": "Timings, tickets, a lunch stop and the transfer from Riga or the airport. You only need to bring comfortable shoes."
+  },
+  "seasons": {
+    "title": "The Gauja through the year",
+    "subtitle": "The valley looks different in every season — summer is not the only one worth coming for.",
+    "spring_title": "Spring",
+    "spring_text": "High water in the river and bare slopes. Cliffs that leaves hide in summer are visible, and the first flowers appear in the forest.",
+    "summer_title": "Summer",
+    "summer_text": "A warm river, daylight until late and room to plan longer routes.",
+    "autumn_title": "Autumn",
+    "autumn_text": "The colours of the valley in late September and October — the reason many people come here specifically.",
+    "winter_title": "Winter",
+    "winter_text": "Quiet, snow on the trails and empty castle ruins. Shorter routes with hot tea halfway."
+  },
+  "faqp": {
+    "title": "Frequently asked questions",
+    "subtitle": "Short answers to what people ask most often.",
+    "cta": "All questions"
+  },
+  "testimonials": {
+    "title": "What guests say",
+    "subtitle": "Notes from people we have walked with."
+  },
+  "finalcta": {
+    "title": "Planning a day in the Gauja valley?",
+    "text": "Write what you would like to see and how much time you have. Ilze replies personally within 24 hours.",
+    "secondary": "Write to us"
   }
 }

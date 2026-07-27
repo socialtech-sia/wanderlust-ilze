@@ -28,7 +28,15 @@
     "about_eyebrow": "Conoce a tu guía",
     "about_cta": "Más sobre Ilze",
     "partner_text": "Miembro de la red Enter Gauja",
-    "partner_learn": "Conocer Enter Gauja"
+    "partner_learn": "Conocer Enter Gauja",
+    "hero_trust": "Guía certificada · 10+ años de experiencia · LV · EN · RU · ES",
+    "options_count_one": "{{count}} ruta",
+    "options_count_other": "{{count}} rutas",
+    "price_from_short": "desde {{price}}",
+    "featured_all": "Ver todas las propuestas",
+    "years_label": "Experiencia",
+    "years_value": "{{count}}+ años en la región del Gauja",
+    "certs_label": "Certificaciones"
   },
   "service": {
     "excursion": "Excursión",
@@ -317,5 +325,76 @@
     "backlink_body": "Somos partners de la comunidad Enter Gauja. Descubre más rutas naturales, castillos y eventos culturales en el valle de Gauja.",
     "cta_view": "Ver Enter Gauja",
     "cta_view_category": "Ver {{category}}"
+  },
+  "facts": {
+    "certified_title": "Guía certificada",
+    "certified_text": "Guía oficialmente certificada del Parque Nacional Gauja",
+    "groups_title": "Grupos pequeños",
+    "groups_text": "De 2 a 8 personas por ruta",
+    "languages_title": "Cuatro idiomas",
+    "languages_text": "Letón, inglés, ruso y español",
+    "custom_title": "Rutas a medida",
+    "custom_text": "Adaptadas a tu ritmo y a tus intereses"
+  },
+  "howitworks": {
+    "title": "Cómo funciona",
+    "subtitle": "Cuatro pasos desde elegir la ruta hasta recorrerla. Sin pago por adelantado y sin intermediarios.",
+    "s1_title": "Eliges la ruta",
+    "s1_text": "Mira las excursiones, las caminatas y los traslados. Si dudas, elige la más parecida y escribe en las notas qué te gustaría ver.",
+    "s2_title": "Envías la solicitud",
+    "s2_text": "Indicas la fecha, el número de personas y tus datos de contacto. En este momento no se paga nada.",
+    "s3_title": "Ilze responde personalmente",
+    "s3_text": "Normalmente en 24 horas, con la confirmación, el punto exacto de encuentro, la hora y el precio final.",
+    "s4_title": "Nos vemos y salimos",
+    "s4_text": "Nos encontramos en el lugar acordado. Si hace falta, os recojo en Riga, en el aeropuerto o en Jūrmala."
+  },
+  "region": {
+    "title": "Adónde vamos",
+    "subtitle": "Cuatro lugares alrededor de los cuales se construyen casi todas las rutas.",
+    "cta": "Excursiones aquí",
+    "sigulda_title": "Sigulda",
+    "sigulda_text": "La parte más escarpada del antiguo valle del Gauja, con acantilados de arenisca, barrancos y tres castillos en pocos kilómetros. El mejor punto de partida si solo dispones de un día.",
+    "turaida_title": "Turaida",
+    "turaida_text": "La torre de ladrillo rojo sobre el valle, la reserva-museo y la Colina de las Canciones al lado. Un lugar donde la historia y el paisaje coinciden en una misma vista.",
+    "cesis_title": "Cēsis",
+    "cesis_text": "Ruinas de un castillo medieval con sótanos oscuros, callejuelas empedradas y un casco antiguo que se recorre a pie. Buena elección para un día sin prisas.",
+    "ligatne_title": "Līgatne",
+    "ligatne_text": "Un pueblo de fábrica papelera con cuevas de arenisca y senderos de bosque en pleno Parque Nacional Gauja. De los cuatro lugares, es el que menos visitantes recibe."
+  },
+  "why": {
+    "title": "Por qué con guía",
+    "subtitle": "El valle también se puede recorrer por libre. Tres cosas que son más difíciles de hacer solo.",
+    "i1_title": "Relatos que no están en los paneles informativos",
+    "i1_text": "Qué ocurrió aquí, por qué el castillo se levantó justo en este meandro, quién vivía en el pueblo hace cien años. El contexto que convierte un paisaje en un lugar.",
+    "i2_title": "Rutas fuera de los senderos principales",
+    "i2_text": "Diez años caminando por aquí incluyen también las sendas que no aparecen en el mapa del aparcamiento. Sé dónde la vista es mejor y dónde no hay grupos de autocar.",
+    "i3_title": "Todo organizado, transporte incluido",
+    "i3_text": "Horarios, entradas, la parada para comer y el traslado desde Riga o el aeropuerto. Solo hace falta que traigas calzado cómodo."
+  },
+  "seasons": {
+    "title": "El Gauja a lo largo del año",
+    "subtitle": "El valle cambia con cada estación: el verano no es la única razón para venir.",
+    "spring_title": "Primavera",
+    "spring_text": "Crecida del río y laderas desnudas. Se ven los acantilados que en verano tapan las hojas, y aparecen las primeras flores.",
+    "summer_title": "Verano",
+    "summer_text": "Río templado, luz hasta bien entrada la tarde y margen para planear rutas más largas.",
+    "autumn_title": "Otoño",
+    "autumn_text": "Los colores del valle a finales de septiembre y en octubre: el motivo por el que mucha gente viene justo aquí.",
+    "winter_title": "Invierno",
+    "winter_text": "Silencio, nieve en los senderos y ruinas vacías. Rutas más cortas y té caliente a mitad de camino."
+  },
+  "faqp": {
+    "title": "Preguntas frecuentes",
+    "subtitle": "Respuestas breves a lo que más se pregunta.",
+    "cta": "Todas las preguntas"
+  },
+  "testimonials": {
+    "title": "Lo que dicen los visitantes",
+    "subtitle": "Comentarios de personas con las que hemos caminado."
+  },
+  "finalcta": {
+    "title": "¿Planeas un día en el valle del Gauja?",
+    "text": "Escribe qué te gustaría ver y de cuánto tiempo dispones. Ilze responde personalmente en 24 horas.",
+    "secondary": "Escribir"
   }
 }

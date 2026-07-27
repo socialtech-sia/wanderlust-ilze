@@ -1,25 +1,58 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/home/Hero";
+import { KeyFacts } from "@/components/home/KeyFacts";
 import { ServiceCategories } from "@/components/home/ServiceCategories";
+import { HowItWorks } from "@/components/home/HowItWorks";
 import { FeaturedServices } from "@/components/home/FeaturedServices";
-import { EnterGaujaTiles } from "@/components/home/EnterGaujaTiles";
+import { RegionSection } from "@/components/home/RegionSection";
 import { AboutPreview } from "@/components/home/AboutPreview";
+import { WhyGuide } from "@/components/home/WhyGuide";
+import { Seasons } from "@/components/home/Seasons";
+import { EnterGaujaTiles } from "@/components/home/EnterGaujaTiles";
+import { FaqPreview } from "@/components/home/FaqPreview";
+import { Testimonials } from "@/components/home/Testimonials";
+import { FinalCta } from "@/components/home/FinalCta";
 import { EnterGaujaBadge } from "@/components/home/EnterGaujaBadge";
 import { routeHead } from "@/lib/route-head";
+import { loadHomeData } from "@/lib/home-data";
+import { DEFAULT_LANG, isLang, tField, type Lang } from "@/lib/language";
+import { buildFaqPage } from "@/lib/seo";
 
 export const Route = createFileRoute("/$lang/")({
-  head: ({ params }) => routeHead({ params, routeKey: "home", path: "/" }),
+  loader: () => loadHomeData(),
+  head: ({ params, loaderData }) => {
+    const lang: Lang = isLang(params.lang) ? params.lang : DEFAULT_LANG;
+    const faqItems = (loaderData?.faq ?? [])
+      .map((f) => ({ q: tField(f, "question", lang), a: tField(f, "answer", lang) }))
+      .filter((it) => it.q && it.a);
+    return routeHead({
+      params,
+      routeKey: "home",
+      path: "/",
+      extraJsonLd: faqItems.length ? [buildFaqPage(faqItems)] : undefined,
+    });
+  },
   component: HomePage,
 });
 
 function HomePage() {
+  const { services, faq, profile, testimonials } = Route.useLoaderData();
+
   return (
     <>
       <Hero />
-      <ServiceCategories />
-      <FeaturedServices />
-      <AboutPreview />
+      <KeyFacts />
+      <ServiceCategories services={services} />
+      <HowItWorks />
+      <FeaturedServices services={services} />
+      <RegionSection />
+      <AboutPreview profile={profile} />
+      <WhyGuide />
+      <Seasons />
       <EnterGaujaTiles />
+      <FaqPreview items={faq} />
+      <Testimonials items={testimonials} />
+      <FinalCta />
       <EnterGaujaBadge />
     </>
   );
