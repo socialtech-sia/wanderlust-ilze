@@ -399,5 +399,18 @@
     "title": "¿Planeas un día en el valle del Gauja?",
     "text": "Escribe qué te gustaría ver y de cuánto tiempo dispones. Ilze responde personalmente en 24 horas.",
     "secondary": "Escribir"
+  },
+  "chat": {
+    "title": "Asistente de Ilze",
+    "subtitle": "Responde al instante · Asistente IA",
+    "placeholder": "Haz una pregunta…",
+    "close": "Cerrar",
+    "error": "No se pudo enviar el mensaje. Inténtalo de nuevo.",
+    "rate_limited": "Límite de mensajes alcanzado. Escríbenos por correo.",
+    "greeting": "¡Hola! Soy el asistente digital de Ilze. Cuéntame qué te gustaría vivir junto al río Gauja: te sugeriré ruta, horario y precio.",
+    "book_cta": "Reservar una experiencia",
+    "s1": "¿Qué excursiones ofrecéis?",
+    "s2": "¿Cuánto cuesta una caminata en Sigulda?",
+    "s3": "¿Podéis organizar un traslado desde Riga?"
   }
 }

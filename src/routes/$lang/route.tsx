@@ -5,6 +5,7 @@ import i18n from "@/lib/i18n";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/cookie/CookieConsent";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 import { EnterGaujaPartnerBadge } from "@/components/entergauja/EnterGaujaPartnerBadge";
 import { getEnterGaujaCategory, type EnterGaujaKey } from "@/lib/enter-gauja";
 
@@ -39,6 +40,7 @@ function LangLayout() {
       </main>
       <Footer />
       <EnterGaujaPartnerBadge category={badgeCategory} />
+      <ChatWidget />
       <CookieConsent />
     </div>
   );
