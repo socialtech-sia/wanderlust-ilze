@@ -30,6 +30,7 @@ import { Route as AdminGateMediaRouteImport } from './routes/admin/_gate/media'
 import { Route as AdminGateFaqRouteImport } from './routes/admin/_gate/faq'
 import { Route as AdminGateBookingsRouteImport } from './routes/admin/_gate/bookings'
 import { Route as LangSSlugRouteImport } from './routes/$lang/s.$slug'
+import { Route as AdminGateServicesIndexRouteImport } from './routes/admin/_gate/services/index'
 import { Route as LangBookConfirmedRefRouteImport } from './routes/$lang/book.confirmed.$ref'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -137,6 +138,11 @@ const LangSSlugRoute = LangSSlugRouteImport.update({
   path: '/s/$slug',
   getParentRoute: () => LangRouteRoute,
 } as any)
+const AdminGateServicesIndexRoute = AdminGateServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => AdminGateRoute,
+} as any)
 const LangBookConfirmedRefRoute = LangBookConfirmedRefRouteImport.update({
   id: '/confirmed/$ref',
   path: '/confirmed/$ref',
@@ -166,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/admin/media': typeof AdminGateMediaRoute
   '/admin/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
+  '/admin/services/': typeof AdminGateServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -188,6 +195,7 @@ export interface FileRoutesByTo {
   '/admin/media': typeof AdminGateMediaRoute
   '/admin': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
+  '/admin/services': typeof AdminGateServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/admin/_gate/media': typeof AdminGateMediaRoute
   '/admin/_gate/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
+  '/admin/_gate/services/': typeof AdminGateServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/admin/media'
     | '/admin/'
     | '/$lang/book/confirmed/$ref'
+    | '/admin/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -261,6 +271,7 @@ export interface FileRouteTypes {
     | '/admin/media'
     | '/admin'
     | '/$lang/book/confirmed/$ref'
+    | '/admin/services'
   id:
     | '__root__'
     | '/'
@@ -285,6 +296,7 @@ export interface FileRouteTypes {
     | '/admin/_gate/media'
     | '/admin/_gate/'
     | '/$lang/book/confirmed/$ref'
+    | '/admin/_gate/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -444,6 +456,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangSSlugRouteImport
       parentRoute: typeof LangRouteRoute
     }
+    '/admin/_gate/services/': {
+      id: '/admin/_gate/services/'
+      path: '/services'
+      fullPath: '/admin/services/'
+      preLoaderRoute: typeof AdminGateServicesIndexRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
     '/$lang/book/confirmed/$ref': {
       id: '/$lang/book/confirmed/$ref'
       path: '/confirmed/$ref'
@@ -505,6 +524,7 @@ interface AdminGateRouteChildren {
   AdminGateFaqRoute: typeof AdminGateFaqRoute
   AdminGateMediaRoute: typeof AdminGateMediaRoute
   AdminGateIndexRoute: typeof AdminGateIndexRoute
+  AdminGateServicesIndexRoute: typeof AdminGateServicesIndexRoute
 }
 
 const AdminGateRouteChildren: AdminGateRouteChildren = {
@@ -512,6 +532,7 @@ const AdminGateRouteChildren: AdminGateRouteChildren = {
   AdminGateFaqRoute: AdminGateFaqRoute,
   AdminGateMediaRoute: AdminGateMediaRoute,
   AdminGateIndexRoute: AdminGateIndexRoute,
+  AdminGateServicesIndexRoute: AdminGateServicesIndexRoute,
 }
 
 const AdminGateRouteWithChildren = AdminGateRoute._addFileChildren(
