@@ -7,10 +7,11 @@ import { tField } from "@/lib/language";
 type Cat = Database["public"]["Enums"]["enter_gauja_category"];
 
 const FALLBACK: Record<Cat, { lv: string; en: string; es: string; hex: string }> = {
-  action: { lv: "Piedzīvojums", en: "Action", es: "Aventura", hex: "#D97757" },
-  nature: { lv: "Daba", en: "Nature", es: "Naturaleza", hex: "#6B8E4E" },
-  history: { lv: "Vēsture", en: "History", es: "Historia", hex: "#A67C52" },
-  culture: { lv: "Kultūra", en: "Culture", es: "Cultura", hex: "#7B6BA8" },
+  action: { lv: "Piedzīvojums", en: "Action", es: "Aventura", hex: "#F05366" },
+  nature: { lv: "Daba", en: "Nature", es: "Naturaleza", hex: "#4F6F19" },
+  history: { lv: "Vēsture", en: "History", es: "Historia", hex: "#D1701A" },
+  culture: { lv: "Kultūra", en: "Culture", es: "Cultura", hex: "#51869D" },
+  getaround: { lv: "Gauja Get-around", en: "Gauja Get-around", es: "Gauja Get-around", hex: "#6987B6" },
 };
 
 export function CategoryBadge({

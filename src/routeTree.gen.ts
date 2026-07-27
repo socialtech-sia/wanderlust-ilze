@@ -13,6 +13,8 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as LangRouteRouteImport } from './routes/$lang/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LangIndexRouteImport } from './routes/$lang/index'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminGateRouteImport } from './routes/admin/_gate'
 import { Route as LangTransfersRouteImport } from './routes/$lang/transfers'
 import { Route as LangToursRouteImport } from './routes/$lang/tours'
 import { Route as LangTermsRouteImport } from './routes/$lang/terms'
@@ -23,7 +25,19 @@ import { Route as LangCookiesRouteImport } from './routes/$lang/cookies'
 import { Route as LangContactRouteImport } from './routes/$lang/contact'
 import { Route as LangBookRouteImport } from './routes/$lang/book'
 import { Route as LangAboutRouteImport } from './routes/$lang/about'
+import { Route as AdminGateIndexRouteImport } from './routes/admin/_gate/index'
+import { Route as AdminGateTestimonialsRouteImport } from './routes/admin/_gate/testimonials'
+import { Route as AdminGateSettingsRouteImport } from './routes/admin/_gate/settings'
+import { Route as AdminGateProfileRouteImport } from './routes/admin/_gate/profile'
+import { Route as AdminGateMessagesRouteImport } from './routes/admin/_gate/messages'
+import { Route as AdminGateMediaRouteImport } from './routes/admin/_gate/media'
+import { Route as AdminGateFaqRouteImport } from './routes/admin/_gate/faq'
+import { Route as AdminGateBookingsRouteImport } from './routes/admin/_gate/bookings'
 import { Route as LangSSlugRouteImport } from './routes/$lang/s.$slug'
+import { Route as AdminGateServicesIndexRouteImport } from './routes/admin/_gate/services/index'
+import { Route as AdminGateBlogIndexRouteImport } from './routes/admin/_gate/blog/index'
+import { Route as AdminGateServicesIdRouteImport } from './routes/admin/_gate/services/$id'
+import { Route as AdminGateBlogIdRouteImport } from './routes/admin/_gate/blog/$id'
 import { Route as LangBookConfirmedRefRouteImport } from './routes/$lang/book.confirmed.$ref'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -45,6 +59,16 @@ const LangIndexRoute = LangIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => LangRouteRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGateRoute = AdminGateRouteImport.update({
+  id: '/admin/_gate',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LangTransfersRoute = LangTransfersRouteImport.update({
   id: '/transfers',
@@ -96,10 +120,70 @@ const LangAboutRoute = LangAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => LangRouteRoute,
 } as any)
+const AdminGateIndexRoute = AdminGateIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateTestimonialsRoute = AdminGateTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateSettingsRoute = AdminGateSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateProfileRoute = AdminGateProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateMessagesRoute = AdminGateMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateMediaRoute = AdminGateMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateFaqRoute = AdminGateFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateBookingsRoute = AdminGateBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => AdminGateRoute,
+} as any)
 const LangSSlugRoute = LangSSlugRouteImport.update({
   id: '/s/$slug',
   path: '/s/$slug',
   getParentRoute: () => LangRouteRoute,
+} as any)
+const AdminGateServicesIndexRoute = AdminGateServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateBlogIndexRoute = AdminGateBlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateServicesIdRoute = AdminGateServicesIdRouteImport.update({
+  id: '/services/$id',
+  path: '/services/$id',
+  getParentRoute: () => AdminGateRoute,
+} as any)
+const AdminGateBlogIdRoute = AdminGateBlogIdRouteImport.update({
+  id: '/blog/$id',
+  path: '/blog/$id',
+  getParentRoute: () => AdminGateRoute,
 } as any)
 const LangBookConfirmedRefRoute = LangBookConfirmedRefRouteImport.update({
   id: '/confirmed/$ref',
@@ -121,9 +205,23 @@ export interface FileRoutesByFullPath {
   '/$lang/terms': typeof LangTermsRoute
   '/$lang/tours': typeof LangToursRoute
   '/$lang/transfers': typeof LangTransfersRoute
+  '/admin': typeof AdminGateRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/$lang/': typeof LangIndexRoute
   '/$lang/s/$slug': typeof LangSSlugRoute
+  '/admin/bookings': typeof AdminGateBookingsRoute
+  '/admin/faq': typeof AdminGateFaqRoute
+  '/admin/media': typeof AdminGateMediaRoute
+  '/admin/messages': typeof AdminGateMessagesRoute
+  '/admin/profile': typeof AdminGateProfileRoute
+  '/admin/settings': typeof AdminGateSettingsRoute
+  '/admin/testimonials': typeof AdminGateTestimonialsRoute
+  '/admin/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
+  '/admin/blog/$id': typeof AdminGateBlogIdRoute
+  '/admin/services/$id': typeof AdminGateServicesIdRoute
+  '/admin/blog/': typeof AdminGateBlogIndexRoute
+  '/admin/services/': typeof AdminGateServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -138,9 +236,22 @@ export interface FileRoutesByTo {
   '/$lang/terms': typeof LangTermsRoute
   '/$lang/tours': typeof LangToursRoute
   '/$lang/transfers': typeof LangTransfersRoute
+  '/admin/login': typeof AdminLoginRoute
   '/$lang': typeof LangIndexRoute
   '/$lang/s/$slug': typeof LangSSlugRoute
+  '/admin/bookings': typeof AdminGateBookingsRoute
+  '/admin/faq': typeof AdminGateFaqRoute
+  '/admin/media': typeof AdminGateMediaRoute
+  '/admin/messages': typeof AdminGateMessagesRoute
+  '/admin/profile': typeof AdminGateProfileRoute
+  '/admin/settings': typeof AdminGateSettingsRoute
+  '/admin/testimonials': typeof AdminGateTestimonialsRoute
+  '/admin': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
+  '/admin/blog/$id': typeof AdminGateBlogIdRoute
+  '/admin/services/$id': typeof AdminGateServicesIdRoute
+  '/admin/blog': typeof AdminGateBlogIndexRoute
+  '/admin/services': typeof AdminGateServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -157,9 +268,23 @@ export interface FileRoutesById {
   '/$lang/terms': typeof LangTermsRoute
   '/$lang/tours': typeof LangToursRoute
   '/$lang/transfers': typeof LangTransfersRoute
+  '/admin/_gate': typeof AdminGateRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/$lang/': typeof LangIndexRoute
   '/$lang/s/$slug': typeof LangSSlugRoute
+  '/admin/_gate/bookings': typeof AdminGateBookingsRoute
+  '/admin/_gate/faq': typeof AdminGateFaqRoute
+  '/admin/_gate/media': typeof AdminGateMediaRoute
+  '/admin/_gate/messages': typeof AdminGateMessagesRoute
+  '/admin/_gate/profile': typeof AdminGateProfileRoute
+  '/admin/_gate/settings': typeof AdminGateSettingsRoute
+  '/admin/_gate/testimonials': typeof AdminGateTestimonialsRoute
+  '/admin/_gate/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
+  '/admin/_gate/blog/$id': typeof AdminGateBlogIdRoute
+  '/admin/_gate/services/$id': typeof AdminGateServicesIdRoute
+  '/admin/_gate/blog/': typeof AdminGateBlogIndexRoute
+  '/admin/_gate/services/': typeof AdminGateServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,9 +302,23 @@ export interface FileRouteTypes {
     | '/$lang/terms'
     | '/$lang/tours'
     | '/$lang/transfers'
+    | '/admin'
+    | '/admin/login'
     | '/$lang/'
     | '/$lang/s/$slug'
+    | '/admin/bookings'
+    | '/admin/faq'
+    | '/admin/media'
+    | '/admin/messages'
+    | '/admin/profile'
+    | '/admin/settings'
+    | '/admin/testimonials'
+    | '/admin/'
     | '/$lang/book/confirmed/$ref'
+    | '/admin/blog/$id'
+    | '/admin/services/$id'
+    | '/admin/blog/'
+    | '/admin/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,9 +333,22 @@ export interface FileRouteTypes {
     | '/$lang/terms'
     | '/$lang/tours'
     | '/$lang/transfers'
+    | '/admin/login'
     | '/$lang'
     | '/$lang/s/$slug'
+    | '/admin/bookings'
+    | '/admin/faq'
+    | '/admin/media'
+    | '/admin/messages'
+    | '/admin/profile'
+    | '/admin/settings'
+    | '/admin/testimonials'
+    | '/admin'
     | '/$lang/book/confirmed/$ref'
+    | '/admin/blog/$id'
+    | '/admin/services/$id'
+    | '/admin/blog'
+    | '/admin/services'
   id:
     | '__root__'
     | '/'
@@ -212,15 +364,31 @@ export interface FileRouteTypes {
     | '/$lang/terms'
     | '/$lang/tours'
     | '/$lang/transfers'
+    | '/admin/_gate'
+    | '/admin/login'
     | '/$lang/'
     | '/$lang/s/$slug'
+    | '/admin/_gate/bookings'
+    | '/admin/_gate/faq'
+    | '/admin/_gate/media'
+    | '/admin/_gate/messages'
+    | '/admin/_gate/profile'
+    | '/admin/_gate/settings'
+    | '/admin/_gate/testimonials'
+    | '/admin/_gate/'
     | '/$lang/book/confirmed/$ref'
+    | '/admin/_gate/blog/$id'
+    | '/admin/_gate/services/$id'
+    | '/admin/_gate/blog/'
+    | '/admin/_gate/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LangRouteRoute: typeof LangRouteRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AdminGateRoute: typeof AdminGateRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -252,6 +420,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/$lang/'
       preLoaderRoute: typeof LangIndexRouteImport
       parentRoute: typeof LangRouteRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_gate': {
+      id: '/admin/_gate'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminGateRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$lang/transfers': {
       id: '/$lang/transfers'
@@ -323,12 +505,96 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangAboutRouteImport
       parentRoute: typeof LangRouteRoute
     }
+    '/admin/_gate/': {
+      id: '/admin/_gate/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminGateIndexRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/testimonials': {
+      id: '/admin/_gate/testimonials'
+      path: '/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminGateTestimonialsRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/settings': {
+      id: '/admin/_gate/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminGateSettingsRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/profile': {
+      id: '/admin/_gate/profile'
+      path: '/profile'
+      fullPath: '/admin/profile'
+      preLoaderRoute: typeof AdminGateProfileRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/messages': {
+      id: '/admin/_gate/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminGateMessagesRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/media': {
+      id: '/admin/_gate/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminGateMediaRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/faq': {
+      id: '/admin/_gate/faq'
+      path: '/faq'
+      fullPath: '/admin/faq'
+      preLoaderRoute: typeof AdminGateFaqRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/bookings': {
+      id: '/admin/_gate/bookings'
+      path: '/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AdminGateBookingsRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
     '/$lang/s/$slug': {
       id: '/$lang/s/$slug'
       path: '/s/$slug'
       fullPath: '/$lang/s/$slug'
       preLoaderRoute: typeof LangSSlugRouteImport
       parentRoute: typeof LangRouteRoute
+    }
+    '/admin/_gate/services/': {
+      id: '/admin/_gate/services/'
+      path: '/services'
+      fullPath: '/admin/services/'
+      preLoaderRoute: typeof AdminGateServicesIndexRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/blog/': {
+      id: '/admin/_gate/blog/'
+      path: '/blog'
+      fullPath: '/admin/blog/'
+      preLoaderRoute: typeof AdminGateBlogIndexRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/services/$id': {
+      id: '/admin/_gate/services/$id'
+      path: '/services/$id'
+      fullPath: '/admin/services/$id'
+      preLoaderRoute: typeof AdminGateServicesIdRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
+    '/admin/_gate/blog/$id': {
+      id: '/admin/_gate/blog/$id'
+      path: '/blog/$id'
+      fullPath: '/admin/blog/$id'
+      preLoaderRoute: typeof AdminGateBlogIdRouteImport
+      parentRoute: typeof AdminGateRoute
     }
     '/$lang/book/confirmed/$ref': {
       id: '/$lang/book/confirmed/$ref'
@@ -386,10 +652,46 @@ const LangRouteRouteWithChildren = LangRouteRoute._addFileChildren(
   LangRouteRouteChildren,
 )
 
+interface AdminGateRouteChildren {
+  AdminGateBookingsRoute: typeof AdminGateBookingsRoute
+  AdminGateFaqRoute: typeof AdminGateFaqRoute
+  AdminGateMediaRoute: typeof AdminGateMediaRoute
+  AdminGateMessagesRoute: typeof AdminGateMessagesRoute
+  AdminGateProfileRoute: typeof AdminGateProfileRoute
+  AdminGateSettingsRoute: typeof AdminGateSettingsRoute
+  AdminGateTestimonialsRoute: typeof AdminGateTestimonialsRoute
+  AdminGateIndexRoute: typeof AdminGateIndexRoute
+  AdminGateBlogIdRoute: typeof AdminGateBlogIdRoute
+  AdminGateServicesIdRoute: typeof AdminGateServicesIdRoute
+  AdminGateBlogIndexRoute: typeof AdminGateBlogIndexRoute
+  AdminGateServicesIndexRoute: typeof AdminGateServicesIndexRoute
+}
+
+const AdminGateRouteChildren: AdminGateRouteChildren = {
+  AdminGateBookingsRoute: AdminGateBookingsRoute,
+  AdminGateFaqRoute: AdminGateFaqRoute,
+  AdminGateMediaRoute: AdminGateMediaRoute,
+  AdminGateMessagesRoute: AdminGateMessagesRoute,
+  AdminGateProfileRoute: AdminGateProfileRoute,
+  AdminGateSettingsRoute: AdminGateSettingsRoute,
+  AdminGateTestimonialsRoute: AdminGateTestimonialsRoute,
+  AdminGateIndexRoute: AdminGateIndexRoute,
+  AdminGateBlogIdRoute: AdminGateBlogIdRoute,
+  AdminGateServicesIdRoute: AdminGateServicesIdRoute,
+  AdminGateBlogIndexRoute: AdminGateBlogIndexRoute,
+  AdminGateServicesIndexRoute: AdminGateServicesIndexRoute,
+}
+
+const AdminGateRouteWithChildren = AdminGateRoute._addFileChildren(
+  AdminGateRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LangRouteRoute: LangRouteRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AdminGateRoute: AdminGateRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
