@@ -1,35 +1,134 @@
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { ArrowRight } from "lucide-react";
-import { useProfile } from "@/hooks/use-services";
+import { ArrowRight, Award, Languages, CalendarDays } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
-import { tField } from "@/lib/language";
+import { tField, LANG_LABELS, isLang } from "@/lib/language";
+import type { HomeProfile } from "@/lib/home-data";
 
-export function AboutPreview() {
+const LANG_NAMES: Record<string, { lv: string; en: string; es: string }> = {
+  lv: { lv: "latviešu", en: "Latvian", es: "letón" },
+  en: { lv: "angļu", en: "English", es: "inglés" },
+  ru: { lv: "krievu", en: "Russian", es: "ruso" },
+  es: { lv: "spāņu", en: "Spanish", es: "español" },
+};
+
+function certLabel(cert: unknown): string {
+  if (typeof cert === "string") return cert;
+  if (cert && typeof cert === "object") {
+    const c = cert as Record<string, unknown>;
+    const v = c.name ?? c.title ?? c.label;
+    if (typeof v === "string") return v;
+  }
+  return "";
+}
+
+export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
-  const { data: profile } = useProfile();
+
+  const shortBio = profile ? tField(profile, "short_bio", lang) : "";
+  const bio = profile ? tField(profile, "bio", lang) : "";
+  const paragraphs = [shortBio, ...bio.split(/\n{2,}/)]
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .slice(0, 3);
+
+  const spoken = (profile?.languages_spoken ?? []).map((code) => {
+    const entry = LANG_NAMES[code];
+    if (entry) return entry[lang];
+    return isLang(code) ? LANG_LABELS[code] : code.toUpperCase();
+  });
+
+  const certs = Array.isArray(profile?.certifications)
+    ? (profile.certifications as unknown[]).map(certLabel).filter(Boolean).slice(0, 4)
+    : [];
+
+  const avatar = profile?.avatar_storage_path;
 
   return (
     <section className="bg-paper py-20 md:py-28">
-      <div className="container-editorial grid gap-10 md:grid-cols-2 md:items-center">
+      <div className="container-editorial grid gap-10 md:grid-cols-2 md:items-start md:gap-14">
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-paper-alt md:aspect-[3/4]">
-          <img
-            src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=1000&q=70"
-            alt={profile?.full_name ? `${profile.full_name} — Wanderlust.lv guide in Gauja National Park` : "Wanderlust.lv local guide in Gauja National Park"}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
+          {avatar ? (
+            <img
+              src={avatar}
+              alt={
+                profile?.full_name
+                  ? `${profile.full_name} — Wanderlust.lv guide in Gauja National Park`
+                  : "Wanderlust.lv local guide in Gauja National Park"
+              }
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div className="flex h-full w-full flex-col items-center justify-center gap-3 border border-border/60 text-center">
+              <span className="font-display text-5xl text-ink-muted/60">
+                {(profile?.full_name ?? "Ilze Gulbe")
+                  .split(" ")
+                  .map((w) => w[0])
+                  .slice(0, 2)
+                  .join("")}
+              </span>
+              <span className="text-xs uppercase tracking-wider text-ink-muted">
+                {profile?.full_name ?? "Ilze Gulbe"}
+              </span>
+            </div>
+          )}
         </div>
+
         <div>
-          <p className="text-eyebrow">{t("home.about_eyebrow")}</p>
+          <p className="text-eyebrow">06 · {t("home.about_eyebrow")}</p>
           <h2 className="mt-2 font-display text-3xl md:text-5xl">
             {profile?.full_name ?? "Ilze Gulbe"}
           </h2>
           <p className="mt-1 text-ink-muted">{profile ? tField(profile, "role", lang) : ""}</p>
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-foreground/90">
-            {profile ? tField(profile, "short_bio", lang) : ""}
-          </p>
+
+          <div className="mt-6 space-y-4">
+            {paragraphs.map((p, i) => (
+              <p key={i} className="max-w-lg text-base leading-relaxed text-foreground/90">
+                {p}
+              </p>
+            ))}
+          </div>
+
+          <dl className="mt-8 grid gap-4 sm:grid-cols-2">
+            {profile?.years_of_experience ? (
+              <div className="flex items-start gap-2.5">
+                <CalendarDays className="mt-0.5 h-4 w-4 shrink-0 text-moss-deep" aria-hidden />
+                <div>
+                  <dt className="text-xs uppercase tracking-wider text-ink-muted">
+                    {t("facts.certified_title")}
+                  </dt>
+                  <dd className="text-sm text-foreground">
+                    {profile.years_of_experience}+
+                  </dd>
+                </div>
+              </div>
+            ) : null}
+            {spoken.length ? (
+              <div className="flex items-start gap-2.5">
+                <Languages className="mt-0.5 h-4 w-4 shrink-0 text-moss-deep" aria-hidden />
+                <div>
+                  <dt className="text-xs uppercase tracking-wider text-ink-muted">
+                    {t("facts.languages_title")}
+                  </dt>
+                  <dd className="text-sm text-foreground">{spoken.join(", ")}</dd>
+                </div>
+              </div>
+            ) : null}
+            {certs.length ? (
+              <div className="flex items-start gap-2.5 sm:col-span-2">
+                <Award className="mt-0.5 h-4 w-4 shrink-0 text-moss-deep" aria-hidden />
+                <div>
+                  <dt className="text-xs uppercase tracking-wider text-ink-muted">
+                    {t("facts.certified_title")}
+                  </dt>
+                  <dd className="text-sm text-foreground">{certs.join(" · ")}</dd>
+                </div>
+              </div>
+            ) : null}
+          </dl>
+
           <Link
             to="/$lang/about"
             params={{ lang }}
