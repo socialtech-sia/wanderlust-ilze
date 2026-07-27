@@ -121,7 +121,7 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
                 <Award className="mt-0.5 h-4 w-4 shrink-0 text-moss-deep" aria-hidden />
                 <div>
                   <dt className="text-xs uppercase tracking-wider text-ink-muted">
-                    {t("facts.certified_title")}
+                    {t("home.certs_label")}
                   </dt>
                   <dd className="text-sm text-foreground">{certs.join(" · ")}</dd>
                 </div>
