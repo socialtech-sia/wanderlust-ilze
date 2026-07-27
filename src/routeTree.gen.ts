@@ -27,6 +27,7 @@ import { Route as LangBookRouteImport } from './routes/$lang/book'
 import { Route as LangAboutRouteImport } from './routes/$lang/about'
 import { Route as AdminGateIndexRouteImport } from './routes/admin/_gate/index'
 import { Route as AdminGateTestimonialsRouteImport } from './routes/admin/_gate/testimonials'
+import { Route as AdminGateSettingsRouteImport } from './routes/admin/_gate/settings'
 import { Route as AdminGateProfileRouteImport } from './routes/admin/_gate/profile'
 import { Route as AdminGateMessagesRouteImport } from './routes/admin/_gate/messages'
 import { Route as AdminGateMediaRouteImport } from './routes/admin/_gate/media'
@@ -127,6 +128,11 @@ const AdminGateTestimonialsRoute = AdminGateTestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => AdminGateRoute,
 } as any)
+const AdminGateSettingsRoute = AdminGateSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminGateRoute,
+} as any)
 const AdminGateProfileRoute = AdminGateProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -196,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/admin/media': typeof AdminGateMediaRoute
   '/admin/messages': typeof AdminGateMessagesRoute
   '/admin/profile': typeof AdminGateProfileRoute
+  '/admin/settings': typeof AdminGateSettingsRoute
   '/admin/testimonials': typeof AdminGateTestimonialsRoute
   '/admin/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
@@ -223,6 +230,7 @@ export interface FileRoutesByTo {
   '/admin/media': typeof AdminGateMediaRoute
   '/admin/messages': typeof AdminGateMessagesRoute
   '/admin/profile': typeof AdminGateProfileRoute
+  '/admin/settings': typeof AdminGateSettingsRoute
   '/admin/testimonials': typeof AdminGateTestimonialsRoute
   '/admin': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
@@ -253,6 +261,7 @@ export interface FileRoutesById {
   '/admin/_gate/media': typeof AdminGateMediaRoute
   '/admin/_gate/messages': typeof AdminGateMessagesRoute
   '/admin/_gate/profile': typeof AdminGateProfileRoute
+  '/admin/_gate/settings': typeof AdminGateSettingsRoute
   '/admin/_gate/testimonials': typeof AdminGateTestimonialsRoute
   '/admin/_gate/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
@@ -284,6 +293,7 @@ export interface FileRouteTypes {
     | '/admin/media'
     | '/admin/messages'
     | '/admin/profile'
+    | '/admin/settings'
     | '/admin/testimonials'
     | '/admin/'
     | '/$lang/book/confirmed/$ref'
@@ -311,6 +321,7 @@ export interface FileRouteTypes {
     | '/admin/media'
     | '/admin/messages'
     | '/admin/profile'
+    | '/admin/settings'
     | '/admin/testimonials'
     | '/admin'
     | '/$lang/book/confirmed/$ref'
@@ -340,6 +351,7 @@ export interface FileRouteTypes {
     | '/admin/_gate/media'
     | '/admin/_gate/messages'
     | '/admin/_gate/profile'
+    | '/admin/_gate/settings'
     | '/admin/_gate/testimonials'
     | '/admin/_gate/'
     | '/$lang/book/confirmed/$ref'
@@ -483,6 +495,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGateTestimonialsRouteImport
       parentRoute: typeof AdminGateRoute
     }
+    '/admin/_gate/settings': {
+      id: '/admin/_gate/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminGateSettingsRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
     '/admin/_gate/profile': {
       id: '/admin/_gate/profile'
       path: '/profile'
@@ -601,6 +620,7 @@ interface AdminGateRouteChildren {
   AdminGateMediaRoute: typeof AdminGateMediaRoute
   AdminGateMessagesRoute: typeof AdminGateMessagesRoute
   AdminGateProfileRoute: typeof AdminGateProfileRoute
+  AdminGateSettingsRoute: typeof AdminGateSettingsRoute
   AdminGateTestimonialsRoute: typeof AdminGateTestimonialsRoute
   AdminGateIndexRoute: typeof AdminGateIndexRoute
   AdminGateServicesIdRoute: typeof AdminGateServicesIdRoute
@@ -613,6 +633,7 @@ const AdminGateRouteChildren: AdminGateRouteChildren = {
   AdminGateMediaRoute: AdminGateMediaRoute,
   AdminGateMessagesRoute: AdminGateMessagesRoute,
   AdminGateProfileRoute: AdminGateProfileRoute,
+  AdminGateSettingsRoute: AdminGateSettingsRoute,
   AdminGateTestimonialsRoute: AdminGateTestimonialsRoute,
   AdminGateIndexRoute: AdminGateIndexRoute,
   AdminGateServicesIdRoute: AdminGateServicesIdRoute,
