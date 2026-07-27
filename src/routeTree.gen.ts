@@ -26,6 +26,9 @@ import { Route as LangContactRouteImport } from './routes/$lang/contact'
 import { Route as LangBookRouteImport } from './routes/$lang/book'
 import { Route as LangAboutRouteImport } from './routes/$lang/about'
 import { Route as AdminGateIndexRouteImport } from './routes/admin/_gate/index'
+import { Route as ApiPublicContactNotificationRouteImport } from './routes/api/public/contact-notification'
+import { Route as ApiPublicChatRouteImport } from './routes/api/public/chat'
+import { Route as ApiPublicBookingNotificationRouteImport } from './routes/api/public/booking-notification'
 import { Route as AdminGateTestimonialsRouteImport } from './routes/admin/_gate/testimonials'
 import { Route as AdminGateSettingsRouteImport } from './routes/admin/_gate/settings'
 import { Route as AdminGateProfileRouteImport } from './routes/admin/_gate/profile'
@@ -125,6 +128,23 @@ const AdminGateIndexRoute = AdminGateIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminGateRoute,
 } as any)
+const ApiPublicContactNotificationRoute =
+  ApiPublicContactNotificationRouteImport.update({
+    id: '/api/public/contact-notification',
+    path: '/api/public/contact-notification',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicChatRoute = ApiPublicChatRouteImport.update({
+  id: '/api/public/chat',
+  path: '/api/public/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicBookingNotificationRoute =
+  ApiPublicBookingNotificationRouteImport.update({
+    id: '/api/public/booking-notification',
+    path: '/api/public/booking-notification',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminGateTestimonialsRoute = AdminGateTestimonialsRouteImport.update({
   id: '/testimonials',
   path: '/testimonials',
@@ -216,6 +236,9 @@ export interface FileRoutesByFullPath {
   '/admin/profile': typeof AdminGateProfileRoute
   '/admin/settings': typeof AdminGateSettingsRoute
   '/admin/testimonials': typeof AdminGateTestimonialsRoute
+  '/api/public/booking-notification': typeof ApiPublicBookingNotificationRoute
+  '/api/public/chat': typeof ApiPublicChatRoute
+  '/api/public/contact-notification': typeof ApiPublicContactNotificationRoute
   '/admin/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
   '/admin/blog/$id': typeof AdminGateBlogIdRoute
@@ -246,6 +269,9 @@ export interface FileRoutesByTo {
   '/admin/profile': typeof AdminGateProfileRoute
   '/admin/settings': typeof AdminGateSettingsRoute
   '/admin/testimonials': typeof AdminGateTestimonialsRoute
+  '/api/public/booking-notification': typeof ApiPublicBookingNotificationRoute
+  '/api/public/chat': typeof ApiPublicChatRoute
+  '/api/public/contact-notification': typeof ApiPublicContactNotificationRoute
   '/admin': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
   '/admin/blog/$id': typeof AdminGateBlogIdRoute
@@ -279,6 +305,9 @@ export interface FileRoutesById {
   '/admin/_gate/profile': typeof AdminGateProfileRoute
   '/admin/_gate/settings': typeof AdminGateSettingsRoute
   '/admin/_gate/testimonials': typeof AdminGateTestimonialsRoute
+  '/api/public/booking-notification': typeof ApiPublicBookingNotificationRoute
+  '/api/public/chat': typeof ApiPublicChatRoute
+  '/api/public/contact-notification': typeof ApiPublicContactNotificationRoute
   '/admin/_gate/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
   '/admin/_gate/blog/$id': typeof AdminGateBlogIdRoute
@@ -313,6 +342,9 @@ export interface FileRouteTypes {
     | '/admin/profile'
     | '/admin/settings'
     | '/admin/testimonials'
+    | '/api/public/booking-notification'
+    | '/api/public/chat'
+    | '/api/public/contact-notification'
     | '/admin/'
     | '/$lang/book/confirmed/$ref'
     | '/admin/blog/$id'
@@ -343,6 +375,9 @@ export interface FileRouteTypes {
     | '/admin/profile'
     | '/admin/settings'
     | '/admin/testimonials'
+    | '/api/public/booking-notification'
+    | '/api/public/chat'
+    | '/api/public/contact-notification'
     | '/admin'
     | '/$lang/book/confirmed/$ref'
     | '/admin/blog/$id'
@@ -375,6 +410,9 @@ export interface FileRouteTypes {
     | '/admin/_gate/profile'
     | '/admin/_gate/settings'
     | '/admin/_gate/testimonials'
+    | '/api/public/booking-notification'
+    | '/api/public/chat'
+    | '/api/public/contact-notification'
     | '/admin/_gate/'
     | '/$lang/book/confirmed/$ref'
     | '/admin/_gate/blog/$id'
@@ -389,6 +427,9 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminGateRoute: typeof AdminGateRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
+  ApiPublicBookingNotificationRoute: typeof ApiPublicBookingNotificationRoute
+  ApiPublicChatRoute: typeof ApiPublicChatRoute
+  ApiPublicContactNotificationRoute: typeof ApiPublicContactNotificationRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -511,6 +552,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminGateIndexRouteImport
       parentRoute: typeof AdminGateRoute
+    }
+    '/api/public/contact-notification': {
+      id: '/api/public/contact-notification'
+      path: '/api/public/contact-notification'
+      fullPath: '/api/public/contact-notification'
+      preLoaderRoute: typeof ApiPublicContactNotificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/chat': {
+      id: '/api/public/chat'
+      path: '/api/public/chat'
+      fullPath: '/api/public/chat'
+      preLoaderRoute: typeof ApiPublicChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/booking-notification': {
+      id: '/api/public/booking-notification'
+      path: '/api/public/booking-notification'
+      fullPath: '/api/public/booking-notification'
+      preLoaderRoute: typeof ApiPublicBookingNotificationRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/_gate/testimonials': {
       id: '/admin/_gate/testimonials'
@@ -692,17 +754,10 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminGateRoute: AdminGateRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
+  ApiPublicBookingNotificationRoute: ApiPublicBookingNotificationRoute,
+  ApiPublicChatRoute: ApiPublicChatRoute,
+  ApiPublicContactNotificationRoute: ApiPublicContactNotificationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
