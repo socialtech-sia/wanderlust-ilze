@@ -111,7 +111,8 @@
     "confirmed_body": "Sazināsimies ar Jums 24 stundu laikā, lai apstiprinātu detaļas un cenu.",
     "reference": "Rezervācijas kods",
     "save_code": "Saglabājiet šo kodu",
-    "back_home": "Uz sākumu"
+    "back_home": "Uz sākumu",
+    "email_sent": "Apstiprinājuma e-pasts nosūtīts uz {{email}}."
   },
   "contact": {
     "title": "Sazinieties ar mums",
@@ -398,5 +399,18 @@
     "title": "Plānojat dienu Gaujas ielejā?",
     "text": "Uzrakstiet, ko vēlaties redzēt un cik daudz laika ir. Ilze atbild personīgi 24 stundu laikā.",
     "secondary": "Rakstīt"
+  },
+  "chat": {
+    "title": "Ilzes asistents",
+    "subtitle": "Atbild uzreiz · AI palīgs",
+    "placeholder": "Uzdodiet jautājumu…",
+    "close": "Aizvērt",
+    "error": "Neizdevās nosūtīt ziņu. Mēģiniet vēlreiz.",
+    "rate_limited": "Sasniegts ziņu limits. Rakstiet mums e-pastā.",
+    "greeting": "Sveiki! Esmu Ilzes digitālais palīgs. Pastāstiet, ko vēlaties piedzīvot Gaujas krastos — ieteikšu maršrutu, laiku un cenu.",
+    "book_cta": "Rezervēt piedzīvojumu",
+    "s1": "Kādas ekskursijas piedāvājat?",
+    "s2": "Cik maksā pārgājiens Siguldā?",
+    "s3": "Vai varat noorganizēt transfēru no Rīgas?"
   }
 }

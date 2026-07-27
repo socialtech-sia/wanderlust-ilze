@@ -28,13 +28,24 @@ function ContactPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setState("sending");
-    const { error } = await supabase.from("contact_messages").insert({
-      name: form.name,
-      email: form.email,
-      subject: form.subject || null,
-      message: form.message,
-      language: lang,
-    });
+    const { data, error } = await supabase
+      .from("contact_messages")
+      .insert({
+        name: form.name,
+        email: form.email,
+        subject: form.subject || null,
+        message: form.message,
+        language: lang,
+      })
+      .select("id")
+      .single();
+    if (!error && data) {
+      void fetch("/api/public/contact-notification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message_id: data.id }),
+      }).catch(() => undefined);
+    }
     if (error) {
       setErrorMsg(error.message);
       setState("error");

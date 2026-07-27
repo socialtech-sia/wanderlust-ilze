@@ -122,6 +122,8 @@ export type Database = {
           final_price_eur: number | null
           id: string
           notes: string | null
+          notification_error: string | null
+          notification_sent_at: string | null
           persons_count: number
           quoted_price_eur: number | null
           reference_code: string
@@ -147,6 +149,8 @@ export type Database = {
           final_price_eur?: number | null
           id?: string
           notes?: string | null
+          notification_error?: string | null
+          notification_sent_at?: string | null
           persons_count?: number
           quoted_price_eur?: number | null
           reference_code?: string
@@ -172,6 +176,8 @@ export type Database = {
           final_price_eur?: number | null
           id?: string
           notes?: string | null
+          notification_error?: string | null
+          notification_sent_at?: string | null
           persons_count?: number
           quoted_price_eur?: number | null
           reference_code?: string
@@ -271,6 +277,8 @@ export type Database = {
           language: string | null
           message: string
           name: string
+          notification_error: string | null
+          notification_sent_at: string | null
           phone: string | null
           status: string
           subject: string | null
@@ -282,6 +290,8 @@ export type Database = {
           language?: string | null
           message: string
           name: string
+          notification_error?: string | null
+          notification_sent_at?: string | null
           phone?: string | null
           status?: string
           subject?: string | null
@@ -293,6 +303,8 @@ export type Database = {
           language?: string | null
           message?: string
           name?: string
+          notification_error?: string | null
+          notification_sent_at?: string | null
           phone?: string | null
           status?: string
           subject?: string | null

@@ -11,6 +11,7 @@ import {
   Mail,
   Menu,
   MessageSquareQuote,
+  MessageCircle,
   Settings,
   User,
 } from "lucide-react";
@@ -33,6 +34,7 @@ const NAV: NavItem[] = [
   { to: "/admin/testimonials", label: "Atsauksmes", icon: MessageSquareQuote },
   { to: "/admin/blog", label: "Blogs", icon: FileText },
   { to: "/admin/messages", label: "Ziņojumi", icon: Mail },
+  { to: "/admin/chat", label: "Čats", icon: MessageCircle },
   { to: "/admin/profile", label: "Profils", icon: User },
   { to: "/admin/settings", label: "Iestatījumi", icon: Settings },
 ];

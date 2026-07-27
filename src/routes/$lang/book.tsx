@@ -115,12 +115,19 @@ function BookingPage() {
           customer_language: form.language,
           notes: form.notes || null,
         })
-        .select("reference_code")
+        .select("id, reference_code")
         .single();
       if (err) throw err;
+      // Fire-and-forget: a failed email must not block the confirmation screen.
+      void fetch("/api/public/booking-notification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ booking_id: data.id }),
+      }).catch(() => undefined);
       void navigate({
         to: "/$lang/book/confirmed/$ref",
         params: { lang, ref: data.reference_code },
+        search: { email: form.email },
       });
     } catch (e) {
       setError((e as Error).message ?? t("errors.generic"));

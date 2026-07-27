@@ -111,7 +111,8 @@
     "confirmed_body": "We'll contact you within 24 hours to confirm details and price.",
     "reference": "Booking reference",
     "save_code": "Please save this code",
-    "back_home": "Back home"
+    "back_home": "Back home",
+    "email_sent": "A confirmation email has been sent to {{email}}."
   },
   "contact": {
     "title": "Get in touch",
@@ -398,5 +399,18 @@
     "title": "Planning a day in the Gauja valley?",
     "text": "Write what you would like to see and how much time you have. Ilze replies personally within 24 hours.",
     "secondary": "Write to us"
+  },
+  "chat": {
+    "title": "Ilze's assistant",
+    "subtitle": "Replies instantly · AI helper",
+    "placeholder": "Ask a question…",
+    "close": "Close",
+    "error": "Could not send the message. Please try again.",
+    "rate_limited": "Message limit reached. Please email us instead.",
+    "greeting": "Hi! I'm Ilze's digital helper. Tell me what you'd like to experience along the Gauja river — I'll suggest a route, timing and price.",
+    "book_cta": "Book an adventure",
+    "s1": "What tours do you offer?",
+    "s2": "How much is a hike in Sigulda?",
+    "s3": "Can you arrange a transfer from Riga?"
   }
 }

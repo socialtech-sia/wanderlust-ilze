@@ -8,6 +8,8 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
+import { BookingReplyDialog } from "@/components/admin/BookingReplyDialog";
+import { AlertTriangle } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -148,7 +150,19 @@ function AdminBookings() {
             {rows.map((b) => (
               <>
                 <TableRow key={b.id} className="cursor-pointer" onClick={() => setOpenId(openId === b.id ? null : b.id)}>
-                  <TableCell className="font-mono text-xs">{b.reference_code}</TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {b.reference_code}
+                    {b.notification_error ? (
+                      <Badge
+                        variant="destructive"
+                        className="ml-2 gap-1"
+                        title={b.notification_error}
+                      >
+                        <AlertTriangle className="h-3 w-3" />
+                        E-pasts
+                      </Badge>
+                    ) : null}
+                  </TableCell>
                   <TableCell>
                     <span className="font-medium">{b.customer_name}</span>
                     <span className="block text-xs text-muted-foreground">{b.customer_email}</span>
@@ -195,11 +209,19 @@ function AdminBookings() {
                               update.mutate({ id: b.id, patch: { admin_notes: e.target.value } })
                             }
                           />
-                          <Button variant="outline" size="sm" asChild>
-                            <a href={`mailto:${b.customer_email}?subject=Wanderlust.lv ${b.reference_code}`}>
-                              Rakstīt klientam
-                            </a>
-                          </Button>
+                          <div className="flex flex-wrap gap-2">
+                            <BookingReplyDialog booking={b} />
+                            <Button variant="ghost" size="sm" asChild>
+                              <a href={`mailto:${b.customer_email}?subject=Wanderlust.lv ${b.reference_code}`}>
+                                mailto
+                              </a>
+                            </Button>
+                          </div>
+                          {b.notification_error ? (
+                            <p className="text-xs text-destructive">
+                              Paziņojuma kļūda: {b.notification_error}
+                            </p>
+                          ) : null}
                         </div>
                       </div>
                     </TableCell>
