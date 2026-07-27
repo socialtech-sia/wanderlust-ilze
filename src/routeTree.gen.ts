@@ -35,6 +35,7 @@ import { Route as AdminGateProfileRouteImport } from './routes/admin/_gate/profi
 import { Route as AdminGateMessagesRouteImport } from './routes/admin/_gate/messages'
 import { Route as AdminGateMediaRouteImport } from './routes/admin/_gate/media'
 import { Route as AdminGateFaqRouteImport } from './routes/admin/_gate/faq'
+import { Route as AdminGateChatRouteImport } from './routes/admin/_gate/chat'
 import { Route as AdminGateBookingsRouteImport } from './routes/admin/_gate/bookings'
 import { Route as LangSSlugRouteImport } from './routes/$lang/s.$slug'
 import { Route as AdminGateServicesIndexRouteImport } from './routes/admin/_gate/services/index'
@@ -175,6 +176,11 @@ const AdminGateFaqRoute = AdminGateFaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => AdminGateRoute,
 } as any)
+const AdminGateChatRoute = AdminGateChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AdminGateRoute,
+} as any)
 const AdminGateBookingsRoute = AdminGateBookingsRouteImport.update({
   id: '/bookings',
   path: '/bookings',
@@ -230,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/$lang/': typeof LangIndexRoute
   '/$lang/s/$slug': typeof LangSSlugRoute
   '/admin/bookings': typeof AdminGateBookingsRoute
+  '/admin/chat': typeof AdminGateChatRoute
   '/admin/faq': typeof AdminGateFaqRoute
   '/admin/media': typeof AdminGateMediaRoute
   '/admin/messages': typeof AdminGateMessagesRoute
@@ -263,6 +270,7 @@ export interface FileRoutesByTo {
   '/$lang': typeof LangIndexRoute
   '/$lang/s/$slug': typeof LangSSlugRoute
   '/admin/bookings': typeof AdminGateBookingsRoute
+  '/admin/chat': typeof AdminGateChatRoute
   '/admin/faq': typeof AdminGateFaqRoute
   '/admin/media': typeof AdminGateMediaRoute
   '/admin/messages': typeof AdminGateMessagesRoute
@@ -299,6 +307,7 @@ export interface FileRoutesById {
   '/$lang/': typeof LangIndexRoute
   '/$lang/s/$slug': typeof LangSSlugRoute
   '/admin/_gate/bookings': typeof AdminGateBookingsRoute
+  '/admin/_gate/chat': typeof AdminGateChatRoute
   '/admin/_gate/faq': typeof AdminGateFaqRoute
   '/admin/_gate/media': typeof AdminGateMediaRoute
   '/admin/_gate/messages': typeof AdminGateMessagesRoute
@@ -336,6 +345,7 @@ export interface FileRouteTypes {
     | '/$lang/'
     | '/$lang/s/$slug'
     | '/admin/bookings'
+    | '/admin/chat'
     | '/admin/faq'
     | '/admin/media'
     | '/admin/messages'
@@ -369,6 +379,7 @@ export interface FileRouteTypes {
     | '/$lang'
     | '/$lang/s/$slug'
     | '/admin/bookings'
+    | '/admin/chat'
     | '/admin/faq'
     | '/admin/media'
     | '/admin/messages'
@@ -404,6 +415,7 @@ export interface FileRouteTypes {
     | '/$lang/'
     | '/$lang/s/$slug'
     | '/admin/_gate/bookings'
+    | '/admin/_gate/chat'
     | '/admin/_gate/faq'
     | '/admin/_gate/media'
     | '/admin/_gate/messages'
@@ -616,6 +628,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGateFaqRouteImport
       parentRoute: typeof AdminGateRoute
     }
+    '/admin/_gate/chat': {
+      id: '/admin/_gate/chat'
+      path: '/chat'
+      fullPath: '/admin/chat'
+      preLoaderRoute: typeof AdminGateChatRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
     '/admin/_gate/bookings': {
       id: '/admin/_gate/bookings'
       path: '/bookings'
@@ -716,6 +735,7 @@ const LangRouteRouteWithChildren = LangRouteRoute._addFileChildren(
 
 interface AdminGateRouteChildren {
   AdminGateBookingsRoute: typeof AdminGateBookingsRoute
+  AdminGateChatRoute: typeof AdminGateChatRoute
   AdminGateFaqRoute: typeof AdminGateFaqRoute
   AdminGateMediaRoute: typeof AdminGateMediaRoute
   AdminGateMessagesRoute: typeof AdminGateMessagesRoute
@@ -731,6 +751,7 @@ interface AdminGateRouteChildren {
 
 const AdminGateRouteChildren: AdminGateRouteChildren = {
   AdminGateBookingsRoute: AdminGateBookingsRoute,
+  AdminGateChatRoute: AdminGateChatRoute,
   AdminGateFaqRoute: AdminGateFaqRoute,
   AdminGateMediaRoute: AdminGateMediaRoute,
   AdminGateMessagesRoute: AdminGateMessagesRoute,
