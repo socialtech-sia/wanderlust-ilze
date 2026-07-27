@@ -111,7 +111,8 @@
     "confirmed_body": "Sazināsimies ar Jums 24 stundu laikā, lai apstiprinātu detaļas un cenu.",
     "reference": "Rezervācijas kods",
     "save_code": "Saglabājiet šo kodu",
-    "back_home": "Uz sākumu"
+    "back_home": "Uz sākumu",
+    "email_sent": "Apstiprinājuma e-pasts nosūtīts uz {{email}}."
   },
   "contact": {
     "title": "Sazinieties ar mums",

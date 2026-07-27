@@ -111,7 +111,8 @@
     "confirmed_body": "We'll contact you within 24 hours to confirm details and price.",
     "reference": "Booking reference",
     "save_code": "Please save this code",
-    "back_home": "Back home"
+    "back_home": "Back home",
+    "email_sent": "A confirmation email has been sent to {{email}}."
   },
   "contact": {
     "title": "Get in touch",
