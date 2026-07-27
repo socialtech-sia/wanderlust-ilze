@@ -26,6 +26,7 @@ import { Route as LangContactRouteImport } from './routes/$lang/contact'
 import { Route as LangBookRouteImport } from './routes/$lang/book'
 import { Route as LangAboutRouteImport } from './routes/$lang/about'
 import { Route as AdminGateIndexRouteImport } from './routes/admin/_gate/index'
+import { Route as AdminGateTestimonialsRouteImport } from './routes/admin/_gate/testimonials'
 import { Route as AdminGateMediaRouteImport } from './routes/admin/_gate/media'
 import { Route as AdminGateFaqRouteImport } from './routes/admin/_gate/faq'
 import { Route as AdminGateBookingsRouteImport } from './routes/admin/_gate/bookings'
@@ -119,6 +120,11 @@ const AdminGateIndexRoute = AdminGateIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminGateRoute,
 } as any)
+const AdminGateTestimonialsRoute = AdminGateTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => AdminGateRoute,
+} as any)
 const AdminGateMediaRoute = AdminGateMediaRouteImport.update({
   id: '/media',
   path: '/media',
@@ -176,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/admin/bookings': typeof AdminGateBookingsRoute
   '/admin/faq': typeof AdminGateFaqRoute
   '/admin/media': typeof AdminGateMediaRoute
+  '/admin/testimonials': typeof AdminGateTestimonialsRoute
   '/admin/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
   '/admin/services/$id': typeof AdminGateServicesIdRoute
@@ -200,6 +207,7 @@ export interface FileRoutesByTo {
   '/admin/bookings': typeof AdminGateBookingsRoute
   '/admin/faq': typeof AdminGateFaqRoute
   '/admin/media': typeof AdminGateMediaRoute
+  '/admin/testimonials': typeof AdminGateTestimonialsRoute
   '/admin': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
   '/admin/services/$id': typeof AdminGateServicesIdRoute
@@ -227,6 +235,7 @@ export interface FileRoutesById {
   '/admin/_gate/bookings': typeof AdminGateBookingsRoute
   '/admin/_gate/faq': typeof AdminGateFaqRoute
   '/admin/_gate/media': typeof AdminGateMediaRoute
+  '/admin/_gate/testimonials': typeof AdminGateTestimonialsRoute
   '/admin/_gate/': typeof AdminGateIndexRoute
   '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
   '/admin/_gate/services/$id': typeof AdminGateServicesIdRoute
@@ -255,6 +264,7 @@ export interface FileRouteTypes {
     | '/admin/bookings'
     | '/admin/faq'
     | '/admin/media'
+    | '/admin/testimonials'
     | '/admin/'
     | '/$lang/book/confirmed/$ref'
     | '/admin/services/$id'
@@ -279,6 +289,7 @@ export interface FileRouteTypes {
     | '/admin/bookings'
     | '/admin/faq'
     | '/admin/media'
+    | '/admin/testimonials'
     | '/admin'
     | '/$lang/book/confirmed/$ref'
     | '/admin/services/$id'
@@ -305,6 +316,7 @@ export interface FileRouteTypes {
     | '/admin/_gate/bookings'
     | '/admin/_gate/faq'
     | '/admin/_gate/media'
+    | '/admin/_gate/testimonials'
     | '/admin/_gate/'
     | '/$lang/book/confirmed/$ref'
     | '/admin/_gate/services/$id'
@@ -440,6 +452,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGateIndexRouteImport
       parentRoute: typeof AdminGateRoute
     }
+    '/admin/_gate/testimonials': {
+      id: '/admin/_gate/testimonials'
+      path: '/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminGateTestimonialsRouteImport
+      parentRoute: typeof AdminGateRoute
+    }
     '/admin/_gate/media': {
       id: '/admin/_gate/media'
       path: '/media'
@@ -542,6 +561,7 @@ interface AdminGateRouteChildren {
   AdminGateBookingsRoute: typeof AdminGateBookingsRoute
   AdminGateFaqRoute: typeof AdminGateFaqRoute
   AdminGateMediaRoute: typeof AdminGateMediaRoute
+  AdminGateTestimonialsRoute: typeof AdminGateTestimonialsRoute
   AdminGateIndexRoute: typeof AdminGateIndexRoute
   AdminGateServicesIdRoute: typeof AdminGateServicesIdRoute
   AdminGateServicesIndexRoute: typeof AdminGateServicesIndexRoute
@@ -551,6 +571,7 @@ const AdminGateRouteChildren: AdminGateRouteChildren = {
   AdminGateBookingsRoute: AdminGateBookingsRoute,
   AdminGateFaqRoute: AdminGateFaqRoute,
   AdminGateMediaRoute: AdminGateMediaRoute,
+  AdminGateTestimonialsRoute: AdminGateTestimonialsRoute,
   AdminGateIndexRoute: AdminGateIndexRoute,
   AdminGateServicesIdRoute: AdminGateServicesIdRoute,
   AdminGateServicesIndexRoute: AdminGateServicesIndexRoute,
