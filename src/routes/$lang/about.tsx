@@ -28,13 +28,13 @@ function AboutPage() {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/20 to-ink/70" />
-        <div className="container-editorial relative z-10 flex h-full items-end pb-14 pt-32 text-paper md:pb-20 md:pt-40">
+        <div className="container-editorial relative z-10 flex h-full items-end pb-14 pt-32 text-bone md:pb-20 md:pt-40">
           <div>
-            <p className="text-eyebrow text-paper/90">{t("home.about_eyebrow")}</p>
+            <p className="text-eyebrow text-bone-muted">{t("home.about_eyebrow")}</p>
             <h1 className="mt-3 font-display text-4xl md:text-6xl">
               {profile?.full_name ?? t("about.title")}
             </h1>
-            <p className="mt-2 text-paper/80">{profile ? tField(profile, "role", lang) : ""}</p>
+            <p className="mt-2 text-bone-muted">{profile ? tField(profile, "role", lang) : ""}</p>
           </div>
         </div>
       </section>

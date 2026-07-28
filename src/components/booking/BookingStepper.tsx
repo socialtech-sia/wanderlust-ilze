@@ -31,8 +31,8 @@ export function BookingStepper({ step, accent }: { step: number; accent?: string
               <span
                 className={cn(
                   "inline-flex h-6 w-6 items-center justify-center rounded-full border text-[10px] transition-colors",
-                  done && "border-transparent text-paper",
-                  active && "border-foreground bg-foreground text-paper",
+                  done && "border-transparent text-bone",
+                  active && "border-foreground bg-foreground text-bone",
                   !done && !active && "border-border bg-background",
                 )}
                 style={done ? { backgroundColor: accent ?? "var(--moss-deep)" } : undefined}

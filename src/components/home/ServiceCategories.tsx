@@ -84,7 +84,7 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
               key={c.key}
               to={c.to}
               params={{ lang }}
-              className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-2xl bg-ink text-paper shadow-card transition-all hover:shadow-editorial"
+              className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-2xl bg-ink text-bone shadow-card transition-all hover:shadow-editorial"
             >
               <img
                 src={c.img}
@@ -97,13 +97,13 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
                 className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent"
               />
               <div className="relative z-10 p-6">
-                <Icon className="h-6 w-6 text-paper/90" />
-                <h3 className="mt-4 font-display text-2xl text-paper md:text-3xl">
+                <Icon className="h-6 w-6 text-bone-muted" />
+                <h3 className="mt-4 font-display text-2xl text-bone md:text-3xl">
                   {t(`nav.${c.key}`)}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-paper/85">{DESC[c.key][lang]}</p>
+                <p className="mt-2 text-sm leading-relaxed text-bone-muted">{DESC[c.key][lang]}</p>
                 {meta.length > 0 && (
-                  <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-paper/75">
+                  <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-bone-muted">
                     {meta.map((m, i) => (
                       <span key={m}>
                         {i > 0 && <span aria-hidden className="mr-2">·</span>}
@@ -112,7 +112,7 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
                     ))}
                   </p>
                 )}
-                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-paper">
+                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-bone">
                   {t("cta.explore")} <ArrowUpRight className="h-3.5 w-3.5" />
                 </span>
               </div>

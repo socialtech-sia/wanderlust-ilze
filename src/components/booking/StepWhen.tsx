@@ -115,7 +115,7 @@ export function StepWhen({
                       className={cn(
                         "rounded-full border px-2 py-1.5 text-sm font-medium transition-all",
                         active
-                          ? "border-transparent text-paper shadow-sm"
+                          ? "border-transparent text-bone shadow-sm"
                           : "border-border bg-background text-foreground hover:-translate-y-0.5 hover:border-ink-soft",
                       )}
                       style={active ? { backgroundColor: accent } : undefined}

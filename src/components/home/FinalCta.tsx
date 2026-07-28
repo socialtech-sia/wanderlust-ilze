@@ -9,13 +9,13 @@ export function FinalCta() {
   const lang = useCurrentLanguage();
 
   return (
-    <section className="bg-ink py-16 text-paper md:py-20">
+    <section className="bg-ink py-16 text-bone md:py-20">
       <div className="container-editorial flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl">
-          <h2 className="font-display text-3xl leading-tight text-paper md:text-4xl">
+          <h2 className="font-display text-3xl leading-tight text-bone md:text-4xl">
             {t("finalcta.title")}
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-paper/80 md:text-base">
+          <p className="mt-3 text-sm leading-relaxed text-bone-muted md:text-base">
             {t("finalcta.text")}
           </p>
         </div>

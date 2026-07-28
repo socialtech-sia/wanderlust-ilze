@@ -37,7 +37,7 @@ export function StepReview({
   return (
     <div className="animate-fade-in grid gap-6 md:grid-cols-[1.1fr_1fr]">
       <div
-        className="relative overflow-hidden rounded-2xl p-6 text-paper"
+        className="relative overflow-hidden rounded-2xl p-6 text-bone"
         style={{ backgroundColor: color }}
       >
         <p className="text-[11px] font-medium uppercase tracking-[0.14em] opacity-80">

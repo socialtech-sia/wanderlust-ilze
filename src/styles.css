@@ -130,7 +130,7 @@
   --ring: var(--sandstone);
 
   /* Legacy aliases resolved for the dark surface */
-  --paper: var(--bone);
+  --paper: var(--pine);
   --paper-alt: var(--pine-raised);
   --ink: var(--pine-deep);
   --ink-muted: var(--bone-muted);
@@ -191,7 +191,7 @@
   --border: color-mix(in oklab, var(--bone) 12%, transparent);
   --input: color-mix(in oklab, var(--bone) 14%, transparent);
 
-  --paper: var(--bone);
+  --paper: var(--pine);
   --paper-alt: var(--pine-raised);
   --ink: var(--pine-deep);
   --ink-muted: var(--bone-muted);

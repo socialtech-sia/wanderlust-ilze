@@ -129,24 +129,24 @@ function ServiceDetail() {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/20 to-ink/75" />
-        <div className="container-editorial relative z-10 pb-14 pt-32 text-paper md:pb-20 md:pt-40">
+        <div className="container-editorial relative z-10 pb-14 pt-32 text-bone md:pb-20 md:pt-40">
           {/* Breadcrumbs */}
-          <nav className="mb-4 flex items-center gap-1.5 text-xs text-paper/80">
-            <Link to="/$lang" params={{ lang }} className="hover:text-paper">
+          <nav className="mb-4 flex items-center gap-1.5 text-xs text-bone-muted">
+            <Link to="/$lang" params={{ lang }} className="hover:text-bone">
               {t("nav.home")}
             </Link>
             <ChevronRight className="h-3 w-3" />
-            <Link to={`/$lang/${navKey}`} params={{ lang }} className="hover:text-paper">
+            <Link to={`/$lang/${navKey}`} params={{ lang }} className="hover:text-bone">
               {t(`nav.${navKey}`)}
             </Link>
             <ChevronRight className="h-3 w-3" />
-            <span className="text-paper/60">{title}</span>
+            <span className="text-bone-faint">{title}</span>
           </nav>
-          <p className="text-eyebrow text-paper/90">{t(`service.${service.type}`)}</p>
+          <p className="text-eyebrow text-bone-muted">{t(`service.${service.type}`)}</p>
           <h1 className="mt-2 max-w-3xl font-display text-4xl leading-[1.05] md:text-6xl">
             {title}
           </h1>
-          {shortDesc && <p className="mt-4 max-w-2xl text-base text-paper/85">{shortDesc}</p>}
+          {shortDesc && <p className="mt-4 max-w-2xl text-base text-bone-muted">{shortDesc}</p>}
           {service.enter_gauja_categories?.length ? (
             <div className="mt-6 flex flex-wrap gap-2">
               {service.enter_gauja_categories.map((c) => (
