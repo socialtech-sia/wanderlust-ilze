@@ -5,6 +5,7 @@ import { useSiteSettings } from "@/hooks/use-services";
 import { Instagram, Facebook, Mail, Phone, ExternalLink } from "lucide-react";
 import { openConsentSettings } from "@/lib/cookie-consent";
 import { ENTER_GAUJA_ORDER, ENTER_GAUJA_CATEGORIES } from "@/lib/enter-gauja";
+import { EnterGaujaLogo } from "@/components/entergauja/EnterGaujaLogo";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -89,20 +90,31 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Enter Gauja community partner block (guidelines p.16, 29) */}
-      <div className="border-t border-border/50 bg-paper">
-        <div className="container-editorial flex flex-col items-start gap-4 py-6 md:flex-row md:items-center md:justify-between">
-          <p className="text-eyebrow">
-            {t("entergauja.footer_title", {
-              defaultValue:
-                lang === "lv"
-                  ? "Enter Gauja kopienas partneris"
-                  : lang === "es"
-                    ? "Partner de la comunidad Enter Gauja"
-                    : "Enter Gauja community partner",
-            })}
-          </p>
-          <div className="flex flex-wrap items-center gap-2">
+      {/* Enter Gauja community partner line (guidelines p.16, 29) */}
+      <div className="border-t border-border">
+        <div className="container-editorial flex flex-col items-start gap-3 py-4 md:flex-row md:flex-wrap md:items-center md:justify-between">
+          <div className="flex items-center gap-2.5">
+            <a
+              href="https://entergauja.com/"
+              target="_blank"
+              rel="noopener"
+              className="opacity-50 grayscale transition hover:opacity-100 hover:grayscale-0"
+              aria-label="Enter Gauja"
+            >
+              <EnterGaujaLogo className="h-6 w-6" size={24} />
+            </a>
+            <p className="text-eyebrow tracking-[0.16em]">
+              {t("entergauja.footer_title", {
+                defaultValue:
+                  lang === "lv"
+                    ? "Enter Gauja kopienas partneris"
+                    : lang === "es"
+                      ? "Partner de la comunidad Enter Gauja"
+                      : "Enter Gauja community partner",
+              })}
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             {ENTER_GAUJA_ORDER.map((k) => {
               const c = ENTER_GAUJA_CATEGORIES[k];
               return (
@@ -111,20 +123,22 @@ export function Footer() {
                   href={c.url}
                   target="_blank"
                   rel="noopener"
-                  className="inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white transition-opacity hover:opacity-90"
-                  style={{
-                    backgroundColor: c.color,
-                    fontFamily: "'Barlow Condensed', 'DIN Alternate', sans-serif",
-                  }}
+                  className="group inline-flex items-center gap-1.5 text-eyebrow tracking-[0.16em] transition-colors hover:text-foreground"
                 >
+                  <span
+                    aria-hidden
+                    className="inline-block h-[6px] w-[6px] shrink-0 transition-transform duration-200 group-hover:scale-150"
+                    style={{ backgroundColor: c.color }}
+                  />
                   {c.label}
-                  <ExternalLink className="h-3 w-3" />
+                  <ExternalLink className="h-2.5 w-2.5 opacity-0 transition-opacity group-hover:opacity-70" />
                 </a>
               );
             })}
           </div>
         </div>
       </div>
+
 
       <div className="border-t border-border/50">
         <div className="container-editorial flex flex-col items-start justify-between gap-3 py-5 text-xs text-ink-muted md:flex-row md:items-center">
