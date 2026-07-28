@@ -422,19 +422,6 @@
     transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Signature: sandstone strata — bands slide in with an offset. */
-[data-strata="armed"] > span {
-  transform: scaleX(0);
-}
-[data-strata="in"] > span {
-  transform: scaleX(1);
-}
-[data-strata] > span {
-  display: block;
-  transform-origin: left center;
-  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
-}
 
 /* Respect reduced-motion: neutralise transitions and transform animations. */
 @media (prefers-reduced-motion: reduce) {
@@ -450,8 +437,5 @@
   [data-heroline] {
     opacity: 1 !important;
     transform: none !important;
-  }
-  [data-strata] > span {
-    transform: scaleX(1) !important;
   }
 }
