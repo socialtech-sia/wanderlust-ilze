@@ -6,6 +6,7 @@ import { Instagram, Facebook, Mail, Phone, ExternalLink } from "lucide-react";
 import { openConsentSettings } from "@/lib/cookie-consent";
 import { ENTER_GAUJA_ORDER, ENTER_GAUJA_CATEGORIES } from "@/lib/enter-gauja";
 import { EnterGaujaLogo } from "@/components/entergauja/EnterGaujaLogo";
+import { Logo } from "@/components/brand/Logo";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -26,9 +27,10 @@ export function Footer() {
           <Link
             to="/$lang"
             params={{ lang }}
-            className="font-display text-2xl text-foreground"
+            aria-label="Wanderlust.lv"
+            className="inline-flex text-foreground"
           >
-            Wanderlust<span className="text-moss">.</span>lv
+            <Logo variant="horizontal" tone="auto" size={44} />
           </Link>
           <p className="mt-4 max-w-md text-sm text-ink-muted">{footerText}</p>
           <p className="mt-6 text-eyebrow">{t("home.partner_text")}</p>

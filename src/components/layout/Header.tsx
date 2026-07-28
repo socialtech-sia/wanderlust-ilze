@@ -6,6 +6,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Button } from "@/components/ui/button";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/brand/Logo";
 
 const NAV = [
   { key: "tours", to: "/$lang/tours" },
@@ -178,13 +179,17 @@ export function Header() {
         <Link
           to="/$lang"
           params={{ lang }}
-          className={cn(
-            "font-display text-2xl tracking-[-0.03em] text-shadow-sm transition-colors",
-            textColor,
-          )}
+          className={cn("text-shadow-sm transition-colors", textColor)}
           aria-label="Wanderlust.lv"
         >
-          Wanderlust<span className="text-sandstone-bright">.</span>lv
+          <Logo variant="horizontal" tone="auto" size={40} className="hidden md:inline-flex" />
+          <Logo
+            variant="horizontal"
+            tone="auto"
+            size={36}
+            showTagline={false}
+            className="md:hidden"
+          />
         </Link>
 
         <nav className="hidden items-center gap-7 text-shadow-sm md:flex">
