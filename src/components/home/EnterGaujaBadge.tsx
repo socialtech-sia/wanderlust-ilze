@@ -8,7 +8,7 @@ import { ENTER_GAUJA_CATEGORIES, EG_HOMEPAGE_DEFAULT } from "@/lib/enter-gauja";
 
 export function EnterGaujaBadge() {
   return (
-    <section className="container-editorial pb-20 md:pb-28">
+    <section className="pb-16 md:pb-20">
       <EnterGaujaBacklinkBlock category={ENTER_GAUJA_CATEGORIES[EG_HOMEPAGE_DEFAULT]} />
     </section>
   );
