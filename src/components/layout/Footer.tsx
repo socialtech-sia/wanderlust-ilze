@@ -5,6 +5,7 @@ import { useSiteSettings } from "@/hooks/use-services";
 import { Instagram, Facebook, Mail, Phone, ExternalLink } from "lucide-react";
 import { openConsentSettings } from "@/lib/cookie-consent";
 import { ENTER_GAUJA_ORDER, ENTER_GAUJA_CATEGORIES } from "@/lib/enter-gauja";
+import { EnterGaujaLogo } from "@/components/entergauja/EnterGaujaLogo";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -102,7 +103,7 @@ export function Footer() {
             >
               <EnterGaujaLogo className="h-6 w-6" size={24} />
             </a>
-            <p className="font-narrow text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+            <p className="text-eyebrow tracking-[0.16em]">
               {t("entergauja.footer_title", {
                 defaultValue:
                   lang === "lv"
@@ -122,7 +123,7 @@ export function Footer() {
                   href={c.url}
                   target="_blank"
                   rel="noopener"
-                  className="group inline-flex items-center gap-1.5 font-narrow text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground"
+                  className="group inline-flex items-center gap-1.5 text-eyebrow tracking-[0.16em] transition-colors hover:text-foreground"
                 >
                   <span
                     aria-hidden
