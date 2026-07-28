@@ -148,12 +148,16 @@ export function Header() {
 
   const isDark = tone === "dark";
   const pillClass = isDark
-    ? "border-[color-mix(in_oklab,var(--bone)_16%,transparent)] bg-[color-mix(in_oklab,var(--pine)_62%,transparent)]"
-    : "border-[color-mix(in_oklab,var(--pine)_12%,transparent)] bg-[color-mix(in_oklab,var(--sand)_88%,transparent)]";
-  const textColor = isDark ? "text-bone" : "text-foreground";
+    ? "border-[color-mix(in_oklab,var(--bone)_18%,transparent)] bg-[color-mix(in_oklab,var(--pine)_74%,transparent)]"
+    : "border-[color-mix(in_oklab,var(--pine)_14%,transparent)] bg-[color-mix(in_oklab,var(--sand)_94%,transparent)]";
+  // NB: root theme is dark-first, so `text-foreground` is bone — unusable on the light pill.
+  const textColor = isDark ? "text-bone" : "text-pine";
   const mutedColor = isDark
     ? "text-bone-muted hover:text-bone"
-    : "text-ink-muted hover:text-foreground";
+    : "text-[color-mix(in_oklab,var(--pine)_70%,transparent)] hover:text-pine";
+
+
+  const shadowClass = isDark ? "text-shadow-sm" : "";
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40" data-tone={tone}>
@@ -179,7 +183,7 @@ export function Header() {
         <Link
           to="/$lang"
           params={{ lang }}
-          className={cn("text-shadow-sm transition-colors", textColor)}
+          className={cn("transition-colors", shadowClass, textColor)}
           aria-label="Wanderlust.lv"
         >
           <Logo variant="horizontal" tone="auto" size={40} className="hidden md:inline-flex" />
@@ -192,7 +196,7 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-7 text-shadow-sm md:flex">
+        <nav className={cn("hidden items-center gap-7 md:flex", shadowClass)}>
           {NAV.map((item) => {
             const active = !!matchRoute({ to: item.to, params: { lang } });
             return (
@@ -222,12 +226,13 @@ export function Header() {
             type="button"
             aria-label="Menu"
             className={cn(
-              "inline-flex h-10 w-10 items-center justify-center rounded-full text-shadow-sm transition-colors md:hidden",
+              "inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors md:hidden",
+              shadowClass,
               textColor,
             )}
             onClick={() => setMobileOpen((v) => !v)}
           >
-            {mobileOpen ? <X className="h-5 w-5 drop-shadow-text" /> : <Menu className="h-5 w-5 drop-shadow-text" />}
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
