@@ -14,7 +14,7 @@ const DIFFICULTIES: Difficulty[] = ["easy", "medium", "hard"];
 
 const HERO_IMG: Record<ServiceType, { img: string; alt: string }> = {
   excursion: {
-    img: "https://images.unsplash.com/photo-1568486004327-9e2af64ac2ac?auto=format&fit=crop&w=1920&q=70",
+    img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=1920&q=70",
     alt: "Medieval castle ruins overlooking the Gauja valley in Latvia",
   },
   hiking: {
@@ -64,12 +64,12 @@ export function ServicesListPage({
 
   return (
     <>
-      <section className="relative -mt-16 flex min-h-[46vh] items-end overflow-hidden md:-mt-20 md:min-h-[54vh]">
+      <section data-header-tone="dark" className="surface-dark relative -mt-16 flex min-h-[46vh] items-end overflow-hidden md:-mt-20 md:min-h-[54vh]">
         <img src={hero.img} alt={hero.alt} className="absolute inset-0 h-full w-full object-cover" />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/20 to-ink/70" />
-        <div className="container-editorial relative z-10 pb-14 pt-32 text-bone md:pb-20 md:pt-40">
+        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--pine)_30%,transparent)_0%,color-mix(in_oklab,var(--pine)_85%,transparent)_85%,var(--pine)_100%)]" />
+        <div className="container-editorial relative z-10 w-full pb-14 pt-32 text-bone md:pb-20 md:pt-40">
           <p className="text-eyebrow text-bone-muted">Wanderlust · {t(`nav.${navKey}`)}</p>
-          <h1 className="mt-3 max-w-3xl font-display text-4xl leading-[1.05] md:text-6xl">
+          <h1 className="display-1 mt-4 max-w-3xl text-bone">
             {t(`nav.${navKey}`)}
           </h1>
         </div>
@@ -82,7 +82,7 @@ export function ServicesListPage({
               type="button"
               onClick={() => goto({ category: undefined })}
               className={cn(
-                "rounded-full border px-4 py-1.5 text-sm transition-colors",
+                "text-utility rounded-[3px] border px-4 py-2 text-[11px] transition-colors",
                 !category
                   ? "border-foreground bg-foreground text-background"
                   : "border-border/60 text-ink-muted hover:text-foreground",
@@ -99,7 +99,7 @@ export function ServicesListPage({
                   type="button"
                   onClick={() => goto({ category: active ? undefined : c.key })}
                   className={cn(
-                    "rounded-full border px-4 py-1.5 text-sm transition-colors",
+                    "text-utility rounded-[3px] border px-4 py-2 text-[11px] transition-colors",
                     active ? "text-bone" : "hover:text-foreground",
                   )}
                   style={
@@ -124,7 +124,7 @@ export function ServicesListPage({
               type="button"
               onClick={() => goto({ difficulty: undefined })}
               className={cn(
-                "rounded-full border px-3 py-1 text-xs transition-colors",
+                "text-utility rounded-[3px] border px-3 py-1.5 text-[10px] transition-colors",
                 !difficulty
                   ? "border-foreground bg-foreground text-background"
                   : "border-border/60 text-ink-muted hover:text-foreground",
@@ -140,7 +140,7 @@ export function ServicesListPage({
                   type="button"
                   onClick={() => goto({ difficulty: active ? undefined : d })}
                   className={cn(
-                    "rounded-full border px-3 py-1 text-xs transition-colors",
+                    "text-utility rounded-[3px] border px-3 py-1.5 text-[10px] transition-colors",
                     active
                       ? "border-foreground bg-foreground text-background"
                       : "border-border/60 text-ink-muted hover:text-foreground",
