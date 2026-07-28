@@ -1,11 +1,19 @@
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { Clock, Users, MapPin } from "lucide-react";
 import type { Service } from "@/hooks/use-services";
 import { useEnterGaujaCategories } from "@/hooks/use-services";
 import { tField, tSlug, type Lang } from "@/lib/language";
 import { formatDuration, formatPrice } from "@/lib/format";
 import { CategoryBadge } from "@/components/common/CategoryBadge";
+import { StrataHoverBar } from "@/components/common/Strata";
+
+const CAT_VAR: Record<string, string> = {
+  action: "var(--cat-action)",
+  nature: "var(--cat-nature)",
+  history: "var(--cat-history)",
+  culture: "var(--cat-culture)",
+  getaround: "var(--cat-getaround)",
+};
 
 export function ServiceCard({
   service,
@@ -23,61 +31,63 @@ export function ServiceCard({
   const slug = tSlug(service, lang);
   const stockImg = STOCK_IMAGES[imageIndex % STOCK_IMAGES.length];
 
+  const meta = [
+    service.duration_minutes ? formatDuration(service.duration_minutes, lang) : null,
+    service.max_persons ? t("service.persons_max", { count: service.max_persons }) : null,
+    service.location_name || null,
+  ].filter(Boolean) as string[];
+
+  const strataColors = (service.enter_gauja_categories ?? [])
+    .map((c) => CAT_VAR[c])
+    .filter(Boolean);
+
   return (
     <Link
       to="/$lang/s/$slug"
       params={{ lang, slug }}
-      className="group flex flex-col overflow-hidden rounded-[3px] bg-card hairline transition-all hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
+      className="group relative flex flex-col border border-border bg-card transition-colors duration-300 hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-paper-alt">
+      <div className="relative aspect-[4/5] overflow-hidden">
         <img
           src={stockImg}
           alt={[title, service.location_name, "Gauja National Park, Latvia"].filter(Boolean).join(" — ")}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
         />
         {service.enter_gauja_categories?.length ? (
-          <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
+          <div className="absolute left-0 top-0 flex flex-wrap">
             {service.enter_gauja_categories.slice(0, 2).map((c) => (
               <CategoryBadge key={c} category={c} lang={lang} categoriesData={cats} />
             ))}
           </div>
         ) : null}
       </div>
-      <div className="flex flex-1 flex-col gap-3 p-5">
-        <h3 className="display-3 leading-tight text-foreground">{title}</h3>
-        {desc && <p className="text-sm leading-relaxed text-ink-muted line-clamp-3">{desc}</p>}
-        <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-3 text-xs text-ink-muted">
-          {service.duration_minutes && (
-            <span className="inline-flex items-center gap-1.5">
-              <Clock className="h-3.5 w-3.5" />
-              {formatDuration(service.duration_minutes, lang)}
-            </span>
-          )}
-          {service.max_persons && (
-            <span className="inline-flex items-center gap-1.5">
-              <Users className="h-3.5 w-3.5" />
-              {t("service.persons_max", { count: service.max_persons })}
-            </span>
-          )}
-          {service.location_name && (
-            <span className="inline-flex items-center gap-1.5">
-              <MapPin className="h-3.5 w-3.5" />
-              {service.location_name}
-            </span>
-          )}
-        </div>
+
+      <div className="flex flex-1 flex-col gap-3 p-6 pb-8">
+        <h3 className="display-3 text-foreground">{title}</h3>
+        {desc ? (
+          <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+        ) : null}
+
+        {meta.length ? (
+          <p className="text-utility mt-1 text-[11px] text-muted-foreground">
+            {meta.join(" · ")}
+          </p>
+        ) : null}
+
         {service.price_from_eur != null && (
-          <div className="flex items-baseline justify-between border-t border-border/60 pt-3">
-            <span className="text-eyebrow">
-              {t("service.price_from", { price: formatPrice(Number(service.price_from_eur)) })}
+          <div className="mt-auto flex items-baseline justify-between gap-3 border-t border-border pt-4">
+            <span className="font-display text-2xl leading-none text-foreground">
+              {formatPrice(Number(service.price_from_eur))}
             </span>
-            <span className="text-xs text-ink-muted">
+            <span className="text-utility text-[10px] text-muted-foreground">
               {service.price_per_person ? t("service.price_per_person") : t("service.price_per_trip")}
             </span>
           </div>
         )}
       </div>
+
+      <StrataHoverBar colors={strataColors} />
     </Link>
   );
 }
