@@ -31,20 +31,11 @@ export function CategoryBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full font-medium",
-        size === "sm" ? "px-2.5 py-0.5 text-xs" : "px-3 py-1 text-sm",
+        "text-utility inline-flex items-center gap-1.5",
+        size === "sm" ? "px-2.5 py-1 text-[10px]" : "px-3 py-1.5 text-[11px]",
       )}
-      style={{
-        backgroundColor: `${color}18`,
-        color,
-        border: `1px solid ${color}30`,
-      }}
+      style={{ backgroundColor: color, color: "#fff" }}
     >
-      <span
-        className="h-1.5 w-1.5 rounded-full"
-        style={{ backgroundColor: color }}
-        aria-hidden
-      />
       {label}
     </span>
   );
