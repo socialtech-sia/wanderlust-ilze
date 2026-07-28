@@ -31,7 +31,7 @@ export function CategoryBadge({
   return (
     <span
       className={cn(
-        "text-utility inline-flex items-center gap-1.5",
+        "text-utility inline-flex items-center gap-1.5 rounded-sm",
         size === "sm" ? "px-2.5 py-1 text-[10px]" : "px-3 py-1.5 text-[11px]",
       )}
       style={{ backgroundColor: color, color: "#fff" }}

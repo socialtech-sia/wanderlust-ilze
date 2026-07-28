@@ -45,9 +45,9 @@ export function ServiceCard({
     <Link
       to="/$lang/s/$slug"
       params={{ lang, slug }}
-      className="group relative flex flex-col border border-border bg-card transition-colors duration-300 hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
+      className="group relative flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-colors duration-300 hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
     >
-      <div className="relative aspect-[4/5] overflow-hidden">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-t-lg">
         <img
           src={stockImg}
           alt={[title, service.location_name, "Gauja National Park, Latvia"].filter(Boolean).join(" — ")}
