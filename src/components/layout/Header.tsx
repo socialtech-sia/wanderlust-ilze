@@ -98,7 +98,8 @@ export function Header() {
           break;
         }
       }
-      const next = found ?? "light";
+      // Site is dark-first: assume dark unless a section explicitly opts into light.
+      const next = found ?? "dark";
       if (next !== toneRef.current) {
         toneRef.current = next;
         setTone(next);
