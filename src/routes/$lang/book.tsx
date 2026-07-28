@@ -104,14 +104,14 @@ function BookingPage() {
         p_service_id: form.serviceId,
         p_service_snapshot: snapshot,
         p_requested_date: form.date,
-        p_requested_time: form.time || null,
+        p_requested_time: form.time || "",
         p_persons_count: form.persons,
         p_customer_name: form.name,
         p_customer_email: form.email,
-        p_customer_phone: form.phone || null,
-        p_customer_country: form.country || null,
+        p_customer_phone: form.phone || "",
+        p_customer_country: form.country || "",
         p_customer_language: form.language,
-        p_notes: form.notes || null,
+        p_notes: form.notes || "",
       });
       if (err) throw err;
       const data = Array.isArray(rows) ? rows[0] : rows;
