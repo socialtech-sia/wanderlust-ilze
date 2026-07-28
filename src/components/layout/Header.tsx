@@ -148,12 +148,14 @@ export function Header() {
 
   const isDark = tone === "dark";
   const pillClass = isDark
-    ? "border-[color-mix(in_oklab,var(--bone)_16%,transparent)] bg-[color-mix(in_oklab,var(--pine)_62%,transparent)]"
-    : "border-[color-mix(in_oklab,var(--pine)_12%,transparent)] bg-[color-mix(in_oklab,var(--sand)_88%,transparent)]";
-  const textColor = isDark ? "text-bone" : "text-foreground";
+    ? "border-[color-mix(in_oklab,var(--bone)_18%,transparent)] bg-[color-mix(in_oklab,var(--pine)_74%,transparent)]"
+    : "border-[color-mix(in_oklab,var(--pine)_14%,transparent)] bg-[color-mix(in_oklab,var(--sand)_94%,transparent)]";
+  // NB: root theme is dark-first, so `text-foreground` is bone — unusable on the light pill.
+  const textColor = isDark ? "text-bone" : "text-pine";
   const mutedColor = isDark
     ? "text-bone-muted hover:text-bone"
-    : "text-ink-muted hover:text-foreground";
+    : "text-[color-mix(in_oklab,var(--pine)_70%,transparent)] hover:text-pine";
+
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40" data-tone={tone}>
