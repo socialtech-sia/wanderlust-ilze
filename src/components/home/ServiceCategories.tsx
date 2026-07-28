@@ -11,7 +11,7 @@ const CATEGORIES = [
     type: "excursion" as const,
     to: "/$lang/tours" as const,
     icon: Compass,
-    img: "https://images.unsplash.com/photo-1568486004327-9e2af64ac2ac?auto=format&fit=crop&w=1600&q=70",
+    img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=1600&q=70",
     alt: "Turaida medieval castle tower rising above the Gauja valley",
   },
   {

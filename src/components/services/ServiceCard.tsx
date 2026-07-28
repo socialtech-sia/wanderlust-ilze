@@ -94,7 +94,7 @@ export function ServiceCard({
 
 // Free stock placeholders (Unsplash) — will be swapped for admin-uploaded media in Phase 2.
 const STOCK_IMAGES = [
-  "https://images.unsplash.com/photo-1470217957101-da7150b3b77d?auto=format&fit=crop&w=1200&q=70", // castle
+  "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?auto=format&fit=crop&w=1200&q=70", // castle
   "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=70", // forest
   "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=70", // hiking
   "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=70", // river

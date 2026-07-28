@@ -242,15 +242,15 @@
 
 @layer base {
   * {
-    border-color: var(--color-border);
+    border-color: var(--border);
   }
   html {
     scroll-behavior: smooth;
     background-color: var(--pine);
   }
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--background);
+    color: var(--foreground);
     font-family: var(--font-sans);
     font-size: 17px;
     line-height: 1.65;
@@ -266,13 +266,13 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-ink-soft);
+    background: var(--ink-soft);
     border-radius: 0;
   }
   h1, h2, h3, h4, h5 {
     font-family: var(--font-display);
     font-weight: 400;
-    color: var(--color-foreground);
+    color: var(--foreground);
   }
   h1, h2 {
     font-variation-settings: "SOFT" 20, "WONK" 0, "opsz" 120, "wght" 380;
@@ -336,7 +336,7 @@
   letter-spacing: 0.08em;
   font-size: 0.6875rem;
   line-height: 1.4;
-  color: var(--color-muted-foreground);
+  color: var(--muted-foreground);
 }
 
 /* Vertical section marking (>=1280px), like a layer label on a geological cut. */
@@ -349,7 +349,7 @@
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   white-space: nowrap;
-  color: var(--color-muted-foreground);
+  color: var(--muted-foreground);
 }
 
 @utility display-1 {
@@ -377,7 +377,7 @@
 }
 
 @utility hairline {
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--border);
 }
 
 @utility text-shadow-sm {
