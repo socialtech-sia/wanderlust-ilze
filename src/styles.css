@@ -5,22 +5,22 @@
 /*
  * Wanderlust.lv design system — "Devonian"
  * Dark pine base, sandstone accents, light sand "clearings".
- * Type: Fraunces (display) + Archivo (text) + Archivo Narrow (utility).
+ * Type: Source Serif 4 (display) + Archivo (text) + Archivo Narrow (utility).
  * Fonts loaded via <link> in src/routes/__root.tsx.
  */
 
 @theme inline {
   --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Fraunces", ui-serif, Georgia, serif;
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
+  --font-display: "Source Serif 4", ui-serif, Georgia, serif;
   --font-utility: "Archivo Narrow", "Archivo", ui-sans-serif, system-ui, sans-serif;
 
-  --radius-sm: 2px;
-  --radius-md: 3px;
-  --radius-lg: 3px;
-  --radius-xl: 4px;
-  --radius-2xl: 6px;
-  --radius-3xl: 6px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 22px;
+  --radius-3xl: 28px;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -81,7 +81,7 @@
 }
 
 :root {
-  --radius: 3px;
+  --radius: 10px;
 
   /* Core surfaces */
   --pine: oklch(0.198 0.012 143);        /* #141813 */
@@ -275,20 +275,20 @@
     color: var(--foreground);
   }
   h1, h2 {
-    font-variation-settings: "SOFT" 20, "WONK" 0, "opsz" 120, "wght" 380;
-    letter-spacing: -0.012em;
+    font-variation-settings: "opsz" 60, "wght" 380;
+    letter-spacing: -0.008em;
     line-height: 1.06;
   }
   h3, h4, h5 {
-    font-variation-settings: "SOFT" 18, "WONK" 0, "opsz" 36, "wght" 420;
-    letter-spacing: -0.008em;
+    font-variation-settings: "opsz" 20, "wght" 500;
+    letter-spacing: -0.004em;
     line-height: 1.15;
   }
   .font-display {
     font-family: var(--font-display);
     font-weight: 400;
-    font-variation-settings: "SOFT" 20, "WONK" 0, "opsz" 120, "wght" 380;
-    letter-spacing: -0.012em;
+    font-variation-settings: "opsz" 60, "wght" 380;
+    letter-spacing: -0.008em;
   }
   :focus-visible {
     outline: 2px solid var(--sandstone-bright);
@@ -354,24 +354,24 @@
 
 @utility display-1 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 20, "WONK" 0, "opsz" 144, "wght" 360;
-  letter-spacing: -0.012em;
+  font-variation-settings: "opsz" 60, "wght" 380;
+  letter-spacing: -0.008em;
   line-height: 1.04;
   font-size: clamp(2.6rem, 7vw, 4.5rem);
 }
 
 @utility display-2 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 20, "WONK" 0, "opsz" 96, "wght" 380;
-  letter-spacing: -0.012em;
+  font-variation-settings: "opsz" 40, "wght" 400;
+  letter-spacing: -0.008em;
   line-height: 1.08;
   font-size: clamp(2rem, 4.4vw, 2.5rem);
 }
 
 @utility display-3 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 18, "WONK" 0, "opsz" 40, "wght" 420;
-  letter-spacing: -0.008em;
+  font-variation-settings: "opsz" 20, "wght" 500;
+  letter-spacing: -0.004em;
   line-height: 1.15;
   font-size: 1.5rem;
 }
