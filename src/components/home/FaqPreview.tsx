@@ -18,12 +18,12 @@ export function FaqPreview({ items }: { items: HomeFaq[] }) {
   if (!items.length) return null;
 
   return (
-    <section className="bg-paper py-20 md:py-28">
+    <section data-header-tone="dark" className="surface-dark section-y">
       <div className="container-editorial">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-16">
           <div>
             <p className="text-eyebrow">10 · BUJ</p>
-            <h2 className="mt-2 font-display text-3xl md:text-4xl">{t("faqp.title")}</h2>
+            <h2 className="mt-2 display-2">{t("faqp.title")}</h2>
             <p className="mt-3 text-ink-muted">{t("faqp.subtitle")}</p>
             <Link
               to="/$lang/faq"

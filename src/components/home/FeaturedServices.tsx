@@ -13,12 +13,12 @@ export function FeaturedServices({ services = [] }: { services?: HomeService[] }
   if (!featured.length) return null;
 
   return (
-    <section className="bg-paper-alt py-20 md:py-28">
+    <section data-header-tone="dark" className="surface-dark section-y">
       <div className="container-editorial">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl">
             <p className="text-eyebrow">04 · {t("home.selection_eyebrow")}</p>
-            <h2 className="mt-2 font-display text-3xl md:text-5xl">
+            <h2 className="mt-2 display-2">
               {t("home.featured_title")}
             </h2>
             <p className="mt-3 text-ink-muted">{t("home.featured_subtitle")}</p>

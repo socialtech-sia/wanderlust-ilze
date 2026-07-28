@@ -77,7 +77,7 @@ function BookingPage() {
   const selectedService: Service | null =
     services?.find((s) => s.id === form.serviceId) ?? null;
 
-  const accent = form.serviceType ? TYPE_COLOR[form.serviceType] : "var(--moss-deep)";
+  const accent = form.serviceType ? TYPE_COLOR[form.serviceType] : "var(--sandstone)";
 
   const canNext = (): boolean => {
     if (step === 1) return !!form.serviceType;
@@ -146,7 +146,7 @@ function BookingPage() {
           <BookingStepper step={step} accent={accent} />
         </div>
 
-        <div className="mt-8 rounded-3xl border border-border/60 bg-card p-6 md:p-10 shadow-editorial">
+        <div className="mt-8 rounded-[6px] border border-border/60 bg-card p-6 md:p-10 shadow-editorial">
           {step === 1 && (
             <StepType
               services={services ?? []}
@@ -203,7 +203,7 @@ function BookingPage() {
           )}
 
           {error && (
-            <p className="mt-4 rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <p className="mt-4 rounded-[3px] bg-destructive/10 px-3 py-2 text-sm text-destructive">
               {error}
             </p>
           )}
@@ -224,7 +224,7 @@ function BookingPage() {
                 size="md"
                 disabled={!canNext()}
                 onClick={() => setStep((s) => (s < 5 ? ((s + 1) as Step) : s))}
-                style={{ backgroundColor: accent, color: "var(--paper)" }}
+                style={{ backgroundColor: accent, color: "var(--bone)" }}
               >
                 {t("cta.next")} <ArrowRight className="h-4 w-4" />
               </Button>
@@ -234,7 +234,7 @@ function BookingPage() {
                 size="md"
                 disabled={!canNext() || submitting}
                 onClick={submit}
-                style={{ backgroundColor: accent, color: "var(--paper)" }}
+                style={{ backgroundColor: accent, color: "var(--bone)" }}
               >
                 {submitting ? "…" : t("booking.submit")}
               </Button>

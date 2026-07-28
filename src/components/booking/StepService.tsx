@@ -31,7 +31,7 @@ export function StepService({
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-eyebrow" style={{ color }}>{t(`booking.type_${type}`)}</p>
-          <h2 className="mt-2 font-display text-2xl md:text-3xl">{t("booking.service_prompt")}</h2>
+          <h2 className="mt-2 display-3">{t("booking.service_prompt")}</h2>
         </div>
         <Button type="button" variant="ghost" size="sm" onClick={onBackToType}>
           <ArrowLeft className="h-4 w-4" /> {t("booking.change_type")}
@@ -47,8 +47,8 @@ export function StepService({
               type="button"
               onClick={() => onSelect(s.id)}
               className={cn(
-                "group flex items-center gap-4 rounded-2xl border bg-background p-4 text-left transition-all duration-200",
-                "hover:-translate-y-0.5 hover:shadow-editorial",
+                "group flex items-center gap-4 rounded-[3px] border bg-background p-4 text-left transition-all duration-200",
+                "hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]",
                 active ? "border-transparent shadow-editorial" : "border-border/70",
               )}
               style={active ? { borderColor: color } : undefined}

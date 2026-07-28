@@ -11,7 +11,7 @@ const CATEGORIES = [
     type: "excursion" as const,
     to: "/$lang/tours" as const,
     icon: Compass,
-    img: "https://images.unsplash.com/photo-1568486004327-9e2af64ac2ac?auto=format&fit=crop&w=1600&q=70",
+    img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=1600&q=70",
     alt: "Turaida medieval castle tower rising above the Gauja valley",
   },
   {
@@ -55,10 +55,11 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
   const lang = useCurrentLanguage();
 
   return (
-    <section className="container-editorial py-20 md:py-28">
+    <section data-header-tone="dark" className="surface-dark section-y">
+      <div className="container-editorial">
       <div className="max-w-2xl">
         <p className="text-eyebrow">02 · {t("nav.tours")}</p>
-        <h2 className="mt-2 font-display text-3xl md:text-5xl">{t("home.categories_title")}</h2>
+        <h2 className="mt-2 display-2">{t("home.categories_title")}</h2>
         <p className="mt-3 text-ink-muted">{t("home.categories_subtitle")}</p>
       </div>
       <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-3">
@@ -84,7 +85,7 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
               key={c.key}
               to={c.to}
               params={{ lang }}
-              className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-2xl bg-ink text-paper shadow-card transition-all hover:shadow-editorial"
+              className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-[3px] bg-ink text-bone hairline transition-all hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
             >
               <img
                 src={c.img}
@@ -97,13 +98,13 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
                 className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent"
               />
               <div className="relative z-10 p-6">
-                <Icon className="h-6 w-6 text-paper/90" />
-                <h3 className="mt-4 font-display text-2xl text-paper md:text-3xl">
+                <Icon className="h-6 w-6 text-bone-muted" />
+                <h3 className="mt-4 font-display text-2xl text-bone md:text-3xl">
                   {t(`nav.${c.key}`)}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-paper/85">{DESC[c.key][lang]}</p>
+                <p className="mt-2 text-sm leading-relaxed text-bone-muted">{DESC[c.key][lang]}</p>
                 {meta.length > 0 && (
-                  <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-paper/75">
+                  <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-bone-muted">
                     {meta.map((m, i) => (
                       <span key={m}>
                         {i > 0 && <span aria-hidden className="mr-2">·</span>}
@@ -112,7 +113,7 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
                     ))}
                   </p>
                 )}
-                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-paper">
+                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-bone">
                   {t("cta.explore")} <ArrowUpRight className="h-3.5 w-3.5" />
                 </span>
               </div>
@@ -120,6 +121,7 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
           );
         })}
       </div>
+    </div>
     </section>
   );
 }

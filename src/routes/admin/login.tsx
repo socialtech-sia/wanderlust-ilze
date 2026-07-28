@@ -48,8 +48,8 @@ function AdminLogin() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-paper-alt px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-sm">
+    <div className="admin-scope flex min-h-screen items-center justify-center px-4">
+      <div className="w-full max-w-sm rounded-[3px] border border-border bg-card p-6">
         <h1 className="font-display text-2xl text-foreground">Wanderlust.lv</h1>
         <p className="mt-1 text-sm text-muted-foreground">Satura pārvaldības sistēma</p>
 

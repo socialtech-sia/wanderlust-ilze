@@ -6,11 +6,11 @@ export function HowItWorks() {
   const { t } = useTranslation();
 
   return (
-    <section className="bg-paper py-20 md:py-28">
+    <section data-header-tone="light" className="surface-light section-y">
       <div className="container-editorial">
         <div className="max-w-2xl">
           <p className="text-eyebrow">03 · Process</p>
-          <h2 className="mt-2 font-display text-3xl md:text-5xl">{t("howitworks.title")}</h2>
+          <h2 className="mt-2 display-2">{t("howitworks.title")}</h2>
           <p className="mt-3 text-ink-muted">{t("howitworks.subtitle")}</p>
         </div>
 
@@ -28,7 +28,7 @@ export function HowItWorks() {
               <span className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-paper font-display text-sm text-foreground md:relative md:mb-5">
                 {i + 1}
               </span>
-              <h3 className="font-display text-xl leading-tight text-foreground">
+              <h3 className="display-3 leading-tight text-foreground">
                 {t(`howitworks.${s}_title`)}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-muted">

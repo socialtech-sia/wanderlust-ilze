@@ -17,11 +17,11 @@ export function RegionSection() {
   const lang = useCurrentLanguage();
 
   return (
-    <section className="bg-paper-alt py-20 md:py-28">
+    <section data-header-tone="dark" className="surface-dark surface-deep section-y">
       <div className="container-editorial">
         <div className="max-w-2xl">
           <p className="text-eyebrow">05 · Gaujas ieleja</p>
-          <h2 className="mt-2 font-display text-3xl md:text-5xl">{t("region.title")}</h2>
+          <h2 className="mt-2 display-2">{t("region.title")}</h2>
           <p className="mt-3 text-ink-muted">{t("region.subtitle")}</p>
         </div>
 
@@ -29,7 +29,7 @@ export function RegionSection() {
           {PLACES.map((p) => (
             <article
               key={p.key}
-              className="flex flex-col rounded-2xl p-6 text-white md:p-8"
+              className="flex flex-col rounded-[3px] p-6 text-white md:p-8"
               style={{ backgroundColor: p.color }}
             >
               <h3 className="font-display text-2xl leading-tight md:text-3xl">

@@ -36,13 +36,13 @@ export function ChatWidget() {
         aria-label={t("chat.title")}
         onClick={() => setOpen(true)}
         className={cn(
-          "group fixed right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-moss-deep text-paper shadow-lg transition-all duration-300 hover:scale-105 motion-reduce:transition-none md:right-6 md:h-14 md:w-14",
+          "group fixed right-4 z-50 flex h-12 w-12 items-center justify-center rounded-[3px] bg-sandstone text-bone shadow-[var(--shadow-overlay)] transition-all duration-300 hover:scale-105 motion-reduce:transition-none md:right-6 md:h-14 md:w-14",
           bannerVisible ? "bottom-[13.5rem] md:bottom-64" : "bottom-20 md:bottom-24",
         )}
         style={{ marginBottom: "env(safe-area-inset-bottom)" }}
       >
         <MessageCircle className="h-5 w-5 md:h-6 md:w-6" />
-        <span className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full bg-foreground px-3 py-1.5 text-xs text-background opacity-0 transition-opacity group-hover:opacity-100 md:block">
+        <span className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-[3px] bg-foreground px-3 py-1.5 text-xs text-background opacity-0 transition-opacity group-hover:opacity-100 md:block">
           {t("chat.title")}
         </span>
       </button>

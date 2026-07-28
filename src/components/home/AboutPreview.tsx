@@ -46,9 +46,9 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
   const avatar = profile?.avatar_storage_path;
 
   return (
-    <section className="bg-paper py-20 md:py-28">
+    <section data-header-tone="light" className="surface-light section-y">
       <div className="container-editorial grid gap-10 md:grid-cols-2 md:items-start md:gap-14">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-paper-alt md:aspect-[3/4]">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-[3px] bg-paper-alt md:aspect-[3/4]">
           {avatar ? (
             <img
               src={avatar}
@@ -78,7 +78,7 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
 
         <div>
           <p className="text-eyebrow">06 · {t("home.about_eyebrow")}</p>
-          <h2 className="mt-2 font-display text-3xl md:text-5xl">
+          <h2 className="mt-2 display-2">
             {profile?.full_name ?? "Ilze Gulbe"}
           </h2>
           <p className="mt-1 text-ink-muted">{profile ? tField(profile, "role", lang) : ""}</p>

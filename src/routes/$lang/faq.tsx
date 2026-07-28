@@ -32,7 +32,7 @@ function FaqPage() {
         <Accordion type="single" collapsible className="mt-10 divide-y divide-border/60">
           {data?.map((f) => (
             <AccordionItem key={f.id} value={f.id} className="border-b-0">
-              <AccordionTrigger className="py-5 text-left font-display text-lg text-foreground hover:no-underline">
+              <AccordionTrigger className="py-5 text-left display-3 !text-lg text-foreground hover:no-underline">
                 {tField(f, "question", lang)}
               </AccordionTrigger>
               <AccordionContent className="pb-6 text-base leading-relaxed text-ink-muted">

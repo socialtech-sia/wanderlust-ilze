@@ -53,7 +53,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-paper-alt">
+    <div className="admin-scope flex min-h-screen">
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-40 w-60 shrink-0 border-r border-border bg-card transition-transform lg:static lg:translate-x-0",

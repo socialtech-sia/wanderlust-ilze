@@ -99,7 +99,7 @@ function ServiceDetail() {
   if (isLoading) {
     return (
       <div className="container-editorial py-32">
-        <div className="h-96 animate-pulse rounded-3xl bg-paper-alt" />
+        <div className="h-96 animate-pulse rounded-[6px] bg-paper-alt" />
       </div>
     );
   }
@@ -128,25 +128,25 @@ function ServiceDetail() {
           })}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/20 to-ink/75" />
-        <div className="container-editorial relative z-10 pb-14 pt-32 text-paper md:pb-20 md:pt-40">
+        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--pine)_45%,transparent)_0%,color-mix(in_oklab,var(--pine)_30%,transparent)_40%,color-mix(in_oklab,var(--pine)_88%,transparent)_88%,var(--pine)_100%)]" />
+        <div className="container-editorial relative z-10 pb-14 pt-32 text-bone md:pb-20 md:pt-40">
           {/* Breadcrumbs */}
-          <nav className="mb-4 flex items-center gap-1.5 text-xs text-paper/80">
-            <Link to="/$lang" params={{ lang }} className="hover:text-paper">
+          <nav className="mb-4 flex items-center gap-1.5 text-xs text-bone-muted">
+            <Link to="/$lang" params={{ lang }} className="hover:text-bone">
               {t("nav.home")}
             </Link>
             <ChevronRight className="h-3 w-3" />
-            <Link to={`/$lang/${navKey}`} params={{ lang }} className="hover:text-paper">
+            <Link to={`/$lang/${navKey}`} params={{ lang }} className="hover:text-bone">
               {t(`nav.${navKey}`)}
             </Link>
             <ChevronRight className="h-3 w-3" />
-            <span className="text-paper/60">{title}</span>
+            <span className="text-bone-faint">{title}</span>
           </nav>
-          <p className="text-eyebrow text-paper/90">{t(`service.${service.type}`)}</p>
+          <p className="text-eyebrow text-bone-muted">{t(`service.${service.type}`)}</p>
           <h1 className="mt-2 max-w-3xl font-display text-4xl leading-[1.05] md:text-6xl">
             {title}
           </h1>
-          {shortDesc && <p className="mt-4 max-w-2xl text-base text-paper/85">{shortDesc}</p>}
+          {shortDesc && <p className="mt-4 max-w-2xl text-base text-bone-muted">{shortDesc}</p>}
           {service.enter_gauja_categories?.length ? (
             <div className="mt-6 flex flex-wrap gap-2">
               {service.enter_gauja_categories.map((c) => (
@@ -162,7 +162,7 @@ function ServiceDetail() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px]">
           <div>
             {/* Meta */}
-            <div className="mb-10 grid gap-4 rounded-2xl border border-border/60 bg-card p-6 sm:grid-cols-2 md:grid-cols-4">
+            <div className="mb-10 grid gap-4 rounded-[3px] border border-border/60 bg-card p-6 sm:grid-cols-2 md:grid-cols-4">
               {service.duration_minutes && (
                 <MetaCell icon={<Clock className="h-4 w-4" />} label={t("service.duration")} value={formatDuration(service.duration_minutes, lang)} />
               )}
@@ -190,7 +190,7 @@ function ServiceDetail() {
 
           {/* Sticky booking card */}
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="rounded-2xl border border-border/60 bg-card p-6 shadow-card">
+            <div className="rounded-[3px] border border-border/60 bg-card p-6 hairline">
               {service.price_from_eur != null && (
                 <>
                   <p className="text-eyebrow">

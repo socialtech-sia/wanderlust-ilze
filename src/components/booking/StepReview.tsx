@@ -37,7 +37,7 @@ export function StepReview({
   return (
     <div className="animate-fade-in grid gap-6 md:grid-cols-[1.1fr_1fr]">
       <div
-        className="relative overflow-hidden rounded-2xl p-6 text-paper"
+        className="relative overflow-hidden rounded-[3px] p-6 text-bone"
         style={{ backgroundColor: color }}
       >
         <p className="text-[11px] font-medium uppercase tracking-[0.14em] opacity-80">
@@ -62,7 +62,7 @@ export function StepReview({
             <p className="text-[11px] font-medium uppercase tracking-[0.14em] opacity-80">
               {t("booking.estimated_total")}
             </p>
-            <p className="mt-1 font-display text-3xl">{formatPrice(total)}</p>
+            <p className="mt-1 display-2">{formatPrice(total)}</p>
           </div>
         )}
         <div className="pointer-events-none absolute -right-6 -bottom-6 opacity-15">
@@ -71,11 +71,11 @@ export function StepReview({
       </div>
 
       <div className="flex flex-col justify-between gap-4">
-        <div className="rounded-2xl border border-border/60 bg-paper-alt/40 p-5 text-sm text-ink-muted">
+        <div className="rounded-[3px] border border-border/60 bg-paper-alt/40 p-5 text-sm text-ink-muted">
           <p className="font-medium text-foreground">{t("booking.review_note_title")}</p>
           <p className="mt-2">{t("booking.review_note_body")}</p>
         </div>
-        <label className="flex items-start gap-3 rounded-2xl border border-border/60 bg-background p-4 text-sm text-foreground">
+        <label className="flex items-start gap-3 rounded-[3px] border border-border/60 bg-background p-4 text-sm text-foreground">
           <input
             type="checkbox"
             checked={form.terms}
