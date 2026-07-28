@@ -69,7 +69,7 @@ function AdminProfile() {
       />
 
       <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-        <div className="rounded-2xl border border-border bg-card p-5">
+        <div className="rounded-lg border border-border bg-card p-5">
           <LangTabs
             render={(lang: AdminLang) => (
               <>
@@ -101,7 +101,7 @@ function AdminProfile() {
           />
         </div>
 
-        <div className="space-y-4 rounded-2xl border border-border bg-card p-5">
+        <div className="space-y-4 rounded-lg border border-border bg-card p-5">
           <div className="space-y-1.5">
             <Label>Vārds, uzvārds</Label>
             <Input value={form.full_name ?? ""} onChange={(e) => set("full_name", e.target.value)} />

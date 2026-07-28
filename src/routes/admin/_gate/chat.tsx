@@ -67,7 +67,7 @@ function AdminChat() {
               type="button"
               onClick={() => setActiveId(c.id)}
               className={cn(
-                "w-full rounded-2xl border p-3 text-left transition-colors",
+                "w-full rounded-lg border p-3 text-left transition-colors",
                 activeId === c.id
                   ? "border-foreground bg-muted/60"
                   : "border-border bg-card hover:bg-muted/30",
@@ -92,7 +92,7 @@ function AdminChat() {
           ))}
         </div>
 
-        <div className="rounded-2xl border border-border bg-card p-4">
+        <div className="rounded-lg border border-border bg-card p-4">
           {!activeId ? (
             <p className="text-sm text-muted-foreground">Izvēlieties sarunu no saraksta.</p>
           ) : (

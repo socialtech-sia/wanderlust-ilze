@@ -84,7 +84,7 @@ function AdminFaq() {
 
       <div className="space-y-4">
         {items.map((item) => (
-          <div key={item.id} className="space-y-3 rounded-2xl border border-border bg-card p-4">
+          <div key={item.id} className="space-y-3 rounded-lg border border-border bg-card p-4">
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-2">
                 <Label className="text-xs text-muted-foreground">Kārtība</Label>
