@@ -31,10 +31,13 @@ export function CategoryBadge({
   return (
     <span
       className={cn(
-        "text-utility inline-flex items-center gap-1.5 rounded-sm",
-        size === "sm" ? "px-2.5 py-1 text-[10px]" : "px-3 py-1.5 text-[11px]",
+        "text-utility inline-flex items-center gap-1.5 rounded-full border border-white/25 leading-none text-white shadow-[0_2px_10px_rgba(0,0,0,0.35)] backdrop-blur-sm",
+        size === "sm" ? "px-3 py-1.5 text-[10px]" : "px-4 py-2 text-[11px]",
       )}
-      style={{ backgroundColor: color, color: "#fff" }}
+      style={{
+        backgroundColor: `color-mix(in oklab, ${color} 88%, transparent)`,
+        textShadow: "0 1px 2px rgba(0,0,0,0.35)",
+      }}
     >
       {label}
     </span>

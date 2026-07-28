@@ -55,7 +55,7 @@ export function ServiceCard({
           className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
         />
         {service.enter_gauja_categories?.length ? (
-          <div className="absolute left-0 top-0 flex flex-wrap">
+          <div className="absolute left-3 top-3 flex flex-wrap gap-2">
             {service.enter_gauja_categories.slice(0, 2).map((c) => (
               <CategoryBadge key={c} category={c} lang={lang} categoriesData={cats} />
             ))}
