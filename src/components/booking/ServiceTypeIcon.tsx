@@ -44,6 +44,6 @@ export function ServiceTypeIcon({
 
 export const TYPE_COLOR: Record<ServiceType, string> = {
   excursion: "var(--cat-action)",
-  hiking: "var(--moss-deep)",
+  hiking: "var(--cat-nature)",
   transfer: "var(--cat-history)",
 };

@@ -77,7 +77,7 @@ function BookingPage() {
   const selectedService: Service | null =
     services?.find((s) => s.id === form.serviceId) ?? null;
 
-  const accent = form.serviceType ? TYPE_COLOR[form.serviceType] : "var(--moss-deep)";
+  const accent = form.serviceType ? TYPE_COLOR[form.serviceType] : "var(--sandstone)";
 
   const canNext = (): boolean => {
     if (step === 1) return !!form.serviceType;
@@ -224,7 +224,7 @@ function BookingPage() {
                 size="md"
                 disabled={!canNext()}
                 onClick={() => setStep((s) => (s < 5 ? ((s + 1) as Step) : s))}
-                style={{ backgroundColor: accent, color: "var(--paper)" }}
+                style={{ backgroundColor: accent, color: "var(--bone)" }}
               >
                 {t("cta.next")} <ArrowRight className="h-4 w-4" />
               </Button>
@@ -234,7 +234,7 @@ function BookingPage() {
                 size="md"
                 disabled={!canNext() || submitting}
                 onClick={submit}
-                style={{ backgroundColor: accent, color: "var(--paper)" }}
+                style={{ backgroundColor: accent, color: "var(--bone)" }}
               >
                 {submitting ? "…" : t("booking.submit")}
               </Button>
