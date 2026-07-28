@@ -100,24 +100,23 @@ function BookingPage() {
           }
         : null;
       if (!form.serviceId) throw new Error(t("errors.generic"));
-      const { data, error: err } = await supabase
-        .from("bookings")
-        .insert({
-          service_id: form.serviceId,
-          service_snapshot: snapshot,
-          requested_date: form.date,
-          requested_time: form.time || null,
-          persons_count: form.persons,
-          customer_name: form.name,
-          customer_email: form.email,
-          customer_phone: form.phone || null,
-          customer_country: form.country || null,
-          customer_language: form.language,
-          notes: form.notes || null,
-        })
-        .select("id, reference_code")
-        .single();
+      const { data: rows, error: err } = await supabase.rpc("create_booking", {
+        p_service_id: form.serviceId,
+        p_service_snapshot: snapshot,
+        p_requested_date: form.date,
+        // time is nullable in the database; the generated types don't model that
+        p_requested_time: (form.time || null) as unknown as string,
+        p_persons_count: form.persons,
+        p_customer_name: form.name,
+        p_customer_email: form.email,
+        p_customer_phone: form.phone || "",
+        p_customer_country: form.country || "",
+        p_customer_language: form.language,
+        p_notes: form.notes || "",
+      });
       if (err) throw err;
+      const data = Array.isArray(rows) ? rows[0] : rows;
+      if (!data) throw new Error(t("errors.generic"));
       // Fire-and-forget: a failed email must not block the confirmation screen.
       void fetch("/api/public/booking-notification", {
         method: "POST",

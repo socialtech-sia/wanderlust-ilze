@@ -750,7 +750,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_booking: {
+        Args: {
+          p_customer_country: string
+          p_customer_email: string
+          p_customer_language: string
+          p_customer_name: string
+          p_customer_phone: string
+          p_notes: string
+          p_persons_count: number
+          p_requested_date: string
+          p_requested_time: string
+          p_service_id: string
+          p_service_snapshot: Json
+        }
+        Returns: {
+          id: string
+          reference_code: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
