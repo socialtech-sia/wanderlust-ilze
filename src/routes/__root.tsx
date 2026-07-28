@@ -14,11 +14,15 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Button } from "@/components/ui/button";
 import { I18nextProvider } from "react-i18next";
 import i18n from "@/lib/i18n";
+import { Logo } from "@/components/brand/Logo";
 
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
+        <Link to="/" aria-label="Wanderlust.lv" className="mb-8 inline-flex text-foreground">
+          <Logo variant="stacked" tone="auto" size={56} />
+        </Link>
         <p className="text-eyebrow">404</p>
         <h1 className="mt-2 font-display text-5xl text-foreground">Page not found</h1>
         <p className="mt-3 text-sm text-muted-foreground">
