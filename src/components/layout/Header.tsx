@@ -160,7 +160,7 @@ export function Header() {
         <div
           ref={pillRef}
           className={cn(
-            "pointer-events-none absolute inset-x-2 top-2 h-12 rounded-[4px] border transition-[background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            "pointer-events-none absolute inset-x-2 top-2 h-12 rounded-full border transition-[background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
             "md:inset-x-4 md:h-16",
             pillClass,
           )}
@@ -217,7 +217,7 @@ export function Header() {
             type="button"
             aria-label="Menu"
             className={cn(
-              "inline-flex h-10 w-10 items-center justify-center rounded-[3px] text-shadow-sm transition-colors md:hidden",
+              "inline-flex h-10 w-10 items-center justify-center rounded-full text-shadow-sm transition-colors md:hidden",
               textColor,
             )}
             onClick={() => setMobileOpen((v) => !v)}
@@ -237,7 +237,7 @@ export function Header() {
                 to={item.to}
                 params={{ lang }}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-[3px] px-3 py-2.5 text-base text-foreground hover:bg-accent"
+                className="rounded-lg px-3 py-2.5 text-base text-foreground hover:bg-accent"
               >
                 {t(`nav.${item.key}`)}
               </Link>

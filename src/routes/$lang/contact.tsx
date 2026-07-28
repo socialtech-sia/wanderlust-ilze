@@ -64,9 +64,9 @@ function ContactPage() {
       </div>
 
       <div className="mt-10 grid gap-10 md:grid-cols-[minmax(0,1fr)_320px]">
-        <form onSubmit={submit} className="grid gap-4 rounded-[3px] border border-border/60 bg-card p-6 md:p-8">
+        <form onSubmit={submit} className="grid gap-4 rounded-xl border border-border/60 bg-card p-6 md:p-8">
           {state === "sent" ? (
-            <p className="rounded-[3px] bg-moss-soft px-4 py-3 text-moss-deep">{t("contact.sent")}</p>
+            <p className="rounded-md bg-moss-soft px-4 py-3 text-moss-deep">{t("contact.sent")}</p>
           ) : (
             <>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -75,7 +75,7 @@ function ContactPage() {
                   placeholder={t("contact.name")}
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="rounded-[3px] border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
+                  className="rounded-md border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
                 />
                 <input
                   required
@@ -83,14 +83,14 @@ function ContactPage() {
                   placeholder={t("contact.email")}
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="rounded-[3px] border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
+                  className="rounded-md border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
                 />
               </div>
               <input
                 placeholder={t("contact.subject")}
                 value={form.subject}
                 onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                className="rounded-[3px] border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
+                className="rounded-md border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
               />
               <textarea
                 required
@@ -98,7 +98,7 @@ function ContactPage() {
                 placeholder={t("contact.message")}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="rounded-[3px] border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
+                className="rounded-md border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
               />
               {state === "error" && <p className="text-sm text-destructive">{errorMsg}</p>}
               <Button

@@ -21,7 +21,7 @@ export function Seasons() {
         </div>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 md:mt-10 md:grid-cols-4">
           {SEASONS.map(({ key, icon: Icon }) => (
-            <div key={key} className="rounded-[3px] border border-border/60 bg-card p-5">
+            <div key={key} className="rounded-lg border border-border/60 bg-card p-5">
               <Icon className="h-5 w-5 text-moss-deep" aria-hidden />
               <h3 className="mt-3 display-3 !text-lg text-foreground">
                 {t(`seasons.${key}_title`)}

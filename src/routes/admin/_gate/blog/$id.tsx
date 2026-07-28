@@ -135,7 +135,7 @@ function BlogEditor() {
       />
 
       <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-        <div className="rounded-2xl border border-border bg-card p-5">
+        <div className="rounded-lg border border-border bg-card p-5">
           <LangTabs
             render={(lang: AdminLang) => (
               <>
@@ -191,7 +191,7 @@ function BlogEditor() {
           />
         </div>
 
-        <div className="space-y-4 rounded-2xl border border-border bg-card p-5">
+        <div className="space-y-4 rounded-lg border border-border bg-card p-5">
           <div className="space-y-1.5">
             <Label>Statuss</Label>
             <Select value={form.status ?? "draft"} onValueChange={(v) => set("status", v)}>

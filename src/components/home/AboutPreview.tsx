@@ -48,7 +48,7 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
   return (
     <section data-header-tone="light" className="surface-light section-y">
       <div className="container-editorial grid gap-10 md:grid-cols-2 md:items-start md:gap-14">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[3px] bg-paper-alt md:aspect-[3/4]">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-paper-alt md:aspect-[3/4]">
           {avatar ? (
             <img
               src={avatar}

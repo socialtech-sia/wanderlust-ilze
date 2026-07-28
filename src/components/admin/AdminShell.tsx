@@ -72,7 +72,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               to={item.to}
               onClick={() => setOpen(false)}
               className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-colors",
+                "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
                 isActive(item.to)
                   ? "bg-primary/10 font-medium text-primary"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground",

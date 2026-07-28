@@ -82,7 +82,7 @@ export function ServicesListPage({
               type="button"
               onClick={() => goto({ category: undefined })}
               className={cn(
-                "text-utility rounded-[3px] border px-4 py-2 text-[11px] transition-colors",
+                "text-utility rounded-sm border px-4 py-2 text-[11px] transition-colors",
                 !category
                   ? "border-foreground bg-foreground text-background"
                   : "border-border/60 text-ink-muted hover:text-foreground",
@@ -99,7 +99,7 @@ export function ServicesListPage({
                   type="button"
                   onClick={() => goto({ category: active ? undefined : c.key })}
                   className={cn(
-                    "text-utility rounded-[3px] border px-4 py-2 text-[11px] transition-colors",
+                    "text-utility rounded-sm border px-4 py-2 text-[11px] transition-colors",
                     active ? "text-bone" : "hover:text-foreground",
                   )}
                   style={
@@ -124,7 +124,7 @@ export function ServicesListPage({
               type="button"
               onClick={() => goto({ difficulty: undefined })}
               className={cn(
-                "text-utility rounded-[3px] border px-3 py-1.5 text-[10px] transition-colors",
+                "text-utility rounded-sm border px-3 py-1.5 text-[10px] transition-colors",
                 !difficulty
                   ? "border-foreground bg-foreground text-background"
                   : "border-border/60 text-ink-muted hover:text-foreground",
@@ -140,7 +140,7 @@ export function ServicesListPage({
                   type="button"
                   onClick={() => goto({ difficulty: active ? undefined : d })}
                   className={cn(
-                    "text-utility rounded-[3px] border px-3 py-1.5 text-[10px] transition-colors",
+                    "text-utility rounded-sm border px-3 py-1.5 text-[10px] transition-colors",
                     active
                       ? "border-foreground bg-foreground text-background"
                       : "border-border/60 text-ink-muted hover:text-foreground",
@@ -156,7 +156,7 @@ export function ServicesListPage({
         {isLoading && (
           <div className="grid gap-6 md:grid-cols-3">
             {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="aspect-[4/5] animate-pulse rounded-[3px] bg-paper-alt" />
+              <div key={i} className="aspect-[4/5] animate-pulse rounded-lg bg-paper-alt" />
             ))}
           </div>
         )}

@@ -108,7 +108,7 @@ function IconField({
 }) {
   return (
     <div
-      className={`flex ${align === "start" ? "items-start pt-3" : "items-center"} gap-2 rounded-[3px] border border-border bg-background px-4 transition-colors focus-within:border-foreground`}
+      className={`flex ${align === "start" ? "items-start pt-3" : "items-center"} gap-2 rounded-md border border-border bg-background px-4 transition-colors focus-within:border-foreground`}
     >
       <span style={{ color: accent }} className={align === "start" ? "mt-0.5" : ""}>
         {icon}

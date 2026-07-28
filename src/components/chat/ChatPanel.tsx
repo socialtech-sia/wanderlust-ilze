@@ -108,7 +108,7 @@ export function ChatPanel({ lang, greeting, onClose }: ChatPanelProps) {
       <div
         role="dialog"
         aria-label={t("chat.title")}
-        className="relative flex h-[85vh] w-full flex-col overflow-hidden rounded-t-3xl border border-border/60 bg-card shadow-editorial md:h-[560px] md:w-[380px] md:rounded-[6px]"
+        className="relative flex h-[85vh] w-full flex-col overflow-hidden rounded-t-3xl border border-border/60 bg-card shadow-editorial md:h-[560px] md:w-[380px] md:rounded-xl"
       >
         <header className="flex items-center justify-between border-b border-border/60 px-4 py-3">
           <div>
@@ -182,7 +182,7 @@ export function ChatPanel({ lang, greeting, onClose }: ChatPanelProps) {
                   void send(input);
                 }
               }}
-              className="max-h-28 flex-1 resize-none rounded-[3px] border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground disabled:opacity-60"
+              className="max-h-28 flex-1 resize-none rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground disabled:opacity-60"
             />
             <Button type="submit" size="icon" disabled={sending || locked || !input.trim()}>
               <Send className="h-4 w-4" />
@@ -200,7 +200,7 @@ function Bubble({ role, children }: { role: "user" | "assistant"; children: stri
     <div className={cn("flex", isUser ? "justify-end" : "justify-start")}>
       <div
         className={cn(
-          "max-w-[85%] rounded-[3px] px-3.5 py-2.5 text-sm leading-relaxed",
+          "max-w-[85%] rounded-lg px-3.5 py-2.5 text-sm leading-relaxed",
           isUser
             ? "rounded-br-md bg-foreground text-background"
             : "rounded-bl-md bg-muted text-foreground",

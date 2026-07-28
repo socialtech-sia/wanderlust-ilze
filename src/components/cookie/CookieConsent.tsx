@@ -59,7 +59,7 @@ export function CookieConsent() {
           aria-label={t("consent.title")}
           className="fixed inset-x-3 bottom-3 z-[60] md:inset-x-auto md:right-6 md:bottom-6 md:max-w-sm"
         >
-          <div className="rounded-[3px] border border-border/70 bg-background/95 p-3.5 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-background/80">
+          <div className="rounded-xl border border-border/70 bg-background/95 p-3.5 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-background/80">
             <div className="flex items-start gap-2.5">
               <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <Cookie className="h-3.5 w-3.5" />
@@ -170,7 +170,7 @@ function ToggleRow({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4 rounded-[3px] border border-border/60 p-3">
+    <div className="flex items-start justify-between gap-4 rounded-lg border border-border/60 p-3">
       <div>
         <p className="text-sm font-medium text-foreground">{title}</p>
         <p className="mt-0.5 text-xs text-ink-muted">{desc}</p>

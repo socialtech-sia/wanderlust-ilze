@@ -109,7 +109,7 @@ function AdminMedia() {
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {items.map((m) => (
-          <div key={m.id} className="overflow-hidden rounded-2xl border border-border bg-card">
+          <div key={m.id} className="overflow-hidden rounded-lg border border-border bg-card">
             <img
               src={getPublicUrl(m.storage_path)}
               alt={m.alt_lv ?? m.storage_path}

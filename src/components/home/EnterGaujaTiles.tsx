@@ -32,7 +32,7 @@ export function EnterGaujaTiles() {
               to="/$lang/tours"
               params={{ lang }}
               search={{ category: cat.key }}
-              className="group relative flex flex-col overflow-hidden rounded-[3px] border border-border/60 bg-card p-6 transition-all hover:-translate-y-1 hover:hairline"
+              className="group relative flex flex-col overflow-hidden rounded-lg border border-border/60 bg-card p-6 transition-all hover:-translate-y-1 hover:hairline"
             >
               <span
                 aria-hidden

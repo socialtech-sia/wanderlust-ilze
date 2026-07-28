@@ -190,7 +190,7 @@ export function BookingReplyDialog({ booking }: { booking: Booking }) {
             />
           </div>
 
-          <div className="rounded-2xl border border-border bg-muted/30 p-3">
+          <div className="rounded-lg border border-border bg-muted/30 p-3">
             <p className="mb-2 text-xs text-muted-foreground">
               Priekšskatījums · <span className="font-medium">{preview.subject}</span>
             </p>

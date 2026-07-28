@@ -86,7 +86,7 @@ function ChatbotCard({
   const enabled = find("chatbot_enabled") !== false;
 
   return (
-    <div className="mb-6 space-y-4 rounded-2xl border border-border bg-card p-4">
+    <div className="mb-6 space-y-4 rounded-lg border border-border bg-card p-4">
       <div className="flex items-center justify-between gap-3">
         <div>
           <Label className="text-sm">AI čatbots</Label>
@@ -148,7 +148,7 @@ function SettingCard({ setting, onSave }: { setting: Setting; onSave: (raw: stri
   let draft = initial;
 
   return (
-    <div className="space-y-2 rounded-2xl border border-border bg-card p-4">
+    <div className="space-y-2 rounded-lg border border-border bg-card p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
           <Label className="font-mono text-sm">{setting.key}</Label>

@@ -74,7 +74,7 @@ export function MediaPicker({ value, onChange, folder = "services", label = "Att
             <img
               src={getPublicUrl(value)}
               alt="Izvēlētais attēls"
-              className="h-24 w-32 rounded-lg border border-border object-cover"
+              className="h-24 w-32 rounded-md border border-border object-cover"
             />
             <button
               type="button"
@@ -86,7 +86,7 @@ export function MediaPicker({ value, onChange, folder = "services", label = "Att
             </button>
           </div>
         ) : (
-          <div className="flex h-24 w-32 items-center justify-center rounded-lg border border-dashed border-border text-muted-foreground">
+          <div className="flex h-24 w-32 items-center justify-center rounded-md border border-dashed border-border text-muted-foreground">
             <ImagePlus className="h-5 w-5" />
           </div>
         )}
@@ -128,7 +128,7 @@ export function MediaPicker({ value, onChange, folder = "services", label = "Att
                     onChange(m.storage_path);
                     setOpen(false);
                   }}
-                  className="overflow-hidden rounded-lg border border-border transition-opacity hover:opacity-80"
+                  className="overflow-hidden rounded-md border border-border transition-opacity hover:opacity-80"
                 >
                   <img
                     src={getPublicUrl(m.storage_path)}

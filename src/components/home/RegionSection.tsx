@@ -29,7 +29,7 @@ export function RegionSection() {
           {PLACES.map((p) => (
             <article
               key={p.key}
-              className="flex flex-col rounded-[3px] p-6 text-white md:p-8"
+              className="flex flex-col rounded-lg p-6 text-white md:p-8"
               style={{ backgroundColor: p.color }}
             >
               <h3 className="font-display text-2xl leading-tight md:text-3xl">

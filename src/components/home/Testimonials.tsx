@@ -23,7 +23,7 @@ export function Testimonials({ items }: { items: HomeTestimonial[] }) {
           {visible.map((r) => (
             <figure
               key={r.id}
-              className="flex flex-col rounded-[3px] border border-border/60 bg-card p-6"
+              className="flex flex-col rounded-lg border border-border/60 bg-card p-6"
             >
               <div className="flex gap-0.5" aria-label={`${r.rating}/5`}>
                 {Array.from({ length: Math.max(0, Math.min(5, r.rating ?? 5)) }).map((_, i) => (
