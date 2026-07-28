@@ -24,7 +24,7 @@ function Confirmed() {
         {email ? (
           <p className="mt-2 text-sm text-ink-muted">{t("booking.email_sent", { email })}</p>
         ) : null}
-        <div className="mt-8 inline-block rounded-[3px] border border-border/60 bg-card px-8 py-5">
+        <div className="mt-8 inline-block rounded-lg border border-border/60 bg-card px-8 py-5">
           <p className="text-xs uppercase tracking-wider text-ink-muted">
             {t("booking.reference")}
           </p>

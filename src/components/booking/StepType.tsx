@@ -33,7 +33,7 @@ export function StepType({
               onClick={() => onSelect(tp)}
               disabled={count === 0}
               className={cn(
-                "group relative flex flex-col items-start gap-4 overflow-hidden rounded-[3px] border bg-paper-alt/60 p-5 text-left transition-all duration-300",
+                "group relative flex flex-col items-start gap-4 overflow-hidden rounded-lg border bg-paper-alt/60 p-5 text-left transition-all duration-300",
                 "hover:-translate-y-1 hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0",
                 active ? "border-transparent shadow-editorial" : "border-border/70",
               )}

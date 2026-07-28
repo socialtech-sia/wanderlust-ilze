@@ -85,7 +85,7 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
               key={c.key}
               to={c.to}
               params={{ lang }}
-              className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-[3px] bg-ink text-bone hairline transition-all hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
+              className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-lg bg-ink text-bone hairline transition-all hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
             >
               <img
                 src={c.img}

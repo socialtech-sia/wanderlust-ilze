@@ -51,7 +51,7 @@ export function BookingStepper({ step, accent }: { step: number; accent?: string
             <li key={k} className="flex items-center gap-2">
               <span
                 className={cn(
-                  "inline-flex h-6 w-6 items-center justify-center rounded-[2px] border text-[10px] transition-colors",
+                  "inline-flex h-6 w-6 items-center justify-center rounded-sm border text-[10px] transition-colors",
                   done && "border-transparent text-bone",
                   active && "border-foreground bg-foreground text-background",
                   !done && !active && "border-border",

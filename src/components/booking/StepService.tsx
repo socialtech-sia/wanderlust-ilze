@@ -47,7 +47,7 @@ export function StepService({
               type="button"
               onClick={() => onSelect(s.id)}
               className={cn(
-                "group flex items-center gap-4 rounded-[3px] border bg-background p-4 text-left transition-all duration-200",
+                "group flex items-center gap-4 rounded-lg border bg-background p-4 text-left transition-all duration-200",
                 "hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]",
                 active ? "border-transparent shadow-editorial" : "border-border/70",
               )}

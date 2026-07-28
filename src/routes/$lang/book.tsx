@@ -146,7 +146,7 @@ function BookingPage() {
           <BookingStepper step={step} accent={accent} />
         </div>
 
-        <div className="mt-8 rounded-[6px] border border-border/60 bg-card p-6 md:p-10 shadow-editorial">
+        <div className="mt-8 rounded-xl border border-border/60 bg-card p-6 md:p-10 shadow-editorial">
           {step === 1 && (
             <StepType
               services={services ?? []}
@@ -203,7 +203,7 @@ function BookingPage() {
           )}
 
           {error && (
-            <p className="mt-4 rounded-[3px] bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <p className="mt-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
               {error}
             </p>
           )}
