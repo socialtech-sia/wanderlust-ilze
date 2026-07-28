@@ -3,23 +3,24 @@
 @import "tw-animate-css";
 
 /*
- * Wanderlust.lv design system
- * Editorial travel magazine × natural Latvia.
- * Colors in oklch. Fonts: Fraunces (serif) + Inter (sans).
+ * Wanderlust.lv design system — "Devonian"
+ * Dark pine base, sandstone accents, light sand "clearings".
+ * Type: Fraunces (display) + Archivo (text) + Archivo Narrow (utility).
  * Fonts loaded via <link> in src/routes/__root.tsx.
  */
 
 @theme inline {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
-  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-utility: "Archivo Narrow", "Archivo", ui-sans-serif, system-ui, sans-serif;
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 8px);
-  --radius-2xl: calc(var(--radius) + 20px);
-  --radius-3xl: calc(var(--radius) + 32px);
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 3px;
+  --radius-xl: 4px;
+  --radius-2xl: 6px;
+  --radius-3xl: 6px;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -42,7 +43,19 @@
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
 
-  /* Brand */
+  /* Brand — Devonian palette */
+  --color-pine: var(--pine);
+  --color-pine-raised: var(--pine-raised);
+  --color-pine-deep: var(--pine-deep);
+  --color-bone: var(--bone);
+  --color-bone-muted: var(--bone-muted);
+  --color-bone-faint: var(--bone-faint);
+  --color-sand: var(--sand);
+  --color-sand-alt: var(--sand-alt);
+  --color-sandstone: var(--sandstone);
+  --color-sandstone-bright: var(--sandstone-bright);
+
+  /* Legacy aliases — surface-aware, keep older markup coherent */
   --color-paper: var(--paper);
   --color-paper-alt: var(--paper-alt);
   --color-ink: var(--ink);
@@ -54,61 +67,177 @@
   --color-river: var(--river);
   --color-river-deep: var(--river-deep);
 
-  /* Enter Gauja category colors */
+  /* Enter Gauja category colors (contractual) */
   --color-cat-action: var(--cat-action);
   --color-cat-nature: var(--cat-nature);
   --color-cat-history: var(--cat-history);
   --color-cat-culture: var(--cat-culture);
+  --color-cat-getaround: var(--cat-getaround);
 
-  --shadow-editorial: 0 20px 60px -20px color-mix(in oklab, var(--ink) 30%, transparent);
-  --shadow-card: 0 8px 30px -12px color-mix(in oklab, var(--ink) 18%, transparent);
+  /* Elevation is tonal on dark; real shadows only for overlays. */
+  --shadow-overlay: 0 24px 60px -24px oklch(0 0 0 / 0.65);
+  --shadow-editorial: 0 24px 60px -24px oklch(0 0 0 / 0.5);
+  --shadow-card: none;
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 3px;
 
-  /* Paper & ink */
-  --paper: oklch(0.975 0.012 82);
-  --paper-alt: oklch(0.945 0.02 82);
-  --ink: oklch(0.24 0.02 60);
-  --ink-muted: oklch(0.42 0.02 60);
-  --ink-soft: oklch(0.68 0.02 60);
+  /* Core surfaces */
+  --pine: oklch(0.198 0.012 143);        /* #141813 */
+  --pine-raised: oklch(0.244 0.014 141); /* #1C221A */
+  --pine-deep: oklch(0.166 0.011 143);   /* #0D100C */
 
-  /* Moss/forest (primary) */
-  --moss: oklch(0.58 0.09 132);
-  --moss-soft: oklch(0.92 0.03 132);
-  --moss-deep: oklch(0.36 0.07 132);
+  /* Text on dark */
+  --bone: oklch(0.897 0.019 85);         /* #E8E1D4 */
+  --bone-muted: oklch(0.687 0.018 86);   /* #A9A192 */
+  --bone-faint: oklch(0.494 0.014 88);   /* #6E695F */
 
-  /* River/sky (secondary) */
-  --river: oklch(0.58 0.08 220);
-  --river-deep: oklch(0.42 0.07 220);
+  /* Light clearings */
+  --sand: oklch(0.926 0.016 86);         /* #EFE9DD */
+  --sand-alt: oklch(0.885 0.021 87);     /* #E4DCCB */
 
-  /* Enter Gauja */
-  --cat-action: oklch(0.65 0.15 40);   /* #D97757 terracotta */
-  --cat-nature: oklch(0.58 0.09 132);  /* moss */
-  --cat-history: oklch(0.6 0.08 65);   /* #A67C52 bronze */
-  --cat-culture: oklch(0.55 0.11 290); /* #7B6BA8 dusk purple */
+  /* Accents */
+  --sandstone: oklch(0.518 0.126 41);        /* #B0532C */
+  --sandstone-bright: oklch(0.598 0.124 44); /* #C96A3E */
 
-  /* Shadcn semantic (map to brand) */
-  --background: var(--paper);
-  --foreground: var(--ink);
+  /* Enter Gauja (contractual hexes) */
+  --cat-action: oklch(0.671 0.196 15.4);    /* #F05366 */
+  --cat-nature: oklch(0.487 0.111 128);     /* #4F6F19 */
+  --cat-history: oklch(0.609 0.156 55);     /* #D1701A */
+  --cat-culture: oklch(0.591 0.058 233);    /* #51869D */
+  --cat-getaround: oklch(0.599 0.072 267);  /* #6987B6 */
+
+  /* ---- Default surface: dark pine ---- */
+  --background: var(--pine);
+  --foreground: var(--bone);
+  --card: var(--pine-raised);
+  --card-foreground: var(--bone);
+  --popover: var(--pine-raised);
+  --popover-foreground: var(--bone);
+  --primary: var(--sandstone);
+  --primary-foreground: var(--bone);
+  --secondary: color-mix(in oklab, var(--bone) 10%, transparent);
+  --secondary-foreground: var(--bone);
+  --muted: color-mix(in oklab, var(--bone) 8%, transparent);
+  --muted-foreground: var(--bone-muted);
+  --accent: color-mix(in oklab, var(--bone) 10%, transparent);
+  --accent-foreground: var(--bone);
+  --destructive: oklch(0.55 0.19 27);
+  --destructive-foreground: oklch(0.97 0.01 85);
+  --border: color-mix(in oklab, var(--bone) 12%, transparent);
+  --input: color-mix(in oklab, var(--bone) 14%, transparent);
+  --ring: var(--sandstone);
+
+  /* Legacy aliases resolved for the dark surface */
+  --paper: var(--bone);
+  --paper-alt: var(--pine-raised);
+  --ink: var(--pine-deep);
+  --ink-muted: var(--bone-muted);
+  --ink-soft: var(--bone-faint);
+  --moss: oklch(0.62 0.1 128);
+  --moss-soft: color-mix(in oklab, var(--moss) 22%, transparent);
+  --moss-deep: oklch(0.68 0.11 128);
+  --river: oklch(0.62 0.05 233);
+  --river-deep: oklch(0.46 0.045 233);
+}
+
+/* Light clearing: sand section. Re-declares tokens so semantic
+   classes (and legacy aliases) flip automatically for children. */
+.surface-light {
+  --background: var(--sand);
+  --foreground: oklch(0.235 0.012 140);  /* #1A1E18 */
+  --card: var(--sand-alt);
+  --card-foreground: oklch(0.235 0.012 140);
+  --popover: var(--sand);
+  --popover-foreground: oklch(0.235 0.012 140);
+  --secondary: color-mix(in oklab, oklch(0.235 0.012 140) 7%, transparent);
+  --secondary-foreground: oklch(0.235 0.012 140);
+  --muted: color-mix(in oklab, oklch(0.235 0.012 140) 6%, transparent);
+  --muted-foreground: oklch(0.404 0.014 137); /* #4A4F45 */
+  --accent: color-mix(in oklab, oklch(0.235 0.012 140) 7%, transparent);
+  --accent-foreground: oklch(0.235 0.012 140);
+  --border: color-mix(in oklab, oklch(0.235 0.012 140) 12%, transparent);
+  --input: color-mix(in oklab, oklch(0.235 0.012 140) 16%, transparent);
+
+  --paper: var(--sand);
+  --paper-alt: var(--sand-alt);
+  --ink: oklch(0.235 0.012 140);
+  --ink-muted: oklch(0.404 0.014 137);
+  --ink-soft: oklch(0.55 0.014 137);
+  --moss: oklch(0.47 0.1 128);
+  --moss-deep: oklch(0.4 0.09 128);
+  --moss-soft: color-mix(in oklab, var(--moss) 18%, transparent);
+  --river: oklch(0.5 0.05 233);
+
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Explicit dark surface (for nesting a dark block inside a light one). */
+.surface-dark {
+  --background: var(--pine);
+  --foreground: var(--bone);
+  --card: var(--pine-raised);
+  --card-foreground: var(--bone);
+  --popover: var(--pine-raised);
+  --popover-foreground: var(--bone);
+  --secondary: color-mix(in oklab, var(--bone) 10%, transparent);
+  --secondary-foreground: var(--bone);
+  --muted: color-mix(in oklab, var(--bone) 8%, transparent);
+  --muted-foreground: var(--bone-muted);
+  --accent: color-mix(in oklab, var(--bone) 10%, transparent);
+  --accent-foreground: var(--bone);
+  --border: color-mix(in oklab, var(--bone) 12%, transparent);
+  --input: color-mix(in oklab, var(--bone) 14%, transparent);
+
+  --paper: var(--bone);
+  --paper-alt: var(--pine-raised);
+  --ink: var(--pine-deep);
+  --ink-muted: var(--bone-muted);
+  --ink-soft: var(--bone-faint);
+  --moss: oklch(0.62 0.1 128);
+  --moss-deep: oklch(0.68 0.11 128);
+  --river: oklch(0.62 0.05 233);
+
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.surface-deep {
+  background-color: var(--pine-deep);
+}
+
+/* Admin stays a light, dense working tool — only type + radii change. */
+.admin-scope {
+  --background: var(--sand);
+  --foreground: oklch(0.235 0.012 140);
   --card: oklch(1 0 0);
-  --card-foreground: var(--ink);
+  --card-foreground: oklch(0.235 0.012 140);
   --popover: oklch(1 0 0);
-  --popover-foreground: var(--ink);
-  --primary: var(--moss-deep);
-  --primary-foreground: var(--paper);
-  --secondary: var(--paper-alt);
-  --secondary-foreground: var(--ink);
-  --muted: var(--paper-alt);
-  --muted-foreground: var(--ink-muted);
-  --accent: var(--moss-soft);
-  --accent-foreground: var(--moss-deep);
-  --destructive: oklch(0.58 0.22 27);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.86 0.015 70);
-  --input: oklch(0.86 0.015 70);
-  --ring: var(--moss);
+  --popover-foreground: oklch(0.235 0.012 140);
+  --primary: oklch(0.4 0.09 128);
+  --primary-foreground: oklch(0.98 0.008 85);
+  --secondary: var(--sand-alt);
+  --secondary-foreground: oklch(0.235 0.012 140);
+  --muted: var(--sand-alt);
+  --muted-foreground: oklch(0.404 0.014 137);
+  --accent: color-mix(in oklab, oklch(0.235 0.012 140) 7%, transparent);
+  --accent-foreground: oklch(0.235 0.012 140);
+  --border: color-mix(in oklab, oklch(0.235 0.012 140) 14%, transparent);
+  --input: color-mix(in oklab, oklch(0.235 0.012 140) 18%, transparent);
+  --ring: oklch(0.4 0.09 128);
+
+  --paper: oklch(1 0 0);
+  --paper-alt: var(--sand);
+  --ink: oklch(0.235 0.012 140);
+  --ink-muted: oklch(0.404 0.014 137);
+  --ink-soft: oklch(0.55 0.014 137);
+  --moss: oklch(0.47 0.1 128);
+  --moss-deep: oklch(0.4 0.09 128);
+
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 @layer base {
@@ -117,14 +246,17 @@
   }
   html {
     scroll-behavior: smooth;
+    background-color: var(--pine);
   }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv11";
+    font-size: 17px;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     scrollbar-width: thin;
+    overflow-x: hidden;
   }
   ::-webkit-scrollbar {
     width: 1px;
@@ -138,40 +270,170 @@
     border-radius: 0;
   }
   h1, h2, h3, h4, h5 {
-    font-family: var(--font-serif);
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    font-family: var(--font-display);
+    font-weight: 400;
     color: var(--color-foreground);
+  }
+  h1, h2 {
+    font-variation-settings: "SOFT" 20, "WONK" 1, "opsz" 120, "wght" 380;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+  }
+  h3, h4, h5 {
+    font-variation-settings: "SOFT" 18, "WONK" 0, "opsz" 36, "wght" 420;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
   }
   .font-display {
     font-family: var(--font-display);
     font-weight: 400;
+    font-variation-settings: "SOFT" 20, "WONK" 1, "opsz" 120, "wght" 380;
     letter-spacing: -0.03em;
+  }
+  :focus-visible {
+    outline: 2px solid var(--sandstone-bright);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--sandstone) 55%, transparent);
+    color: var(--bone);
   }
 }
 
 @utility container-editorial {
-  max-width: 80rem;
+  max-width: 82rem;
   margin-inline: auto;
   padding-inline: 1.25rem;
   @media (min-width: 768px) { padding-inline: 2rem; }
   @media (min-width: 1280px) { padding-inline: 3rem; }
 }
 
+/* Section rhythm — the page must breathe. */
+@utility section-y {
+  padding-block: 6rem;
+  @media (min-width: 768px) { padding-block: 10rem; }
+}
+
+@utility section-y-sm {
+  padding-block: 4rem;
+  @media (min-width: 768px) { padding-block: 6rem; }
+}
+
+/* Utility lettering — trail-sign marking. */
+@utility text-utility {
+  font-family: var(--font-utility);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+@utility text-eyebrow {
+  font-family: var(--font-utility);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  color: var(--color-muted-foreground);
+}
+
+/* Vertical section marking (>=1280px), like a layer label on a geological cut. */
+@utility eyebrow-vertical {
+  font-family: var(--font-utility);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.6875rem;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  color: var(--color-muted-foreground);
+}
+
+@utility display-1 {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 20, "WONK" 1, "opsz" 144, "wght" 360;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  font-size: clamp(2.6rem, 7vw, 4.5rem);
+}
+
+@utility display-2 {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 20, "WONK" 1, "opsz" 96, "wght" 380;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-size: clamp(2rem, 4.4vw, 2.5rem);
+}
+
+@utility display-3 {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 18, "WONK" 0, "opsz" 40, "wght" 420;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  font-size: 1.5rem;
+}
+
+@utility hairline {
+  border: 1px solid var(--color-border);
+}
+
 @utility text-shadow-sm {
-  text-shadow: 0 1px 2px color-mix(in oklab, var(--background) 80%, transparent);
+  text-shadow: 0 1px 3px oklch(0 0 0 / 0.45);
 }
 
 @utility drop-shadow-text {
-  filter: drop-shadow(0 1px 2px color-mix(in oklab, var(--background) 80%, transparent));
+  filter: drop-shadow(0 1px 2px oklch(0 0 0 / 0.45));
 }
-
 
 /* Enter Gauja plate/label — DIN Pro Bold with web fallbacks (guidelines §1). */
 @utility font-eg-plate {
-  font-family: "DIN Pro", "Barlow Semi Condensed", "Barlow Condensed", "Archivo", ui-sans-serif, system-ui, sans-serif;
+  font-family: "DIN Pro", "Archivo Narrow", "Barlow Semi Condensed", ui-sans-serif, system-ui, sans-serif;
   font-weight: 700;
   font-style: normal;
+}
+
+/* ---- Scroll reveal (SSR-safe: final state is the default) ---- */
+/* Only elements marked by JS after hydration get the initial offset. */
+[data-reveal="armed"] {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+}
+[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hero line-by-line rise (armed only after hydration). */
+[data-heroline="armed"] {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+}
+[data-heroline="in"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Signature: sandstone strata — bands slide in with an offset. */
+[data-strata="armed"] > span {
+  transform: scaleX(0);
+}
+[data-strata="in"] > span {
+  transform: scaleX(1);
+}
+[data-strata] > span {
+  display: block;
+  transform-origin: left center;
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
 /* Respect reduced-motion: neutralise transitions and transform animations. */
@@ -183,5 +445,13 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  [data-reveal],
+  [data-heroline] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-strata] > span {
+    transform: scaleX(1) !important;
   }
 }
