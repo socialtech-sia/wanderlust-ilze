@@ -104,7 +104,8 @@ function BookingPage() {
         p_service_id: form.serviceId,
         p_service_snapshot: snapshot,
         p_requested_date: form.date,
-        p_requested_time: form.time || "",
+        // time is nullable in the database; the generated types don't model that
+        p_requested_time: (form.time || null) as unknown as string,
         p_persons_count: form.persons,
         p_customer_name: form.name,
         p_customer_email: form.email,
