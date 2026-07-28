@@ -31,12 +31,14 @@ export function CategoryBadge({
   return (
     <span
       className={cn(
-        "text-utility inline-flex items-center gap-1.5 rounded-full border border-white/25 leading-none text-white shadow-[0_2px_10px_rgba(0,0,0,0.35)] backdrop-blur-sm",
-        size === "sm" ? "px-3 py-1.5 text-[10px]" : "px-4 py-2 text-[11px]",
+        "text-utility inline-flex items-center gap-1.5 rounded-full border border-white/30 font-bold leading-none text-white shadow-[0_2px_10px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.18)] backdrop-blur-sm",
+        size === "sm"
+          ? "px-2.5 py-1 text-[10px] sm:px-3 sm:py-1.5 sm:text-[11px]"
+          : "px-3.5 py-1.5 text-[11px] sm:px-4 sm:py-2 sm:text-[12px] lg:text-[13px]",
       )}
       style={{
-        backgroundColor: `color-mix(in oklab, ${color} 88%, transparent)`,
-        textShadow: "0 1px 2px rgba(0,0,0,0.35)",
+        backgroundImage: `linear-gradient(160deg, color-mix(in oklab, ${color} 96%, white) 0%, color-mix(in oklab, ${color} 88%, black) 100%)`,
+        textShadow: "0 1px 2px rgba(0,0,0,0.45)",
       }}
     >
       {label}
