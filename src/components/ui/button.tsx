@@ -5,18 +5,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 /**
- * Wanderlust unified button.
- * Pill-first (`rounded-full`), consistent heights/paddings across the site,
- * shared hover/active/focus states. Every CTA in the app should route
- * through this component (use `asChild` to wrap `<Link>` / `<a>`).
+ * Wanderlust unified button — Devonian system.
+ * Sharp 3px radius, Archivo Narrow uppercase lettering with tracking,
+ * sandstone fill for the primary action, hairline outline for the secondary.
  */
 const buttonVariants = cva(
   [
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full",
-    "font-medium cursor-pointer select-none",
-    "transition-[background-color,color,transform,box-shadow,opacity] duration-200",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-    "active:scale-[0.97]",
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[3px]",
+    "font-[family-name:var(--font-utility)] font-semibold uppercase tracking-[0.08em]",
+    "cursor-pointer select-none",
+    "transition-[background-color,color,transform,border-color,opacity] duration-200 ease-out",
+    "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_oklab,var(--sandstone)_25%,transparent)] focus-visible:border-[var(--sandstone)]",
     "disabled:pointer-events-none disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   ].join(" "),
@@ -24,32 +23,32 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-moss-deep text-paper shadow-sm hover:bg-moss hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:bg-moss-deep",
+          "border border-transparent bg-sandstone text-bone hover:bg-sandstone-bright hover:-translate-y-px active:translate-y-0",
         secondary:
-          "bg-paper text-ink shadow-sm hover:bg-paper/90 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0",
+          "border border-border bg-transparent text-foreground hover:bg-[color-mix(in_oklab,var(--bone)_8%,transparent)] hover:-translate-y-px active:translate-y-0",
         outline:
           "border border-border bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
         "outline-light":
-          "border border-paper/40 bg-transparent text-paper hover:bg-paper/10",
-        ghost: "text-foreground hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline rounded-none px-0 h-auto",
+          "border border-[color-mix(in_oklab,var(--bone)_35%,transparent)] bg-transparent text-bone hover:bg-[color-mix(in_oklab,var(--bone)_8%,transparent)]",
+        ghost: "border border-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
+        link: "border-0 text-primary underline-offset-4 hover:underline rounded-none px-0 h-auto normal-case tracking-normal",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+          "border border-transparent bg-destructive text-destructive-foreground hover:opacity-90",
         /**
          * Enter Gauja category CTA — apply the category color via
          * `style={{ backgroundColor }}` on the same element.
          */
         category:
-          "text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 hover:brightness-105",
+          "border border-transparent text-white hover:-translate-y-px active:translate-y-0 hover:brightness-110",
       },
       size: {
-        sm: "h-9 px-4 text-xs",
-        md: "h-11 px-6 text-sm",
-        lg: "h-12 px-7 text-sm",
-        xl: "h-14 px-8 text-base",
+        sm: "h-9 px-4 text-[11px]",
+        md: "h-11 px-6 text-xs",
+        lg: "h-12 px-7 text-xs",
+        xl: "h-14 px-9 text-sm",
         icon: "h-10 w-10 p-0",
-        /** Compat with legacy shadcn default (h-9 px-4). */
-        default: "h-11 px-6 text-sm",
+        /** Compat with legacy shadcn default. */
+        default: "h-11 px-6 text-xs",
       },
     },
     defaultVariants: {
