@@ -128,7 +128,7 @@ function ServiceDetail() {
           })}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/20 to-ink/75" />
+        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--pine)_45%,transparent)_0%,color-mix(in_oklab,var(--pine)_30%,transparent)_40%,color-mix(in_oklab,var(--pine)_88%,transparent)_88%,var(--pine)_100%)]" />
         <div className="container-editorial relative z-10 pb-14 pt-32 text-bone md:pb-20 md:pt-40">
           {/* Breadcrumbs */}
           <nav className="mb-4 flex items-center gap-1.5 text-xs text-bone-muted">
