@@ -12,7 +12,7 @@ export function Testimonials({ items }: { items: HomeTestimonial[] }) {
   if (!visible.length) return null;
 
   return (
-    <section className="bg-paper-alt py-20 md:py-28">
+    <section data-header-tone="dark" className="surface-dark surface-deep section-y">
       <div className="container-editorial">
         <div className="max-w-2xl">
           <p className="text-eyebrow">11 · {t("testimonials.eyebrow")}</p>

@@ -18,7 +18,7 @@ export function FaqPreview({ items }: { items: HomeFaq[] }) {
   if (!items.length) return null;
 
   return (
-    <section className="bg-paper py-20 md:py-28">
+    <section data-header-tone="dark" className="surface-dark section-y">
       <div className="container-editorial">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-16">
           <div>

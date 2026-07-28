@@ -6,7 +6,7 @@ export function HowItWorks() {
   const { t } = useTranslation();
 
   return (
-    <section className="bg-paper py-20 md:py-28">
+    <section data-header-tone="light" className="surface-light section-y">
       <div className="container-editorial">
         <div className="max-w-2xl">
           <p className="text-eyebrow">03 · Process</p>

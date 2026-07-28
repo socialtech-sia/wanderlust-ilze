@@ -12,7 +12,7 @@ export function KeyFacts() {
   const { t } = useTranslation();
 
   return (
-    <section className="border-y border-border/60 bg-paper-alt">
+    <section data-header-tone="dark" className="surface-dark border-y border-border">
       <div className="container-editorial grid grid-cols-2 gap-x-6 gap-y-7 py-8 md:grid-cols-4 md:py-10">
         {FACTS.map(({ icon: Icon, key }) => (
           <div key={key} className="flex items-start gap-3">

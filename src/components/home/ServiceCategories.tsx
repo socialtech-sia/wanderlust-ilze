@@ -55,7 +55,8 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
   const lang = useCurrentLanguage();
 
   return (
-    <section className="container-editorial py-20 md:py-28">
+    <section data-header-tone="dark" className="surface-dark section-y">
+      <div className="container-editorial">
       <div className="max-w-2xl">
         <p className="text-eyebrow">02 · {t("nav.tours")}</p>
         <h2 className="mt-2 font-display text-3xl md:text-5xl">{t("home.categories_title")}</h2>
@@ -120,6 +121,7 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
           );
         })}
       </div>
+    </div>
     </section>
   );
 }

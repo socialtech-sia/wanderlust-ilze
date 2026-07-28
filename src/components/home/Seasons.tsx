@@ -12,7 +12,7 @@ export function Seasons() {
   const { t } = useTranslation();
 
   return (
-    <section className="bg-paper-alt py-16 md:py-20">
+    <section data-header-tone="dark" className="surface-dark section-y-sm">
       <div className="container-editorial">
         <div className="max-w-2xl">
           <p className="text-eyebrow">08 · Sezonas</p>

@@ -6,7 +6,7 @@ export function WhyGuide() {
   const { t } = useTranslation();
 
   return (
-    <section className="bg-paper py-20 md:py-28">
+    <section data-header-tone="dark" className="surface-dark section-y">
       <div className="container-editorial">
         <div className="max-w-2xl">
           <p className="text-eyebrow">07 · Ar gidi</p>

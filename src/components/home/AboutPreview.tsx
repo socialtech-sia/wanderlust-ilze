@@ -46,7 +46,7 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
   const avatar = profile?.avatar_storage_path;
 
   return (
-    <section className="bg-paper py-20 md:py-28">
+    <section data-header-tone="light" className="surface-light section-y">
       <div className="container-editorial grid gap-10 md:grid-cols-2 md:items-start md:gap-14">
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-paper-alt md:aspect-[3/4]">
           {avatar ? (

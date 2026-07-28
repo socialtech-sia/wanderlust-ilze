@@ -13,7 +13,8 @@ export function EnterGaujaTiles() {
   const { data } = useEnterGaujaCategories();
 
   return (
-    <section className="container-editorial py-20 md:py-28">
+    <section data-header-tone="dark" className="surface-dark section-y">
+      <div className="container-editorial">
       <div className="max-w-2xl">
         <p className="text-eyebrow">09 · Enter Gauja</p>
         <h2 className="mt-2 font-display text-3xl md:text-5xl">
@@ -56,6 +57,7 @@ export function EnterGaujaTiles() {
           );
         })}
       </div>
+    </div>
     </section>
   );
 }

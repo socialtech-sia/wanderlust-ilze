@@ -9,7 +9,7 @@ export function FinalCta() {
   const lang = useCurrentLanguage();
 
   return (
-    <section className="bg-ink py-16 text-bone md:py-20">
+    <section data-header-tone="dark" className="surface-dark surface-deep section-y-sm">
       <div className="container-editorial flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl">
           <h2 className="font-display text-3xl leading-tight text-bone md:text-4xl">

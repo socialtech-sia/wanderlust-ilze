@@ -17,7 +17,7 @@ export function RegionSection() {
   const lang = useCurrentLanguage();
 
   return (
-    <section className="bg-paper-alt py-20 md:py-28">
+    <section data-header-tone="dark" className="surface-dark surface-deep section-y">
       <div className="container-editorial">
         <div className="max-w-2xl">
           <p className="text-eyebrow">05 · Gaujas ieleja</p>
