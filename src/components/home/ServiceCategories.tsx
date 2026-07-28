@@ -59,7 +59,7 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
       <div className="container-editorial">
       <div className="max-w-2xl">
         <p className="text-eyebrow">02 · {t("nav.tours")}</p>
-        <h2 className="mt-2 font-display text-3xl md:text-5xl">{t("home.categories_title")}</h2>
+        <h2 className="mt-2 display-2">{t("home.categories_title")}</h2>
         <p className="mt-3 text-ink-muted">{t("home.categories_subtitle")}</p>
       </div>
       <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-3">
@@ -85,7 +85,7 @@ export function ServiceCategories({ services = [] }: { services?: HomeService[] 
               key={c.key}
               to={c.to}
               params={{ lang }}
-              className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-2xl bg-ink text-bone shadow-card transition-all hover:shadow-editorial"
+              className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-[3px] bg-ink text-bone hairline transition-all hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
             >
               <img
                 src={c.img}

@@ -156,7 +156,7 @@ export function ServicesListPage({
         {isLoading && (
           <div className="grid gap-6 md:grid-cols-3">
             {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="aspect-[4/5] animate-pulse rounded-2xl bg-paper-alt" />
+              <div key={i} className="aspect-[4/5] animate-pulse rounded-[3px] bg-paper-alt" />
             ))}
           </div>
         )}

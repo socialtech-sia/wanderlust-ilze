@@ -18,7 +18,7 @@ export function StepType({
   return (
     <div className="animate-fade-in">
       <p className="text-eyebrow">{t("booking.step_type")}</p>
-      <h2 className="mt-2 font-display text-2xl md:text-3xl">{t("booking.type_prompt")}</h2>
+      <h2 className="mt-2 display-3">{t("booking.type_prompt")}</h2>
       <p className="mt-2 max-w-xl text-sm text-ink-muted">{t("booking.type_sub")}</p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
@@ -33,8 +33,8 @@ export function StepType({
               onClick={() => onSelect(tp)}
               disabled={count === 0}
               className={cn(
-                "group relative flex flex-col items-start gap-4 overflow-hidden rounded-2xl border bg-paper-alt/60 p-5 text-left transition-all duration-300",
-                "hover:-translate-y-1 hover:shadow-editorial disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0",
+                "group relative flex flex-col items-start gap-4 overflow-hidden rounded-[3px] border bg-paper-alt/60 p-5 text-left transition-all duration-300",
+                "hover:-translate-y-1 hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0",
                 active ? "border-transparent shadow-editorial" : "border-border/70",
               )}
               style={active ? { borderColor: color, boxShadow: `0 10px 30px -12px ${color}` } : undefined}
@@ -49,7 +49,7 @@ export function StepType({
                 <ServiceTypeIcon type={tp} className="h-9 w-9" />
               </span>
               <div>
-                <p className="font-display text-xl leading-tight">{t(`booking.type_${tp}`)}</p>
+                <p className="display-3 leading-tight">{t(`booking.type_${tp}`)}</p>
                 <p className="mt-1 text-xs text-ink-muted">{t(`booking.type_${tp}_desc`)}</p>
               </div>
               <span className="mt-auto text-[11px] font-medium uppercase tracking-[0.14em] text-ink-muted">

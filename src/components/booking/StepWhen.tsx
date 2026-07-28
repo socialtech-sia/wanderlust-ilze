@@ -64,7 +64,7 @@ export function StepWhen({
             <button
               type="button"
               className={cn(
-                "flex w-full items-center justify-between rounded-xl border border-border bg-background px-4 py-3 text-left text-sm outline-none transition-colors hover:border-ink-soft focus:border-foreground",
+                "flex w-full items-center justify-between rounded-[3px] border border-border bg-background px-4 py-3 text-left text-sm outline-none transition-colors hover:border-ink-soft focus:border-foreground",
                 !selectedDate && "text-ink-soft",
               )}
             >
@@ -76,7 +76,7 @@ export function StepWhen({
           </PopoverTrigger>
           <PopoverContent
             align="start"
-            className="pointer-events-auto w-auto rounded-2xl border-border bg-popover p-0 shadow-editorial"
+            className="pointer-events-auto w-auto rounded-[3px] border-border bg-popover p-0 shadow-editorial"
           >
             <Calendar
               mode="single"

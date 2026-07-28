@@ -9,7 +9,7 @@ export function BookingSummary({ service, lang }: { service: Service; lang: Lang
   const color = TYPE_COLOR[service.type];
   return (
     <div
-      className="flex items-center gap-4 rounded-2xl border border-border/60 bg-paper-alt/60 p-4"
+      className="flex items-center gap-4 rounded-[3px] border border-border/60 bg-paper-alt/60 p-4"
       style={{ borderLeftColor: color, borderLeftWidth: 3 }}
     >
       <span

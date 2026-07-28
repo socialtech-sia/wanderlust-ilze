@@ -27,7 +27,7 @@ export function ServiceCard({
     <Link
       to="/$lang/s/$slug"
       params={{ lang, slug }}
-      className="group flex flex-col overflow-hidden rounded-2xl bg-card shadow-card transition-all hover:shadow-editorial"
+      className="group flex flex-col overflow-hidden rounded-[3px] bg-card hairline transition-all hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-paper-alt">
         <img
@@ -45,7 +45,7 @@ export function ServiceCard({
         ) : null}
       </div>
       <div className="flex flex-1 flex-col gap-3 p-5">
-        <h3 className="font-display text-xl leading-tight text-foreground">{title}</h3>
+        <h3 className="display-3 leading-tight text-foreground">{title}</h3>
         {desc && <p className="text-sm leading-relaxed text-ink-muted line-clamp-3">{desc}</p>}
         <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-3 text-xs text-ink-muted">
           {service.duration_minutes && (

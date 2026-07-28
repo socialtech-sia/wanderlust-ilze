@@ -99,7 +99,7 @@ function ServiceDetail() {
   if (isLoading) {
     return (
       <div className="container-editorial py-32">
-        <div className="h-96 animate-pulse rounded-3xl bg-paper-alt" />
+        <div className="h-96 animate-pulse rounded-[6px] bg-paper-alt" />
       </div>
     );
   }
@@ -162,7 +162,7 @@ function ServiceDetail() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px]">
           <div>
             {/* Meta */}
-            <div className="mb-10 grid gap-4 rounded-2xl border border-border/60 bg-card p-6 sm:grid-cols-2 md:grid-cols-4">
+            <div className="mb-10 grid gap-4 rounded-[3px] border border-border/60 bg-card p-6 sm:grid-cols-2 md:grid-cols-4">
               {service.duration_minutes && (
                 <MetaCell icon={<Clock className="h-4 w-4" />} label={t("service.duration")} value={formatDuration(service.duration_minutes, lang)} />
               )}
@@ -190,7 +190,7 @@ function ServiceDetail() {
 
           {/* Sticky booking card */}
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="rounded-2xl border border-border/60 bg-card p-6 shadow-card">
+            <div className="rounded-[3px] border border-border/60 bg-card p-6 hairline">
               {service.price_from_eur != null && (
                 <>
                   <p className="text-eyebrow">

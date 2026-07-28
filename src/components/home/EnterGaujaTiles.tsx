@@ -17,7 +17,7 @@ export function EnterGaujaTiles() {
       <div className="container-editorial">
       <div className="max-w-2xl">
         <p className="text-eyebrow">09 · Enter Gauja</p>
-        <h2 className="mt-2 font-display text-3xl md:text-5xl">
+        <h2 className="mt-2 display-2">
           {t("home.gauja_title")}
         </h2>
         <p className="mt-3 text-ink-muted">{t("home.gauja_subtitle")}</p>
@@ -32,7 +32,7 @@ export function EnterGaujaTiles() {
               to="/$lang/tours"
               params={{ lang }}
               search={{ category: cat.key }}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-6 transition-all hover:-translate-y-1 hover:shadow-card"
+              className="group relative flex flex-col overflow-hidden rounded-[3px] border border-border/60 bg-card p-6 transition-all hover:-translate-y-1 hover:hairline"
             >
               <span
                 aria-hidden
