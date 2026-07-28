@@ -22,6 +22,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        /** Legacy shadcn alias for `primary`. */
+        default:
+          "border border-transparent bg-sandstone text-bone hover:bg-sandstone-bright hover:-translate-y-px active:translate-y-0",
         primary:
           "border border-transparent bg-sandstone text-bone hover:bg-sandstone-bright hover:-translate-y-px active:translate-y-0",
         secondary:
