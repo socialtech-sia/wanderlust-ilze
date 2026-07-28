@@ -147,11 +147,11 @@ export function Header() {
 
   const isDark = tone === "dark";
   const pillClass = isDark
-    ? "border-white/20 bg-ink/45 shadow-lg shadow-black/20"
-    : "border-ink/10 bg-background/85 shadow-lg shadow-black/10";
-  const textColor = isDark ? "text-paper" : "text-foreground";
+    ? "border-[color-mix(in_oklab,var(--bone)_16%,transparent)] bg-[color-mix(in_oklab,var(--pine)_62%,transparent)]"
+    : "border-[color-mix(in_oklab,var(--pine)_12%,transparent)] bg-[color-mix(in_oklab,var(--sand)_88%,transparent)]";
+  const textColor = isDark ? "text-bone" : "text-foreground";
   const mutedColor = isDark
-    ? "text-paper/70 hover:text-paper"
+    ? "text-bone-muted hover:text-bone"
     : "text-ink-muted hover:text-foreground";
 
   return (
@@ -160,7 +160,7 @@ export function Header() {
         <div
           ref={pillRef}
           className={cn(
-            "pointer-events-none absolute inset-x-2 top-2 h-12 rounded-full border transition-[background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            "pointer-events-none absolute inset-x-2 top-2 h-12 rounded-[4px] border transition-[background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
             "md:inset-x-4 md:h-16",
             pillClass,
           )}
@@ -179,12 +179,12 @@ export function Header() {
           to="/$lang"
           params={{ lang }}
           className={cn(
-            "font-display text-2xl tracking-tight text-shadow-sm transition-colors",
+            "font-display text-2xl tracking-[-0.03em] text-shadow-sm transition-colors",
             textColor,
           )}
           aria-label="Wanderlust.lv"
         >
-          Wanderlust<span className="text-moss">.</span>lv
+          Wanderlust<span className="text-sandstone-bright">.</span>lv
         </Link>
 
         <nav className="hidden items-center gap-7 text-shadow-sm md:flex">
@@ -196,7 +196,7 @@ export function Header() {
                 to={item.to}
                 params={{ lang }}
                 className={cn(
-                  "text-sm font-medium transition-colors",
+                  "text-utility text-[11px] transition-colors",
                   active ? textColor : mutedColor,
                 )}
               >
@@ -217,7 +217,7 @@ export function Header() {
             type="button"
             aria-label="Menu"
             className={cn(
-              "inline-flex h-10 w-10 items-center justify-center rounded-full text-shadow-sm transition-colors md:hidden",
+              "inline-flex h-10 w-10 items-center justify-center rounded-[3px] text-shadow-sm transition-colors md:hidden",
               textColor,
             )}
             onClick={() => setMobileOpen((v) => !v)}
@@ -229,7 +229,7 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="relative z-10 border-t border-border/60 bg-background/95 backdrop-blur-xl md:hidden">
+        <div className="surface-dark relative z-10 border-t border-border md:hidden">
           <nav className="container-editorial flex flex-col gap-1 py-4">
             {NAV.map((item) => (
               <Link
@@ -237,7 +237,7 @@ export function Header() {
                 to={item.to}
                 params={{ lang }}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-base text-foreground hover:bg-accent"
+                className="rounded-[3px] px-3 py-2.5 text-base text-foreground hover:bg-accent"
               >
                 {t(`nav.${item.key}`)}
               </Link>
