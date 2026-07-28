@@ -13,7 +13,7 @@ import { FaqPreview } from "@/components/home/FaqPreview";
 import { Testimonials } from "@/components/home/Testimonials";
 import { FinalCta } from "@/components/home/FinalCta";
 import { EnterGaujaBadge } from "@/components/home/EnterGaujaBadge";
-import { StrataDivider } from "@/components/common/Strata";
+
 import { routeHead } from "@/lib/route-head";
 import { getHomeData } from "@/lib/home-data.functions";
 import { DEFAULT_LANG, isLang, tField, type Lang } from "@/lib/language";
@@ -44,14 +44,10 @@ function HomePage() {
       <Hero />
       <KeyFacts />
       <ServiceCategories services={services} />
-      <StrataDivider />
       <HowItWorks />
-      <StrataDivider flip />
       <FeaturedServices services={services} />
       <RegionSection />
-      <StrataDivider />
       <AboutPreview profile={profile} />
-      <StrataDivider flip />
       <WhyGuide />
       <Seasons />
       <EnterGaujaTiles />
