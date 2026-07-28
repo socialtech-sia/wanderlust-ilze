@@ -34,13 +34,13 @@ export function Header() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [tone, setTone] = useState<Tone>("light");
+  const [tone, setTone] = useState<Tone>("dark");
   const matchRoute = useMatchRoute();
 
   const pillRef = useRef<HTMLDivElement | null>(null);
   const lowEndRef = useRef(false);
   const isMobileRef = useRef(false);
-  const toneRef = useRef<Tone>("light");
+  const toneRef = useRef<Tone>("dark");
 
   // Single rAF loop drives pill style directly, tone detection, and low-end fallbacks.
   useEffect(() => {
