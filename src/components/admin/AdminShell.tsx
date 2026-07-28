@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { adminSignOut, useAdminAuth } from "@/hooks/use-admin-auth";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/brand/Logo";
 
 interface NavItem {
   to: string;
@@ -61,8 +62,13 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         )}
       >
         <div className="flex h-16 items-center px-5">
-          <Link to="/admin" className="font-display text-lg text-foreground">
-            Wanderlust CMS
+          <Link
+            to="/admin"
+            aria-label="Wanderlust.lv"
+            className="inline-flex items-center gap-2.5 text-foreground"
+          >
+            <Logo variant="mark" tone="auto" size={32} />
+            <span className="font-display text-lg">Wanderlust</span>
           </Link>
         </div>
         <nav className="space-y-1 px-3 pb-6">
