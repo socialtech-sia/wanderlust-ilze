@@ -26,11 +26,29 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       sha: ${{ steps.meta.outputs.sha }}
+      has_ssh: ${{ steps.preflight.outputs.has_ssh }}
     steps:
       - uses: actions/checkout@v4
 
       - id: meta
         run: echo "sha=$(git rev-parse --short=12 HEAD)" >> "$GITHUB_OUTPUT"
+
+      # Секреты в job-level `if` недоступны (контекст secrets туда не приходит),
+      # поэтому наличие ключа выясняется шагом и передаётся выходом джобы.
+      # Смысл: пока ключ не заведён, выкатка ПРОПУСКАЕТСЯ с пометкой, а не падает
+      # красным на ssh с пустым ключом — красное должно означать сломанный код.
+      - id: preflight
+        env:
+          HAS_SSH: ${{ secrets.SSH_KEY != '' }}
+          HAS_VITE: ${{ secrets.VITE_SUPABASE_URL != '' && secrets.VITE_SUPABASE_PUBLISHABLE_KEY != '' }}
+        run: |
+          echo "has_ssh=$HAS_SSH" >> "$GITHUB_OUTPUT"
+          if [ "$HAS_VITE" != "true" ]; then
+            echo "::error::нет секретов VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY."
+            echo "::error::Они вшиваются в клиентский бандл на сборке — без них образ бесполезен."
+            exit 1
+          fi
+          [ "$HAS_SSH" = "true" ] || echo "::notice::нет секрета SSH_KEY — образ соберётся, выкатка будет пропущена"
 
       - uses: docker/login-action@v3
         with:
@@ -63,6 +81,7 @@ jobs:
 
   release:
     needs: build
+    if: needs.build.outputs.has_ssh == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: ssh на VPS -> deploy.sh
