@@ -1,0 +1,75 @@
+# Стек wanderlust. Один контейнер: SSR-сервер TanStack Start на Node.
+#
+# Traefik в стек НЕ входит — он общий и уже стоит на машине (/etc/traefik).
+# Подключение только лейблами на своём контейнере; общий конфиг мы не трогаем.
+#
+# Тег образа задаёт deploy.sh через TAG. Вручную:
+#   TAG=<sha> docker compose -f /opt/wanderlust/compose.yml --env-file /opt/wanderlust/.env up -d
+
+services:
+  wanderlust-web:
+    image: ghcr.io/socialtech-sia/wanderlust:${TAG:?задайте TAG (deploy.sh делает это сам)}
+    container_name: wanderlust-web
+    restart: unless-stopped
+
+    # ---------------------------------------------------------------------
+    # Память. На машине живут два чужих продакшена, и одиннадцать контейнеров
+    # демо-Supabase работают без mem_limit (oom_score_adj=0). При нехватке памяти
+    # ядро выбирает жертву по размеру процесса — то есть новый процесс без
+    # потолка конкурировал бы напрямую с их Postgres. Crawo решил это для себя,
+    # объявив свои контейнеры предпочтительной жертвой; здесь та же договорённость.
+    #
+    # 768 МБ — с большим запасом: замер на реальной сборке дал ~44 МБ RSS в покое.
+    # Потолок нужен не для экономии, а чтобы утечка в SSR уронила нас, а не соседа.
+    mem_limit: 768m
+    oom_score_adj: 500
+
+    # Секреты и настройки — из файла на хосте, не из образа и не из git.
+    env_file: /opt/wanderlust/.env
+
+    # Только сеть Traefik. Внутренней сети нет: база — управляемый Supabase,
+    # ходить в неё контейнер будет наружу по https.
+    networks: [traefik-public]
+
+    # ports: здесь нет и не будет. Наружу контейнер видит только Traefik,
+    # ровно как у обоих соседей по машине.
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    # healthcheck не дублируется: он зашит в образ (deploy/Dockerfile) и
+    # наследуется. Два описания разъезжаются, одно — нет.
+
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      # Хост стейджинга. Под HostRegexp соседа (^[a-z0-9-]+\.crawo\.socialtech\.technology$)
+      # он не подпадает: там обязателен сегмент `.crawo.`. Поэтому явный priority
+      # не нужен — пересечения маршрутов нет.
+      - traefik.http.routers.wanderlust.rule=Host(`wanderlust.socialtech.technology`)
+      - traefik.http.routers.wanderlust.entrypoints=websecure
+      - traefik.http.routers.wanderlust.tls=true
+      # Резолвер le — TLS-ALPN-01, тот же, которым пользуется демо SRC. Ему не
+      # нужен токен Cloudflare, и сертификат не попадает в acme-dns.json соседа.
+      - traefik.http.routers.wanderlust.tls.certresolver=le
+      - traefik.http.routers.wanderlust.middlewares=wanderlust-sec
+      - traefik.http.services.wanderlust.loadbalancer.server.port=3000
+      # Middleware объявлен ЗДЕСЬ ЖЕ, на своём контейнере, а не в общем месте.
+      # Traefik собирает middleware из лейблов контейнеров: объявленный на одном
+      # контейнере, он исчезает вместе с ним при пересоздании, и все роутеры,
+      # которые на него ссылаются, начинают отдавать 404. У соседа это уже
+      # случалось — поэтому у него определение crawo-sec продублировано на каждом
+      # контейнере. Здесь контейнер один; строки остаются на месте, если их станет два.
+      - traefik.http.middlewares.wanderlust-sec.headers.stsSeconds=31536000
+      - traefik.http.middlewares.wanderlust-sec.headers.stsIncludeSubdomains=true
+      - traefik.http.middlewares.wanderlust-sec.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.wanderlust-sec.headers.frameDeny=true
+      - traefik.http.middlewares.wanderlust-sec.headers.referrerPolicy=strict-origin-when-cross-origin
+
+networks:
+  # Общая сеть существующего Traefik. Создана не нами, external.
+  traefik-public:
+    external: true

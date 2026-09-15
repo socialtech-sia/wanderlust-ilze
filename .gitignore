@@ -30,3 +30,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local secrets / environment (server copy lives in /opt/wanderlust/.env, mode 600)
+.env
+.env.local
+.env.*.local
+!.env.example

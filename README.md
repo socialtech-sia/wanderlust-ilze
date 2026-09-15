@@ -1,6 +1,6 @@
 # wanderlust
 
-# LOVABLE PROMPT: wanderlust.lv
+# PROJECT BRIEF: wanderlust.lv
 
 > **Project**: Multilingual tourism website for a certified guide (excursions, hiking, private transfers) in the Gauja region, Latvia.
 > **Client**: Ilze Gulbe, sertificēta gide (SIA "Creatus Real Estate")
@@ -13,14 +13,14 @@
 
 ## 0. CRITICAL ARCHITECTURE NOTE — Migration-safe
 
-This project will later migrate from Lovable/managed-Supabase to self-hosted Supabase on Hetzner. **DO NOT introduce any Lovable-specific dependencies.** Follow strictly:
+This project was moved off a managed host onto our own VPS (`ubuntu-8gb-nbg1-1`); Supabase stays managed. **DO NOT introduce host-specific dependencies.** Follow strictly:
 
 - **Environment config**: all Supabase URLs/keys in `.env` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Never hardcode.
 - **SQL migrations**: keep every schema change as a SQL file in `supabase/migrations/`. This is our source of truth for later `psql < migration.sql` on Hetzner.
-- **Storage**: use standard Supabase JS SDK (`supabase.storage.from(...)`). Never rely on Lovable's CDN URL structure. Store `storage_path` (relative), compute public URL at query-time via `getPublicUrl()`.
+- **Storage**: use standard Supabase JS SDK (`supabase.storage.from(...)`). Never rely on any host-specific CDN URL structure. Store `storage_path` (relative), compute public URL at query-time via `getPublicUrl()`.
 - **Edge Functions**: write in Deno TypeScript, standard Supabase Edge Functions format (portable to self-hosted).
-- **Auth**: single admin user (Ilze), standard email+password Supabase Auth. NO magic links, NO OAuth — those depend on Lovable's SMTP config.
-- **Frontend**: standard React 18 + Vite + TypeScript + Tailwind. No Lovable-only components.
+- **Auth**: single admin user (Ilze), standard email+password Supabase Auth. NO magic links, NO OAuth — those would depend on a managed SMTP config we do not control.
+- **Frontend**: standard React 18 + Vite + TypeScript + Tailwind. No host-specific components.
 
 ---
 
@@ -757,17 +757,16 @@ Referenced by `/sitemap.xml` (via redirect or nginx rewrite later).
 - Advanced SEO: automatic sitemap.xml, canonical, hreflang
 - Google Analytics 4 + Search Console verification
 
-**Phase 4 (Claude Code, not Lovable): Migration to Hetzner**
-- Export code from Lovable git
-- Set up self-hosted Supabase on Hetzner
-- pg_dump schema + data from Lovable Supabase → import
-- Migrate Storage bucket contents (`rclone sync`)
-- Update `.env` with new Supabase URL/keys
-- Build React app, deploy to nginx behind Cloudflare
-- Configure DNS: `wanderlust.lv` → Hetzner IP
-- SSL: Let's Encrypt via nginx
-- Set up daily database backups
-- Configure Edge Functions on self-hosted Supabase (Anthropic key, Resend key)
+**Phase 4 (Claude Code): migration to our own VPS** — see `CLAUDE.md` for the result
+- Build without the proprietary vite config wrapper (`vite.config.ts`, public plugins only)
+- Containerise: `deploy/Dockerfile` (bun builds, node runs), image in GHCR
+- Keep Supabase managed — no data migration, no second Postgres to operate.
+  The self-hosted Supabase stack that also runs on this box belongs to another
+  project (SRC ERP demo) and is wiped nightly; this site must not touch it.
+- Route through the Traefik already on the box, by container labels only
+- Staging hostname first, `wanderlust.lv` only after it is verified
+- Daily backup of the managed Supabase database, 30 days retained (contract 6.8)
+- API keys for mail and the chatbot (contract 4.3, 5.5)
 - Smoke test all flows end-to-end
 - Hand over admin credentials to Ilze
 
@@ -917,25 +916,23 @@ Include in `README.md`:
 
 Keep commits granular and descriptive. Test each page in all 3 languages before moving on.
 
-This project was built with [Lovable](https://lovable.dev).
+## Running this project
 
-**Live app**: https://wanderlust-ilze.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/60285958-d505-4562-afc2-6f64b0cbc241).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Stack, deployment, rollback and operational detail: see [`CLAUDE.md`](CLAUDE.md).
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+git clone https://github.com/socialtech-sia/wanderlust-ilze.git
+cd wanderlust-ilze
+cp .env.example .env     # подставьте значения
+bun install
+bun run dev              # http://localhost:8080
+```
+
+Production build runs in Docker, not on the host:
+
+```sh
+docker build -f deploy/Dockerfile \
+  --build-arg VITE_SUPABASE_URL=... \
+  --build-arg VITE_SUPABASE_PUBLISHABLE_KEY=... \
+  -t wanderlust:local .
 ```

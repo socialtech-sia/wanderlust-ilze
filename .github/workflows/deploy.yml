@@ -1,0 +1,82 @@
+# Сборка образа и выкатка. Собираем ЗДЕСЬ, а не на сервере: на той машине
+# автономный агент соседнего проекта каждые 30–60 минут делает
+# `docker builder prune`, так что на локальный кеш там рассчитывать нельзя,
+# да и оперативную память сборки с чужого прода лучше убрать вовсе.
+name: deploy
+
+on:
+  push:
+    branches: [main, migration/self-hosted]
+  workflow_dispatch:
+
+# Две выкатки одновременно на один сервер — гарантированная гонка за compose.
+concurrency:
+  group: deploy-wanderlust
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/socialtech-sia/wanderlust
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.meta.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: meta
+        run: echo "sha=$(git rev-parse --short=12 HEAD)" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          # Токен джобы живёт минуты и отзывается сам — личный PAT сюда не нужен.
+          # PAT нужен только серверу, чтобы тянуть образы (docker login на VPS).
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: deploy/Dockerfile
+          # Цель задана явно, хотя runtime и так последняя: один раз перепутанный
+          # порядок целей уже отправлял в прод образ со сборочным окружением.
+          target: runtime
+          push: true
+          tags: ${{ env.IMAGE }}:${{ steps.meta.outputs.sha }}
+          # VITE_* вшиваются в клиентский бандл на этапе сборки — в рантайме их
+          # уже не подставить. Значения публичны (anon-ключ Supabase защищён RLS),
+          # но лежат в секретах, чтобы не тиражировать их по логам джобы.
+          build-args: |
+            VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}
+            VITE_SUPABASE_PUBLISHABLE_KEY=${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          # Кеш GitHub'а, не серверный.
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: ssh на VPS -> deploy.sh
+        # Ключ заперт forced command'ом на сервере: принимается только
+        # "deploy <sha>", шелла он не даёт. См. deploy/ssh-forced-command.sh.
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_ed25519 -o BatchMode=yes \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "deploy ${{ needs.build.outputs.sha }}"
+
+      - name: подчистить ключ
+        if: always()
+        run: rm -f ~/.ssh/id_ed25519

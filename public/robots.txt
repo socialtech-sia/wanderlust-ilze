@@ -4,6 +4,5 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 Disallow: /*?service=
-Disallow: /lovable/
 
 Sitemap: https://wanderlust.lv/sitemap.xml
