@@ -68,7 +68,19 @@ services:
       # Резолвер le — TLS-ALPN-01, тот же, которым пользуется демо SRC. Ему не
       # нужен токен Cloudflare, и сертификат не попадает в acme-dns.json соседа.
       - traefik.http.routers.wanderlust.tls.certresolver=le
-      - traefik.http.routers.wanderlust.middlewares=wanderlust-sec
+      # Сжатие. Traefik его сам не делает, а nitro-сервер отдавал ассеты сырыми:
+      # index-*.js уезжал в браузер как 490 КБ, styles-*.css как 116 КБ, и это
+      # при полностью текстовом содержимом. Проверялось запросом с
+      # Accept-Encoding: gzip, br — заголовка content-encoding в ответе не было
+      # вовсе. На медленной мобильной сети это и давало FCP около девяти секунд.
+      #
+      # Middleware объявлен здесь же, на своём контейнере, как и wanderlust-sec:
+      # общий конфиг Traefik мы не трогаем.
+      - traefik.http.routers.wanderlust.middlewares=wanderlust-compress,wanderlust-sec
+      - traefik.http.middlewares.wanderlust-compress.compress=true
+      # Порог: сжимать нет смысла на крошечных ответах, там накладные расходы
+      # больше выигрыша.
+      - traefik.http.middlewares.wanderlust-compress.compress.minResponseBodyBytes=1024
       - traefik.http.services.wanderlust.loadbalancer.server.port=3000
       # Middleware объявлен ЗДЕСЬ ЖЕ, на своём контейнере, а не в общем месте.
       # Traefik собирает middleware из лейблов контейнеров: объявленный на одном

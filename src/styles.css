@@ -1,3 +1,6 @@
+/* Свои шрифты вместо Google Fonts — объявления в отдельном файле. Импорт
+   первым: @font-face должны быть известны до правил, которые их используют. */
+@import "./fonts.css";
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
