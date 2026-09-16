@@ -26,22 +26,29 @@ function ContactPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setState("sending");
-    const { data, error } = await supabase
-      .from("contact_messages")
-      .insert({
-        name: form.name,
-        email: form.email,
-        subject: form.subject || null,
-        message: form.message,
-        language: lang,
-      })
-      .select("id")
-      .single();
-    if (!error && data) {
+    // Идентификатор задаём здесь, а не получаем обратно из базы.
+    //
+    // Раньше тут был .select("id").single() — то есть запрос с
+    // Prefer: return=representation. Он требует права на ЧТЕНИЕ
+    // contact_messages, а читать их может только администратор: единственная
+    // политика на SELECT — contact_admin_all. PostgREST отвечал 401
+    // (insufficient_privilege) и откатывал вставку, поэтому сообщение не
+    // сохранялось вообще, посетитель видел ошибку, а уведомление не уходило.
+    // Проверено запросом: 401, строк в базе 0.
+    const messageId = crypto.randomUUID();
+    const { error } = await supabase.from("contact_messages").insert({
+      id: messageId,
+      name: form.name,
+      email: form.email,
+      subject: form.subject || null,
+      message: form.message,
+      language: lang,
+    });
+    if (!error) {
       void fetch("/api/public/contact-notification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message_id: data.id }),
+        body: JSON.stringify({ message_id: messageId }),
       }).catch(() => undefined);
     }
     if (error) {
