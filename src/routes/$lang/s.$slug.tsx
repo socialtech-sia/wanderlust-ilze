@@ -3,7 +3,7 @@ import { resolveImageSrc, stockSrcSet } from "@/lib/images";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import { Clock, Users, MapPin, Route as RouteIcon, ChevronRight } from "lucide-react";
-import { useServiceBySlug, useEnterGaujaCategories } from "@/hooks/use-services";
+import { useEnterGaujaCategories } from "@/hooks/use-services";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { tField, tSlug, isLang, DEFAULT_LANG, type Lang } from "@/lib/language";
 import { formatDuration, formatPrice } from "@/lib/format";
@@ -93,16 +93,16 @@ function ServiceDetail() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
   const { slug } = Route.useParams();
-  const { data: service, isLoading } = useServiceBySlug(slug);
+  // Данные берутся из загрузчика, а не клиентским запросом.
+  //
+  // Загрузчик и раньше тянул всю строку услуги, но использовалась она только
+  // для мета-тегов, а тело страницы ждало useServiceBySlug. Из-за этого в
+  // SSR-разметке не было ни h1, ни описания, ни картинки: страница услуги
+  // приезжала пустой оболочкой на 26 КБ и дорисовывалась после гидратации.
+  // Для страницы, которую открывают из поиска, это потеря и в выдаче, и в LCP.
+  const service = Route.useLoaderData();
   const { data: cats } = useEnterGaujaCategories();
 
-  if (isLoading) {
-    return (
-      <div className="container-editorial py-32">
-        <div className="h-96 animate-pulse rounded-lg bg-paper-alt" />
-      </div>
-    );
-  }
   if (!service) throw notFound();
 
   const title = tField(service, "title", lang);
