@@ -64,7 +64,9 @@ export function TripAdvisorRating() {
           {t("home.tripadvisor_caption")}
         </p>
         {reviews > 0 ? (
-          <p className="text-sm text-foreground">{t("home.tripadvisor_reviews", { count: reviews })}</p>
+          <p className="text-sm text-foreground">
+            {t("home.tripadvisor_reviews", { count: reviews })}
+          </p>
         ) : null}
       </div>
 
