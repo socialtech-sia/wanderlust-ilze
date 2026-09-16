@@ -81,6 +81,9 @@ services:
       # Порог: сжимать нет смысла на крошечных ответах, там накладные расходы
       # больше выигрыша.
       - traefik.http.middlewares.wanderlust-compress.compress.minResponseBodyBytes=1024
+      # Уже сжатое сжимать второй раз — только трата процессора: на woff2 замер
+      # дал ровно 0% выигрыша. Шрифты и растровые картинки исключаем.
+      - traefik.http.middlewares.wanderlust-compress.compress.excludedContentTypes=font/woff2,font/woff,image/png,image/jpeg,image/webp,image/avif,image/x-icon,application/zip,application/gzip
       - traefik.http.services.wanderlust.loadbalancer.server.port=3000
       # Middleware объявлен ЗДЕСЬ ЖЕ, на своём контейнере, а не в общем месте.
       # Traefik собирает middleware из лейблов контейнеров: объявленный на одном

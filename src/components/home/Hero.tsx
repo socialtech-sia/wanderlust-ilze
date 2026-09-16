@@ -4,9 +4,13 @@ import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/hero-gauja.jpg";
+import hero768 from "@/assets/hero-gauja-768.webp";
+import hero1280 from "@/assets/hero-gauja-1280.webp";
+import hero1920 from "@/assets/hero-gauja-1920.webp";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { useSiteSettings } from "@/hooks/use-services";
 import type { SiteSettingsMap } from "@/lib/home-data";
+import { resolveImageSrc } from "@/lib/images";
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -31,6 +35,11 @@ export function Hero({ settings: ssr }: { settings?: SiteSettingsMap } = {}) {
   const lang = useCurrentLanguage();
   const { data: fromQuery } = useSiteSettings();
   const settings = ssr ?? fromQuery;
+  const storedHero =
+    typeof settings?.home_hero_storage_path === "string"
+      ? (settings.home_hero_storage_path as string)
+      : "";
+  const customHero = storedHero.trim() ? resolveImageSrc(storedHero, "") : "";
 
   const headline =
     ((settings?.[`hero_headline_${lang}`] as string) ?? "") || t("home.categories_title");
@@ -60,14 +69,42 @@ export function Hero({ settings: ssr }: { settings?: SiteSettingsMap } = {}) {
       data-header-tone="dark"
       className="surface-dark relative isolate -mt-16 flex min-h-[92svh] items-end overflow-hidden md:-mt-20"
     >
-      <img
-        src={heroImg}
-        alt="Aerial view of the Gauja river valley with sandstone cliffs and pine forest, Sigulda, Latvia"
-        width={1920}
-        height={1280}
-        fetchPriority="high"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      {/*
+        Картинка hero — это LCP-элемент страницы, и до этой правки всем, включая
+        360-пиксельные телефоны, уезжал JPEG 1920x1280 на 261 КБ. Теперь три
+        ширины в WebP: на телефоне браузер берёт 768px и 35 КБ вместо 261.
+
+        Тег picture с JPEG внутри img, а не просто srcset: браузер без
+        поддержки WebP обязан получить рабочий вариант, а не выбрать из srcset
+        формат, который не умеет читать.
+
+        Если клиент загрузит свою фотографию и впишет home_hero_storage_path,
+        показывается она — адаптивный набор WebP тогда не нужен.
+      */}
+      {customHero ? (
+        <img
+          src={customHero}
+          alt="Wanderlust.lv — Gaujas ieleja"
+          fetchPriority="high"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : (
+        <picture>
+          <source
+            type="image/webp"
+            srcSet={`${hero768} 768w, ${hero1280} 1280w, ${hero1920} 1920w`}
+            sizes="100vw"
+          />
+          <img
+            src={heroImg}
+            alt="Aerial view of the Gauja river valley with sandstone cliffs and pine forest, Sigulda, Latvia"
+            width={1920}
+            height={1280}
+            fetchPriority="high"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </picture>
+      )}
       {/* Pine-toned gradient: the image sinks into the page instead of into black. */}
       <div
         aria-hidden

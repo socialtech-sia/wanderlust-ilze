@@ -6,6 +6,8 @@ import { ServiceCard } from "@/components/services/ServiceCard";
 import type { Database } from "@/integrations/supabase/types";
 import { cn } from "@/lib/utils";
 import { tField } from "@/lib/language";
+import { resolveImageSrc, stockSrcSet } from "@/lib/images";
+import { useSiteSettings } from "@/hooks/use-services";
 
 type Cat = Database["public"]["Enums"]["enter_gauja_category"];
 type Difficulty = Database["public"]["Enums"]["service_difficulty"];
@@ -46,6 +48,19 @@ export function ServicesListPage({
   const { data, isLoading } = useServicesByType(type);
   const { data: cats } = useEnterGaujaCategories();
   const hero = HERO_IMG[type];
+  // Своя картинка, если путь задан в site_settings, иначе стоковая. Ключи:
+  // tours_hero_storage_path, hiking_hero_storage_path, transfers_hero_storage_path.
+  const { data: settings } = useSiteSettings();
+  const heroKey =
+    type === "excursion"
+      ? "tours_hero_storage_path"
+      : type === "hiking"
+        ? "hiking_hero_storage_path"
+        : "transfers_hero_storage_path";
+  const heroSrc = resolveImageSrc(
+    typeof settings?.[heroKey] === "string" ? (settings[heroKey] as string) : null,
+    hero.img,
+  );
 
   const filtered = (data ?? []).filter((s) => {
     if (category && !(s.enter_gauja_categories ?? []).includes(category)) return false;
@@ -68,9 +83,14 @@ export function ServicesListPage({
         data-header-tone="dark"
         className="surface-dark relative -mt-16 flex min-h-[46vh] items-end overflow-hidden md:-mt-20 md:min-h-[54vh]"
       >
+        {/* Стоковая картинка просится по нужной ширине, а не всегда 1920:
+            на телефоне это разница в несколько сотен килобайт на LCP-элементе. */}
         <img
-          src={hero.img}
+          src={heroSrc}
+          srcSet={stockSrcSet(heroSrc)}
+          sizes="100vw"
           alt={hero.alt}
+          fetchPriority="high"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div

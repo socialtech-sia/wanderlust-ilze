@@ -1,4 +1,6 @@
 import { Link } from "@tanstack/react-router";
+import { resolveImageSrc, stockSrcSet } from "@/lib/images";
+import { useSiteSettings } from "@/hooks/use-services";
 import { useTranslation } from "react-i18next";
 import { Compass, Mountain, Car, ArrowUpRight } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
@@ -56,77 +58,94 @@ const DESC: Record<"tours" | "hiking" | "transfers", { lv: string; en: string; e
 };
 
 export function ServiceCategories({ services = [] }: { services?: HomeService[] }) {
+  const { data: settings } = useSiteSettings();
+  // Путь из настроек, если задан; иначе стоковый URL.
+  const tileSrc = (type: string, fallback: string): string => {
+    const key = `tile_${type}_storage_path`;
+    const stored = typeof settings?.[key] === "string" ? (settings[key] as string) : null;
+    return resolveImageSrc(stored, fallback);
+  };
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
 
   return (
     <section data-header-tone="dark" className="surface-dark section-y">
       <div className="container-editorial">
-      <div className="max-w-2xl">
-        <p className="text-eyebrow">02 · {t("nav.tours")}</p>
-        <h2 className="mt-2 display-2">{t("home.categories_title")}</h2>
-        <p className="mt-3 text-ink-muted">{t("home.categories_subtitle")}</p>
-      </div>
-      <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-3">
-        {CATEGORIES.map((c) => {
-          const Icon = c.icon;
-          const stats = statsForType(services, c.type);
-          const duration =
-            stats.minDuration && stats.maxDuration
-              ? stats.minDuration === stats.maxDuration
-                ? formatDuration(stats.minDuration, lang)
-                : `${formatDuration(stats.minDuration, lang)} – ${formatDuration(stats.maxDuration, lang)}`
-              : null;
-          const meta = [
-            stats.count ? t("home.options_count", { count: stats.count }) : null,
-            duration,
-            stats.priceFrom != null
-              ? t("home.price_from_short", { price: formatPrice(stats.priceFrom) })
-              : null,
-          ].filter(Boolean) as string[];
+        <div className="max-w-2xl">
+          <p className="text-eyebrow">02 · {t("nav.tours")}</p>
+          <h2 className="mt-2 display-2">{t("home.categories_title")}</h2>
+          <p className="mt-3 text-ink-muted">{t("home.categories_subtitle")}</p>
+        </div>
+        <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-3">
+          {CATEGORIES.map((c) => {
+            const Icon = c.icon;
+            const stats = statsForType(services, c.type);
+            const duration =
+              stats.minDuration && stats.maxDuration
+                ? stats.minDuration === stats.maxDuration
+                  ? formatDuration(stats.minDuration, lang)
+                  : `${formatDuration(stats.minDuration, lang)} – ${formatDuration(stats.maxDuration, lang)}`
+                : null;
+            const meta = [
+              stats.count ? t("home.options_count", { count: stats.count }) : null,
+              duration,
+              stats.priceFrom != null
+                ? t("home.price_from_short", { price: formatPrice(stats.priceFrom) })
+                : null,
+            ].filter(Boolean) as string[];
 
-          return (
-            <Link
-              key={c.key}
-              to={c.to}
-              params={{ lang }}
-              className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-lg bg-ink text-bone hairline transition-all hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
-            >
-              <img
-                src={c.img}
-                alt={c.alt}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-              />
-              <div
-                aria-hidden
-                className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent"
-              />
-              <div className="relative z-10 p-6">
-                <Icon className="h-6 w-6 text-bone-muted" />
-                <h3 className="mt-4 font-display text-2xl text-bone md:text-3xl">
-                  {t(`nav.${c.key}`)}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-bone-muted">{DESC[c.key][lang]}</p>
-                {meta.length > 0 && (
-                  <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-bone-muted">
-                    {meta.map((m, i) => (
-                      <span key={m}>
-                        {i > 0 && <span aria-hidden className="mr-2">·</span>}
-                        {m}
-                      </span>
-                    ))}
+            return (
+              <Link
+                key={c.key}
+                to={c.to}
+                params={{ lang }}
+                className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-lg bg-ink text-bone hairline transition-all hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
+              >
+                {/* Своя картинка, если путь задан в site_settings
+                  (tile_<тип>_storage_path), иначе стоковая. */}
+                <img
+                  src={tileSrc(c.type, c.img)}
+                  srcSet={stockSrcSet(tileSrc(c.type, c.img))}
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  alt={c.alt}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent"
+                />
+                <div className="relative z-10 p-6">
+                  <Icon className="h-6 w-6 text-bone-muted" />
+                  <h3 className="mt-4 font-display text-2xl text-bone md:text-3xl">
+                    {t(`nav.${c.key}`)}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-bone-muted">
+                    {DESC[c.key][lang]}
                   </p>
-                )}
-                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-bone">
-                  {t("cta.explore")} <ArrowUpRight className="h-3.5 w-3.5" />
-                </span>
-              </div>
-            </Link>
-          );
-        })}
+                  {meta.length > 0 && (
+                    <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-bone-muted">
+                      {meta.map((m, i) => (
+                        <span key={m}>
+                          {i > 0 && (
+                            <span aria-hidden className="mr-2">
+                              ·
+                            </span>
+                          )}
+                          {m}
+                        </span>
+                      ))}
+                    </p>
+                  )}
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-bone">
+                    {t("cta.explore")} <ArrowUpRight className="h-3.5 w-3.5" />
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
-    </div>
     </section>
   );
 }

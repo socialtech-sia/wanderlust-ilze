@@ -7,6 +7,8 @@ import { Award, Languages } from "lucide-react";
 
 import { routeHead } from "@/lib/route-head";
 import { getProfile } from "@/lib/profile.functions";
+import { resolveImageSrc, stockSrcSet } from "@/lib/images";
+import { useSiteSettings } from "@/hooks/use-services";
 
 export const Route = createFileRoute("/$lang/about")({
   // Профиль читается на сервере: он и есть содержимое страницы, а клиентский
@@ -20,6 +22,16 @@ function AboutPage() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
   const profile = Route.useLoaderData();
+  // Своя картинка, если задан about_hero_storage_path, иначе стоковая.
+  const { data: settings } = useSiteSettings();
+  const ABOUT_HERO_FALLBACK =
+    "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1920&q=70";
+  const aboutHero = resolveImageSrc(
+    typeof settings?.about_hero_storage_path === "string"
+      ? (settings.about_hero_storage_path as string)
+      : null,
+    ABOUT_HERO_FALLBACK,
+  );
   const certs = (profile?.certifications as { name: string; year?: number }[] | null) ?? [];
 
   return (
@@ -29,7 +41,10 @@ function AboutPage() {
         className="surface-dark relative -mt-16 flex min-h-[42vh] items-end overflow-hidden md:-mt-20 md:min-h-[52vh]"
       >
         <img
-          src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1920&q=70"
+          src={aboutHero}
+          srcSet={stockSrcSet(aboutHero)}
+          sizes="100vw"
+          fetchPriority="high"
           alt="Misty Gauja river valley at sunrise, seen from Sigulda ridge"
           className="absolute inset-0 h-full w-full object-cover"
         />

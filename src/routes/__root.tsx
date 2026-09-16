@@ -93,28 +93,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // к постороннему хосту. Объявления @font-face теперь в src/fonts.css,
       // файлы — в /public/fonts.
       //
-      // Предзагружаем ровно то, что видно на первом экране: заголовок h1 набран
-      // Source Serif 4, и это же самый крупный текст страницы. Оба подмножества,
-      // потому что латышские диакритики лежат в latin-ext, а латышский —
-      // язык по умолчанию.
-      //
-      // Курсив, Archivo и Archivo Narrow не предзагружаются намеренно: курсив в
-      // вёрстке не используется вовсе, а остальные два набраны мелким текстом,
-      // которому хватает подмены по font-display: swap.
-      {
-        rel: "preload",
-        as: "font",
-        type: "font/woff2",
-        href: "/fonts/source-serif-normal-latin.woff2",
-        crossOrigin: "anonymous",
-      },
-      {
-        rel: "preload",
-        as: "font",
-        type: "font/woff2",
-        href: "/fonts/source-serif-normal-latin-ext.woff2",
-        crossOrigin: "anonymous",
-      },
+      // Шрифты СОЗНАТЕЛЬНО не предзагружаются, хотя заголовок первого экрана
+      // набран Source Serif 4. Причина в измерении, а не в принципе:
+      // при font-display: swap текст рисуется запасным шрифтом сразу, то есть
+      // на момент отрисовки шрифт не нужен, а preload двух подмножеств
+      // (latin 120 КБ + latin-ext 99 КБ — латышские диакритики лежат в
+      // latin-ext) отбирал 219 КБ пропускной способности у настоящего
+      // LCP-элемента, картинки hero. Замер это подтвердил, цифры в отчёте.
     ],
     scripts: [
       {

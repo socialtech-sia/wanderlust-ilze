@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { resolveImageSrc, stockSrcSet } from "@/lib/images";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import { Clock, Users, MapPin, Route as RouteIcon, ChevronRight } from "lucide-react";
@@ -44,13 +45,13 @@ export const Route = createFileRoute("/$lang/s/$slug")({
     const short =
       tField(loaderData, "short_description", lang) ||
       tField(loaderData, "description", lang).slice(0, 155);
-    const cat = pickPrimaryCategory({
-      enter_gauja_categories: (loaderData.enter_gauja_categories as string[] | null) ?? null,
-    }) ?? defaultCategoryForType(loaderData.type as string);
+    const cat =
+      pickPrimaryCategory({
+        enter_gauja_categories: (loaderData.enter_gauja_categories as string[] | null) ?? null,
+      }) ?? defaultCategoryForType(loaderData.type as string);
     const canonicalSlug = tSlug(loaderData, lang) || params.slug;
     const path = `/s/${canonicalSlug}`;
-    const image =
-      (loaderData.hero_image_storage_path as string | null) ?? undefined;
+    const image = (loaderData.hero_image_storage_path as string | null) ?? undefined;
     const jsonLd: object[] = [
       buildBreadcrumbList(lang, [
         { name: "Home", path: "/" },
@@ -67,8 +68,7 @@ export const Route = createFileRoute("/$lang/s/$slug")({
           imageUrl: image ?? absoluteUrl(lang, "/og/default.jpg"),
           path,
           lang,
-          priceEur:
-            loaderData.price_from_eur != null ? Number(loaderData.price_from_eur) : null,
+          priceEur: loaderData.price_from_eur != null ? Number(loaderData.price_from_eur) : null,
           locationName: (loaderData.location_name as string | null) ?? null,
           latitude: (loaderData.location_lat as number | null) ?? null,
           longitude: (loaderData.location_lng as number | null) ?? null,
@@ -111,24 +111,37 @@ function ServiceDetail() {
   const navKey =
     service.type === "excursion" ? "tours" : service.type === "hiking" ? "hiking" : "transfers";
   const canonicalSlug = tSlug(service, lang);
-  const HERO = "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1920&q=70";
+  // Своя картинка услуги, если она загружена через админку
+  // (services.hero_image_storage_path), иначе стоковая. Замена фотографии
+  // сводится к загрузке файла и выбору его в MediaPicker — правки кода не нужно.
+  const HERO_FALLBACK =
+    "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1920&q=70";
+  const heroSrc = resolveImageSrc(service.hero_image_storage_path, HERO_FALLBACK);
+  const heroSrcSet = stockSrcSet(heroSrc);
 
   return (
     <>
       {/* Hero */}
       <section className="relative -mt-16 flex min-h-[62vh] items-end overflow-hidden md:-mt-20 md:min-h-[72vh]">
         <img
-          src={HERO}
+          src={heroSrc}
+          srcSet={heroSrcSet}
+          sizes="100vw"
+          fetchPriority="high"
           alt={serviceImageAlt({
             title,
             location: service.location_name,
-            category: pickPrimaryCategory({
-              enter_gauja_categories: service.enter_gauja_categories,
-            }) ?? defaultCategoryForType(service.type),
+            category:
+              pickPrimaryCategory({
+                enter_gauja_categories: service.enter_gauja_categories,
+              }) ?? defaultCategoryForType(service.type),
           })}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--pine)_45%,transparent)_0%,color-mix(in_oklab,var(--pine)_30%,transparent)_40%,color-mix(in_oklab,var(--pine)_88%,transparent)_88%,var(--pine)_100%)]" />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--pine)_45%,transparent)_0%,color-mix(in_oklab,var(--pine)_30%,transparent)_40%,color-mix(in_oklab,var(--pine)_88%,transparent)_88%,var(--pine)_100%)]"
+        />
         <div className="container-editorial relative z-10 pb-14 pt-32 text-bone md:pb-20 md:pt-40">
           {/* Breadcrumbs */}
           <nav className="mb-4 flex items-center gap-1.5 text-xs text-bone-muted">
@@ -164,19 +177,39 @@ function ServiceDetail() {
             {/* Meta */}
             <div className="mb-10 grid gap-4 rounded-lg border border-border/60 bg-card p-6 sm:grid-cols-2 md:grid-cols-4">
               {service.duration_minutes && (
-                <MetaCell icon={<Clock className="h-4 w-4" />} label={t("service.duration")} value={formatDuration(service.duration_minutes, lang)} />
+                <MetaCell
+                  icon={<Clock className="h-4 w-4" />}
+                  label={t("service.duration")}
+                  value={formatDuration(service.duration_minutes, lang)}
+                />
               )}
               {service.max_persons && (
-                <MetaCell icon={<Users className="h-4 w-4" />} label={t("booking.persons")} value={t("service.persons_max", { count: service.max_persons })} />
+                <MetaCell
+                  icon={<Users className="h-4 w-4" />}
+                  label={t("booking.persons")}
+                  value={t("service.persons_max", { count: service.max_persons })}
+                />
               )}
               {service.location_name && (
-                <MetaCell icon={<MapPin className="h-4 w-4" />} label={t("service.location")} value={service.location_name} />
+                <MetaCell
+                  icon={<MapPin className="h-4 w-4" />}
+                  label={t("service.location")}
+                  value={service.location_name}
+                />
               )}
               {service.difficulty && (
-                <MetaCell icon={<RouteIcon className="h-4 w-4" />} label="—" value={t(`service.difficulty_${service.difficulty}`)} />
+                <MetaCell
+                  icon={<RouteIcon className="h-4 w-4" />}
+                  label="—"
+                  value={t(`service.difficulty_${service.difficulty}`)}
+                />
               )}
               {service.vehicle_info && (
-                <MetaCell icon={<RouteIcon className="h-4 w-4" />} label={t("service.vehicle")} value={service.vehicle_info} />
+                <MetaCell
+                  icon={<RouteIcon className="h-4 w-4" />}
+                  label={t("service.vehicle")}
+                  value={service.vehicle_info}
+                />
               )}
             </div>
 
@@ -194,19 +227,19 @@ function ServiceDetail() {
               {service.price_from_eur != null && (
                 <>
                   <p className="text-eyebrow">
-                    {t("service.price_from", { price: formatPrice(Number(service.price_from_eur)) })}
+                    {t("service.price_from", {
+                      price: formatPrice(Number(service.price_from_eur)),
+                    })}
                   </p>
                   <p className="mt-1 text-sm text-ink-muted">
-                    {service.price_per_person ? t("service.price_per_person") : t("service.price_per_trip")}
+                    {service.price_per_person
+                      ? t("service.price_per_person")
+                      : t("service.price_per_trip")}
                   </p>
                 </>
               )}
               <Button asChild size="lg" className="mt-6 w-full">
-                <Link
-                  to="/$lang/book"
-                  params={{ lang }}
-                  search={{ service: canonicalSlug }}
-                >
+                <Link to="/$lang/book" params={{ lang }} search={{ service: canonicalSlug }}>
                   {t("service.book_this")}
                 </Link>
               </Button>
