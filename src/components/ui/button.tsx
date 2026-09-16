@@ -24,9 +24,9 @@ const buttonVariants = cva(
       variant: {
         /** Legacy shadcn alias for `primary`. */
         default:
-          "border border-transparent bg-sandstone text-bone hover:bg-sandstone-bright hover:-translate-y-px active:translate-y-0",
+          "border border-transparent bg-sandstone text-on-accent hover:bg-sandstone-deep hover:-translate-y-px active:translate-y-0",
         primary:
-          "border border-transparent bg-sandstone text-bone hover:bg-sandstone-bright hover:-translate-y-px active:translate-y-0",
+          "border border-transparent bg-sandstone text-on-accent hover:bg-sandstone-deep hover:-translate-y-px active:translate-y-0",
         secondary:
           "border border-border bg-transparent text-foreground hover:bg-[color-mix(in_oklab,var(--bone)_8%,transparent)] hover:-translate-y-px active:translate-y-0",
         outline:

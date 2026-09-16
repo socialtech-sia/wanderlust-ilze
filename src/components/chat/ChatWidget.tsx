@@ -36,7 +36,7 @@ export function ChatWidget() {
         aria-label={t("chat.title")}
         onClick={() => setOpen(true)}
         className={cn(
-          "group fixed right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-sandstone text-bone shadow-[var(--shadow-overlay)] transition-all duration-300 hover:scale-105 motion-reduce:transition-none md:right-6 md:h-14 md:w-14",
+          "group fixed right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-sandstone text-on-accent shadow-[var(--shadow-overlay)] transition-all duration-300 hover:scale-105 motion-reduce:transition-none md:right-6 md:h-14 md:w-14",
           bannerVisible ? "bottom-[13.5rem] md:bottom-64" : "bottom-20 md:bottom-24",
         )}
         style={{ marginBottom: "env(safe-area-inset-bottom)" }}

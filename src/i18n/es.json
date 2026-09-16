@@ -16,7 +16,8 @@
     "back": "Atrás",
     "next": "Siguiente",
     "submit": "Enviar",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "scroll_top": "Volver arriba"
   },
   "home": {
     "featured_title": "Excursiones destacadas",
@@ -29,7 +30,7 @@
     "about_cta": "Más sobre Ilze",
     "partner_text": "Miembro de la red Enter Gauja",
     "partner_learn": "Conocer Enter Gauja",
-    "hero_trust": "Guía certificada · 10+ años de experiencia · LV · EN · RU · ES",
+    "hero_trust": "Guía certificada · 10+ años de experiencia · LV · EN · RU · ES · ★ Muy valorado",
     "options_count_one": "{{count}} ruta",
     "options_count_other": "{{count}} rutas",
     "price_from_short": "desde {{price}}",
@@ -37,7 +38,12 @@
     "years_label": "Experiencia",
     "years_value": "{{count}}+ años en la región del Gauja",
     "certs_label": "Certificaciones",
-    "selection_eyebrow": "Selección"
+    "selection_eyebrow": "Selección",
+    "tripadvisor_caption": "Opiniones de viajeros en TripAdvisor",
+    "tripadvisor_cta": "Ver en TripAdvisor",
+    "tripadvisor_reviews_one": "{{count}} opinión",
+    "tripadvisor_reviews_other": "{{count}} opiniones",
+    "tripadvisor_rating_aria": "Valoración {{rating}} sobre 5"
   },
   "service": {
     "excursion": "Excursión",

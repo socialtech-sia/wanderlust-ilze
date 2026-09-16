@@ -70,7 +70,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Ilze Gulbe · social.tech SIA" },
-      { name: "theme-color", content: "#141813" },
+      { name: "theme-color", content: "#1E2B1F" },
       { property: "og:site_name", content: "Wanderlust.lv" },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://wanderlust.lv/og-image.png" },

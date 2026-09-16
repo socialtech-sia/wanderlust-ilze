@@ -49,10 +49,10 @@ function HomePage() {
       <RegionSection />
       <AboutPreview profile={profile} />
       <WhyGuide />
+      <Testimonials items={testimonials} />
       <Seasons />
       <EnterGaujaTiles />
       <FaqPreview items={faq} />
-      <Testimonials items={testimonials} />
       <FinalCta />
       <EnterGaujaBadge />
     </>

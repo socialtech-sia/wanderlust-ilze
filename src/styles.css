@@ -54,6 +54,8 @@
   --color-sand-alt: var(--sand-alt);
   --color-sandstone: var(--sandstone);
   --color-sandstone-bright: var(--sandstone-bright);
+  --color-sandstone-deep: var(--sandstone-deep);
+  --color-on-accent: var(--on-accent);
 
   /* Legacy aliases — surface-aware, keep older markup coherent */
   --color-paper: var(--paper);
@@ -84,22 +86,38 @@
   --radius: 10px;
 
   /* Core surfaces */
-  --pine: oklch(0.198 0.012 143);        /* #141813 */
-  --pine-raised: oklch(0.244 0.014 141); /* #1C221A */
-  --pine-deep: oklch(0.166 0.011 143);   /* #0D100C */
+  --pine: oklch(0.273 0.028 147);        /* #1E2B1F — хвоя, задана клиентом */
+  --pine-raised: oklch(0.314 0.029 147); /* #283529 — на ступень выше, для карточек */
+  --pine-deep: oklch(0.236 0.026 147);   /* #162217 — на ступень глубже, для .surface-deep */
 
   /* Text on dark */
-  --bone: oklch(0.897 0.019 85);         /* #E8E1D4 */
-  --bone-muted: oklch(0.687 0.018 86);   /* #A9A192 */
-  --bone-faint: oklch(0.494 0.014 88);   /* #6E695F */
+  /* Светлота подобрана под новую хвою расчётом контраста, а не на глаз:
+     хвоя стала светлее (0.203 -> 0.273), и прежние значения просели бы.
+     В скобках — измеренный контраст на --pine. */
+  --bone: oklch(0.901 0.019 85);         /* #E4DED1 — 11.03:1 */
+  --bone-muted: oklch(0.722 0.018 86);   /* #AAA599 —  6.02:1 */
+  /* Раньше здесь было 2.91:1 — ниже порога AA, хотя этим цветом набрана
+     строка доверия в hero. Подняли до порога заодно с заменой палитры. */
+  --bone-faint: oklch(0.652 0.014 88);   /* #938F86 —  4.59:1 */
 
   /* Light clearings */
-  --sand: oklch(0.926 0.016 86);         /* #EFE9DD */
-  --sand-alt: oklch(0.885 0.021 87);     /* #E4DCCB */
+  --sand: oklch(0.959 0.014 85);         /* #F6F1E7 — песок, задан клиентом */
+  --sand-alt: oklch(0.909 0.018 85);     /* #E6E0D4 — на ступень ниже, для карточек */
 
   /* Accents */
-  --sandstone: oklch(0.518 0.126 41);        /* #B0532C */
-  --sandstone-bright: oklch(0.598 0.124 44); /* #C96A3E */
+  --sandstone: oklch(0.579 0.126 49);        /* #B4602E — песчаник, задан клиентом */
+  /* Наведение на кнопке ЗАТЕМНЯЕТ, а не осветляет, и это вынужденно.
+     Потолок контраста на #B4602E — 4.51:1, и его даёт только чистый белый.
+     Любой осветлённый вариант уводит текст кнопки ниже AA (проверено: 3.72:1).
+     Затемнение на ту же величину светлоты даёт белому 5.49:1 и читается как
+     смена состояния ничуть не хуже. */
+  --sandstone-deep: oklch(0.533 0.126 49);   /* #A5521E — фон кнопки при наведении */
+  /* Осветлённый вариант остался — но только там, где он НЕ подложка под текст:
+     обводка фокуса и шкала шагов бронирования. */
+  --sandstone-bright: oklch(0.625 0.126 49); /* #C46E3D */
+  /* Текст на акценте. Именно чистый белый: на #B4602E это единственное
+     значение, дотягивающее до 4.5:1 (ровно 4.51:1). */
+  --on-accent: oklch(1 0 0);                 /* #FFFFFF — 4.51:1 на песчанике */
 
   /* Enter Gauja (contractual hexes) */
   --cat-action: oklch(0.671 0.196 15.4);    /* #F05366 */
@@ -135,40 +153,41 @@
   --ink: var(--pine-deep);
   --ink-muted: var(--bone-muted);
   --ink-soft: var(--bone-faint);
-  --moss: oklch(0.62 0.1 128);
+  --moss: oklch(0.621 0.100 128);   /* #75924E — мох клиента как есть; им набраны
+                                       только иконки, для графики порог 3:1 (4.21:1) */
   --moss-soft: color-mix(in oklab, var(--moss) 22%, transparent);
-  --moss-deep: oklch(0.68 0.11 128);
-  --river: oklch(0.62 0.05 233);
-  --river-deep: oklch(0.46 0.045 233);
+  --moss-deep: oklch(0.680 0.105 128); /* #85A55C — 5.30:1, им набран текст и ссылки */
+  --river: oklch(0.648 0.062 228);     /* #6596AD — 4.59:1 */
+  --river-deep: oklch(0.470 0.058 228);
 }
 
 /* Light clearing: sand section. Re-declares tokens so semantic
    classes (and legacy aliases) flip automatically for children. */
 .surface-light {
   --background: var(--sand);
-  --foreground: oklch(0.235 0.012 140);  /* #1A1E18 */
+  --foreground: oklch(0.277 0.012 140);  /* #252A24 — 13.00:1 на песке */
   --card: var(--sand-alt);
-  --card-foreground: oklch(0.235 0.012 140);
+  --card-foreground: oklch(0.277 0.012 140);
   --popover: var(--sand);
-  --popover-foreground: oklch(0.235 0.012 140);
-  --secondary: color-mix(in oklab, oklch(0.235 0.012 140) 7%, transparent);
-  --secondary-foreground: oklch(0.235 0.012 140);
-  --muted: color-mix(in oklab, oklch(0.235 0.012 140) 6%, transparent);
-  --muted-foreground: oklch(0.404 0.014 137); /* #4A4F45 */
-  --accent: color-mix(in oklab, oklch(0.235 0.012 140) 7%, transparent);
-  --accent-foreground: oklch(0.235 0.012 140);
-  --border: color-mix(in oklab, oklch(0.235 0.012 140) 12%, transparent);
-  --input: color-mix(in oklab, oklch(0.235 0.012 140) 16%, transparent);
+  --popover-foreground: oklch(0.277 0.012 140);
+  --secondary: color-mix(in oklab, oklch(0.277 0.012 140) 7%, transparent);
+  --secondary-foreground: oklch(0.277 0.012 140);
+  --muted: color-mix(in oklab, oklch(0.277 0.012 140) 6%, transparent);
+  --muted-foreground: oklch(0.435 0.014 137); /* #4A4F45 */
+  --accent: color-mix(in oklab, oklch(0.277 0.012 140) 7%, transparent);
+  --accent-foreground: oklch(0.277 0.012 140);
+  --border: color-mix(in oklab, oklch(0.277 0.012 140) 12%, transparent);
+  --input: color-mix(in oklab, oklch(0.277 0.012 140) 16%, transparent);
 
   --paper: var(--sand);
   --paper-alt: var(--sand-alt);
-  --ink: oklch(0.235 0.012 140);
-  --ink-muted: oklch(0.404 0.014 137);
-  --ink-soft: oklch(0.55 0.014 137);
-  --moss: oklch(0.47 0.1 128);
-  --moss-deep: oklch(0.4 0.09 128);
+  --ink: oklch(0.277 0.012 140);
+  --ink-muted: oklch(0.435 0.014 137);
+  --ink-soft: oklch(0.533 0.014 137); /* #696F67 — 4.58:1 на песке (было 3.97:1) */
+  --moss: oklch(0.527 0.100 128);   /* #5A7632 — 4.58:1 на песке */
+  --moss-deep: oklch(0.470 0.095 128); /* #4B6525 — 5.85:1 */
   --moss-soft: color-mix(in oklab, var(--moss) 18%, transparent);
-  --river: oklch(0.5 0.05 233);
+  --river: oklch(0.530 0.062 228);     /* #437388 — 4.61:1 */
 
   background-color: var(--background);
   color: var(--foreground);
@@ -196,9 +215,9 @@
   --ink: var(--pine-deep);
   --ink-muted: var(--bone-muted);
   --ink-soft: var(--bone-faint);
-  --moss: oklch(0.62 0.1 128);
-  --moss-deep: oklch(0.68 0.11 128);
-  --river: oklch(0.62 0.05 233);
+  --moss: oklch(0.621 0.100 128);
+  --moss-deep: oklch(0.680 0.105 128);
+  --river: oklch(0.648 0.062 228);
 
   background-color: var(--background);
   color: var(--foreground);
@@ -211,27 +230,27 @@
 /* Admin stays a light, dense working tool — only type + radii change. */
 .admin-scope {
   --background: var(--sand);
-  --foreground: oklch(0.235 0.012 140);
+  --foreground: oklch(0.277 0.012 140);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.012 140);
+  --card-foreground: oklch(0.277 0.012 140);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.012 140);
-  --primary: oklch(0.4 0.09 128);
+  --popover-foreground: oklch(0.277 0.012 140);
+  --primary: oklch(0.470 0.095 128);
   --primary-foreground: oklch(0.98 0.008 85);
   --secondary: var(--sand-alt);
-  --secondary-foreground: oklch(0.235 0.012 140);
+  --secondary-foreground: oklch(0.277 0.012 140);
   --muted: var(--sand-alt);
-  --muted-foreground: oklch(0.404 0.014 137);
-  --accent: color-mix(in oklab, oklch(0.235 0.012 140) 7%, transparent);
-  --accent-foreground: oklch(0.235 0.012 140);
-  --border: color-mix(in oklab, oklch(0.235 0.012 140) 14%, transparent);
-  --input: color-mix(in oklab, oklch(0.235 0.012 140) 18%, transparent);
-  --ring: oklch(0.4 0.09 128);
+  --muted-foreground: oklch(0.435 0.014 137);
+  --accent: color-mix(in oklab, oklch(0.277 0.012 140) 7%, transparent);
+  --accent-foreground: oklch(0.277 0.012 140);
+  --border: color-mix(in oklab, oklch(0.277 0.012 140) 14%, transparent);
+  --input: color-mix(in oklab, oklch(0.277 0.012 140) 18%, transparent);
+  --ring: oklch(0.470 0.095 128);
 
   --paper: oklch(1 0 0);
   --paper-alt: var(--sand);
-  --ink: oklch(0.235 0.012 140);
-  --ink-muted: oklch(0.404 0.014 137);
+  --ink: oklch(0.277 0.012 140);
+  --ink-muted: oklch(0.435 0.014 137);
   --ink-soft: oklch(0.55 0.014 137);
   --moss: oklch(0.47 0.1 128);
   --moss-deep: oklch(0.4 0.09 128);

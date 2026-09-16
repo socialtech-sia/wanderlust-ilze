@@ -16,7 +16,8 @@
     "back": "Back",
     "next": "Next",
     "submit": "Send",
-    "close": "Close"
+    "close": "Close",
+    "scroll_top": "Back to top"
   },
   "home": {
     "featured_title": "Popular tours",
@@ -29,7 +30,7 @@
     "about_cta": "More about Ilze",
     "partner_text": "Enter Gauja partnership network member",
     "partner_learn": "Learn about Enter Gauja",
-    "hero_trust": "Certified guide · 10+ years of experience · LV · EN · RU · ES",
+    "hero_trust": "Certified guide · 10+ years of experience · LV · EN · RU · ES · ★ Highly rated",
     "options_count_one": "{{count}} route",
     "options_count_other": "{{count}} routes",
     "price_from_short": "from {{price}}",
@@ -37,7 +38,12 @@
     "years_label": "Experience",
     "years_value": "{{count}}+ years in the Gauja region",
     "certs_label": "Certifications",
-    "selection_eyebrow": "Selection"
+    "selection_eyebrow": "Selection",
+    "tripadvisor_caption": "Traveller reviews on TripAdvisor",
+    "tripadvisor_cta": "View on TripAdvisor",
+    "tripadvisor_reviews_one": "{{count}} review",
+    "tripadvisor_reviews_other": "{{count}} reviews",
+    "tripadvisor_rating_aria": "Rated {{rating}} out of 5"
   },
   "service": {
     "excursion": "Tour",

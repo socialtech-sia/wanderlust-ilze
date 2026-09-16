@@ -16,7 +16,8 @@
     "back": "Atpakaļ",
     "next": "Tālāk",
     "submit": "Nosūtīt",
-    "close": "Aizvērt"
+    "close": "Aizvērt",
+    "scroll_top": "Uz augšu"
   },
   "home": {
     "featured_title": "Populārākās ekskursijas",
@@ -29,7 +30,7 @@
     "about_cta": "Vairāk par Ilzi",
     "partner_text": "Enter Gauja sadarbības tīkla partneris",
     "partner_learn": "Uzzināt par Enter Gauja",
-    "hero_trust": "Sertificēta gide · 10+ gadu pieredze · LV · EN · RU · ES",
+    "hero_trust": "Sertificēta gide · 10+ gadu pieredze · LV · EN · RU · ES · ★ Augsti vērtēts",
     "options_count_one": "{{count}} maršruts",
     "options_count_other": "{{count}} maršruti",
     "price_from_short": "no {{price}}",
@@ -37,7 +38,12 @@
     "years_label": "Pieredze",
     "years_value": "{{count}}+ gadi Gaujas reģionā",
     "certs_label": "Sertifikāti",
-    "selection_eyebrow": "Izlase"
+    "selection_eyebrow": "Izlase",
+    "tripadvisor_caption": "Ceļotāju atsauksmes TripAdvisor",
+    "tripadvisor_cta": "Skatīt TripAdvisor",
+    "tripadvisor_reviews_one": "{{count}} atsauksme",
+    "tripadvisor_reviews_other": "{{count}} atsauksmes",
+    "tripadvisor_rating_aria": "Vērtējums {{rating}} no 5"
   },
   "service": {
     "excursion": "Ekskursija",

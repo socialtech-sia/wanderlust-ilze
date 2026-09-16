@@ -4,6 +4,7 @@ import { ArrowRight, Award, Languages, CalendarDays } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { tField, LANG_LABELS, isLang } from "@/lib/language";
 import type { HomeProfile } from "@/lib/home-data";
+import { TripAdvisorRating } from "@/components/home/TripAdvisorRating";
 
 const LANG_NAMES: Record<string, { lv: string; en: string; es: string }> = {
   lv: { lv: "latviešu", en: "Latvian", es: "letón" },
@@ -136,6 +137,8 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
           >
             {t("home.about_cta")} <ArrowRight className="h-4 w-4" />
           </Link>
+
+          <TripAdvisorRating />
         </div>
       </div>
     </section>
