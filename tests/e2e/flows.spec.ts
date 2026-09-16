@@ -123,9 +123,13 @@ test.describe("Бронирование", () => {
     // шаг 2 — услуга
     await page.locator("[data-service-option], button").filter({ hasText: /./ }).first().click();
     await page.getByRole("button", { name: /tālāk|next|siguiente/i }).first().click();
-    // шаг 3 — дата
-    const d = new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10);
-    await page.locator('input[type="date"]').first().fill(d);
+    // шаг 3 — дата. Тут не input[type=date], а компонент-календарь:
+    // открываем его и берём любой доступный день следующего месяца.
+    await page.getByRole("button", { name: /datum|date|fecha|izvēlie/i }).first().click();
+    const nextMonth = page.getByRole("button", { name: /next month|nākamais/i }).first();
+    if (await nextMonth.isVisible().catch(() => false)) await nextMonth.click();
+    await page.getByRole("gridcell").filter({ hasText: /^1[0-9]$/ }).first().click();
+    await page.keyboard.press("Escape");
     await page.getByRole("button", { name: /tālāk|next|siguiente/i }).first().click();
     // шаг 4 — контакты
     await page.locator('input[type="text"]').first().fill("Playwright Audit");

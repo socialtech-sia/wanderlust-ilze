@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useSiteSettings } from "@/hooks/use-services";
@@ -14,12 +14,27 @@ export function ChatWidget() {
   const lang = useCurrentLanguage();
   const { data: settings } = useSiteSettings();
   const [open, setOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
   const [mounted, setMounted] = useState(false);
   const { consent, isLoaded } = useCookieConsent();
   // Cookie banner shares the bottom-right corner — lift the button while it is visible.
   const bannerVisible = isLoaded && !consent;
 
   useEffect(() => setMounted(true), []);
+
+  // Панель при открытии забирает фокус на поле ввода. Если при закрытии его не
+  // вернуть, клавиатурный пользователь оказывается в начале документа и должен
+  // протабать всю страницу заново. Возвращаем на кнопку — и только если панель
+  // действительно была открыта, иначе фокус угонялся бы при первом рендере.
+  useEffect(() => {
+    if (open) {
+      wasOpen.current = true;
+    } else if (wasOpen.current) {
+      wasOpen.current = false;
+      buttonRef.current?.focus();
+    }
+  }, [open]);
 
   const enabled = settings?.chatbot_enabled !== false;
   if (!mounted || !enabled) return null;
@@ -30,6 +45,7 @@ export function ChatWidget() {
   return (
     <>
       <button
+        ref={buttonRef}
         type="button"
         aria-label={t("chat.title")}
         onClick={() => setOpen(true)}
