@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { useFaq } from "@/hooks/use-services";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { tField } from "@/lib/language";
 import {
@@ -11,8 +10,12 @@ import {
 } from "@/components/ui/accordion";
 
 import { routeHead } from "@/lib/route-head";
+import { getFaq } from "@/lib/faq.functions";
 
 export const Route = createFileRoute("/$lang/faq")({
+  // Вопросы читаются на сервере: это содержимое страницы, и клиентский
+  // запрос дорисовывал аккордеон уже после гидратации, сдвигая макет.
+  loader: () => getFaq(),
   head: ({ params }) => routeHead({ params, routeKey: "faq", path: "/faq" }),
   component: FaqPage,
 });
@@ -20,7 +23,7 @@ export const Route = createFileRoute("/$lang/faq")({
 function FaqPage() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
-  const { data } = useFaq();
+  const data = Route.useLoaderData();
 
   return (
     <div className="container-editorial py-16 md:py-24">
