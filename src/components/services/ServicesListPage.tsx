@@ -165,6 +165,10 @@ export function ServicesListPage({
           <p className="py-20 text-center text-ink-muted">{t("service.no_results")}</p>
         )}
 
+        {/* Карточки услуг — h3. Между ними и h1 страницы не было h2, и уровни
+            шли h1 -> h3. Заголовок скрыт от глаза, но не от скринридера:
+            структура чинится, вид не меняется. */}
+        <h2 className="sr-only">{t("a11y.services_list")}</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((s, i) => (
             <ServiceCard key={s.id} service={s} lang={lang} imageIndex={i} />

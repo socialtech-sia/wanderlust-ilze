@@ -29,6 +29,8 @@ function FaqPage() {
         <h1 className="mt-2 font-display text-4xl md:text-6xl">{t("faq.title")}</h1>
         <p className="mt-4 text-ink-muted">{t("faq.subtitle")}</p>
 
+        {/* Radix Accordion рендерит вопросы как h3; без этого h2 уровни шли h1 -> h3. */}
+        <h2 className="sr-only">{t("a11y.faq_list")}</h2>
         <Accordion type="single" collapsible className="mt-10 divide-y divide-border/60">
           {data?.map((f) => (
             <AccordionItem key={f.id} value={f.id} className="border-b-0">

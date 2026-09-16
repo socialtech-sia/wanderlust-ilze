@@ -1,14 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
-import { useProfile } from "@/hooks/use-services";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { tField } from "@/lib/language";
 import { Award, Languages } from "lucide-react";
 
 import { routeHead } from "@/lib/route-head";
+import { getProfile } from "@/lib/profile.functions";
 
 export const Route = createFileRoute("/$lang/about")({
+  // Профиль читается на сервере: он и есть содержимое страницы, а клиентский
+  // запрос дорисовывал его после гидратации и сдвигал макет.
+  loader: () => getProfile(),
   head: ({ params }) => routeHead({ params, routeKey: "about", path: "/about" }),
   component: AboutPage,
 });
@@ -16,7 +19,7 @@ export const Route = createFileRoute("/$lang/about")({
 function AboutPage() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
-  const { data: profile } = useProfile();
+  const profile = Route.useLoaderData();
   const certs = (profile?.certifications as { name: string; year?: number }[] | null) ?? [];
 
   return (
@@ -72,7 +75,7 @@ function AboutPage() {
                 <Languages className="h-4 w-4" /> {t("about.languages")}
               </div>
               <p className="text-sm text-foreground">
-                {profile.languages_spoken.map((l) => l.toUpperCase()).join(" · ")}
+                {profile.languages_spoken.map((l: string) => l.toUpperCase()).join(" · ")}
               </p>
             </div>
           ) : null}

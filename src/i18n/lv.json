@@ -421,5 +421,9 @@
   },
   "brand": {
     "tagline": "SERTIFICĒTA GIDE · GAUJAS IELEJA"
+  },
+  "a11y": {
+    "services_list": "Pakalpojumu saraksts",
+    "faq_list": "Biežāk uzdotie jautājumi"
   }
 }

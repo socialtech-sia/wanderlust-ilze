@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/hero-gauja.jpg";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { useSiteSettings } from "@/hooks/use-services";
+import type { SiteSettingsMap } from "@/lib/home-data";
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -20,10 +21,16 @@ function splitLines(text: string, max = 3): string[] {
   return out;
 }
 
-export function Hero() {
+/**
+ * `settings` приходит из загрузчика маршрута — тогда заголовок попадает в
+ * SSR-разметку и не меняется после гидратации. Хук остаётся запасным путём:
+ * Hero используется и там, где загрузчика нет.
+ */
+export function Hero({ settings: ssr }: { settings?: SiteSettingsMap } = {}) {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
-  const { data: settings } = useSiteSettings();
+  const { data: fromQuery } = useSiteSettings();
+  const settings = ssr ?? fromQuery;
 
   const headline = ((settings?.[`hero_headline_${lang}`] as string) ?? "") || t("home.categories_title");
   const subline = (settings?.[`hero_subline_${lang}`] as string) ?? "";

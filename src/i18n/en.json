@@ -421,5 +421,9 @@
   },
   "brand": {
     "tagline": "CERTIFIED GUIDE · GAUJA VALLEY"
+  },
+  "a11y": {
+    "services_list": "List of services",
+    "faq_list": "Frequently asked questions"
   }
 }

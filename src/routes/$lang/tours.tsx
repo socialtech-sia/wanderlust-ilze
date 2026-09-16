@@ -8,12 +8,11 @@ import {
   servicesToItemListJsonLd,
 } from "@/lib/services-jsonld";
 import { ROUTE_SEO } from "@/lib/seo-strings";
+import { serviceListSearchSchema } from "@/lib/service-filters";
 
-const catSchema = z.enum(["action", "nature", "history", "culture"]).optional();
-const diffSchema = z.enum(["easy", "medium", "hard"]).optional();
 
 export const Route = createFileRoute("/$lang/tours")({
-  validateSearch: z.object({ category: catSchema, difficulty: diffSchema }),
+  validateSearch: serviceListSearchSchema,
   staticData: { enterGaujaCategory: "history" as const },
   loader: () => loadServicesForList("excursion"),
   head: ({ params, loaderData }) => {

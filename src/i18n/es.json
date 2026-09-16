@@ -421,5 +421,9 @@
   },
   "brand": {
     "tagline": "GUÍA CERTIFICADA · VALLE DEL GAUJA"
+  },
+  "a11y": {
+    "services_list": "Lista de servicios",
+    "faq_list": "Preguntas frecuentes"
   }
 }

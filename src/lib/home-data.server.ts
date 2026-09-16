@@ -7,7 +7,14 @@
 
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
-import type { HomeData, HomeFaq, HomeProfile, HomeService, HomeTestimonial } from "@/lib/home-data";
+import type {
+  HomeData,
+  HomeFaq,
+  HomeProfile,
+  HomeService,
+  HomeTestimonial,
+  SiteSettingsMap,
+} from "@/lib/home-data";
 
 function publicClient() {
   const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
@@ -20,12 +27,18 @@ function publicClient() {
 }
 
 export async function fetchHomeData(): Promise<HomeData> {
-  const empty: HomeData = { services: [], faq: [], profile: null, testimonials: [] };
+  const empty: HomeData = {
+    services: [],
+    faq: [],
+    profile: null,
+    testimonials: [],
+    settings: {},
+  };
   const supabase = publicClient();
   if (!supabase) return empty;
 
   try {
-    const [servicesRes, faqRes, profileRes, testimonialsRes] = await Promise.all([
+    const [servicesRes, faqRes, profileRes, testimonialsRes, settingsRes] = await Promise.all([
       supabase
         .from("services")
         .select("*")
@@ -49,13 +62,18 @@ export async function fetchHomeData(): Promise<HomeData> {
         .eq("is_active", true)
         .order("sort_order", { ascending: true })
         .limit(3),
+      supabase.from("site_settings").select("key, value"),
     ]);
+
+    const settings: SiteSettingsMap = {};
+    for (const row of settingsRes.data ?? []) settings[row.key] = row.value as SiteSettingsMap[string];
 
     return {
       services: (servicesRes.data ?? []) as HomeService[],
       faq: (faqRes.data ?? []) as HomeFaq[],
       profile: (profileRes.data ?? null) as HomeProfile | null,
       testimonials: (testimonialsRes.data ?? []) as HomeTestimonial[],
+      settings,
     };
   } catch (err) {
     console.error("[home] data fetch failed", err);

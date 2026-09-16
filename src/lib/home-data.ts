@@ -12,11 +12,20 @@ export type HomeFaq = Tables<"faq">;
 export type HomeProfile = Tables<"profile">;
 export type HomeTestimonial = Tables<"testimonials">;
 
+/** Значение настройки: то, что реально лежит в jsonb. `unknown` здесь не
+ *  годится — загрузчик маршрута требует сериализуемый тип. */
+export type SettingValue = string | number | boolean | null | SettingValue[] | { [k: string]: SettingValue };
+export type SiteSettingsMap = Record<string, SettingValue>;
+
 export interface HomeData {
   services: HomeService[];
   faq: HomeFaq[];
   profile: HomeProfile | null;
   testimonials: HomeTestimonial[];
+  /** site_settings, прочитанные на сервере. Без них hero берёт заголовок
+   *  клиентским запросом, текст меняется уже после гидратации, и страница
+   *  дёргается: на мобильном это давало CLS 0.14 при пороге 0.1. */
+  settings: SiteSettingsMap;
 }
 
 export interface TypeStats {
