@@ -163,7 +163,7 @@
     "intro": "Šajā lapā izskaidrots, kā Wanderlust.lv vāc, izmanto un aizsargā Jūsu personīgos datus, kad apmeklējat vietni, izmantojat kontaktu formu vai iesniedzat rezervēšanas pieprasījumu.",
     "controller": {
       "title": "Datu pārvaldnieks",
-      "text": "Wanderlust.lv pārvalda social.tech SIA (Reģ. 40203514705, PVN LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Latvija), Ilzes Gulbes (SIA \"Creatus Real Estate\") vārdā. Ja Jums ir jautājumi par šo politiku, lūdzu, rakstiet uz info@socialtech.lv."
+      "text": "Vietni Wanderlust.lv pārvalda un par personas datu apstrādi atbild SIA \"Creatus Real Estate\" (Reģ. 40003854040, PVN LV40003854040, Leona Paegles iela 3a-24, Sigulda, LV-2150, Latvija). Datu pārzinis šīs politikas izpratnē ir Creatus Real Estate. Ja Jums ir jautājumi par šo politiku, lūdzu, rakstiet uz {{email}}."
     },
     "collected": {
       "title": "Kādus datus mēs vācām",
@@ -222,7 +222,7 @@
     },
     "contact": {
       "title": "Sazinieties ar mums",
-      "text": "Ja Jums ir jautājumi par šo privātuma politiku vai Jūsu personas datiem, lūdzu, sazinieties ar mums, rakstot uz info@socialtech.lv vai zvanot +371 20042830."
+      "text": "Ja Jums ir jautājumi par šo privātuma politiku vai Jūsu personas datiem, lūdzu, sazinieties ar mums, rakstot uz {{email}} vai zvanot {{phone}}."
     }
   },
   "consent": {
@@ -270,7 +270,7 @@
     },
     "contact": {
       "title": "Kontakti",
-      "text": "Jautājumi par sīkdatnēm: info@socialtech.lv, +371 20042830."
+      "text": "Jautājumi par sīkdatnēm: {{email}}, {{phone}}."
     }
   },
   "terms": {
@@ -279,7 +279,7 @@
     "intro": "Šie noteikumi regulē Wanderlust.lv vietnes un pakalpojumu izmantošanu. Izmantojot vietni, Jūs piekrītat šiem noteikumiem.",
     "provider": {
       "title": "Pakalpojumu sniedzējs",
-      "text": "Vietni Wanderlust.lv pārvalda social.tech SIA (Reģ. 40203514705, PVN LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Latvija) Ilzes Gulbes (SIA \"Creatus Real Estate\") vārdā. Kontakti: info@socialtech.lv, +371 20042830."
+      "text": "Vietni Wanderlust.lv pārvalda SIA \"Creatus Real Estate\" (Reģ. 40003854040, PVN LV40003854040, Leona Paegles iela 3a-24, Sigulda, LV-2150, Latvija). Kontakti: {{email}}, {{phone}}."
     },
     "services": {
       "title": "Pakalpojumi",
@@ -304,7 +304,7 @@
     },
     "ip": {
       "title": "Intelektuālais īpašums",
-      "text": "Viss vietnes saturs — teksti, attēli, logotipi un dizains — ir aizsargāts ar autortiesībām un pieder social.tech SIA vai tās partneriem. Reproducēšana bez rakstiskas atļaujas ir aizliegta."
+      "text": "Viss vietnes saturs — teksti, attēli, logotipi un dizains — ir aizsargāts ar autortiesībām un pieder SIA \"Creatus Real Estate\" vai tās partneriem. Reproducēšana bez rakstiskas atļaujas ir aizliegta."
     },
     "liability": {
       "title": "Atbildības ierobežojums",
@@ -324,7 +324,7 @@
     },
     "contact": {
       "title": "Kontakti",
-      "text": "Jautājumi par noteikumiem: info@socialtech.lv, +371 20042830."
+      "text": "Jautājumi par noteikumiem: {{email}}, {{phone}}."
     }
   },
   "entergauja": {

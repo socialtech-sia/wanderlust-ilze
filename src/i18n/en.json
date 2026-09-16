@@ -163,7 +163,7 @@
     "intro": "This page explains how Wanderlust.lv collects, uses and protects your personal data when you visit the website, use the contact form or make a booking request.",
     "controller": {
       "title": "Data controller",
-      "text": "Wanderlust.lv is operated by social.tech SIA (Reg. 40203514705, VAT LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Latvia), on behalf of Ilze Gulbe (SIA \"Creatus Real Estate\"). If you have any questions about this policy, please email us at info@socialtech.lv."
+      "text": "Wanderlust.lv is operated by SIA \"Creatus Real Estate\" (Reg. 40003854040, VAT LV40003854040, Leona Paegles iela 3a-24, Sigulda, LV-2150, Latvia), which is the data controller for the purposes of this policy. If you have any questions about this policy, please email us at {{email}}."
     },
     "collected": {
       "title": "What data we collect",
@@ -222,7 +222,7 @@
     },
     "contact": {
       "title": "Contact us",
-      "text": "If you have any questions about this privacy policy or your personal data, please contact us at info@socialtech.lv or by phone at +371 20042830."
+      "text": "If you have any questions about this privacy policy or your personal data, please contact us at {{email}} or by phone at {{phone}}."
     }
   },
   "consent": {
@@ -270,7 +270,7 @@
     },
     "contact": {
       "title": "Contact",
-      "text": "Questions about cookies: info@socialtech.lv, +371 20042830."
+      "text": "Questions about cookies: {{email}}, {{phone}}."
     }
   },
   "terms": {
@@ -279,7 +279,7 @@
     "intro": "These terms govern the use of the Wanderlust.lv website and services. By using the site, you agree to these terms.",
     "provider": {
       "title": "Service provider",
-      "text": "Wanderlust.lv is operated by social.tech SIA (Reg. 40203514705, VAT LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Latvia) on behalf of Ilze Gulbe (SIA \"Creatus Real Estate\"). Contact: info@socialtech.lv, +371 20042830."
+      "text": "Wanderlust.lv is operated by SIA \"Creatus Real Estate\" (Reg. 40003854040, VAT LV40003854040, Leona Paegles iela 3a-24, Sigulda, LV-2150, Latvia). Contact: {{email}}, {{phone}}."
     },
     "services": {
       "title": "Services",
@@ -304,7 +304,7 @@
     },
     "ip": {
       "title": "Intellectual property",
-      "text": "All site content — text, images, logos and design — is protected by copyright and belongs to social.tech SIA or its partners. Reproduction without written permission is prohibited."
+      "text": "All site content — text, images, logos and design — is protected by copyright and belongs to SIA \"Creatus Real Estate\" or its partners. Reproduction without written permission is prohibited."
     },
     "liability": {
       "title": "Limitation of liability",
@@ -324,7 +324,7 @@
     },
     "contact": {
       "title": "Contact",
-      "text": "Questions about these terms: info@socialtech.lv, +371 20042830."
+      "text": "Questions about these terms: {{email}}, {{phone}}."
     }
   },
   "entergauja": {

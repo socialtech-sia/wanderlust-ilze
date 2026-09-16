@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Mail, Phone, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useSiteSettings } from "@/hooks/use-services";
+import { useContactDetails } from "@/hooks/use-contact-details";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { Button } from "@/components/ui/button";
 
@@ -17,9 +17,7 @@ export const Route = createFileRoute("/$lang/contact")({
 function ContactPage() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
-  const { data: settings } = useSiteSettings();
-  const email = (settings?.contact_email as string) ?? "";
-  const phone = (settings?.contact_phone as string) ?? "";
+  const { email, phone } = useContactDetails();
 
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -64,7 +62,10 @@ function ContactPage() {
       </div>
 
       <div className="mt-10 grid gap-10 md:grid-cols-[minmax(0,1fr)_320px]">
-        <form onSubmit={submit} className="grid gap-4 rounded-xl border border-border/60 bg-card p-6 md:p-8">
+        <form
+          onSubmit={submit}
+          className="grid gap-4 rounded-xl border border-border/60 bg-card p-6 md:p-8"
+        >
           {state === "sent" ? (
             <p className="rounded-md bg-moss-soft px-4 py-3 text-moss-deep">{t("contact.sent")}</p>
           ) : (
@@ -101,12 +102,7 @@ function ContactPage() {
                 className="rounded-md border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
               />
               {state === "error" && <p className="text-sm text-destructive">{errorMsg}</p>}
-              <Button
-                type="submit"
-                size="lg"
-                disabled={state === "sending"}
-                className="self-start"
-              >
+              <Button type="submit" size="lg" disabled={state === "sending"} className="self-start">
                 <Send className="h-4 w-4" /> {t("contact.send")}
               </Button>
             </>
@@ -116,12 +112,18 @@ function ContactPage() {
         <aside className="space-y-4 text-sm">
           <p className="text-eyebrow">{t("contact.or_write")}</p>
           {email && (
-            <a href={`mailto:${email}`} className="flex items-center gap-2 text-foreground hover:text-moss-deep">
+            <a
+              href={`mailto:${email}`}
+              className="flex items-center gap-2 text-foreground hover:text-moss-deep"
+            >
               <Mail className="h-4 w-4" /> {email}
             </a>
           )}
           {phone && (
-            <a href={`tel:${phone}`} className="flex items-center gap-2 text-foreground hover:text-moss-deep">
+            <a
+              href={`tel:${phone}`}
+              className="flex items-center gap-2 text-foreground hover:text-moss-deep"
+            >
               <Phone className="h-4 w-4" /> {phone}
             </a>
           )}

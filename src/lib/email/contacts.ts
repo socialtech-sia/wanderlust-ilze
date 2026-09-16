@@ -1,4 +1,5 @@
 import type { EmailContacts } from "./templates";
+import { DEFAULT_CONTACT_EMAIL } from "@/lib/contact-defaults";
 
 interface SettingRow {
   key: string;
@@ -17,7 +18,7 @@ export async function loadContacts(
   client: SettingsReader,
   siteUrl: string,
 ): Promise<EmailContacts> {
-  let email = "info@wanderlust.lv";
+  let email = DEFAULT_CONTACT_EMAIL;
   let phone = "";
   try {
     const { data } = await client.from("site_settings").select("key, value");

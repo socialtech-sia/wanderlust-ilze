@@ -79,9 +79,7 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
 
         <div>
           <p className="text-eyebrow">06 · {t("home.about_eyebrow")}</p>
-          <h2 className="mt-2 display-2">
-            {profile?.full_name ?? "Ilze Gulbe"}
-          </h2>
+          <h2 className="mt-2 display-2">{profile?.full_name ?? "Ilze Gulbe"}</h2>
           <p className="mt-1 text-ink-muted">{profile ? tField(profile, "role", lang) : ""}</p>
 
           <div className="mt-6 space-y-4">

@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { openConsentSettings } from "@/lib/cookie-consent";
 import { routeHead } from "@/lib/route-head";
+import { useContactDetails } from "@/hooks/use-contact-details";
 
 const UPDATED = "2026-07-07";
 
@@ -14,14 +15,14 @@ export const Route = createFileRoute("/$lang/cookies")({
 
 function CookiesPage() {
   const { t } = useTranslation();
+  // Контакты берём из site_settings: они клиентские и меняются из админки.
+  const { email, phone } = useContactDetails();
 
   return (
     <div className="container-editorial py-16 md:py-24">
       <div className="mx-auto max-w-3xl">
         <h1 className="font-display text-4xl md:text-5xl">{t("cookies.title")}</h1>
-        <p className="mt-3 text-sm text-ink-muted">
-          {t("cookies.updated", { date: UPDATED })}
-        </p>
+        <p className="mt-3 text-sm text-ink-muted">{t("cookies.updated", { date: UPDATED })}</p>
         <p className="mt-4 text-ink-muted">{t("cookies.intro")}</p>
 
         <Section title={t("cookies.what.title")}>
@@ -43,9 +44,7 @@ function CookiesPage() {
         <Section title={t("cookies.manage.title")}>
           <p>{t("cookies.manage.text")}</p>
           <div className="mt-4">
-            <Button onClick={openConsentSettings}>
-              {t("cookies.manage.button")}
-            </Button>
+            <Button onClick={openConsentSettings}>{t("cookies.manage.button")}</Button>
           </div>
         </Section>
 
@@ -54,7 +53,7 @@ function CookiesPage() {
         </Section>
 
         <Section title={t("cookies.contact.title")}>
-          <p>{t("cookies.contact.text")}</p>
+          <p>{t("cookies.contact.text", { email, phone })}</p>
         </Section>
       </div>
     </div>
@@ -65,7 +64,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mt-10">
       <h2 className="font-display text-2xl">{title}</h2>
-      <div className="mt-3 space-y-3 text-ink/90">{children}</div>
+      <div className="mt-3 space-y-3 text-foreground/90">{children}</div>
     </section>
   );
 }

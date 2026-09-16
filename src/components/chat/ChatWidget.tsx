@@ -7,9 +7,7 @@ import { useCookieConsent } from "@/hooks/use-cookie-consent";
 import { cn } from "@/lib/utils";
 
 // Panel content is code-split: the initial bundle only carries this button.
-const ChatPanel = lazy(() =>
-  import("./ChatPanel").then((m) => ({ default: m.ChatPanel })),
-);
+const ChatPanel = lazy(() => import("./ChatPanel").then((m) => ({ default: m.ChatPanel })));
 
 export function ChatWidget() {
   const { t } = useTranslation();

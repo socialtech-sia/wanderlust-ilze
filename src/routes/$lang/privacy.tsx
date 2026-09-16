@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { ReactNode } from "react";
 
 import { routeHead } from "@/lib/route-head";
+import { useContactDetails } from "@/hooks/use-contact-details";
 
 export const Route = createFileRoute("/$lang/privacy")({
   head: ({ params }) => routeHead({ params, routeKey: "privacy", path: "/privacy" }),
@@ -11,6 +12,8 @@ export const Route = createFileRoute("/$lang/privacy")({
 
 function PrivacyPage() {
   const { t } = useTranslation();
+  // Контакты берём из site_settings: они клиентские и меняются из админки.
+  const { email, phone } = useContactDetails();
 
   const collectedItems = t("privacy.collected.items", { returnObjects: true }) as string[];
   const usageItems = t("privacy.usage.items", { returnObjects: true }) as string[];
@@ -24,7 +27,7 @@ function PrivacyPage() {
         <p className="mt-4 text-ink-muted">{t("privacy.intro")}</p>
 
         <PrivacySection title={t("privacy.controller.title")}>
-          <p>{t("privacy.controller.text")}</p>
+          <p>{t("privacy.controller.text", { email, phone })}</p>
         </PrivacySection>
 
         <PrivacySection title={t("privacy.collected.title")}>
@@ -80,7 +83,7 @@ function PrivacyPage() {
         </PrivacySection>
 
         <PrivacySection title={t("privacy.contact.title")}>
-          <p>{t("privacy.contact.text")}</p>
+          <p>{t("privacy.contact.text", { email, phone })}</p>
         </PrivacySection>
       </div>
     </div>
@@ -91,7 +94,7 @@ function PrivacySection({ title, children }: { title: string; children: ReactNod
   return (
     <section className="mt-10">
       <h2 className="font-display text-2xl">{title}</h2>
-      <div className="mt-3 space-y-3 text-ink/90">{children}</div>
+      <div className="mt-3 space-y-3 text-foreground/90">{children}</div>
     </section>
   );
 }

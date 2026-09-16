@@ -163,7 +163,7 @@
     "intro": "Esta página explica cómo Wanderlust.lv recopila, utiliza y protege tus datos personales cuando visitas el sitio, usas el formulario de contacto o realizas una solicitud de reserva.",
     "controller": {
       "title": "Responsable del tratamiento",
-      "text": "Wanderlust.lv es operado por social.tech SIA (Reg. 40203514705, IVA LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Letonia), en nombre de Ilze Gulbe (SIA \"Creatus Real Estate\"). Si tienes alguna pregunta sobre esta política, escríbenos a info@socialtech.lv."
+      "text": "Wanderlust.lv es operado por SIA \"Creatus Real Estate\" (Reg. 40003854040, IVA LV40003854040, Leona Paegles iela 3a-24, Sigulda, LV-2150, Letonia), responsable del tratamiento de los datos a efectos de esta política. Si tienes alguna pregunta sobre esta política, escríbenos a {{email}}."
     },
     "collected": {
       "title": "Qué datos recopilamos",
@@ -222,7 +222,7 @@
     },
     "contact": {
       "title": "Contáctanos",
-      "text": "Si tienes alguna pregunta sobre esta política de privacidad o tus datos personales, contáctanos en info@socialtech.lv o por teléfono al +371 20042830."
+      "text": "Si tienes alguna pregunta sobre esta política de privacidad o tus datos personales, contáctanos en {{email}} o por teléfono al {{phone}}."
     }
   },
   "consent": {
@@ -270,7 +270,7 @@
     },
     "contact": {
       "title": "Contacto",
-      "text": "Preguntas sobre cookies: info@socialtech.lv, +371 20042830."
+      "text": "Preguntas sobre cookies: {{email}}, {{phone}}."
     }
   },
   "terms": {
@@ -279,7 +279,7 @@
     "intro": "Estos términos regulan el uso del sitio web y los servicios de Wanderlust.lv. Al usar el sitio, aceptas estos términos.",
     "provider": {
       "title": "Prestador del servicio",
-      "text": "Wanderlust.lv es operado por social.tech SIA (Reg. 40203514705, IVA LV40203514705, Augusta Dombrovska 75k-2-8, Rīga LV-1015, Letonia) en nombre de Ilze Gulbe (SIA \"Creatus Real Estate\"). Contacto: info@socialtech.lv, +371 20042830."
+      "text": "Wanderlust.lv es operado por SIA \"Creatus Real Estate\" (Reg. 40003854040, IVA LV40003854040, Leona Paegles iela 3a-24, Sigulda, LV-2150, Letonia). Contacto: {{email}}, {{phone}}."
     },
     "services": {
       "title": "Servicios",
@@ -304,7 +304,7 @@
     },
     "ip": {
       "title": "Propiedad intelectual",
-      "text": "Todo el contenido del sitio — textos, imágenes, logotipos y diseño — está protegido por derechos de autor y pertenece a social.tech SIA o a sus socios. Se prohíbe la reproducción sin autorización por escrito."
+      "text": "Todo el contenido del sitio — textos, imágenes, logotipos y diseño — está protegido por derechos de autor y pertenece a SIA \"Creatus Real Estate\" o a sus socios. Se prohíbe la reproducción sin autorización por escrito."
     },
     "liability": {
       "title": "Limitación de responsabilidad",
@@ -324,7 +324,7 @@
     },
     "contact": {
       "title": "Contacto",
-      "text": "Preguntas sobre estos términos: info@socialtech.lv, +371 20042830."
+      "text": "Preguntas sobre estos términos: {{email}}, {{phone}}."
     }
   },
   "entergauja": {
