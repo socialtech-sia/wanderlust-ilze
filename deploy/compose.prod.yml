@@ -27,8 +27,11 @@ services:
     # Секреты и настройки — из файла на хосте, не из образа и не из git.
     env_file: /opt/wanderlust/.env
 
-    # Только сеть Traefik. Внутренней сети нет: база — управляемый Supabase,
-    # ходить в неё контейнер будет наружу по https.
+    # Только сеть Traefik. Своей внутренней сети у стека нет и не нужно:
+    # в Supabase контейнер ходит по публичному адресу api.wanderlust.lv, через
+    # тот же Traefik. Так сделано намеренно — адрес обязан совпадать с тем, что
+    # вшит в клиентский бандл, иначе собранные на сервере ссылки на файлы
+    # storage уехали бы в браузер с недостижимым хостом.
     networks: [traefik-public]
 
     # ports: здесь нет и не будет. Наружу контейнер видит только Traefik,
@@ -46,10 +49,20 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
-      # Хост стейджинга. Под HostRegexp соседа (^[a-z0-9-]+\.crawo\.socialtech\.technology$)
-      # он не подпадает: там обязателен сегмент `.crawo.`. Поэтому явный priority
-      # не нужен — пересечения маршрутов нет.
-      - traefik.http.routers.wanderlust.rule=Host(`wanderlust.socialtech.technology`)
+      # Боевые хосты плюс стейджинговый. Под HostRegexp соседа
+      # (^[a-z0-9-]+\.crawo\.socialtech\.technology$) ни один не подпадает:
+      # там обязателен сегмент `.crawo.`. Явный priority не нужен — пересечения
+      # маршрутов нет.
+      #
+      # wanderlust.socialtech.technology оставлен намеренно: по нему стек можно
+      # проверять, не трогая боевой домен, и через него же идёт откат, если с
+      # wanderlust.lv что-то не так.
+      #
+      # www не редиректится на апекс лейблами: канонический адрес приложение и
+      # так отдаёт само (src/lib/seo.ts — SITE_URL захардкожен на apex, оттуда же
+      # canonical, hreflang и sitemap), поэтому дублей в индексе не будет, а
+      # лишний middleware — это лишнее место, где что-то отвалится.
+      - traefik.http.routers.wanderlust.rule=Host(`wanderlust.lv`) || Host(`www.wanderlust.lv`) || Host(`wanderlust.socialtech.technology`)
       - traefik.http.routers.wanderlust.entrypoints=websecure
       - traefik.http.routers.wanderlust.tls=true
       # Резолвер le — TLS-ALPN-01, тот же, которым пользуется демо SRC. Ему не
