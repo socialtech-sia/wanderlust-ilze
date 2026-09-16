@@ -4,11 +4,14 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { openConsentSettings } from "@/lib/cookie-consent";
 import { routeHead } from "@/lib/route-head";
-import { useContactDetails } from "@/hooks/use-contact-details";
+import { getPublicContacts } from "@/lib/contacts.functions";
 
 const UPDATED = "2026-07-07";
 
 export const Route = createFileRoute("/$lang/cookies")({
+  // Контакты читаются на сервере: в юридический текст они подставляются
+  // прямо в предложение, и пустое место в SSR-разметке недопустимо.
+  loader: () => getPublicContacts(),
   head: ({ params }) => routeHead({ params, routeKey: "cookies", path: "/cookies" }),
   component: CookiesPage,
 });
@@ -16,7 +19,7 @@ export const Route = createFileRoute("/$lang/cookies")({
 function CookiesPage() {
   const { t } = useTranslation();
   // Контакты берём из site_settings: они клиентские и меняются из админки.
-  const { email, phone } = useContactDetails();
+  const { email, phone } = Route.useLoaderData();
 
   return (
     <div className="container-editorial py-16 md:py-24">

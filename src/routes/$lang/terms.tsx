@@ -2,11 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import type { ReactNode } from "react";
 import { routeHead } from "@/lib/route-head";
-import { useContactDetails } from "@/hooks/use-contact-details";
+import { getPublicContacts } from "@/lib/contacts.functions";
 
 const UPDATED = "2026-07-07";
 
 export const Route = createFileRoute("/$lang/terms")({
+  // Контакты читаются на сервере: в юридический текст они подставляются
+  // прямо в предложение, и пустое место в SSR-разметке недопустимо.
+  loader: () => getPublicContacts(),
   head: ({ params }) => routeHead({ params, routeKey: "terms", path: "/terms" }),
   component: TermsPage,
 });
@@ -14,7 +17,7 @@ export const Route = createFileRoute("/$lang/terms")({
 function TermsPage() {
   const { t } = useTranslation();
   // Контакты берём из site_settings: они клиентские и меняются из админки.
-  const { email, phone } = useContactDetails();
+  const { email, phone } = Route.useLoaderData();
 
   const bookingItems = t("terms.booking.items", { returnObjects: true }) as string[];
   const userItems = t("terms.user.items", { returnObjects: true }) as string[];

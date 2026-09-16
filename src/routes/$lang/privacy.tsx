@@ -3,9 +3,12 @@ import { useTranslation } from "react-i18next";
 import type { ReactNode } from "react";
 
 import { routeHead } from "@/lib/route-head";
-import { useContactDetails } from "@/hooks/use-contact-details";
+import { getPublicContacts } from "@/lib/contacts.functions";
 
 export const Route = createFileRoute("/$lang/privacy")({
+  // Контакты читаются на сервере: в юридический текст они подставляются
+  // прямо в предложение, и пустое место в SSR-разметке недопустимо.
+  loader: () => getPublicContacts(),
   head: ({ params }) => routeHead({ params, routeKey: "privacy", path: "/privacy" }),
   component: PrivacyPage,
 });
@@ -13,7 +16,7 @@ export const Route = createFileRoute("/$lang/privacy")({
 function PrivacyPage() {
   const { t } = useTranslation();
   // Контакты берём из site_settings: они клиентские и меняются из админки.
-  const { email, phone } = useContactDetails();
+  const { email, phone } = Route.useLoaderData();
 
   const collectedItems = t("privacy.collected.items", { returnObjects: true }) as string[];
   const usageItems = t("privacy.usage.items", { returnObjects: true }) as string[];
