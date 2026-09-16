@@ -84,7 +84,14 @@ test.describe("Чат", () => {
     await page.goto("/lv", { waitUntil: "networkidle" });
     await acceptCookies(page);
     const btn = page.locator('button[aria-label*="asistent" i]').first();
-    if (!(await btn.isVisible().catch(() => false))) test.skip(true, "чат выключен в настройках");
+    // Виджет монтируется после гидратации (useEffect -> setMounted), поэтому
+    // ждём его появления, а не спрашиваем видимость сразу: на узком вьюпорте
+    // проверка успевала раньше монтирования и тест уходил в skip, хотя чат есть.
+    const present = await btn
+      .waitFor({ state: "visible", timeout: 10_000 })
+      .then(() => true)
+      .catch(() => false);
+    if (!present) test.skip(true, "чат выключен в настройках");
     await btn.click();
     const panel = page.getByRole("dialog").first();
     await expect(panel).toBeVisible();
@@ -98,7 +105,11 @@ test.describe("Чат", () => {
     await page.goto("/lv", { waitUntil: "networkidle" });
     await acceptCookies(page);
     const btn = page.locator('button[aria-label*="asistent" i]').first();
-    if (!(await btn.isVisible().catch(() => false))) test.skip(true, "чат выключен");
+    const present = await btn
+      .waitFor({ state: "visible", timeout: 10_000 })
+      .then(() => true)
+      .catch(() => false);
+    if (!present) test.skip(true, "чат выключен");
     await btn.click();
     const input = page.locator("textarea, input[type=text]").last();
     await input.fill("Sveiki!");
