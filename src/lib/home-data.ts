@@ -14,7 +14,13 @@ export type HomeTestimonial = Tables<"testimonials">;
 
 /** Значение настройки: то, что реально лежит в jsonb. `unknown` здесь не
  *  годится — загрузчик маршрута требует сериализуемый тип. */
-export type SettingValue = string | number | boolean | null | SettingValue[] | { [k: string]: SettingValue };
+export type SettingValue =
+  | string
+  | number
+  | boolean
+  | null
+  | SettingValue[]
+  | { [k: string]: SettingValue };
 export type SiteSettingsMap = Record<string, SettingValue>;
 
 export interface HomeData {
@@ -35,10 +41,7 @@ export interface TypeStats {
   priceFrom: number | null;
 }
 
-export function statsForType(
-  services: HomeService[],
-  type: HomeService["type"],
-): TypeStats {
+export function statsForType(services: HomeService[], type: HomeService["type"]): TypeStats {
   const rows = services.filter((s) => s.type === type);
   const durations = rows
     .map((s) => s.duration_minutes)
@@ -58,11 +61,7 @@ export function statsForType(
 export function pickFeatured(services: HomeService[]): HomeService[] {
   const take = (type: HomeService["type"], n: number) =>
     services.filter((s) => s.type === type).slice(0, n);
-  const mixed = [
-    ...take("excursion", 2),
-    ...take("hiking", 2),
-    ...take("transfer", 1),
-  ];
+  const mixed = [...take("excursion", 2), ...take("hiking", 2), ...take("transfer", 1)];
   if (mixed.length >= 3) return mixed;
   return services.slice(0, 5);
 }

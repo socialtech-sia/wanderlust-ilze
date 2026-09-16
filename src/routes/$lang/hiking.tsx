@@ -3,13 +3,9 @@ import { z } from "zod";
 import { ServicesListPage } from "@/components/services/ServicesListPage";
 import { routeHead } from "@/lib/route-head";
 import { DEFAULT_LANG, isLang, type Lang } from "@/lib/language";
-import {
-  loadServicesForList,
-  servicesToItemListJsonLd,
-} from "@/lib/services-jsonld";
+import { loadServicesForList, servicesToItemListJsonLd } from "@/lib/services-jsonld";
 import { ROUTE_SEO } from "@/lib/seo-strings";
 import { serviceListSearchSchema } from "@/lib/service-filters";
-
 
 export const Route = createFileRoute("/$lang/hiking")({
   validateSearch: serviceListSearchSchema,
@@ -29,11 +25,6 @@ export const Route = createFileRoute("/$lang/hiking")({
 function RouteComp() {
   const { category, difficulty } = Route.useSearch();
   return (
-    <ServicesListPage
-      type="hiking"
-      navKey="hiking"
-      category={category}
-      difficulty={difficulty}
-    />
+    <ServicesListPage type="hiking" navKey="hiking" category={category} difficulty={difficulty} />
   );
 }

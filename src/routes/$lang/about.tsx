@@ -24,19 +24,23 @@ function AboutPage() {
 
   return (
     <>
-      <section data-header-tone="dark" className="surface-dark relative -mt-16 flex min-h-[42vh] items-end overflow-hidden md:-mt-20 md:min-h-[52vh]">
+      <section
+        data-header-tone="dark"
+        className="surface-dark relative -mt-16 flex min-h-[42vh] items-end overflow-hidden md:-mt-20 md:min-h-[52vh]"
+      >
         <img
           src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1920&q=70"
           alt="Misty Gauja river valley at sunrise, seen from Sigulda ridge"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--pine)_45%,transparent)_0%,color-mix(in_oklab,var(--pine)_30%,transparent)_40%,color-mix(in_oklab,var(--pine)_88%,transparent)_88%,var(--pine)_100%)]" />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--pine)_45%,transparent)_0%,color-mix(in_oklab,var(--pine)_30%,transparent)_40%,color-mix(in_oklab,var(--pine)_88%,transparent)_88%,var(--pine)_100%)]"
+        />
         <div className="container-editorial relative z-10 flex h-full items-end pb-14 pt-32 text-bone md:pb-20 md:pt-40">
           <div>
             <p className="text-eyebrow text-bone-muted">{t("home.about_eyebrow")}</p>
-            <h1 className="display-1 mt-4 text-bone">
-              {profile?.full_name ?? t("about.title")}
-            </h1>
+            <h1 className="display-1 mt-4 text-bone">{profile?.full_name ?? t("about.title")}</h1>
             <p className="mt-2 text-bone-muted">{profile ? tField(profile, "role", lang) : ""}</p>
           </div>
         </div>
@@ -50,7 +54,9 @@ function AboutPage() {
           {profile?.years_of_experience != null && (
             <div>
               <p className="text-eyebrow">—</p>
-              <p className="mt-1 font-display text-5xl text-foreground">{profile.years_of_experience}</p>
+              <p className="mt-1 font-display text-5xl text-foreground">
+                {profile.years_of_experience}
+              </p>
               <p className="text-sm text-ink-muted">{t("about.years_experience")}</p>
             </div>
           )}

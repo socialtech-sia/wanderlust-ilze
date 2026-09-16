@@ -8,7 +8,7 @@ function marker(kind: string): string {
 }
 
 async function acceptCookies(page: Page) {
-  const btn = page.getByRole("button", { name: /piekrītu|accept|aceptar/i }).first();
+  const btn = page.getByRole("button", { name: /pieņemt visas|accept all|aceptar todas/i }).first();
   if (await btn.isVisible().catch(() => false)) await btn.click();
 }
 
@@ -34,21 +34,21 @@ test.describe("Переключение языков", () => {
 test.describe("Баннер кук", () => {
   test("принять — выбор запоминается", async ({ page }) => {
     await page.goto("/lv", { waitUntil: "networkidle" });
-    const accept = page.getByRole("button", { name: /piekrītu|accept/i }).first();
+    const accept = page.getByRole("button", { name: /pieņemt visas|accept all|aceptar todas/i }).first();
     await expect(accept).toBeVisible();
     await accept.click();
     await expect(accept).toBeHidden();
     await page.reload({ waitUntil: "networkidle" });
-    await expect(page.getByRole("button", { name: /piekrītu|accept/i }).first()).toBeHidden();
+    await expect(page.getByRole("button", { name: /pieņemt visas|accept all|aceptar todas/i }).first()).toBeHidden();
   });
 
   test("отклонить — выбор запоминается", async ({ page }) => {
     await page.goto("/lv", { waitUntil: "networkidle" });
-    const decline = page.getByRole("button", { name: /noraid|declin|recha/i }).first();
+    const decline = page.getByRole("button", { name: /tikai nepiecieša|necessary only|solo las necesarias/i }).first();
     await expect(decline).toBeVisible();
     await decline.click();
     await page.reload({ waitUntil: "networkidle" });
-    await expect(page.getByRole("button", { name: /noraid|declin|recha/i }).first()).toBeHidden();
+    await expect(page.getByRole("button", { name: /tikai nepiecieša|necessary only|solo las necesarias/i }).first()).toBeHidden();
   });
 });
 
@@ -62,7 +62,7 @@ test.describe("Кнопка «наверх»", () => {
     await page.evaluate(() => window.scrollTo(0, window.innerHeight * 2));
     await expect(up, "после прокрутки видна").toBeVisible();
 
-    const chat = page.getByRole("button", { name: /asistent|assistant/i }).first();
+    const chat = page.locator('button[aria-label*="asistent" i]').first();
     if (await chat.isVisible().catch(() => false)) {
       const a = await up.boundingBox();
       const b = await chat.boundingBox();
@@ -83,10 +83,10 @@ test.describe("Чат", () => {
   test("открывается, Escape закрывает, фокус возвращается", async ({ page }) => {
     await page.goto("/lv", { waitUntil: "networkidle" });
     await acceptCookies(page);
-    const btn = page.getByRole("button", { name: /asistent|assistant/i }).first();
+    const btn = page.locator('button[aria-label*="asistent" i]').first();
     if (!(await btn.isVisible().catch(() => false))) test.skip(true, "чат выключен в настройках");
     await btn.click();
-    const panel = page.getByRole("dialog").or(page.locator("[data-chat-panel]")).first();
+    const panel = page.getByRole("dialog").first();
     await expect(panel).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(panel).toBeHidden();
@@ -97,7 +97,7 @@ test.describe("Чат", () => {
   test("без ключа Anthropic отвечает понятным сообщением, а не падает", async ({ page }) => {
     await page.goto("/lv", { waitUntil: "networkidle" });
     await acceptCookies(page);
-    const btn = page.getByRole("button", { name: /asistent|assistant/i }).first();
+    const btn = page.locator('button[aria-label*="asistent" i]').first();
     if (!(await btn.isVisible().catch(() => false))) test.skip(true, "чат выключен");
     await btn.click();
     const input = page.locator("textarea, input[type=text]").last();
@@ -128,7 +128,7 @@ test.describe("Бронирование", () => {
     await page.locator('input[type="date"]').first().fill(d);
     await page.getByRole("button", { name: /tālāk|next|siguiente/i }).first().click();
     // шаг 4 — контакты
-    await page.locator('input[name="name"], input#name').first().fill("Playwright Audit");
+    await page.locator('input[type="text"]').first().fill("Playwright Audit");
     await page.locator('input[type="email"]').first().fill(email);
     await page.getByRole("button", { name: /tālāk|next|siguiente/i }).first().click();
     // шаг 5 — согласие и отправка
@@ -154,10 +154,10 @@ test.describe("Форма контактов", () => {
     const email = marker("contact");
     await page.goto("/lv/contact", { waitUntil: "networkidle" });
     await acceptCookies(page);
-    await page.locator('input[name="name"], input#name').first().fill("Playwright Audit");
+    const inputs = page.locator("form input");
+    await inputs.nth(0).fill("Playwright Audit");
     await page.locator('input[type="email"]').first().fill(email);
-    const subj = page.locator('input[name="subject"], input#subject').first();
-    if (await subj.isVisible().catch(() => false)) await subj.fill("Audit");
+    if ((await inputs.count()) > 2) await inputs.nth(2).fill("Audit");
     await page.locator("textarea").first().fill("Automatiskā pārbaude, lūdzu ignorēt.");
     await page.getByRole("button", { name: /nosūtīt|send|enviar/i }).first().click();
     await page.waitForTimeout(4000);

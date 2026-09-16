@@ -27,4 +27,3 @@ export const serviceListSearchSchema = z.object({
   category: categorySearchSchema,
   difficulty: difficultySearchSchema,
 });
-

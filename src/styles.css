@@ -56,6 +56,7 @@
   --color-sandstone-bright: var(--sandstone-bright);
   --color-sandstone-deep: var(--sandstone-deep);
   --color-on-accent: var(--on-accent);
+  --color-on-accent-dark: var(--on-accent-dark);
 
   /* Legacy aliases — surface-aware, keep older markup coherent */
   --color-paper: var(--paper);
@@ -118,6 +119,9 @@
   /* Текст на акценте. Именно чистый белый: на #B4602E это единственное
      значение, дотягивающее до 4.5:1 (ровно 4.51:1). */
   --on-accent: oklch(1 0 0);                 /* #FFFFFF — 4.51:1 на песчанике */
+  /* Тёмная пара к --on-accent: нужна там, где фон светлее песчаника и белый
+     текст не дотягивает — например на цветах категорий Enter Gauja. */
+  --on-accent-dark: oklch(0.20 0.012 140);   /* #131712 */
 
   /* Enter Gauja (договорные hex, п. 5.3 — вадлīnijas Enter Gauja).
      Значения получены переводом договорного hex в oklch и проверены обратной

@@ -32,7 +32,8 @@ export function Hero({ settings: ssr }: { settings?: SiteSettingsMap } = {}) {
   const { data: fromQuery } = useSiteSettings();
   const settings = ssr ?? fromQuery;
 
-  const headline = ((settings?.[`hero_headline_${lang}`] as string) ?? "") || t("home.categories_title");
+  const headline =
+    ((settings?.[`hero_headline_${lang}`] as string) ?? "") || t("home.categories_title");
   const subline = (settings?.[`hero_subline_${lang}`] as string) ?? "";
   const lines = splitLines(headline, 3);
 
@@ -73,7 +74,10 @@ export function Hero({ settings: ssr }: { settings?: SiteSettingsMap } = {}) {
         className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--pine)_35%,transparent)_0%,color-mix(in_oklab,var(--pine)_20%,transparent)_38%,color-mix(in_oklab,var(--pine)_88%,transparent)_88%,var(--pine)_100%)]"
       />
 
-      <div ref={stageRef} className="container-editorial relative z-10 pb-20 pt-32 md:pb-28 md:pt-40">
+      <div
+        ref={stageRef}
+        className="container-editorial relative z-10 pb-20 pt-32 md:pb-28 md:pt-40"
+      >
         <p data-heroline="in" className="text-utility text-bone-muted">
           Gauja · Sigulda · Cēsis · Līgatne
         </p>

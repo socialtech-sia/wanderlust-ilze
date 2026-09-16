@@ -18,8 +18,7 @@ import type {
 
 function publicClient() {
   const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) return null;
   return createClient<Database>(url, key, {
     auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
@@ -66,7 +65,8 @@ export async function fetchHomeData(): Promise<HomeData> {
     ]);
 
     const settings: SiteSettingsMap = {};
-    for (const row of settingsRes.data ?? []) settings[row.key] = row.value as SiteSettingsMap[string];
+    for (const row of settingsRes.data ?? [])
+      settings[row.key] = row.value as SiteSettingsMap[string];
 
     return {
       services: (servicesRes.data ?? []) as HomeService[],

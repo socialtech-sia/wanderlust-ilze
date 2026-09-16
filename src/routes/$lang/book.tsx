@@ -15,7 +15,7 @@ import { StepService } from "@/components/booking/StepService";
 import { StepWhen } from "@/components/booking/StepWhen";
 import { StepContact } from "@/components/booking/StepContact";
 import { StepReview } from "@/components/booking/StepReview";
-import { TYPE_COLOR } from "@/components/booking/ServiceTypeIcon";
+import { TYPE_COLOR, TYPE_ON_COLOR } from "@/components/booking/ServiceTypeIcon";
 
 export const Route = createFileRoute("/$lang/book")({
   validateSearch: z.object({ service: z.string().optional() }),
@@ -51,7 +51,10 @@ function BookingPage() {
     if (!preselectedSlug || !services) return null;
     return (
       services.find(
-        (s) => s.slug_lv === preselectedSlug || s.slug_en === preselectedSlug || s.slug_es === preselectedSlug,
+        (s) =>
+          s.slug_lv === preselectedSlug ||
+          s.slug_en === preselectedSlug ||
+          s.slug_es === preselectedSlug,
       ) ?? null
     );
   }, [preselectedSlug, services]);
@@ -74,10 +77,12 @@ function BookingPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const selectedService: Service | null =
-    services?.find((s) => s.id === form.serviceId) ?? null;
+  const selectedService: Service | null = services?.find((s) => s.id === form.serviceId) ?? null;
 
   const accent = form.serviceType ? TYPE_COLOR[form.serviceType] : "var(--sandstone)";
+  // Текст на кнопке подбирается под фон: на цветах категорий белый не
+  // дотягивает до 4.5:1, см. TYPE_ON_COLOR.
+  const onAccent = form.serviceType ? TYPE_ON_COLOR[form.serviceType] : "var(--on-accent)";
 
   const canNext = (): boolean => {
     if (step === 1) return !!form.serviceType;
@@ -151,7 +156,11 @@ function BookingPage() {
               services={services ?? []}
               value={form.serviceType}
               onSelect={(tp) =>
-                setForm((f) => ({ ...f, serviceType: tp, serviceId: f.serviceType === tp ? f.serviceId : null }))
+                setForm((f) => ({
+                  ...f,
+                  serviceType: tp,
+                  serviceId: f.serviceType === tp ? f.serviceId : null,
+                }))
               }
             />
           )}
@@ -223,7 +232,7 @@ function BookingPage() {
                 size="md"
                 disabled={!canNext()}
                 onClick={() => setStep((s) => (s < 5 ? ((s + 1) as Step) : s))}
-                style={{ backgroundColor: accent, color: "var(--bone)" }}
+                style={{ backgroundColor: accent, color: onAccent }}
               >
                 {t("cta.next")} <ArrowRight className="h-4 w-4" />
               </Button>
@@ -233,7 +242,7 @@ function BookingPage() {
                 size="md"
                 disabled={!canNext() || submitting}
                 onClick={submit}
-                style={{ backgroundColor: accent, color: "var(--bone)" }}
+                style={{ backgroundColor: accent, color: onAccent }}
               >
                 {submitting ? "…" : t("booking.submit")}
               </Button>

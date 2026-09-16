@@ -64,14 +64,22 @@ export function ServicesListPage({
 
   return (
     <>
-      <section data-header-tone="dark" className="surface-dark relative -mt-16 flex min-h-[46vh] items-end overflow-hidden md:-mt-20 md:min-h-[54vh]">
-        <img src={hero.img} alt={hero.alt} className="absolute inset-0 h-full w-full object-cover" />
-        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--pine)_30%,transparent)_0%,color-mix(in_oklab,var(--pine)_85%,transparent)_85%,var(--pine)_100%)]" />
+      <section
+        data-header-tone="dark"
+        className="surface-dark relative -mt-16 flex min-h-[46vh] items-end overflow-hidden md:-mt-20 md:min-h-[54vh]"
+      >
+        <img
+          src={hero.img}
+          alt={hero.alt}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--pine)_30%,transparent)_0%,color-mix(in_oklab,var(--pine)_85%,transparent)_85%,var(--pine)_100%)]"
+        />
         <div className="container-editorial relative z-10 w-full pb-14 pt-32 text-bone md:pb-20 md:pt-40">
           <p className="text-eyebrow text-bone-muted">Wanderlust · {t(`nav.${navKey}`)}</p>
-          <h1 className="display-1 mt-4 max-w-3xl text-bone">
-            {t(`nav.${navKey}`)}
-          </h1>
+          <h1 className="display-1 mt-4 max-w-3xl text-bone">{t(`nav.${navKey}`)}</h1>
         </div>
       </section>
 
