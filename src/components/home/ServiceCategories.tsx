@@ -5,13 +5,18 @@ import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { formatDuration, formatPrice } from "@/lib/format";
 import { statsForType, type HomeService } from "@/lib/home-data";
 
+// Ширина картинки запрашивается под РАЗМЕР ОТРИСОВКИ, а не «побольше».
+// Плитки рисуются примерно в 400px, а тянули 1600px: две из них давали
+// 1.1 МБ из 2.9 МБ веса главной. Lighthouse на мобильном профиле показывал
+// LCP 14.2 с. Сами фотографии внешние (Unsplash) — это отдельный вопрос,
+// см. отчёт: их стоит заменить на свои и держать в бакете public-media.
 const CATEGORIES = [
   {
     key: "tours" as const,
     type: "excursion" as const,
     to: "/$lang/tours" as const,
     icon: Compass,
-    img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=1600&q=70",
+    img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=800&q=70",
     alt: "Turaida medieval castle tower rising above the Gauja valley",
   },
   {
@@ -19,7 +24,7 @@ const CATEGORIES = [
     type: "hiking" as const,
     to: "/$lang/hiking" as const,
     icon: Mountain,
-    img: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1600&q=70",
+    img: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=800&q=70",
     alt: "Forest hiking trail winding through Gauja National Park pines",
   },
   {
@@ -27,7 +32,7 @@ const CATEGORIES = [
     type: "transfer" as const,
     to: "/$lang/transfers" as const,
     icon: Car,
-    img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1600&q=70",
+    img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=800&q=70",
     alt: "Scenic Latvian countryside road used for private transfers",
   },
 ];
