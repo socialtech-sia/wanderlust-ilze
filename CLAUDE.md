@@ -1,8 +1,8 @@
 # wanderlust.lv — как этим управлять
 
 Сайт гида Ilze Gulbe: три языка (lv/en/es), бронирование, админка.
-Раньше жил на Lovable, теперь — контейнером на нашем VPS `ubuntu-8gb-nbg1-1`
-(46.224.178.244). База осталась управляемым Supabase.
+Раньше жил на Lovable, теперь целиком наш: и приложение, и база, и файлы —
+на VPS `ubuntu-8gb-nbg1-1` (46.224.178.244). От Lovable не осталось ничего.
 
 ## Стек
 
@@ -11,7 +11,7 @@
 | Фреймворк | TanStack Start (React 19) с SSR |
 | Сборка | Vite 8 + nitro, пресет `node-server` → `.output/server/index.mjs` |
 | Стили | Tailwind 4, CSS-трансформер lightningcss |
-| База, auth, storage | **Управляемый** Supabase, проект `uqddhtimdrwlzpbezbgi` |
+| База, auth, storage | **Свой** Supabase, стек `/opt/wanderlust/supabase` |
 | Пакеты | bun (`bun.lock`), на хост сервера bun НЕ ставится |
 | Образ | `ghcr.io/socialtech-sia/wanderlust:<sha>` |
 | Маршрутизация | общий Traefik на машине, только через лейблы контейнера |
@@ -45,9 +45,74 @@
 ├── compose.yml     симлинк → repo/deploy/compose.prod.yml
 ├── current_tag     развёрнутый sha, из него делается откат
 ├── repo/           git-чекаут
-├── backups/        дампы базы, 30 дней
+├── supabase/       СВОЙ стек Supabase: .env (600), override, volumes/
+├── backups/        дампы базы и архивы бакета, 30 дней
 └── logs/           deploy.log, backup.log, backup.status, ssh-forced.log
 ```
+
+## Свой Supabase
+
+Стек в `/opt/wanderlust/supabase`, compose-проект **`wanderlust-supabase`**,
+десять контейнеров с префиксом `wanderlust-supabase-*`.
+
+`docker-compose.yml` — стоковый, из upstream, не редактируется. Всё наше лежит
+в `docker-compose.override.yml`, и это симлинк в репозиторий, как и `compose.yml`
+у самого сайта:
+
+```
+/opt/wanderlust/supabase/docker-compose.override.yml
+  -> repo/deploy/supabase-compose.override.yml
+```
+
+Там переименование контейнеров, порты, лимиты памяти и лейблы Traefik. Правится
+в репозитории и едет через git, а не живёт одной копией на машине.
+
+`.env` стека в git НЕ попадает (секреты), шаблон — стоковый `.env.example`
+рядом с ним.
+
+**Переименование обязательно.** Стоковый файл жёстко задаёт `container_name`
+(`supabase-db` и прочие), а такие же имена занял чужой демо-стенд SRC.
+
+| Порт (только 127.0.0.1) | Что |
+|---|---|
+| 8100 | API-шлюз (envoy) |
+| 8101 | Studio |
+| 5532 | пулер, сессионный режим |
+| 6643 | пулер, транзакционный режим |
+
+8000, 5432 и 6543 занимает чужой демо-стенд — не занимать.
+
+Наружу через Traefik смотрит **только** API-шлюз, на `api.wanderlust.lv`, и
+правило роутера — белый список путей (`/rest/v1`, `/auth/v1`, `/storage/v1`,
+`/realtime/v1`, `/graphql/v1`), а не просто `Host()`. Так сделано потому, что
+последний маршрут внутри envoy — catch-all на Studio: правило по одному хосту
+открыло бы Studio в интернет, пусть и под basic-auth. Заодно снаружи закрыт
+`/pg/` — это postgres-meta, то есть выполнение произвольного SQL.
+
+Studio доступна только с самой машины:
+
+```bash
+ssh -L 8101:127.0.0.1:8101 deploy@46.224.178.244
+# затем http://127.0.0.1:8101
+```
+
+У каждого контейнера `mem_limit` и `oom_score_adj: 500`; суммарный потолок
+стека — 1536 МБ. Смысл тот же, что у сайта: на машине два чужих продакшена, и
+при нехватке памяти жертвой должны быть мы, а не чужой Postgres.
+
+Контейнер `functions` (edge-runtime) намеренно не поднимается — он выключен
+профилем `disabled` в override. Все четыре бывшие Edge Functions переписаны
+серверными маршрутами самого приложения:
+
+| Было | Стало |
+|---|---|
+| `send-booking-notification` | `src/routes/api/public/booking-notification.ts` |
+| `send-contact-notification` | `src/routes/api/public/contact-notification.ts` |
+| `chat-with-ai` | `src/routes/api/public/chat.ts` |
+| `send-booking-reply` | `src/lib/admin-email.functions.ts` |
+
+Секреты у них общие с приложением, из `/opt/wanderlust/.env`, отдельного
+рантайма и отдельной раздачи секретов больше нет.
 
 ## Переменные окружения
 
@@ -58,6 +123,16 @@
 Отдельно стоит помнить: `VITE_*` вшиваются в клиентский бандл **на этапе сборки**,
 в CI (`build-args` в `.github/workflows/deploy.yml`), а не читаются в рантайме.
 Смена Supabase-проекта требует пересборки образа, а не только правки `.env`.
+
+`SUPABASE_URL` и `VITE_SUPABASE_URL` держим **одинаковыми** (`https://api.wanderlust.lv`),
+хотя серверная сторона могла бы ходить в шлюз напрямую по внутренней сети.
+Причина: ссылки на файлы в storage собираются в том числе на сервере и уезжают
+в браузер как есть. Разойдись эти два адреса — в HTML попал бы внутренний хост,
+недостижимый у клиента.
+
+У стека Supabase свой файл окружения, `/opt/wanderlust/supabase/.env`, тоже 600.
+Сайтовый `.env` и стековый — разные файлы; общего у них только то, что
+`ANON_KEY`/`SERVICE_ROLE_KEY` из второго скопированы в первый.
 
 ## Выкатка
 
@@ -92,8 +167,13 @@ TAG=$TAG docker compose -f /opt/wanderlust/compose.yml --env-file /opt/wanderlus
 
 ## Миграции Supabase
 
-SQL-файлы лежат в `supabase/migrations/`, это источник правды по схеме.
+SQL-файлы лежат в `supabase/migrations/`, это источник правды по схеме **и по сиду**.
 Деплой их НЕ применяет — намеренно: контейнер откатывается за секунды, схема нет.
+
+Схема после наката: 13 таблиц в `public`, 32 политики RLS (28 в `public` +
+4 в `storage`), схема `private` с `has_role()` и `bootstrap_first_admin()`.
+`private` намеренно НЕ перечислена в `PGRST_DB_SCHEMAS` — через REST её функции
+не вызвать, и это свойство надо сохранять.
 
 ```bash
 # 1. свежий дамп ПЕРЕД любой миграцией
@@ -121,8 +201,17 @@ docker stats --no-stream wanderlust-web
 ## Бэкапы
 
 `deploy/backup.sh`, из крона пользователя `deploy` в 02:40 UTC ежедневно,
-по воскресеньям с `--verify` (разворачивает дамп во временный Postgres).
-Хранение 30 дней — пункт договора 6.8. Дампы в `/opt/wanderlust/backups/`.
+по воскресеньям с `--verify` (разворачивает дамп во временный Postgres и
+проверяет не только число таблиц, но и данные). Хранение 30 дней — пункт
+договора 6.8. Всё в `/opt/wanderlust/backups/`.
+
+Бэкапятся **две** вещи, и обе обязательны:
+
+1. дамп базы — схема, данные, политики, `auth.users`;
+2. `wanderlust-storage-*.tar.gz` — файлы бакета `public-media`. Они лежат на
+   диске в `supabase/volumes/storage` и в `pg_dump` НЕ попадают: в
+   `storage.objects` только метаданные. Без архива восстановленная база
+   ссылалась бы на несуществующие картинки.
 
 Офсайт (restic) включается, если в `.env` появятся `RESTIC_REPOSITORY` и
 `RESTIC_PASSWORD`; пока их нет, дамп существует только на этой машине, и скрипт
@@ -133,9 +222,11 @@ docker stats --no-stream wanderlust-web
 ## Ротация ключей
 
 - **anon / publishable Supabase** — публичен по устройству, защищён RLS.
-  Меняется в Supabase, затем в `/opt/wanderlust/.env`, в секретах GitHub
-  (`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`) и **пересборкой образа**:
-  значение вшито в клиентский бандл.
+  Это JWT, подписанный `JWT_SECRET` из `/opt/wanderlust/supabase/.env`. Меняется
+  там, затем в `/opt/wanderlust/.env`, в секретах GitHub (`VITE_SUPABASE_URL`,
+  `VITE_SUPABASE_PUBLISHABLE_KEY`) и **пересборкой образа**: значение вшито в
+  клиентский бандл. После смены `JWT_SECRET` перевыпускать надо ОБА ключа
+  сразу — anon и service_role подписаны одним секретом.
 - **service_role** — только в `/opt/wanderlust/.env`, в бандл не попадает и не
   должен (у него нет префикса `VITE_`). После смены достаточно
   `docker compose ... up -d` — пересборка не нужна.

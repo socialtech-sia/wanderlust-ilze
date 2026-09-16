@@ -1,0 +1,181 @@
+# =====================================================================
+# wanderlust-supabase — надстройка над стоковым supabase/docker/docker-compose.yml.
+#
+# Стоковый файл не менялся вообще: он остаётся ровно тем, что приехало из
+# upstream, и его можно обновлять поверх. Всё наше — здесь.
+#
+# Что делает этот файл:
+#   1. Переименовывает контейнеры. Стоковый compose жёстко задаёт
+#      container_name (supabase-db, supabase-auth и т.д.), а такие же имена
+#      уже заняты ЧУЖИМ демо-стендом SRC в /home/deploy/supabase/docker.
+#      Имени compose-проекта тут недостаточно — container_name его игнорирует,
+#      и `up` упал бы с конфликтом имён (в лучшем случае) или увёл бы чужой
+#      контейнер в наш проект (в худшем).
+#   2. Публикует порты только на 127.0.0.1 и только несовпадающие с чужими.
+#   3. Ставит каждому контейнеру mem_limit и oom_score_adj.
+#   4. Подключает шлюз к общему Traefik — лейблами, как это делают оба соседа.
+#   5. Не поднимает edge-runtime.
+#
+# ---------------------------------------------------------------------
+# ПОРТЫ
+# ---------------------------------------------------------------------
+# Демо SRC уже держит 127.0.0.1:8000 (шлюз), 127.0.0.1:5432 и 127.0.0.1:6543
+# (пулер). Наши: 8100 — шлюз, 5532 — сессионный пулер, 6643 — транзакционный,
+# 8101 — Studio.
+#
+# `!override` (Compose >= 2.24) обязателен: compose СКЛЕИВАЕТ списки `ports`,
+# дописывая наши к стоковым. Без него стоковые строки вида `${POSTGRES_PORT}:5432`
+# остались бы рядом с нашими и опубликовали бы Postgres на 0.0.0.0. UFW от этого
+# не спасает: docker пишет правила в nat PREROUTING и filter FORWARD, минуя
+# цепочку INPUT, которой управляет ufw. Тот же вывод записан у соседа в
+# его override — повторяем осознанно, а не копированием.
+#
+# ВНУТРЕННИЙ порт базы остаётся 5432: стоковый compose подставляет
+# ${POSTGRES_PORT} и в PGPORT самой базы, и в строки подключения auth, rest,
+# storage, meta и пулера. Сдвигать его — значит сдвигать всё сразу; сдвигаем
+# только левую (хостовую) часть публикации.
+#
+# ---------------------------------------------------------------------
+# ПАМЯТЬ
+# ---------------------------------------------------------------------
+# На машине два чужих продакшена. Одиннадцать контейнеров демо-Supabase
+# работают вообще без mem_limit и с oom_score_adj=0 — при нехватке памяти
+# ядро выбирает жертву по размеру процесса, и чужой Postgres в этом
+# соревновании проигрывает первым. Crawo решил это для себя, объявив свои
+# контейнеры предпочтительной жертвой (см. /opt/crawo/repo/deploy/compose.prod.yml);
+# то же самое делает наш сайт (mem_limit 768m, oom_score_adj 500). Здесь —
+# та же договорённость для всего стека.
+#
+# Потолки подобраны по фактическому потреблению соседнего стека в покое
+# (docker stats, 2026-09-16): db 97 МБ, studio 184, storage 69, pooler 59,
+# meta 60, realtime 54, rest 27, imgproxy 17, auth 12, envoy 8.
+# Сумма наших потолков — ровно 1536 МБ при ~4.1 ГБ свободных.
+# Базе дан самый большой запас осознанно: OOM-kill Postgres посреди записи
+# стоит дороже, чем OOM-kill любого другого контейнера здесь.
+# =====================================================================
+
+services:
+
+  # --- Шлюз -----------------------------------------------------------
+  api-gw:
+    container_name: wanderlust-supabase-envoy
+    mem_limit: 64m
+    oom_score_adj: 500
+    ports: !override
+      - "127.0.0.1:${API_GW_HTTP_PORT:-8100}:8000/tcp"
+    networks:
+      default:
+        # Сохраняем стоковые алиасы: внутренние конфиги ходят по обоим именам.
+        aliases:
+          - envoy
+          - kong
+      traefik-public:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      # -----------------------------------------------------------------
+      # Правило роутера — БЕЛЫЙ СПИСОК путей, а не просто Host().
+      #
+      # У envoy последний маршрут — catch-all `prefix: /` на кластер studio.
+      # То есть Host()-правило открыло бы Studio в интернет: под basic-auth,
+      # но открыло бы. Наружу должен смотреть только API, поэтому Traefik
+      # пропускает ровно те префиксы, которые нужны клиенту supabase-js,
+      # а всё остальное на этом хосте получает 404 от самого Traefik.
+      #
+      # Заодно снаружи закрывается /pg/ — это postgres-meta, то есть
+      # выполнение произвольного SQL.
+      #
+      # Studio доступна только на 127.0.0.1:8101, через SSH-туннель:
+      #   ssh -L 8101:127.0.0.1:8101 deploy@46.224.178.244
+      # -----------------------------------------------------------------
+      - "traefik.http.routers.wanderlust-api.rule=Host(`${API_DOMAIN}`) && (PathPrefix(`/rest/v1`) || PathPrefix(`/auth/v1`) || PathPrefix(`/storage/v1`) || PathPrefix(`/realtime/v1`) || PathPrefix(`/graphql/v1`))"
+      - "traefik.http.routers.wanderlust-api.entrypoints=websecure"
+      - "traefik.http.routers.wanderlust-api.tls=true"
+      # Резолвер le (TLS-ALPN-01) — тот же, которым пользуются и сайт, и демо.
+      # cf трогать нельзя: он ведёт в acme-dns соседа.
+      - "traefik.http.routers.wanderlust-api.tls.certresolver=le"
+      - "traefik.http.routers.wanderlust-api.service=wanderlust-api"
+      - "traefik.http.services.wanderlust-api.loadbalancer.server.port=8000"
+
+  # --- Studio ---------------------------------------------------------
+  studio:
+    container_name: wanderlust-supabase-studio
+    mem_limit: 256m
+    oom_score_adj: 500
+    # Наружу не выставляется вовсе: ни лейблов Traefik, ни сети traefik-public.
+    ports:
+      - "127.0.0.1:8101:3000"
+
+  # --- Auth -----------------------------------------------------------
+  auth:
+    container_name: wanderlust-supabase-auth
+    mem_limit: 64m
+    oom_score_adj: 500
+
+  # --- PostgREST ------------------------------------------------------
+  rest:
+    container_name: wanderlust-supabase-rest
+    mem_limit: 96m
+    oom_score_adj: 500
+
+  # --- Realtime -------------------------------------------------------
+  # Нужен: админка подписана на postgres_changes по таблице bookings
+  # (src/routes/admin/_gate/bookings.tsx).
+  realtime:
+    container_name: wanderlust-supabase-realtime
+    mem_limit: 128m
+    oom_score_adj: 500
+
+  # --- Storage --------------------------------------------------------
+  storage:
+    container_name: wanderlust-supabase-storage
+    mem_limit: 128m
+    oom_score_adj: 500
+
+  imgproxy:
+    container_name: wanderlust-supabase-imgproxy
+    mem_limit: 64m
+    oom_score_adj: 500
+
+  # --- postgres-meta --------------------------------------------------
+  # Нужен только Studio. Наружу не публикуется (см. белый список выше).
+  meta:
+    container_name: wanderlust-supabase-meta
+    mem_limit: 96m
+    oom_score_adj: 500
+
+  # --- Edge Functions -------------------------------------------------
+  # НЕ ЗАПУСКАЕТСЯ. Все четыре функции переписаны серверными маршрутами
+  # самого приложения (src/routes/api/public/*, src/lib/admin-email.functions.ts),
+  # поэтому Deno-рантайм в стеке не нужен.
+  #
+  # Профиль — единственный способ выключить сервис из стокового файла, не
+  # редактируя сам файл: compose не умеет удалять сервис в override.
+  # Сервис останется описанным, но `up` его не поднимет.
+  functions:
+    container_name: wanderlust-supabase-functions
+    profiles: ["disabled"]
+    mem_limit: 64m
+    oom_score_adj: 500
+
+  # --- База -----------------------------------------------------------
+  db:
+    container_name: wanderlust-supabase-db
+    mem_limit: 512m
+    oom_score_adj: 500
+    # ports у db в стоковом файле нет — база видна только внутри сети
+    # проекта и через пулер. Так и оставляем.
+
+  # --- Пулер ----------------------------------------------------------
+  supavisor:
+    container_name: wanderlust-supabase-pooler
+    mem_limit: 128m
+    oom_score_adj: 500
+    ports: !override
+      - "127.0.0.1:5532:5432"
+      - "127.0.0.1:${POOLER_PROXY_PORT_TRANSACTION:-6643}:6543"
+
+networks:
+  # Общая сеть Traefik. Создана не нами, external.
+  traefik-public:
+    external: true
