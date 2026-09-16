@@ -54,7 +54,7 @@ export function EnterGaujaBacklinkBlock({
         {/* Category graphic */}
         {block ? (
           <img
-            src={block.url}
+            src={block}
             alt={`Enter Gauja — ${category?.label ?? ""}`}
             width={128}
             height={96}

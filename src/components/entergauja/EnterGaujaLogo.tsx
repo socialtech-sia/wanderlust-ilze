@@ -14,7 +14,7 @@ interface Props {
 export function EnterGaujaLogo({ className, size = 96 }: Props) {
   return (
     <img
-      src={EG_LOGO_ASSET.url}
+      src={EG_LOGO_ASSET}
       alt="Enter Gauja — Gauja National Park Latvia"
       width={size}
       height={size}

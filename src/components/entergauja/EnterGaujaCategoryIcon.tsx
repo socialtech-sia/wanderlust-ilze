@@ -17,7 +17,7 @@ export function EnterGaujaGlyph({ category, className, size = 64 }: GlyphProps) 
   if (!asset) return null;
   return (
     <img
-      src={asset.url}
+      src={asset}
       alt=""
       aria-hidden
       width={size}

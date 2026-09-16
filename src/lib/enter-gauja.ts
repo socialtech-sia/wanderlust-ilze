@@ -8,25 +8,25 @@
  * structured data on partner pages.
  */
 
-import logoAsset from "@/assets/entergauja/entergauja_logo.png.asset.json";
+import logoAsset from "@/assets/entergauja/entergauja_logo.png";
 
-import symbolNature from "@/assets/entergauja/symbol_nature_deer.png.asset.json";
-import symbolHistory from "@/assets/entergauja/symbol_history_tower.png.asset.json";
-import symbolCulture from "@/assets/entergauja/symbol_culture_star.png.asset.json";
-import symbolAction from "@/assets/entergauja/symbol_action_lightning.png.asset.json";
-import symbolGetaround from "@/assets/entergauja/symbol_getaround_horse.png.asset.json";
+import symbolNature from "@/assets/entergauja/symbol_nature_deer.png";
+import symbolHistory from "@/assets/entergauja/symbol_history_tower.png";
+import symbolCulture from "@/assets/entergauja/symbol_culture_star.png";
+import symbolAction from "@/assets/entergauja/symbol_action_lightning.png";
+import symbolGetaround from "@/assets/entergauja/symbol_getaround_horse.png";
 
-import blockNature from "@/assets/entergauja/block_nature_mountain.png.asset.json";
-import blockHistory from "@/assets/entergauja/block_history_mountain.png.asset.json";
-import blockCulture from "@/assets/entergauja/block_culture_mountain.png.asset.json";
-import blockAction from "@/assets/entergauja/block_action_mountain.png.asset.json";
-import blockGetaround from "@/assets/entergauja/block_getaround_mountain.png.asset.json";
+import blockNature from "@/assets/entergauja/block_nature_mountain.png";
+import blockHistory from "@/assets/entergauja/block_history_mountain.png";
+import blockCulture from "@/assets/entergauja/block_culture_mountain.png";
+import blockAction from "@/assets/entergauja/block_action_mountain.png";
+import blockGetaround from "@/assets/entergauja/block_getaround_mountain.png";
 
-import badgeNature from "@/assets/entergauja/badge_nature.png.asset.json";
-import badgeHistory from "@/assets/entergauja/badge_history.png.asset.json";
-import badgeCulture from "@/assets/entergauja/badge_culture.png.asset.json";
-import badgeAction from "@/assets/entergauja/badge_action.png.asset.json";
-import badgeGetaround from "@/assets/entergauja/badge_getaround.png.asset.json";
+import badgeNature from "@/assets/entergauja/badge_nature.png";
+import badgeHistory from "@/assets/entergauja/badge_history.png";
+import badgeCulture from "@/assets/entergauja/badge_culture.png";
+import badgeAction from "@/assets/entergauja/badge_action.png";
+import badgeGetaround from "@/assets/entergauja/badge_getaround.png";
 
 export type EnterGaujaKey =
   | "nature"
@@ -122,11 +122,11 @@ export const ENTER_GAUJA_ROOT_URL = "https://entergauja.lv/";
 /** Home page default per grant application. */
 export const EG_HOMEPAGE_DEFAULT: EnterGaujaKey = "action";
 
-// ---- Asset maps (official brand kit, PNG on CDN) ---------------------
+// ---- Asset maps (official brand kit, PNGs vendored in src/assets) ----
 
 export const EG_LOGO_ASSET = logoAsset;
 
-export const EG_SYMBOL_ASSET: Record<EnterGaujaKey, { url: string }> = {
+export const EG_SYMBOL_ASSET: Record<EnterGaujaKey, string> = {
   nature: symbolNature,
   history: symbolHistory,
   culture: symbolCulture,
@@ -134,7 +134,7 @@ export const EG_SYMBOL_ASSET: Record<EnterGaujaKey, { url: string }> = {
   getaround: symbolGetaround,
 };
 
-export const EG_BLOCK_ASSET: Record<EnterGaujaKey, { url: string }> = {
+export const EG_BLOCK_ASSET: Record<EnterGaujaKey, string> = {
   nature: blockNature,
   history: blockHistory,
   culture: blockCulture,
@@ -142,7 +142,7 @@ export const EG_BLOCK_ASSET: Record<EnterGaujaKey, { url: string }> = {
   getaround: blockGetaround,
 };
 
-export const EG_BADGE_ASSET: Record<EnterGaujaKey, { url: string }> = {
+export const EG_BADGE_ASSET: Record<EnterGaujaKey, string> = {
   nature: badgeNature,
   history: badgeHistory,
   culture: badgeCulture,

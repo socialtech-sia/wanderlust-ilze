@@ -43,7 +43,7 @@ export function EnterGaujaPartnerBadge({ category, href }: Props) {
       ].join(" ")}
     >
       <img
-        src={EG_LOGO_ASSET.url}
+        src={EG_LOGO_ASSET}
         alt="Enter Gauja — Gauja National Park Latvia"
         className="block w-full bg-white"
         loading="lazy"
