@@ -1,4 +1,6 @@
 import { getPublicUrl } from "@/lib/storage";
+import type { MediaAltMap } from "@/lib/home-data";
+import type { Lang } from "@/lib/language";
 
 /**
  * Разрешение адресов картинок и адаптивные наборы.
@@ -68,4 +70,40 @@ export function settingPath(
 export function stockSrcSet(url: string): string | undefined {
   if (!/^https?:\/\/images\.unsplash\.com\//.test(url)) return undefined;
   return RESPONSIVE_WIDTHS.map((w) => `${url.replace(/([?&])w=\d+/, `$1w=${w}`)} ${w}w`).join(", ");
+}
+
+/**
+ * Alt-текст картинки: сначала из базы, потом из кода.
+ *
+ * Порядок внутри базы — запрошенный язык, затем любой заполненный. Смешение
+ * языков здесь меньшее зло: alt в базе описывает НАСТОЯЩУЮ фотографию, а
+ * запасной вариант из кода описывает стоковую, которой на странице уже нет.
+ * Латышский текст на английской странице неудобен, неверный — хуже.
+ *
+ * Запасных вариантов два, и это принципиально:
+ *   `own`   — картинка своя (путь непуст), но alt в базе не заполнен. Здесь
+ *             годится только описание, верное для ЛЮБОЙ фотографии: название
+ *             услуги, имя гида, тема раздела.
+ *   `stock` — показывается стоковая картинка, и её описание в коде точное.
+ *
+ * До этого всюду стоял один текст — описание стоковой фотографии. Стоило
+ * клиенту загрузить свою, и alt начинал описывать не то, что видно.
+ */
+export function pickAlt(
+  altMap: MediaAltMap | undefined,
+  storagePath: string | null | undefined,
+  lang: Lang,
+  fallbacks: { own: string; stock: string },
+): string {
+  const path = (storagePath ?? "").trim();
+  if (!path) return fallbacks.stock;
+
+  const entry = altMap?.[path];
+  if (entry) {
+    const exact = entry[lang]?.trim();
+    if (exact) return exact;
+    const any = [entry.lv, entry.en, entry.es].map((v) => v?.trim()).find(Boolean);
+    if (any) return any;
+  }
+  return fallbacks.own;
 }

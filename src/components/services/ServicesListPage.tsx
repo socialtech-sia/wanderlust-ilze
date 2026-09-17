@@ -11,9 +11,9 @@ import { ServiceCard } from "@/components/services/ServiceCard";
 import type { Database } from "@/integrations/supabase/types";
 import { cn } from "@/lib/utils";
 import { tField } from "@/lib/language";
-import { resolveImageSrc, settingPath, stockSrcSet } from "@/lib/images";
+import { pickAlt, resolveImageSrc, settingPath, stockSrcSet } from "@/lib/images";
 import { useSiteSettings } from "@/hooks/use-services";
-import type { SiteSettingsMap } from "@/lib/home-data";
+import type { MediaAltMap, SiteSettingsMap } from "@/lib/home-data";
 
 type Cat = Database["public"]["Enums"]["enter_gauja_category"];
 type Difficulty = Database["public"]["Enums"]["service_difficulty"];
@@ -48,6 +48,7 @@ export function ServicesListPage({
   navKey,
   services: ssrServices,
   settings: ssrSettings,
+  mediaAlt,
   category,
   difficulty,
 }: {
@@ -55,6 +56,7 @@ export function ServicesListPage({
   navKey: "tours" | "hiking" | "transfers";
   services?: Service[];
   settings?: SiteSettingsMap;
+  mediaAlt?: MediaAltMap;
   category?: Cat;
   difficulty?: Difficulty;
 }) {
@@ -76,7 +78,14 @@ export function ServicesListPage({
       : type === "hiking"
         ? "hiking_hero_storage_path"
         : "transfers_hero_storage_path";
-  const heroSrc = resolveImageSrc(settingPath(settings, heroKey), hero.img);
+  const heroStored = settingPath(settings, heroKey);
+  const heroSrc = resolveImageSrc(heroStored, hero.img);
+  // Запасной вариант для СВОЕЙ картинки — общий по разделу: описание стоковой
+  // фотографии ("Forest hiking trail…") к чужому снимку уже не относится.
+  const heroAlt = pickAlt(mediaAlt, heroStored, lang, {
+    own: `Wanderlust.lv — ${t(`nav.${navKey}`)}`,
+    stock: hero.alt,
+  });
 
   const filtered = (data ?? []).filter((s) => {
     if (category && !(s.enter_gauja_categories ?? []).includes(category)) return false;
@@ -105,7 +114,7 @@ export function ServicesListPage({
           src={heroSrc}
           srcSet={stockSrcSet(heroSrc)}
           sizes="100vw"
-          alt={hero.alt}
+          alt={heroAlt}
           fetchPriority="high"
           className="absolute inset-0 h-full w-full object-cover"
         />
@@ -215,7 +224,7 @@ export function ServicesListPage({
         <h2 className="sr-only">{t("a11y.services_list")}</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((s, i) => (
-            <ServiceCard key={s.id} service={s} lang={lang} imageIndex={i} />
+            <ServiceCard key={s.id} service={s} lang={lang} imageIndex={i} mediaAlt={mediaAlt} />
           ))}
         </div>
       </section>

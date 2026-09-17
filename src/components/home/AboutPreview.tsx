@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { ArrowRight, Award, Languages, CalendarDays } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { tField, LANG_LABELS, isLang } from "@/lib/language";
-import type { HomeProfile } from "@/lib/home-data";
-import { firstImageSrc } from "@/lib/images";
+import type { HomeProfile, MediaAltMap } from "@/lib/home-data";
+import { firstImageSrc, pickAlt } from "@/lib/images";
 import { TripAdvisorRating } from "@/components/home/TripAdvisorRating";
 
 const LANG_NAMES: Record<string, { lv: string; en: string; es: string }> = {
@@ -24,7 +24,13 @@ function certLabel(cert: unknown): string {
   return "";
 }
 
-export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
+export function AboutPreview({
+  profile,
+  mediaAlt,
+}: {
+  profile?: HomeProfile | null;
+  mediaAlt?: MediaAltMap;
+}) {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
 
@@ -50,6 +56,14 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
   // странице и получал 404 на /lv/profile/…webp. Портрет, загруженный через
   // админку, из-за этого не появлялся никогда.
   const avatar = firstImageSrc(profile?.avatar_storage_path);
+  // Запасной вариант строится из имени — он верен для любого портрета.
+  const avatarFallbackAlt = profile?.full_name
+    ? `${profile.full_name} — Wanderlust.lv guide in Gauja National Park`
+    : "Wanderlust.lv local guide in Gauja National Park";
+  const avatarAlt = pickAlt(mediaAlt, profile?.avatar_storage_path, lang, {
+    own: avatarFallbackAlt,
+    stock: avatarFallbackAlt,
+  });
 
   return (
     <section data-header-tone="light" className="surface-light section-y">
@@ -58,11 +72,7 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
           {avatar ? (
             <img
               src={avatar}
-              alt={
-                profile?.full_name
-                  ? `${profile.full_name} — Wanderlust.lv guide in Gauja National Park`
-                  : "Wanderlust.lv local guide in Gauja National Park"
-              }
+              alt={avatarAlt}
               className="h-full w-full object-cover"
               loading="lazy"
             />

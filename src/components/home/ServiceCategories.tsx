@@ -1,11 +1,16 @@
 import { Link } from "@tanstack/react-router";
-import { resolveImageSrc, settingPath, stockSrcSet } from "@/lib/images";
+import { pickAlt, resolveImageSrc, settingPath, stockSrcSet } from "@/lib/images";
 import { useSiteSettings } from "@/hooks/use-services";
 import { useTranslation } from "react-i18next";
 import { Compass, Mountain, Car, ArrowUpRight } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { formatDuration, formatPrice } from "@/lib/format";
-import { statsForType, type HomeService, type SiteSettingsMap } from "@/lib/home-data";
+import {
+  statsForType,
+  type HomeService,
+  type MediaAltMap,
+  type SiteSettingsMap,
+} from "@/lib/home-data";
 
 // Ширина картинки запрашивается под РАЗМЕР ОТРИСОВКИ, а не «побольше».
 // Плитки рисуются примерно в 400px, а тянули 1600px: две из них давали
@@ -60,9 +65,11 @@ const DESC: Record<"tours" | "hiking" | "transfers", { lv: string; en: string; e
 export function ServiceCategories({
   services = [],
   settings: ssrSettings,
+  mediaAlt,
 }: {
   services?: HomeService[];
   settings?: SiteSettingsMap;
+  mediaAlt?: MediaAltMap;
 }) {
   // Настройки — из загрузчика маршрута; хук остаётся запасным путём. Пока
   // они читались только хуком, в SSR-разметке плитки всегда были стоковыми:
@@ -70,8 +77,9 @@ export function ServiceCategories({
   const { data: settingsFromQuery } = useSiteSettings();
   const settings = ssrSettings ?? settingsFromQuery;
   // Путь из настроек, если задан; иначе стоковый URL.
+  const tilePath = (type: string): string => settingPath(settings, `tile_${type}_storage_path`);
   const tileSrc = (type: string, fallback: string): string =>
-    resolveImageSrc(settingPath(settings, `tile_${type}_storage_path`), fallback);
+    resolveImageSrc(tilePath(type), fallback);
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
 
@@ -109,12 +117,19 @@ export function ServiceCategories({
                 className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-lg bg-ink text-bone hairline transition-all hover:border-[color-mix(in_oklab,var(--sandstone)_55%,transparent)]"
               >
                 {/* Своя картинка, если путь задан в site_settings
-                  (tile_<тип>_storage_path), иначе стоковая. */}
+                  (tile_<тип>_storage_path), иначе стоковая.
+
+                  alt: сначала из media (админка), иначе — по разделу.
+                  Описание стоковой фотографии ("Turaida castle tower…")
+                  к чужому снимку уже не относится. */}
                 <img
                   src={tileSrc(c.type, c.img)}
                   srcSet={stockSrcSet(tileSrc(c.type, c.img))}
                   sizes="(min-width: 768px) 33vw, 100vw"
-                  alt={c.alt}
+                  alt={pickAlt(mediaAlt, tilePath(c.type), lang, {
+                    own: `Wanderlust.lv — ${t(`nav.${c.key}`)}`,
+                    stock: c.alt,
+                  })}
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />

@@ -1,11 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { firstImageSrc, resolveImageSrc, stockSrcSet } from "@/lib/images";
+import { firstImageSrc, pickAlt, resolveImageSrc, stockSrcSet } from "@/lib/images";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import { Clock, Users, MapPin, Route as RouteIcon, ChevronRight } from "lucide-react";
 import { useEnterGaujaCategories } from "@/hooks/use-services";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
-import { tField, tSlug, isLang, DEFAULT_LANG, type Lang } from "@/lib/language";
+import { tField, tFieldStrict, tSlug, isLang, DEFAULT_LANG, type Lang } from "@/lib/language";
 import { formatDuration, formatPrice } from "@/lib/format";
 import { CategoryBadge } from "@/components/common/CategoryBadge";
 import { EnterGaujaBacklinkBlock } from "@/components/entergauja/EnterGaujaBacklinkBlock";
@@ -19,20 +19,25 @@ import {
   serviceImageAlt,
 } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
+import { buildMediaAltMap } from "@/lib/home-data";
 
 export const Route = createFileRoute("/$lang/s/$slug")({
   loader: async ({ params }) => {
-    const { data } = await supabase
-      .from("services")
-      .select("*")
-      .or(`slug_lv.eq.${params.slug},slug_en.eq.${params.slug},slug_es.eq.${params.slug}`)
-      .eq("is_active", true)
-      .maybeSingle();
-    return data;
+    const [serviceRes, mediaRes] = await Promise.all([
+      supabase
+        .from("services")
+        .select("*")
+        .or(`slug_lv.eq.${params.slug},slug_en.eq.${params.slug},slug_es.eq.${params.slug}`)
+        .eq("is_active", true)
+        .maybeSingle(),
+      supabase.from("media").select("storage_path, alt_lv, alt_en, alt_es"),
+    ]);
+    return { service: serviceRes.data, mediaAlt: buildMediaAltMap(mediaRes.data) };
   },
   head: ({ params, loaderData }) => {
     const lang: Lang = isLang(params.lang) ? params.lang : DEFAULT_LANG;
-    if (!loaderData) {
+    const service = loaderData?.service;
+    if (!service) {
       return buildPageHead({
         path: `/s/${params.slug}`,
         lang,
@@ -41,20 +46,26 @@ export const Route = createFileRoute("/$lang/s/$slug")({
         noindex: true,
       });
     }
-    const title = tField(loaderData, "title", lang) || params.slug;
+    const title = tField(service, "title", lang) || params.slug;
     const short =
-      tField(loaderData, "short_description", lang) ||
-      tField(loaderData, "description", lang).slice(0, 155);
+      tField(service, "short_description", lang) ||
+      tField(service, "description", lang).slice(0, 155);
+    // SEO-поля услуги из админки. Заполнено — идёт в мета-теги; пусто —
+    // остаётся то, что собиралось раньше: название и краткое описание.
+    // Строго на языке страницы: латышский meta_title на английской версии
+    // хуже, чем заголовок, собранный из английского названия.
+    const metaTitle = tFieldStrict(service, "meta_title", lang) || title;
+    const metaDescription = tFieldStrict(service, "meta_description", lang) || short;
     const cat =
       pickPrimaryCategory({
-        enter_gauja_categories: (loaderData.enter_gauja_categories as string[] | null) ?? null,
-      }) ?? defaultCategoryForType(loaderData.type as string);
-    const canonicalSlug = tSlug(loaderData, lang) || params.slug;
+        enter_gauja_categories: (service.enter_gauja_categories as string[] | null) ?? null,
+      }) ?? defaultCategoryForType(service.type as string);
+    const canonicalSlug = tSlug(service, lang) || params.slug;
     const path = `/s/${canonicalSlug}`;
     // Абсолютный адрес файла, а не путь в бакете. Раньше в og:image и в
     // schema.org уезжало services/1789…webp — для робота это ссылка в никуда,
     // и картинка предпросмотра в соцсетях не показывалась.
-    const image = firstImageSrc(loaderData.hero_image_storage_path as string | null) || undefined;
+    const image = firstImageSrc(service.hero_image_storage_path as string | null) || undefined;
     const jsonLd: object[] = [
       buildBreadcrumbList(lang, [
         { name: "Home", path: "/" },
@@ -67,22 +78,22 @@ export const Route = createFileRoute("/$lang/s/$slug")({
         buildServiceSchema({
           category: cat,
           title,
-          description: short,
+          description: metaDescription,
           imageUrl: image ?? absoluteUrl(lang, "/og/default.jpg"),
           path,
           lang,
-          priceEur: loaderData.price_from_eur != null ? Number(loaderData.price_from_eur) : null,
-          locationName: (loaderData.location_name as string | null) ?? null,
-          latitude: (loaderData.location_lat as number | null) ?? null,
-          longitude: (loaderData.location_lng as number | null) ?? null,
+          priceEur: service.price_from_eur != null ? Number(service.price_from_eur) : null,
+          locationName: (service.location_name as string | null) ?? null,
+          latitude: (service.location_lat as number | null) ?? null,
+          longitude: (service.location_lng as number | null) ?? null,
         }),
       );
     }
     return buildPageHead({
       path,
       lang,
-      title,
-      description: short,
+      title: metaTitle,
+      description: metaDescription,
       category: cat?.key,
       ogImage: image ?? undefined,
       ogType: "article",
@@ -103,7 +114,7 @@ function ServiceDetail() {
   // SSR-разметке не было ни h1, ни описания, ни картинки: страница услуги
   // приезжала пустой оболочкой на 26 КБ и дорисовывалась после гидратации.
   // Для страницы, которую открывают из поиска, это потеря и в выдаче, и в LCP.
-  const service = Route.useLoaderData();
+  const { service, mediaAlt } = Route.useLoaderData();
   const { data: cats } = useEnterGaujaCategories();
 
   if (!service) throw notFound();
@@ -121,6 +132,19 @@ function ServiceDetail() {
     "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1920&q=70";
   const heroSrc = resolveImageSrc(service.hero_image_storage_path, HERO_FALLBACK);
   const heroSrcSet = stockSrcSet(heroSrc);
+  // alt: сначала из media (админка, три языка), иначе описание, собранное
+  // из названия и места — оно верно для любой фотографии услуги.
+  const generatedAlt = serviceImageAlt({
+    title,
+    location: service.location_name,
+    category:
+      pickPrimaryCategory({ enter_gauja_categories: service.enter_gauja_categories }) ??
+      defaultCategoryForType(service.type),
+  });
+  const heroAlt = pickAlt(mediaAlt, service.hero_image_storage_path, lang, {
+    own: generatedAlt,
+    stock: generatedAlt,
+  });
 
   return (
     <>
@@ -131,14 +155,7 @@ function ServiceDetail() {
           srcSet={heroSrcSet}
           sizes="100vw"
           fetchPriority="high"
-          alt={serviceImageAlt({
-            title,
-            location: service.location_name,
-            category:
-              pickPrimaryCategory({
-                enter_gauja_categories: service.enter_gauja_categories,
-              }) ?? defaultCategoryForType(service.type),
-          })}
+          alt={heroAlt}
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div

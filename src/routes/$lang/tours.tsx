@@ -25,13 +25,14 @@ export const Route = createFileRoute("/$lang/tours")({
 
 function RouteComp() {
   const { category, difficulty } = Route.useSearch();
-  const { services, settings } = Route.useLoaderData();
+  const { services, settings, mediaAlt } = Route.useLoaderData();
   return (
     <ServicesListPage
       type="excursion"
       navKey="tours"
       services={services}
       settings={settings}
+      mediaAlt={mediaAlt}
       category={category}
       difficulty={difficulty}
     />

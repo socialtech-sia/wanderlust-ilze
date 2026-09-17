@@ -6,7 +6,8 @@ import { tField, tSlug, type Lang } from "@/lib/language";
 import { formatDuration, formatPrice } from "@/lib/format";
 import { CategoryBadge } from "@/components/common/CategoryBadge";
 import { StrataHoverBar } from "@/components/common/Strata";
-import { resolveImageSrc, stockSrcSet } from "@/lib/images";
+import { pickAlt, resolveImageSrc, stockSrcSet } from "@/lib/images";
+import type { MediaAltMap } from "@/lib/home-data";
 
 const CAT_VAR: Record<string, string> = {
   action: "var(--cat-action)",
@@ -20,10 +21,12 @@ export function ServiceCard({
   service,
   lang,
   imageIndex = 0,
+  mediaAlt,
 }: {
   service: Service;
   lang: Lang;
   imageIndex?: number;
+  mediaAlt?: MediaAltMap;
 }) {
   const { t } = useTranslation();
   const { data: cats } = useEnterGaujaCategories();
@@ -36,6 +39,15 @@ export function ServiceCard({
   // загруженная фотография была видна только на странице самой услуги.
   const stockImg = STOCK_IMAGES[imageIndex % STOCK_IMAGES.length];
   const imgSrc = resolveImageSrc(service.hero_image_storage_path, stockImg);
+  // Описание из названия и места верно для любой фотографии, поэтому годится
+  // и как запасной вариант для своей картинки, и для стоковой.
+  const generatedAlt = [title, service.location_name, "Gauja National Park, Latvia"]
+    .filter(Boolean)
+    .join(" — ");
+  const imgAlt = pickAlt(mediaAlt, service.hero_image_storage_path, lang, {
+    own: generatedAlt,
+    stock: generatedAlt,
+  });
 
   const meta = [
     service.duration_minutes ? formatDuration(service.duration_minutes, lang) : null,
@@ -58,7 +70,7 @@ export function ServiceCard({
           src={imgSrc}
           srcSet={stockSrcSet(imgSrc)}
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          alt={[title, service.location_name, "Gauja National Park, Latvia"].filter(Boolean).join(" — ")}
+          alt={imgAlt}
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
         />

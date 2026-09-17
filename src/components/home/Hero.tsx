@@ -9,8 +9,8 @@ import hero1280 from "@/assets/hero-gauja-1280.webp";
 import hero1920 from "@/assets/hero-gauja-1920.webp";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { useProfile, useSiteSettings } from "@/hooks/use-services";
-import type { HomeProfile, SiteSettingsMap } from "@/lib/home-data";
-import { firstImageSrc, settingPath } from "@/lib/images";
+import type { HomeProfile, MediaAltMap, SiteSettingsMap } from "@/lib/home-data";
+import { firstImageSrc, pickAlt, settingPath } from "@/lib/images";
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -33,7 +33,12 @@ function splitLines(text: string, max = 3): string[] {
 export function Hero({
   settings: ssrSettings,
   profile: ssrProfile,
-}: { settings?: SiteSettingsMap; profile?: HomeProfile | null } = {}) {
+  mediaAlt,
+}: {
+  settings?: SiteSettingsMap;
+  profile?: HomeProfile | null;
+  mediaAlt?: MediaAltMap;
+} = {}) {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
   const { data: settingsFromQuery } = useSiteSettings();
@@ -45,10 +50,14 @@ export function Hero({
   // обычный путь клиента. home_hero_storage_path оставлен как перекрытие:
   // им можно поставить картинку главной, не трогая профиль. Пусты оба —
   // показывается адаптивный набор из бандла.
-  const customHero = firstImageSrc(
-    settingPath(settings, "home_hero_storage_path"),
-    profile?.hero_image_storage_path,
-  );
+  const heroStored =
+    settingPath(settings, "home_hero_storage_path") ||
+    (profile?.hero_image_storage_path ?? "").trim();
+  const customHero = firstImageSrc(heroStored);
+  const customHeroAlt = pickAlt(mediaAlt, heroStored, lang, {
+    own: "Wanderlust.lv — Gaujas ieleja",
+    stock: "Wanderlust.lv — Gaujas ieleja",
+  });
 
   const headline =
     ((settings?.[`hero_headline_${lang}`] as string) ?? "") || t("home.categories_title");
@@ -94,7 +103,7 @@ export function Hero({
       {customHero ? (
         <img
           src={customHero}
-          alt="Wanderlust.lv — Gaujas ieleja"
+          alt={customHeroAlt}
           width={1920}
           height={1280}
           fetchPriority="high"

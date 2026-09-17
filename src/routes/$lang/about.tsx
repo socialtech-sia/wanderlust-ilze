@@ -7,7 +7,7 @@ import { Award, Languages } from "lucide-react";
 
 import { routeHead } from "@/lib/route-head";
 import { getAboutData } from "@/lib/profile.functions";
-import { firstImageSrc, settingPath, stockSrcSet } from "@/lib/images";
+import { firstImageSrc, pickAlt, settingPath, stockSrcSet } from "@/lib/images";
 
 export const Route = createFileRoute("/$lang/about")({
   // Профиль и настройки читаются на сервере: они и есть содержимое страницы,
@@ -20,17 +20,20 @@ export const Route = createFileRoute("/$lang/about")({
 function AboutPage() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
-  const { profile, settings } = Route.useLoaderData();
+  const { profile, settings, mediaAlt } = Route.useLoaderData();
   // Три источника по старшинству: ключ настроек about_hero_storage_path,
   // затем «Hero attēls» из профиля (его клиент и меняет в админке), и только
   // если пусты оба — стоковая фотография.
   const ABOUT_HERO_FALLBACK =
     "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1920&q=70";
-  const aboutHero =
-    firstImageSrc(
-      settingPath(settings, "about_hero_storage_path"),
-      profile?.hero_image_storage_path,
-    ) || ABOUT_HERO_FALLBACK;
+  const aboutHeroStored =
+    settingPath(settings, "about_hero_storage_path") ||
+    (profile?.hero_image_storage_path ?? "").trim();
+  const aboutHero = firstImageSrc(aboutHeroStored) || ABOUT_HERO_FALLBACK;
+  const aboutHeroAlt = pickAlt(mediaAlt, aboutHeroStored, lang, {
+    own: "Wanderlust.lv — Gaujas ieleja",
+    stock: "Misty Gauja river valley at sunrise, seen from Sigulda ridge",
+  });
   const certs = (profile?.certifications as { name: string; year?: number }[] | null) ?? [];
 
   return (
@@ -44,7 +47,7 @@ function AboutPage() {
           srcSet={stockSrcSet(aboutHero)}
           sizes="100vw"
           fetchPriority="high"
-          alt="Misty Gauja river valley at sunrise, seen from Sigulda ridge"
+          alt={aboutHeroAlt}
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div

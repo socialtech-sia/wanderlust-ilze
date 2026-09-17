@@ -3,9 +3,15 @@ import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { ServiceCard } from "@/components/services/ServiceCard";
-import { pickFeatured, type HomeService } from "@/lib/home-data";
+import { pickFeatured, type HomeService, type MediaAltMap } from "@/lib/home-data";
 
-export function FeaturedServices({ services = [] }: { services?: HomeService[] }) {
+export function FeaturedServices({
+  services = [],
+  mediaAlt,
+}: {
+  services?: HomeService[];
+  mediaAlt?: MediaAltMap;
+}) {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
   const featured = pickFeatured(services);
@@ -27,7 +33,7 @@ export function FeaturedServices({ services = [] }: { services?: HomeService[] }
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((s, i) => (
-            <ServiceCard key={s.id} service={s} lang={lang} imageIndex={i} />
+            <ServiceCard key={s.id} service={s} lang={lang} imageIndex={i} mediaAlt={mediaAlt} />
           ))}
         </div>
 

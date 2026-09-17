@@ -35,6 +35,21 @@ const CONTACT_KEYS = [
   { key: "contact_whatsapp", label: "WhatsApp", placeholder: "+37100000000" },
 ] as const;
 
+/** Адрес, на который уходят письма о новых бронях и сообщениях.
+ *  Отдельно от публичных контактов: этот на сайте не показывается. */
+const NOTIFICATION_KEY = {
+  key: "booking_notification_email",
+  label: "Paziņojumu e-pasts",
+  placeholder: "ilze@wanderlust.lv",
+} as const;
+
+/** Идентификатор GA4. Пусто — аналитика на сайт не подключается вовсе. */
+const ANALYTICS_KEY = {
+  key: "google_analytics_id",
+  label: "Google Analytics ID",
+  placeholder: "G-XXXXXXXXXX",
+} as const;
+
 /** Ключи с путями к картинкам: их правит MediaPicker, а не JSON-поле. */
 const IMAGE_KEYS = [
   { key: "home_hero_storage_path", label: "Sākumlapas hero", folder: "hero" },
@@ -53,10 +68,31 @@ const GREETING_KEYS = [
   { key: "chatbot_greeting_es", label: "Sveiciens (ES)" },
 ] as const;
 
+/**
+ * Ключи, которые НИ НА ЧТО не влияют, и потому в админке не показываются.
+ *
+ * Строки остаются в базе (удалять данные из-за интерфейса незачем), но
+ * редактировать их клиенту нельзя: правка не даёт никакого результата, а
+ * поле в админке обещает обратное.
+ *
+ *   default_language — язык выбирается из адреса (/lv, /en, /es), а корень
+ *     сайта редиректит на lv. Ключ не читает никто.
+ *   hero_headline / hero_subline / footer_text без языкового суффикса —
+ *     остатки одноязычной версии. Код читает только `${key}_${lang}`.
+ */
+const HIDDEN_KEYS = new Set<string>([
+  "default_language",
+  "hero_headline",
+  "hero_subline",
+  "footer_text",
+]);
+
 /** Ключи, у которых есть своя карточка — в общий JSON-список они не идут,
  *  иначе одно значение редактировалось бы в двух местах сразу. */
 const HANDLED_KEYS = new Set<string>([
   ...CONTACT_KEYS.map((c) => c.key),
+  NOTIFICATION_KEY.key,
+  ANALYTICS_KEY.key,
   ...IMAGE_KEYS.map((i) => i.key),
   ...GREETING_KEYS.map((g) => g.key),
   "chatbot_enabled",
@@ -110,16 +146,19 @@ function AdminSettings() {
 
       <ContactsCard
         values={CONTACT_KEYS.map((c) => ({ ...c, value: str(c.key) }))}
+        notification={{ ...NOTIFICATION_KEY, value: str(NOTIFICATION_KEY.key) }}
         onSave={onSave}
       />
 
       <ImagesCard values={IMAGE_KEYS.map((i) => ({ ...i, value: str(i.key) }))} onSave={onSave} />
 
+      <AnalyticsCard value={str(ANALYTICS_KEY.key)} onSave={onSave} />
+
       <ChatbotCard settings={settings} onSave={onSave} />
 
       <div className="space-y-4">
         {settings
-          .filter((s) => !HANDLED_KEYS.has(s.key))
+          .filter((s) => !HANDLED_KEYS.has(s.key) && !HIDDEN_KEYS.has(s.key))
           .map((s) => (
             <SettingCard key={s.key} setting={s} onSave={(raw) => onSave(s.key, raw)} />
           ))}
@@ -130,9 +169,11 @@ function AdminSettings() {
 
 function ContactsCard({
   values,
+  notification,
   onSave,
 }: {
   values: { key: string; label: string; placeholder: string; value: string }[];
+  notification: { key: string; label: string; placeholder: string; value: string };
   onSave: (key: string, raw: string) => void;
 }) {
   return (
@@ -153,6 +194,41 @@ function ContactsCard({
           onSave={(text) => onSave(c.key, JSON.stringify(text.trim()))}
         />
       ))}
+
+      <div className="border-t border-border pt-4">
+        <TextSettingField
+          label={notification.label}
+          initial={notification.value}
+          placeholder={notification.placeholder}
+          onSave={(text) => onSave(notification.key, JSON.stringify(text.trim()))}
+        />
+        <p className="mt-1.5 text-xs text-muted-foreground">
+          Uz šo adresi nāk paziņojumi par jaunām rezervācijām un ziņām. Vietnē tā nav redzama.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function AnalyticsCard({
+  value,
+  onSave,
+}: {
+  value: string;
+  onSave: (key: string, raw: string) => void;
+}) {
+  return (
+    <div className="mb-6 space-y-2 rounded-lg border border-border bg-card p-4">
+      <TextSettingField
+        label={ANALYTICS_KEY.label}
+        initial={value}
+        placeholder={ANALYTICS_KEY.placeholder}
+        onSave={(text) => onSave(ANALYTICS_KEY.key, JSON.stringify(text.trim()))}
+      />
+      <p className="text-xs text-muted-foreground">
+        Formāts G-XXXXXXXXXX. Tukšs — analītika vietnē netiek pieslēgta vispār. Skripts ielādējas
+        tikai pēc apmeklētāja piekrišanas analītikas sīkdatnēm.
+      </p>
     </div>
   );
 }

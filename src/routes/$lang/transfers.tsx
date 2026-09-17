@@ -23,8 +23,14 @@ export const Route = createFileRoute("/$lang/transfers")({
 });
 
 function RouteComp() {
-  const { services, settings } = Route.useLoaderData();
+  const { services, settings, mediaAlt } = Route.useLoaderData();
   return (
-    <ServicesListPage type="transfer" navKey="transfers" services={services} settings={settings} />
+    <ServicesListPage
+      type="transfer"
+      navKey="transfers"
+      services={services}
+      settings={settings}
+      mediaAlt={mediaAlt}
+    />
   );
 }

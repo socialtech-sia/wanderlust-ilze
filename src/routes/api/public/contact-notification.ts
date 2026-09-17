@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { errorJson, json, preflight } from "@/lib/http";
-import { loadContacts } from "@/lib/email/contacts";
+import { loadEmailSettings, pickAdminRecipient } from "@/lib/email/contacts";
 import {
   asLang,
   contactAdminEmail,
@@ -22,7 +22,6 @@ export const Route = createFileRoute("/api/public/contact-notification")({
 
         const apiKey = process.env.RESEND_API_KEY;
         const from = process.env.NOTIFICATION_FROM_EMAIL;
-        const adminTo = process.env.ADMIN_NOTIFICATION_EMAIL;
         const siteUrl = new URL(request.url).origin;
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -49,14 +48,30 @@ export const Route = createFileRoute("/api/public/contact-notification")({
         if (!from) problems.push("NOTIFICATION_FROM_EMAIL missing");
 
         if (apiKey && from) {
-          const contacts = await loadContacts(supabaseAdmin, siteUrl);
+          // Тот же адрес, что и у броней: одно поле в админке на оба
+          // уведомления — два разных завели бы ровно ту путаницу, из-за
+          // которой контакты уже разъезжались.
+          const emailSettings = await loadEmailSettings(supabaseAdmin, siteUrl);
+          const contacts = emailSettings.contacts;
+          const adminTo = pickAdminRecipient(emailSettings);
+
+          // Куда именно ушло письмо — видно в `docker logs wanderlust-web`.
+          // Без этой строки «уведомление не пришло» невозможно отличить от
+          // «ушло не на тот адрес», а адрес теперь берётся из админки.
+          console.info(
+            "[contact-notification] admin ->",
+            adminTo || "—",
+            emailSettings.notificationEmail ? "(site_settings)" : "(env)",
+          );
 
           if (adminTo) {
             const mail = contactAdminEmail(data, siteUrl);
             const res = await sendEmail({ apiKey, from, to: adminTo, replyTo: data.email, ...mail });
             if (!res.ok) problems.push(`admin: ${res.error ?? "unknown"}`);
           } else {
-            problems.push("ADMIN_NOTIFICATION_EMAIL missing");
+            problems.push(
+              "нет адреса администратора: пусты и site_settings.booking_notification_email, и ADMIN_NOTIFICATION_EMAIL",
+            );
           }
 
           const mail = contactCustomerEmail(data, asLang(data.language), contacts);

@@ -6,7 +6,8 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
-import type { SiteSettingsMap } from "@/lib/home-data";
+import { buildMediaAltMap } from "@/lib/home-data";
+import type { MediaAltMap, SiteSettingsMap } from "@/lib/home-data";
 import { firstImageSrc } from "@/lib/images";
 import { tField, tSlug, type Lang } from "@/lib/language";
 import {
@@ -27,10 +28,12 @@ export interface ServicesListData {
    *  и в SSR-разметке всегда оставалась стоковая — то есть загруженная через
    *  админку фотография не попадала ни в первый кадр, ни к роботам. */
   settings: SiteSettingsMap;
+  /** alt-тексты загруженных файлов, по пути в бакете. */
+  mediaAlt: MediaAltMap;
 }
 
 export async function loadServicesForList(type: Service["type"]): Promise<ServicesListData> {
-  const [servicesRes, settingsRes] = await Promise.all([
+  const [servicesRes, settingsRes, mediaRes] = await Promise.all([
     supabase
       .from("services")
       .select("*")
@@ -38,11 +41,16 @@ export async function loadServicesForList(type: Service["type"]): Promise<Servic
       .eq("is_active", true)
       .order("sort_order", { ascending: true }),
     supabase.from("site_settings").select("key, value"),
+    supabase.from("media").select("storage_path, alt_lv, alt_en, alt_es"),
   ]);
   const settings: SiteSettingsMap = {};
   for (const row of settingsRes.data ?? [])
     settings[row.key] = row.value as SiteSettingsMap[string];
-  return { services: (servicesRes.data ?? []) as Service[], settings };
+  return {
+    services: (servicesRes.data ?? []) as Service[],
+    settings,
+    mediaAlt: buildMediaAltMap(mediaRes.data),
+  };
 }
 
 export function servicesToItemListJsonLd(

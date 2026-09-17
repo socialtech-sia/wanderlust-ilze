@@ -23,6 +23,41 @@ export type SettingValue =
   | { [k: string]: SettingValue };
 export type SiteSettingsMap = Record<string, SettingValue>;
 
+/** Альтернативный текст одного файла на трёх языках. */
+export interface MediaAlt {
+  lv: string;
+  en: string;
+  es: string;
+}
+
+/**
+ * Путь в бакете → alt-тексты из таблицы media.
+ *
+ * Публичные страницы знают про картинку только путь (он лежит в колонке
+ * услуги, профиля или в ключе настроек), а alt-тексты — в отдельной таблице.
+ * Карта собирается загрузчиком одним запросом, чтобы не ходить в базу на
+ * каждую картинку.
+ */
+export type MediaAltMap = Record<string, MediaAlt>;
+
+/** Строки media → карта «путь в бакете → alt на трёх языках». */
+export function buildMediaAltMap(
+  rows:
+    | {
+        storage_path: string;
+        alt_lv: string | null;
+        alt_en: string | null;
+        alt_es: string | null;
+      }[]
+    | null,
+): MediaAltMap {
+  const map: MediaAltMap = {};
+  for (const row of rows ?? []) {
+    map[row.storage_path] = { lv: row.alt_lv ?? "", en: row.alt_en ?? "", es: row.alt_es ?? "" };
+  }
+  return map;
+}
+
 export interface HomeData {
   services: HomeService[];
   faq: HomeFaq[];
@@ -32,6 +67,8 @@ export interface HomeData {
    *  клиентским запросом, текст меняется уже после гидратации, и страница
    *  дёргается: на мобильном это давало CLS 0.14 при пороге 0.1. */
   settings: SiteSettingsMap;
+  /** alt-тексты загруженных файлов, по пути в бакете. */
+  mediaAlt: MediaAltMap;
 }
 
 export interface TypeStats {

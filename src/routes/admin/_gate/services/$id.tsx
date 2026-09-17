@@ -167,6 +167,10 @@ function ServiceEditor() {
                     value={(form[`meta_title_${lang}`] as string | null) ?? ""}
                     onChange={(e) => set(`meta_title_${lang}` as keyof Service, e.target.value as never)}
                   />
+                  <p className="text-xs text-muted-foreground">
+                    Tukšs — izmanto pakalpojuma nosaukumu. Ja tekstā nav «Wanderlust.lv», tas tiek
+                    pievienots beigās.
+                  </p>
                 </div>
                 <div className="space-y-1.5">
                   <Label>SEO apraksts ({lang})</Label>
@@ -175,6 +179,9 @@ function ServiceEditor() {
                     value={(form[`meta_description_${lang}`] as string | null) ?? ""}
                     onChange={(e) => set(`meta_description_${lang}` as keyof Service, e.target.value as never)}
                   />
+                  <p className="text-xs text-muted-foreground">
+                    Tukšs — izmanto īso aprakstu. 120–160 zīmes.
+                  </p>
                 </div>
               </>
             )}
@@ -220,14 +227,10 @@ function ServiceEditor() {
                 onChange={(e) => set("price_from_eur", e.target.value ? Number(e.target.value) : null)}
               />
             </div>
-            <div className="space-y-1.5">
-              <Label>Min. personas</Label>
-              <Input
-                type="number"
-                value={form.min_persons ?? ""}
-                onChange={(e) => set("min_persons", e.target.value ? Number(e.target.value) : null)}
-              />
-            </div>
+            {/* Поля «Min. personas» здесь больше нет: колонку min_persons не
+                читает ни одна публичная страница и не проверяет форма
+                бронирования. Показывать её значило обещать ограничение,
+                которого нет. Maks. personas читается и остаётся. */}
             <div className="space-y-1.5">
               <Label>Maks. personas</Label>
               <Input

@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import type { HomeProfile, SiteSettingsMap } from "@/lib/home-data";
+import type { HomeProfile, MediaAltMap, SiteSettingsMap } from "@/lib/home-data";
 
 /**
  * Профиль и site_settings для страницы «Par mani», на сервере.
@@ -14,9 +14,13 @@ import type { HomeProfile, SiteSettingsMap } from "@/lib/home-data";
  * не попадала ни в первый кадр, ни к роботам.
  */
 export const getAboutData = createServerFn({ method: "GET" }).handler(
-  async (): Promise<{ profile: HomeProfile | null; settings: SiteSettingsMap }> => {
+  async (): Promise<{
+    profile: HomeProfile | null;
+    settings: SiteSettingsMap;
+    mediaAlt: MediaAltMap;
+  }> => {
     const { fetchHomeData } = await import("@/lib/home-data.server");
-    const { profile, settings } = await fetchHomeData();
-    return { profile, settings };
+    const { profile, settings, mediaAlt } = await fetchHomeData();
+    return { profile, settings, mediaAlt };
   },
 );

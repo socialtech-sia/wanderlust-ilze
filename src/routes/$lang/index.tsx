@@ -37,17 +37,17 @@ export const Route = createFileRoute("/$lang/")({
 });
 
 function HomePage() {
-  const { services, faq, profile, testimonials, settings } = Route.useLoaderData();
+  const { services, faq, profile, testimonials, settings, mediaAlt } = Route.useLoaderData();
 
   return (
     <>
-      <Hero settings={settings} profile={profile} />
+      <Hero settings={settings} profile={profile} mediaAlt={mediaAlt} />
       <KeyFacts />
-      <ServiceCategories services={services} settings={settings} />
+      <ServiceCategories services={services} settings={settings} mediaAlt={mediaAlt} />
       <HowItWorks />
-      <FeaturedServices services={services} />
+      <FeaturedServices services={services} mediaAlt={mediaAlt} />
       <RegionSection />
-      <AboutPreview profile={profile} />
+      <AboutPreview profile={profile} mediaAlt={mediaAlt} />
       <WhyGuide />
       <Testimonials items={testimonials} />
       <Seasons />

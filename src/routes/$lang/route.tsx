@@ -5,6 +5,7 @@ import i18n from "@/lib/i18n";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/cookie/CookieConsent";
+import { Analytics } from "@/components/analytics/Analytics";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { EnterGaujaPartnerBadge } from "@/components/entergauja/EnterGaujaPartnerBadge";
@@ -44,6 +45,9 @@ function LangLayout() {
       <ScrollToTop />
       <ChatWidget />
       <CookieConsent />
+      {/* Только публичная часть: админка живёт вне этого макета, и считать
+          её просмотры в аналитике клиента незачем. */}
+      <Analytics />
     </div>
   );
 }
