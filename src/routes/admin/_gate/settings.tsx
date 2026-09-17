@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { MediaPicker } from "@/components/admin/MediaPicker";
+import type { MediaFolder } from "@/lib/storage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -160,7 +161,7 @@ function ImagesCard({
   values,
   onSave,
 }: {
-  values: { key: string; label: string; folder: string; value: string }[];
+  values: { key: string; label: string; folder: MediaFolder; value: string }[];
   onSave: (key: string, raw: string) => void;
 }) {
   return (
@@ -176,7 +177,7 @@ function ImagesCard({
           <MediaPicker
             key={img.key}
             label={img.label}
-            folder={img.folder as never}
+            folder={img.folder}
             value={img.value || null}
             onChange={(path) => onSave(img.key, JSON.stringify(path ?? ""))}
           />
