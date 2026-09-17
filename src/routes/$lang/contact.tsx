@@ -3,13 +3,20 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Mail, Phone, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useContactDetails } from "@/hooks/use-contact-details";
+import { getPublicContacts } from "@/lib/contacts.functions";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { Button } from "@/components/ui/button";
 
 import { routeHead } from "@/lib/route-head";
 
 export const Route = createFileRoute("/$lang/contact")({
+  // Контакты читаются на сервере, как на юридических страницах.
+  //
+  // Клиентским хуком телефон появлялся только после гидратации, и в
+  // SSR-разметке страницы контактов ссылки tel: не было вовсе — проверено
+  // запросом: ни одного href="tel:". То есть на странице, которая ровно для
+  // этого и существует, номера не видели ни роботы, ни читалки без JS.
+  loader: () => getPublicContacts(),
   head: ({ params }) => routeHead({ params, routeKey: "contact", path: "/contact" }),
   component: ContactPage,
 });
@@ -17,7 +24,7 @@ export const Route = createFileRoute("/$lang/contact")({
 function ContactPage() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
-  const { email, phone } = useContactDetails();
+  const { email, phone } = Route.useLoaderData();
 
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
