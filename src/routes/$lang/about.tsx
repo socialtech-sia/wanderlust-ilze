@@ -6,14 +6,13 @@ import { tField } from "@/lib/language";
 import { Award, Languages } from "lucide-react";
 
 import { routeHead } from "@/lib/route-head";
-import { getProfile } from "@/lib/profile.functions";
-import { resolveImageSrc, stockSrcSet } from "@/lib/images";
-import { useSiteSettings } from "@/hooks/use-services";
+import { getAboutData } from "@/lib/profile.functions";
+import { firstImageSrc, settingPath, stockSrcSet } from "@/lib/images";
 
 export const Route = createFileRoute("/$lang/about")({
-  // Профиль читается на сервере: он и есть содержимое страницы, а клиентский
-  // запрос дорисовывал его после гидратации и сдвигал макет.
-  loader: () => getProfile(),
+  // Профиль и настройки читаются на сервере: они и есть содержимое страницы,
+  // а клиентский запрос дорисовывал их после гидратации и сдвигал макет.
+  loader: () => getAboutData(),
   head: ({ params }) => routeHead({ params, routeKey: "about", path: "/about" }),
   component: AboutPage,
 });
@@ -21,17 +20,17 @@ export const Route = createFileRoute("/$lang/about")({
 function AboutPage() {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
-  const profile = Route.useLoaderData();
-  // Своя картинка, если задан about_hero_storage_path, иначе стоковая.
-  const { data: settings } = useSiteSettings();
+  const { profile, settings } = Route.useLoaderData();
+  // Три источника по старшинству: ключ настроек about_hero_storage_path,
+  // затем «Hero attēls» из профиля (его клиент и меняет в админке), и только
+  // если пусты оба — стоковая фотография.
   const ABOUT_HERO_FALLBACK =
     "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1920&q=70";
-  const aboutHero = resolveImageSrc(
-    typeof settings?.about_hero_storage_path === "string"
-      ? (settings.about_hero_storage_path as string)
-      : null,
-    ABOUT_HERO_FALLBACK,
-  );
+  const aboutHero =
+    firstImageSrc(
+      settingPath(settings, "about_hero_storage_path"),
+      profile?.hero_image_storage_path,
+    ) || ABOUT_HERO_FALLBACK;
   const certs = (profile?.certifications as { name: string; year?: number }[] | null) ?? [];
 
   return (

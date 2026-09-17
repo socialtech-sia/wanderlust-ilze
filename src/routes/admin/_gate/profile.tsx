@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Save } from "lucide-react";
 import { toast } from "sonner";
@@ -44,7 +44,11 @@ function AdminProfile() {
   async function handleSave() {
     if (!form.id) return;
     setSaving(true);
-    const { id, created_at, updated_at, ...patch } = form as Profile;
+    // Контакты намеренно исключены из патча: их источник —
+    // site_settings.contact_*, а колонки profile.* оставлены только ради
+    // совместимости схемы. Записывать их отсюда значило бы снова развести
+    // два набора значений.
+    const { id, created_at, updated_at, email, phone, whatsapp, ...patch } = form as Profile;
     const { error } = await supabase.from("profile").update(patch).eq("id", id);
     setSaving(false);
     if (error) {
@@ -106,17 +110,20 @@ function AdminProfile() {
             <Label>Vārds, uzvārds</Label>
             <Input value={form.full_name ?? ""} onChange={(e) => set("full_name", e.target.value)} />
           </div>
-          <div className="space-y-1.5">
-            <Label>E-pasts</Label>
-            <Input value={form.email ?? ""} onChange={(e) => set("email", e.target.value)} />
-          </div>
-          <div className="space-y-1.5">
-            <Label>Tālrunis</Label>
-            <Input value={form.phone ?? ""} onChange={(e) => set("phone", e.target.value)} />
-          </div>
-          <div className="space-y-1.5">
-            <Label>WhatsApp</Label>
-            <Input value={form.whatsapp ?? ""} onChange={(e) => set("whatsapp", e.target.value)} />
+          {/*
+            Полей «E-pasts», «Tālrunis» и «WhatsApp» здесь больше нет.
+            Колонки profile.email / phone / whatsapp не читает ни одна
+            страница сайта: подвал, контакты, юридические тексты, письма и
+            чат-бот берут site_settings.contact_*. Пока два набора жили
+            рядом, в админке был виден один номер, а на сайте другой —
+            и «правильным» оказывался тот, который никто не правил.
+          */}
+          <div className="rounded-md border border-dashed border-border p-3 text-xs text-muted-foreground">
+            Kontakti (e-pasts, tālrunis, WhatsApp) tiek rediģēti{" "}
+            <Link to="/admin/settings" className="font-medium text-foreground underline">
+              Iestatījumos
+            </Link>
+            . Tie paši lauki šeit vairs nav — vietne tos nekad nelasīja.
           </div>
           <div className="space-y-1.5">
             <Label>Pieredze (gadi)</Label>
@@ -126,18 +133,28 @@ function AdminProfile() {
               onChange={(e) => set("years_of_experience", e.target.value ? Number(e.target.value) : null)}
             />
           </div>
-          <MediaPicker
-            label="Portrets"
-            folder="profile"
-            value={form.avatar_storage_path ?? null}
-            onChange={(path) => set("avatar_storage_path", path)}
-          />
-          <MediaPicker
-            label="Hero attēls"
-            folder="hero"
-            value={form.hero_image_storage_path ?? null}
-            onChange={(path) => set("hero_image_storage_path", path)}
-          />
+          <div className="space-y-1">
+            <MediaPicker
+              label="Portrets"
+              folder="profile"
+              value={form.avatar_storage_path ?? null}
+              onChange={(path) => set("avatar_storage_path", path)}
+            />
+            <p className="text-xs text-muted-foreground">
+              Redzams sākumlapas sadaļā «Par mani». Tukšs — rāda iniciāļus.
+            </p>
+          </div>
+          <div className="space-y-1">
+            <MediaPicker
+              label="Hero attēls"
+              folder="hero"
+              value={form.hero_image_storage_path ?? null}
+              onChange={(path) => set("hero_image_storage_path", path)}
+            />
+            <p className="text-xs text-muted-foreground">
+              Sākumlapas un «Par mani» lapas galvenais attēls. Tukšs — rāda noklusējuma attēlu.
+            </p>
+          </div>
         </div>
       </div>
     </>

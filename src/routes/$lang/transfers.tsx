@@ -13,10 +13,18 @@ export const Route = createFileRoute("/$lang/transfers")({
   head: ({ params, loaderData }) => {
     const lang: Lang = isLang(params.lang) ? params.lang : DEFAULT_LANG;
     const listName = ROUTE_SEO.transfers.title[lang];
-    const extraJsonLd = loaderData?.length
-      ? [servicesToItemListJsonLd(lang, listName, loaderData)]
+    const services = loaderData?.services ?? [];
+    const extraJsonLd = services.length
+      ? [servicesToItemListJsonLd(lang, listName, services)]
       : undefined;
     return routeHead({ params, routeKey: "transfers", path: "/transfers", extraJsonLd });
   },
-  component: () => <ServicesListPage type="transfer" navKey="transfers" />,
+  component: RouteComp,
 });
+
+function RouteComp() {
+  const { services, settings } = Route.useLoaderData();
+  return (
+    <ServicesListPage type="transfer" navKey="transfers" services={services} settings={settings} />
+  );
+}

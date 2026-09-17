@@ -41,9 +41,9 @@ function HomePage() {
 
   return (
     <>
-      <Hero settings={settings} />
+      <Hero settings={settings} profile={profile} />
       <KeyFacts />
-      <ServiceCategories services={services} />
+      <ServiceCategories services={services} settings={settings} />
       <HowItWorks />
       <FeaturedServices services={services} />
       <RegionSection />

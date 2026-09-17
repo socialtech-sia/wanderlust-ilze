@@ -44,12 +44,37 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+/**
+ * Явный запрет кеширования SSR-страниц.
+ *
+ * Страницы собираются из базы на каждый запрос, и правка в админке обязана
+ * быть видна сразу. Заголовка на них не было вовсе: ни Cache-Control, ни
+ * ETag — то есть поведение отдавалось на откуп эвристике браузера и любому
+ * прокси по пути. Здесь мы говорим прямо: HTML всегда перепроверять.
+ *
+ * Только HTML. Файлы из /assets/* именованы по хешу содержимого и приходят
+ * от nitro с `public, max-age=31536000, immutable` — это правильно, и трогать
+ * их нельзя: без годового кеша каждая навигация тянула бы бандл заново.
+ */
+function withHtmlCacheHeaders(response: Response): Response {
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.includes("text/html")) return response;
+  if (response.headers.has("cache-control")) return response;
+  const headers = new Headers(response.headers);
+  headers.set("cache-control", "no-cache, must-revalidate");
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      return withHtmlCacheHeaders(await normalizeCatastrophicSsrResponse(response));
     } catch (error) {
       console.error(error);
       return new Response(renderErrorPage(), {

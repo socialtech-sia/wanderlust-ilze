@@ -1,11 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { resolveImageSrc, stockSrcSet } from "@/lib/images";
+import { resolveImageSrc, settingPath, stockSrcSet } from "@/lib/images";
 import { useSiteSettings } from "@/hooks/use-services";
 import { useTranslation } from "react-i18next";
 import { Compass, Mountain, Car, ArrowUpRight } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { formatDuration, formatPrice } from "@/lib/format";
-import { statsForType, type HomeService } from "@/lib/home-data";
+import { statsForType, type HomeService, type SiteSettingsMap } from "@/lib/home-data";
 
 // Ширина картинки запрашивается под РАЗМЕР ОТРИСОВКИ, а не «побольше».
 // Плитки рисуются примерно в 400px, а тянули 1600px: две из них давали
@@ -57,14 +57,21 @@ const DESC: Record<"tours" | "hiking" | "transfers", { lv: string; en: string; e
   },
 };
 
-export function ServiceCategories({ services = [] }: { services?: HomeService[] }) {
-  const { data: settings } = useSiteSettings();
+export function ServiceCategories({
+  services = [],
+  settings: ssrSettings,
+}: {
+  services?: HomeService[];
+  settings?: SiteSettingsMap;
+}) {
+  // Настройки — из загрузчика маршрута; хук остаётся запасным путём. Пока
+  // они читались только хуком, в SSR-разметке плитки всегда были стоковыми:
+  // своя картинка подменялась уже после гидратации.
+  const { data: settingsFromQuery } = useSiteSettings();
+  const settings = ssrSettings ?? settingsFromQuery;
   // Путь из настроек, если задан; иначе стоковый URL.
-  const tileSrc = (type: string, fallback: string): string => {
-    const key = `tile_${type}_storage_path`;
-    const stored = typeof settings?.[key] === "string" ? (settings[key] as string) : null;
-    return resolveImageSrc(stored, fallback);
-  };
+  const tileSrc = (type: string, fallback: string): string =>
+    resolveImageSrc(settingPath(settings, `tile_${type}_storage_path`), fallback);
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
 

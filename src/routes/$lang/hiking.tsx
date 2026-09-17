@@ -14,8 +14,9 @@ export const Route = createFileRoute("/$lang/hiking")({
   head: ({ params, loaderData }) => {
     const lang: Lang = isLang(params.lang) ? params.lang : DEFAULT_LANG;
     const listName = ROUTE_SEO.hiking.title[lang];
-    const extraJsonLd = loaderData?.length
-      ? [servicesToItemListJsonLd(lang, listName, loaderData)]
+    const services = loaderData?.services ?? [];
+    const extraJsonLd = services.length
+      ? [servicesToItemListJsonLd(lang, listName, services)]
       : undefined;
     return routeHead({ params, routeKey: "hiking", path: "/hiking", extraJsonLd });
   },
@@ -24,7 +25,15 @@ export const Route = createFileRoute("/$lang/hiking")({
 
 function RouteComp() {
   const { category, difficulty } = Route.useSearch();
+  const { services, settings } = Route.useLoaderData();
   return (
-    <ServicesListPage type="hiking" navKey="hiking" category={category} difficulty={difficulty} />
+    <ServicesListPage
+      type="hiking"
+      navKey="hiking"
+      services={services}
+      settings={settings}
+      category={category}
+      difficulty={difficulty}
+    />
   );
 }

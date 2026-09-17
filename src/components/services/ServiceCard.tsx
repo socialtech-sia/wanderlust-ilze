@@ -6,6 +6,7 @@ import { tField, tSlug, type Lang } from "@/lib/language";
 import { formatDuration, formatPrice } from "@/lib/format";
 import { CategoryBadge } from "@/components/common/CategoryBadge";
 import { StrataHoverBar } from "@/components/common/Strata";
+import { resolveImageSrc, stockSrcSet } from "@/lib/images";
 
 const CAT_VAR: Record<string, string> = {
   action: "var(--cat-action)",
@@ -29,7 +30,12 @@ export function ServiceCard({
   const title = tField(service, "title", lang);
   const desc = tField(service, "short_description", lang);
   const slug = tSlug(service, lang);
+  // Своя фотография услуги, если она выбрана в админке
+  // (services.hero_image_storage_path — MediaPicker «Galvenais attēls»),
+  // иначе стоковая. До этой правки карточка ВСЕГДА брала стоковую, и
+  // загруженная фотография была видна только на странице самой услуги.
   const stockImg = STOCK_IMAGES[imageIndex % STOCK_IMAGES.length];
+  const imgSrc = resolveImageSrc(service.hero_image_storage_path, stockImg);
 
   const meta = [
     service.duration_minutes ? formatDuration(service.duration_minutes, lang) : null,
@@ -49,7 +55,9 @@ export function ServiceCard({
     >
       <div className="relative aspect-[4/5] overflow-hidden rounded-t-lg">
         <img
-          src={stockImg}
+          src={imgSrc}
+          srcSet={stockSrcSet(imgSrc)}
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           alt={[title, service.location_name, "Gauja National Park, Latvia"].filter(Boolean).join(" — ")}
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
@@ -92,7 +100,9 @@ export function ServiceCard({
   );
 }
 
-// Free stock placeholders (Unsplash) — will be swapped for admin-uploaded media in Phase 2.
+// Запасные стоковые картинки (Unsplash) — показываются, пока у услуги не
+// выбрана своя фотография. Убирать их нельзя: без фотографии карточка осталась
+// бы с пустым прямоугольником.
 const STOCK_IMAGES = [
   "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?auto=format&fit=crop&w=1200&q=70", // castle
   "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=70", // forest

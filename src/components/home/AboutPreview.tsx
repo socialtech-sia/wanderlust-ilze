@@ -4,6 +4,7 @@ import { ArrowRight, Award, Languages, CalendarDays } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { tField, LANG_LABELS, isLang } from "@/lib/language";
 import type { HomeProfile } from "@/lib/home-data";
+import { firstImageSrc } from "@/lib/images";
 import { TripAdvisorRating } from "@/components/home/TripAdvisorRating";
 
 const LANG_NAMES: Record<string, { lv: string; en: string; es: string }> = {
@@ -44,7 +45,11 @@ export function AboutPreview({ profile }: { profile?: HomeProfile | null }) {
     ? (profile.certifications as unknown[]).map(certLabel).filter(Boolean).slice(0, 4)
     : [];
 
-  const avatar = profile?.avatar_storage_path;
+  // В базе лежит ПУТЬ в бакете (profile/1789…webp), а не адрес. Раньше он
+  // подставлялся в src как есть — браузер считал его относительным к текущей
+  // странице и получал 404 на /lv/profile/…webp. Портрет, загруженный через
+  // админку, из-за этого не появлялся никогда.
+  const avatar = firstImageSrc(profile?.avatar_storage_path);
 
   return (
     <section data-header-tone="light" className="surface-light section-y">

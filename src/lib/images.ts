@@ -12,7 +12,7 @@ import { getPublicUrl } from "@/lib/storage";
  *   - услуги и профиль — колонка hero_image_storage_path (уже была, в админке
  *     редактируется через MediaPicker);
  *   - страницы и плитки — ключи site_settings *_storage_path (см. миграцию
- *     20260916160000).
+ *     20260916160000), в админке — карточка «Attēli» на странице настроек.
  */
 
 /** Ширины, под которые собирается srcset. Совпадают с точками сетки макета. */
@@ -27,6 +27,32 @@ export const RESPONSIVE_WIDTHS = [768, 1280, 1920] as const;
 export function resolveImageSrc(stored: string | null | undefined, fallback: string): string {
   const path = (stored ?? "").trim();
   return getPublicUrl(path || fallback);
+}
+
+/**
+ * Первый непустой путь из списка, уже приведённый к адресу.
+ *
+ * Нужен там, где у картинки несколько источников по старшинству: ключ
+ * site_settings перекрывает колонку профиля, а если пусты оба — остаётся
+ * запасной вариант. Возвращает пустую строку, когда пусто всё: вызывающий
+ * код по ней решает, показывать ли встроенный в бандл ассет.
+ */
+export function firstImageSrc(...candidates: (string | null | undefined)[]): string {
+  for (const candidate of candidates) {
+    const path = (candidate ?? "").trim();
+    if (path) return getPublicUrl(path);
+  }
+  return "";
+}
+
+/** Значение site_settings как строка. Настройки приходят из jsonb, где под
+ *  ключом может лежать что угодно. */
+export function settingPath(
+  settings: Record<string, unknown> | null | undefined,
+  key: string,
+): string {
+  const value = settings?.[key];
+  return typeof value === "string" ? value.trim() : "";
 }
 
 /**

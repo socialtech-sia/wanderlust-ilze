@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { resolveImageSrc, stockSrcSet } from "@/lib/images";
+import { firstImageSrc, resolveImageSrc, stockSrcSet } from "@/lib/images";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import { Clock, Users, MapPin, Route as RouteIcon, ChevronRight } from "lucide-react";
@@ -51,7 +51,10 @@ export const Route = createFileRoute("/$lang/s/$slug")({
       }) ?? defaultCategoryForType(loaderData.type as string);
     const canonicalSlug = tSlug(loaderData, lang) || params.slug;
     const path = `/s/${canonicalSlug}`;
-    const image = (loaderData.hero_image_storage_path as string | null) ?? undefined;
+    // Абсолютный адрес файла, а не путь в бакете. Раньше в og:image и в
+    // schema.org уезжало services/1789…webp — для робота это ссылка в никуда,
+    // и картинка предпросмотра в соцсетях не показывалась.
+    const image = firstImageSrc(loaderData.hero_image_storage_path as string | null) || undefined;
     const jsonLd: object[] = [
       buildBreadcrumbList(lang, [
         { name: "Home", path: "/" },

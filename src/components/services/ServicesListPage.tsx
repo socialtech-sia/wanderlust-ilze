@@ -1,13 +1,19 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@tanstack/react-router";
-import { useServicesByType, useEnterGaujaCategories, type ServiceType } from "@/hooks/use-services";
+import {
+  useEnterGaujaCategories,
+  useServicesByType,
+  type Service,
+  type ServiceType,
+} from "@/hooks/use-services";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import type { Database } from "@/integrations/supabase/types";
 import { cn } from "@/lib/utils";
 import { tField } from "@/lib/language";
-import { resolveImageSrc, stockSrcSet } from "@/lib/images";
+import { resolveImageSrc, settingPath, stockSrcSet } from "@/lib/images";
 import { useSiteSettings } from "@/hooks/use-services";
+import type { SiteSettingsMap } from "@/lib/home-data";
 
 type Cat = Database["public"]["Enums"]["enter_gauja_category"];
 type Difficulty = Database["public"]["Enums"]["service_difficulty"];
@@ -31,36 +37,46 @@ const HERO_IMG: Record<ServiceType, { img: string; alt: string }> = {
 
 type SearchShape = { category?: Cat; difficulty?: Difficulty };
 
+/**
+ * `services` и `settings` приходят из загрузчика маршрута. Хуки оставлены
+ * запасным путём, но именно данные загрузчика попадают в SSR-разметку: без
+ * них картинка шапки в первом кадре всегда была стоковой, даже когда своя
+ * уже загружена через админку.
+ */
 export function ServicesListPage({
   type,
   navKey,
+  services: ssrServices,
+  settings: ssrSettings,
   category,
   difficulty,
 }: {
   type: ServiceType;
   navKey: "tours" | "hiking" | "transfers";
+  services?: Service[];
+  settings?: SiteSettingsMap;
   category?: Cat;
   difficulty?: Difficulty;
 }) {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
   const navigate = useNavigate();
-  const { data, isLoading } = useServicesByType(type);
+  const { data: fromQuery, isLoading: queryLoading } = useServicesByType(type);
+  const data = ssrServices ?? fromQuery;
+  const isLoading = ssrServices ? false : queryLoading;
   const { data: cats } = useEnterGaujaCategories();
   const hero = HERO_IMG[type];
   // Своя картинка, если путь задан в site_settings, иначе стоковая. Ключи:
   // tours_hero_storage_path, hiking_hero_storage_path, transfers_hero_storage_path.
-  const { data: settings } = useSiteSettings();
+  const { data: settingsFromQuery } = useSiteSettings();
+  const settings = ssrSettings ?? settingsFromQuery;
   const heroKey =
     type === "excursion"
       ? "tours_hero_storage_path"
       : type === "hiking"
         ? "hiking_hero_storage_path"
         : "transfers_hero_storage_path";
-  const heroSrc = resolveImageSrc(
-    typeof settings?.[heroKey] === "string" ? (settings[heroKey] as string) : null,
-    hero.img,
-  );
+  const heroSrc = resolveImageSrc(settingPath(settings, heroKey), hero.img);
 
   const filtered = (data ?? []).filter((s) => {
     if (category && !(s.enter_gauja_categories ?? []).includes(category)) return false;

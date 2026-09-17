@@ -8,9 +8,9 @@ import hero768 from "@/assets/hero-gauja-768.webp";
 import hero1280 from "@/assets/hero-gauja-1280.webp";
 import hero1920 from "@/assets/hero-gauja-1920.webp";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
-import { useSiteSettings } from "@/hooks/use-services";
-import type { SiteSettingsMap } from "@/lib/home-data";
-import { resolveImageSrc } from "@/lib/images";
+import { useProfile, useSiteSettings } from "@/hooks/use-services";
+import type { HomeProfile, SiteSettingsMap } from "@/lib/home-data";
+import { firstImageSrc, settingPath } from "@/lib/images";
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -26,20 +26,29 @@ function splitLines(text: string, max = 3): string[] {
 }
 
 /**
- * `settings` приходит из загрузчика маршрута — тогда заголовок попадает в
- * SSR-разметку и не меняется после гидратации. Хук остаётся запасным путём:
- * Hero используется и там, где загрузчика нет.
+ * `settings` и `profile` приходят из загрузчика маршрута — тогда и заголовок,
+ * и картинка попадают в SSR-разметку и не меняются после гидратации. Хуки
+ * остаются запасным путём: Hero используется и там, где загрузчика нет.
  */
-export function Hero({ settings: ssr }: { settings?: SiteSettingsMap } = {}) {
+export function Hero({
+  settings: ssrSettings,
+  profile: ssrProfile,
+}: { settings?: SiteSettingsMap; profile?: HomeProfile | null } = {}) {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
-  const { data: fromQuery } = useSiteSettings();
-  const settings = ssr ?? fromQuery;
-  const storedHero =
-    typeof settings?.home_hero_storage_path === "string"
-      ? (settings.home_hero_storage_path as string)
-      : "";
-  const customHero = storedHero.trim() ? resolveImageSrc(storedHero, "") : "";
+  const { data: settingsFromQuery } = useSiteSettings();
+  const { data: profileFromQuery } = useProfile();
+  const settings = ssrSettings ?? settingsFromQuery;
+  const profile = ssrProfile ?? profileFromQuery;
+  // Два источника по старшинству. hero_image_storage_path — это то, что
+  // пишет MediaPicker «Hero attēls» на странице профиля в админке, то есть
+  // обычный путь клиента. home_hero_storage_path оставлен как перекрытие:
+  // им можно поставить картинку главной, не трогая профиль. Пусты оба —
+  // показывается адаптивный набор из бандла.
+  const customHero = firstImageSrc(
+    settingPath(settings, "home_hero_storage_path"),
+    profile?.hero_image_storage_path,
+  );
 
   const headline =
     ((settings?.[`hero_headline_${lang}`] as string) ?? "") || t("home.categories_title");
@@ -78,13 +87,16 @@ export function Hero({ settings: ssr }: { settings?: SiteSettingsMap } = {}) {
         поддержки WebP обязан получить рабочий вариант, а не выбрать из srcset
         формат, который не умеет читать.
 
-        Если клиент загрузит свою фотографию и впишет home_hero_storage_path,
-        показывается она — адаптивный набор WebP тогда не нужен.
+        Если клиент загрузил свою фотографию через админку (профиль → «Hero
+        attēls», либо ключ home_hero_storage_path), показывается она —
+        адаптивный набор WebP тогда не нужен.
       */}
       {customHero ? (
         <img
           src={customHero}
           alt="Wanderlust.lv — Gaujas ieleja"
+          width={1920}
+          height={1280}
           fetchPriority="high"
           className="absolute inset-0 h-full w-full object-cover"
         />

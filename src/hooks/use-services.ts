@@ -9,6 +9,17 @@ export type EnterGaujaCategoryRow = Tables<"enter_gauja_categories">;
 export type Profile = Tables<"profile">;
 export type ServiceType = Service["type"];
 
+/**
+ * Минута, а не пять.
+ *
+ * Из site_settings приходит всё, что клиент правит в админке: контакты,
+ * заголовки hero, пути к картинкам. При staleTime в пять минут сохранение в
+ * админке выглядело как «ничего не изменилось» — вкладка с открытым сайтом
+ * ещё несколько минут показывала старое значение. Минута — верхняя граница
+ * того, что клиент готов ждать после «Saglabāt».
+ */
+const ADMIN_EDITABLE_STALE_MS = 60_000;
+
 async function fetchServicesByType(type: ServiceType): Promise<Service[]> {
   const { data, error } = await supabase
     .from("services")
@@ -24,7 +35,7 @@ export function useServicesByType(type: ServiceType) {
   return useQuery({
     queryKey: ["services", type],
     queryFn: () => fetchServicesByType(type),
-    staleTime: 60_000,
+    staleTime: ADMIN_EDITABLE_STALE_MS,
   });
 }
 
@@ -44,7 +55,7 @@ export function useFeaturedServices(limit = 3) {
   return useQuery({
     queryKey: ["services", "featured", limit],
     queryFn: () => fetchFeaturedServices(limit),
-    staleTime: 60_000,
+    staleTime: ADMIN_EDITABLE_STALE_MS,
   });
 }
 
@@ -64,7 +75,7 @@ export function useServiceBySlug(slug: string) {
     queryKey: ["service", slug],
     queryFn: () => fetchServiceBySlug(slug),
     enabled: !!slug,
-    staleTime: 60_000,
+    staleTime: ADMIN_EDITABLE_STALE_MS,
   });
 }
 
@@ -83,7 +94,7 @@ export function useAllServices() {
   return useQuery({
     queryKey: ["services", "all"],
     queryFn: fetchAllServices,
-    staleTime: 60_000,
+    staleTime: ADMIN_EDITABLE_STALE_MS,
   });
 }
 
@@ -97,7 +108,7 @@ export function useSiteSettings() {
   return useQuery({
     queryKey: ["site_settings"],
     queryFn: fetchSiteSettings,
-    staleTime: 300_000,
+    staleTime: ADMIN_EDITABLE_STALE_MS,
   });
 }
 
@@ -112,7 +123,7 @@ async function fetchFaq(): Promise<FaqRow[]> {
 }
 
 export function useFaq() {
-  return useQuery({ queryKey: ["faq"], queryFn: fetchFaq, staleTime: 300_000 });
+  return useQuery({ queryKey: ["faq"], queryFn: fetchFaq, staleTime: ADMIN_EDITABLE_STALE_MS });
 }
 
 async function fetchCategories(): Promise<EnterGaujaCategoryRow[]> {
@@ -128,6 +139,8 @@ export function useEnterGaujaCategories() {
   return useQuery({
     queryKey: ["enter_gauja_categories"],
     queryFn: fetchCategories,
+    // Здесь десять минут намеренно: таблица категорий Enter Gauja — это
+    // фиксированный справочник партнёра, в админке его страницы нет.
     staleTime: 600_000,
   });
 }
@@ -144,5 +157,9 @@ async function fetchProfile(): Promise<Profile | null> {
 }
 
 export function useProfile() {
-  return useQuery({ queryKey: ["profile"], queryFn: fetchProfile, staleTime: 600_000 });
+  return useQuery({
+    queryKey: ["profile"],
+    queryFn: fetchProfile,
+    staleTime: ADMIN_EDITABLE_STALE_MS,
+  });
 }
