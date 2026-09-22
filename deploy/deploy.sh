@@ -94,6 +94,52 @@ echo "-- pull $TAG --"
 export TAG
 "${DC[@]}" pull
 
+# --- 2.5. в образе НАШ Supabase? ---
+# VITE_* вшиваются в клиентский бандл на сборке, в CI, из секретов GitHub.
+# Сервер на них не влияет и в рантайме не подменит. Значит образ приезжает
+# технически исправным и при этом может ходить в чужой проект.
+#
+# 22.09 так и вышло: в секрете VITE_SUPABASE_PUBLISHABLE_KEY остался anon-ключ
+# отключённого Lovable-проекта (ref uqddhtimdrwlzpbezbgi). Каждый браузерный
+# запрос получал 401, списки услуг приходили пустыми, шаг 1 брони отдавал
+# отключённые кнопки (StepType.tsx гасит кнопку при count === 0).
+#
+# Smoke этого не видит ВООБЩЕ: SSR ходит в Supabase серверными ключами из
+# .env, страницы рендерятся целыми, все проверки зелёные — ломается только
+# браузер. Поэтому сверяем здесь, ДО `up`, пока прод ещё не тронут.
+echo "-- проверка вшитых VITE_* --"
+env_val() { grep -E "^$1=" "$ENV_FILE" | head -1 | cut -d= -f2-; }
+WANT_KEY="$(env_val VITE_SUPABASE_PUBLISHABLE_KEY)"
+WANT_URL="$(env_val VITE_SUPABASE_URL)"
+[ -n "$WANT_KEY" ] && [ -n "$WANT_URL" ] || {
+  echo "ОСТАНОВКА: в $ENV_FILE нет VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY,"
+  echo "сверять образ не с чем."
+  exit 1
+}
+
+ASSETS=/app/.output/public/assets
+BAKED="$(docker run --rm --entrypoint sh "$IMAGE:$TAG" -c \
+  "test -d $ASSETS && grep -rhoE 'eyJ[A-Za-z0-9_-]+[.]eyJ[A-Za-z0-9_-]+[.][A-Za-z0-9_-]+' $ASSETS | sort -u" || true)"
+if [ -z "$BAKED" ]; then
+  echo "ОСТАНОВКА: в образе $TAG не нашёлся ни один JWT в $ASSETS."
+  echo "Либо раскладка образа изменилась, либо бандл собран без VITE_*."
+  exit 1
+fi
+if ! printf '%s\n' "$BAKED" | grep -qxF "$WANT_KEY"; then
+  echo "ОСТАНОВКА: образ $TAG собран с ЧУЖИМ anon-ключом."
+  echo "   ждали (хвост ключа из $ENV_FILE): …${WANT_KEY: -16}"
+  printf '%s\n' "$BAKED" | while read -r k; do echo "   в бандле:                        …${k: -16}"; done
+  echo "Лечится не на сервере: секрет VITE_SUPABASE_PUBLISHABLE_KEY в GitHub"
+  echo "(Settings -> Secrets -> Actions), затем пересборка образа."
+  exit 1
+fi
+if ! docker run --rm -e WANT_URL="$WANT_URL" --entrypoint sh "$IMAGE:$TAG" -c \
+     "grep -rqF \"\$WANT_URL\" $ASSETS"; then
+  echo "ОСТАНОВКА: в бандле образа $TAG нет адреса $WANT_URL — собран на чужой URL."
+  exit 1
+fi
+echo "   ключ и адрес совпадают с $ENV_FILE"
+
 # --- 3. поднять ---
 echo "-- up --"
 "${DC[@]}" up -d --remove-orphans
