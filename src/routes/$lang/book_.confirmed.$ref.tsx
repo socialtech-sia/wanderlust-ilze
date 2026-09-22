@@ -5,7 +5,7 @@ import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 
-export const Route = createFileRoute("/$lang/book/confirmed/$ref")({
+export const Route = createFileRoute("/$lang/book_/confirmed/$ref")({
   validateSearch: z.object({ email: z.string().optional() }),
   component: Confirmed,
 });

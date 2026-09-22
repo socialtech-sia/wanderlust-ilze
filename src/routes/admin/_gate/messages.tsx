@@ -73,6 +73,16 @@ function AdminMessages() {
                 <TableCell>
                   <span className="font-medium">{m.name}</span>
                   <span className="block text-xs text-muted-foreground">{m.email}</span>
+                  {/* Телефон теперь собирается и формой контактов, и в E.164 —
+                      значит, по нему можно просто позвонить из админки. */}
+                  {m.phone ? (
+                    <a
+                      href={`tel:${m.phone}`}
+                      className="block text-xs text-muted-foreground hover:text-foreground"
+                    >
+                      {m.phone}
+                    </a>
+                  ) : null}
                 </TableCell>
                 <TableCell>{m.subject ?? "—"}</TableCell>
                 <TableCell className="max-w-md whitespace-pre-wrap text-sm">{m.message}</TableCell>

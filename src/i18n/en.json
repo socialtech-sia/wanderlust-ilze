@@ -118,7 +118,16 @@
     "reference": "Booking reference",
     "save_code": "Please save this code",
     "back_home": "Back home",
-    "email_sent": "A confirmation email has been sent to {{email}}."
+    "email_sent": "A confirmation email has been sent to {{email}}.",
+    "sending": "Sending…",
+    "error_duplicate": "You have already sent this request. We will be in touch.",
+    "error_rate_limit": "Too many requests from this email address. Please try later or email us.",
+    "error_email": "Please check the email address.",
+    "error_name": "Please check the name.",
+    "error_date": "Please check the selected date.",
+    "error_persons": "Please check the number of people.",
+    "error_phone": "Please check the phone number — the country code is required.",
+    "error_network": "No connection to the server. Check your internet and try again."
   },
   "contact": {
     "title": "Get in touch",
@@ -425,5 +434,16 @@
   "a11y": {
     "services_list": "List of services",
     "faq_list": "Frequently asked questions"
+  },
+  "phone": {
+    "country_code": "Country code",
+    "search_country": "Search country or code",
+    "no_country": "No country found",
+    "number": "Phone number",
+    "hint": "Pick the country code and enter the number without it (e.g. {{dial}} 29123456).",
+    "err_required": "Please enter a phone number.",
+    "err_too_short": "That number looks too short — please check it is complete.",
+    "err_too_long": "That number looks too long — check the country code is not entered twice.",
+    "err_invalid_chars": "The number may contain only digits, spaces and ( ) + -"
   }
 }

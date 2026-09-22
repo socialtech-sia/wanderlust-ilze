@@ -123,59 +123,160 @@ test.describe("Чат", () => {
 });
 
 test.describe("Бронирование", () => {
-  // ИЗВЕСТНЫЙ ПРОБЕЛ ПОКРЫТИЯ.
-  //
-  // Пятишаговая форма ведётся состоянием, а не URL, и шаги собраны из
-  // Popover + react-day-picker без устойчивых точек зацепа: ни data-testid,
-  // ни ролей, по которым шаг можно надёжно опознать. Подбирать селекторы
-  // вслепую — значит получить тест, который «зелёный», пока разметка не
-  // дрогнет, и красный без причины после первой же правки вёрстки.
-  //
-  // Сам сценарий проверен сквозным прогоном по тем же запросам, что делает
-  // браузер: rpc create_booking -> 201, POST /api/public/booking-notification
-  // -> 200, страница /lv/book/confirmed/<код> -> 200 с кодом в разметке,
-  // повторная отправка -> 23514 «Duplicate booking already submitted».
-  //
-  // Чтобы закрыть пробел по-настоящему, в шаги формы нужно добавить
-  // data-testid. Это правка приложения, а не тестов, и делать её посреди
-  // приёмки я не стал.
-  test.fixme("полный путь до подтверждения", async ({ page }) => {
-    const email = marker("booking");
+  /**
+   * Пройти форму до шага 5 включительно. Возвращает адрес, который был у
+   * страницы перед отправкой.
+   *
+   * Зацепы — data-testid: пятишаговая форма ведётся состоянием, а не URL, и
+   * шаги собраны из Popover и react-day-picker, где ни ролей, ни устойчивых
+   * подписей для опознания шага нет.
+   */
+  async function fillBookingForm(
+    page: Page,
+    opts: { email: string; phone?: string; country?: string },
+  ) {
     await page.goto("/lv/book", { waitUntil: "networkidle" });
     await acceptCookies(page);
 
-    // шаг 1 — тип
-    await page.locator("button, [role=button]").filter({ hasText: /ekskurs/i }).first().click();
-    await page.getByRole("button", { name: /tālāk|next|siguiente/i }).first().click();
-    // шаг 2 — услуга
-    await page.locator("[data-service-option], button").filter({ hasText: /./ }).first().click();
-    await page.getByRole("button", { name: /tālāk|next|siguiente/i }).first().click();
-    // шаг 3 — дата. Не input[type=date], а Popover с react-day-picker:
-    // жмём триггер с подписью «Izvēlieties datumu», затем первый доступный
-    // (не disabled) день в сетке.
-    await page.getByRole("button", { name: /izvēlieties datumu|pick a date|elige una fecha/i }).click();
-    const grid = page.getByRole("dialog").or(page.locator("[data-radix-popper-content-wrapper]")).first();
-    await grid.getByRole("button", { name: /^\d{1,2}$/ }).filter({ hasNotText: /^$/ }).nth(20).click();
-    await page.getByRole("button", { name: /^tālāk$/i }).first().click();
-    // шаг 4 — контакты
-    await page.locator('input[type="text"]').first().fill("Playwright Audit");
-    await page.locator('input[type="email"]').first().fill(email);
-    await page.getByRole("button", { name: /tālāk|next|siguiente/i }).first().click();
-    // шаг 5 — согласие и отправка
-    await page.locator('input[type="checkbox"]').first().check();
-    await page.getByRole("button", { name: /nosūtīt|send|enviar|apstiprin/i }).first().click();
+    await page.getByTestId("booking-type-excursion").click();
+    await page.getByTestId("booking-next").click();
 
-    await page.waitForURL(/\/book\/confirmed\//, { timeout: 20000 });
+    await page.getByTestId("booking-service-option").first().click();
+    await page.getByTestId("booking-next").click();
+
+    await page.getByTestId("booking-date-trigger").click();
+    const calendar = page.locator("[data-radix-popper-content-wrapper]").first();
+    // Первый доступный день: прошедшие числа в сетке отключены.
+    await calendar.locator("button:not([disabled])").filter({ hasText: /^\d{1,2}$/ }).nth(3).click();
+    await page.getByTestId("booking-time-slot").first().click();
+    await page.getByTestId("booking-next").click();
+
+    await page.getByTestId("booking-name").fill("Playwright Audit");
+    await page.getByTestId("booking-email").fill(opts.email);
+    if (opts.country !== undefined) {
+      await page.getByTestId("booking-phone-country").click();
+      await page.getByPlaceholder(/meklēt valsti|search country|buscar/i).fill(opts.country);
+      await page.locator("[cmdk-item]").first().click();
+    }
+    if (opts.phone !== undefined) await page.getByTestId("booking-phone-number").fill(opts.phone);
+    await page.getByTestId("booking-next").click();
+
+    await page.getByTestId("booking-terms").check();
+  }
+
+  test("полный путь до подтверждения", async ({ page }) => {
+    const email = marker("booking");
+    const seen: string[] = [];
+    page.on("response", (r) => {
+      if (/create_booking|booking-notification/.test(r.url())) seen.push(String(r.status()));
+    });
+
+    await fillBookingForm(page, { email, phone: "29299354" });
+
+    const submit = page.getByTestId("booking-submit");
+    await expect(submit, "кнопка отправки активна").toBeEnabled();
+    await submit.click();
+
+    // Кнопка обязана заблокироваться немедленно — иначе второй клик создаёт
+    // вторую бронь. Именно на это жаловался клиент.
+    await expect(submit, "кнопка заблокирована сразу после клика").toBeDisabled();
+
+    // Переход должен состояться. Раньше адрес менялся, а страница нет:
+    // маршрут подтверждения был ДОЧЕРНИМ для /$lang/book, а book.tsx не
+    // рендерит <Outlet />, поэтому подтверждение не показывалось никогда.
+    await page.waitForURL(/\/book\/confirmed\//, { timeout: 30_000 });
     const body = await page.locator("body").innerText();
-    expect(body, "код брони на странице").toMatch(/WND-[A-Z0-9]{6}/);
+    expect(body, "код брони на странице подтверждения").toMatch(/WND-[A-Z0-9]{6}/);
+    expect(body, "страница подтверждения, а не форма").not.toMatch(/Gandrīz gatavs/i);
+    expect(seen, "запросы брони прошли").toContain("200");
+  });
+
+  test("повторный клик не создаёт вторую бронь", async ({ page }) => {
+    const email = marker("dbl");
+    let creates = 0;
+    page.on("request", (r) => {
+      if (/create_booking/.test(r.url())) creates++;
+    });
+
+    await fillBookingForm(page, { email, phone: "29299355" });
+
+    const submit = page.getByTestId("booking-submit");
+    // Три клика подряд, как это делает нетерпеливый посетитель.
+    await submit.click({ force: true });
+    await submit.click({ force: true }).catch(() => undefined);
+    await submit.click({ force: true }).catch(() => undefined);
+
+    await page.waitForURL(/\/book\/confirmed\//, { timeout: 30_000 });
+    expect(creates, "create_booking вызван ровно один раз").toBe(1);
+  });
+
+  test("телефон обязателен и требует кода страны", async ({ page }) => {
+    await page.goto("/lv/book", { waitUntil: "networkidle" });
+    await acceptCookies(page);
+
+    await page.getByTestId("booking-type-excursion").click();
+    await page.getByTestId("booking-next").click();
+    await page.getByTestId("booking-service-option").first().click();
+    await page.getByTestId("booking-next").click();
+    await page.getByTestId("booking-date-trigger").click();
+    const calendar = page.locator("[data-radix-popper-content-wrapper]").first();
+    await calendar.locator("button:not([disabled])").filter({ hasText: /^\d{1,2}$/ }).nth(3).click();
+    await page.getByTestId("booking-time-slot").first().click();
+    await page.getByTestId("booking-next").click();
+
+    await page.getByTestId("booking-name").fill("Playwright Audit");
+    await page.getByTestId("booking-email").fill(marker("phone"));
+
+    // Без номера дальше не пускает.
+    await expect(page.getByTestId("booking-next"), "без телефона «Tālāk» недоступна").toBeDisabled();
+
+    // Код страны по умолчанию — латвийский.
+    await expect(page.getByTestId("booking-phone-country")).toContainText("+371");
+
+    // Слишком короткий номер тоже не проходит, и текст ошибки — на латышском.
+    await page.getByTestId("booking-phone-number").fill("29");
+    await expect(page.getByTestId("booking-next")).toBeDisabled();
+
+    await page.getByTestId("booking-phone-number").fill("29299354");
+    await expect(page.getByTestId("booking-next"), "с полным номером — можно дальше").toBeEnabled();
+  });
+
+  test("ошибка показывается рядом с кнопкой", async ({ page }) => {
+    // Дубль: та же услуга, дата и почта второй раз — база отвечает 23514.
+    const email = marker("dup");
+    await fillBookingForm(page, { email, phone: "29299356" });
+    await page.getByTestId("booking-submit").click();
+    await page.waitForURL(/\/book\/confirmed\//, { timeout: 30_000 });
+
+    await fillBookingForm(page, { email, phone: "29299356" });
+    const submit = page.getByTestId("booking-submit");
+    await submit.click();
+
+    const error = page.getByTestId("booking-error");
+    await expect(error, "сообщение об ошибке видно").toBeVisible({ timeout: 30_000 });
+    // На языке страницы, без английского текста из PostgreSQL.
+    await expect(error).not.toContainText(/duplicate booking/i);
+
+    // «Рядом с кнопкой» проверяем буквально: оба в видимой части экрана.
+    const errBox = await error.boundingBox();
+    const btnBox = await submit.boundingBox();
+    expect(errBox, "у сообщения есть геометрия").not.toBeNull();
+    expect(btnBox).not.toBeNull();
+    const viewport = page.viewportSize()!;
+    expect(errBox!.y, "сообщение в пределах экрана").toBeLessThan(viewport.height);
+    expect(
+      Math.abs(errBox!.y - (btnBox!.y + btnBox!.height)),
+      "сообщение сразу под кнопкой",
+    ).toBeLessThan(80);
+    // Кнопка снова активна: ошибка — не тупик.
+    await expect(submit).toBeEnabled();
   });
 
   test("валидация: пустые поля и кривой email", async ({ page }) => {
     await page.goto("/lv/book", { waitUntil: "networkidle" });
     await acceptCookies(page);
-    const next = page.getByRole("button", { name: /tālāk|next/i }).first();
     // на первом шаге без выбора типа «дальше» должно быть недоступно
-    await expect(next).toBeDisabled();
+    await expect(page.getByTestId("booking-next")).toBeDisabled();
   });
 });
 

@@ -45,6 +45,7 @@ export function StepService({
             <button
               key={s.id}
               type="button"
+              data-testid="booking-service-option"
               onClick={() => onSelect(s.id)}
               className={cn(
                 "group flex items-center gap-4 rounded-lg border bg-background p-4 text-left transition-all duration-200",

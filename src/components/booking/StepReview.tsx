@@ -78,6 +78,7 @@ export function StepReview({
         <label className="flex items-start gap-3 rounded-lg border border-border/60 bg-background p-4 text-sm text-foreground">
           <input
             type="checkbox"
+            data-testid="booking-terms"
             checked={form.terms}
             onChange={(e) => onChangeTerms(e.target.checked)}
             className="mt-1 h-4 w-4 shrink-0 accent-current"

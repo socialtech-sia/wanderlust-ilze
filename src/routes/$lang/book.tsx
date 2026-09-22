@@ -1,8 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { AlertCircle, ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { useAllServices, type Service, type ServiceType } from "@/hooks/use-services";
@@ -16,6 +16,14 @@ import { StepWhen } from "@/components/booking/StepWhen";
 import { StepContact } from "@/components/booking/StepContact";
 import { StepReview } from "@/components/booking/StepReview";
 import { TYPE_COLOR, TYPE_ON_COLOR } from "@/components/booking/ServiceTypeIcon";
+import { bookingErrorKey } from "@/lib/booking-errors";
+import {
+  EMPTY_PHONE,
+  toE164,
+  validatePhone,
+  type PhoneErrorCode,
+  type PhoneParts,
+} from "@/lib/phone";
 
 export const Route = createFileRoute("/$lang/book")({
   validateSearch: z.object({ service: z.string().optional() }),
@@ -33,7 +41,7 @@ interface FormState {
   persons: number;
   name: string;
   email: string;
-  phone: string;
+  phone: PhoneParts;
   country: string;
   notes: string;
   terms: boolean;
@@ -68,7 +76,7 @@ function BookingPage() {
     persons: 2,
     name: "",
     email: "",
-    phone: "",
+    phone: EMPTY_PHONE,
     country: "",
     notes: "",
     terms: false,
@@ -76,6 +84,15 @@ function BookingPage() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Ошибка телефона показывается только после попытки уйти дальше: подсвечивать
+  // поле красным, пока посетитель ещё набирает номер, — враньё.
+  const [phoneTouched, setPhoneTouched] = useState(false);
+  // Замок от второго нажатия. Состояния `submitting` для этого мало: React
+  // применяет setState асинхронно, и два быстрых клика успевают войти в
+  // обработчик до перерисовки — получалось две одинаковые брони, вторая из
+  // которых падала на проверке дублей и показывала посетителю ошибку.
+  const inFlight = useRef(false);
+  const errorRef = useRef<HTMLParagraphElement>(null);
 
   const selectedService: Service | null = services?.find((s) => s.id === form.serviceId) ?? null;
 
@@ -84,15 +101,26 @@ function BookingPage() {
   // дотягивает до 4.5:1, см. TYPE_ON_COLOR.
   const onAccent = form.serviceType ? TYPE_ON_COLOR[form.serviceType] : "var(--on-accent)";
 
+  const phoneError: PhoneErrorCode | null = validatePhone(form.phone, { required: true });
+
   const canNext = (): boolean => {
     if (step === 1) return !!form.serviceType;
     if (step === 2) return !!form.serviceId;
     if (step === 3) return !!form.date && form.persons > 0;
-    if (step === 4) return !!form.name && !!form.email;
+    if (step === 4) return !!form.name && !!form.email && !phoneError;
     return form.terms;
   };
 
+  // Сообщение об ошибке живёт рядом с кнопкой, но на узком экране шаг 5
+  // длиннее вьюпорта, и появившийся текст оказывался за нижней границей.
+  // Поэтому после отказа прокручиваем к нему, а не надеемся, что заметят.
+  useEffect(() => {
+    if (error) errorRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, [error]);
+
   async function submit() {
+    if (inFlight.current) return;
+    inFlight.current = true;
     setSubmitting(true);
     setError(null);
     try {
@@ -105,6 +133,11 @@ function BookingPage() {
           }
         : null;
       if (!form.serviceId) throw new Error(t("errors.generic"));
+      if (validatePhone(form.phone, { required: true })) {
+        setPhoneTouched(true);
+        setStep(4);
+        throw new Error("Invalid phone");
+      }
       const { data: rows, error: err } = await supabase.rpc("create_booking", {
         p_service_id: form.serviceId,
         p_service_snapshot: snapshot,
@@ -114,7 +147,8 @@ function BookingPage() {
         p_persons_count: form.persons,
         p_customer_name: form.name,
         p_customer_email: form.email,
-        p_customer_phone: form.phone || "",
+        // В базу — строго E.164: «+37129123456», без пробелов и скобок.
+        p_customer_phone: toE164(form.phone),
         p_customer_country: form.country || "",
         p_customer_language: form.language,
         p_notes: form.notes || "",
@@ -128,14 +162,39 @@ function BookingPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ booking_id: data.id }),
       }).catch(() => undefined);
-      void navigate({
-        to: "/$lang/book/confirmed/$ref",
-        params: { lang, ref: data.reference_code },
-        search: { email: form.email },
-      });
+
+      // Переход НЕ fire-and-forget.
+      //
+      // Раньше здесь стояло `void navigate(...)`: обещание отбрасывалось, и
+      // если переход не состоялся, посетитель оставался на шаге 5 с той же
+      // кнопкой — ровно то, на что жаловался клиент. Теперь перехода
+      // дожидаемся, а если после него адрес не сменился, уходим на
+      // подтверждение обычной сменой документа. Бронь уже в базе, и показать
+      // её код важнее, чем сохранить SPA-переход.
+      const target = `/${lang}/book/confirmed/${encodeURIComponent(
+        data.reference_code,
+      )}?email=${encodeURIComponent(form.email)}`;
+      try {
+        await navigate({
+          to: "/$lang/book/confirmed/$ref",
+          params: { lang, ref: data.reference_code },
+          search: { email: form.email },
+        });
+      } catch {
+        window.location.assign(target);
+        return;
+      }
+      if (!window.location.pathname.includes("/book/confirmed/")) {
+        window.location.assign(target);
+        return;
+      }
+      // Успех: замок и «отправка» НЕ снимаются намеренно — эта страница уже
+      // уходит, а разблокированная кнопка успела бы принять ещё один клик.
+      return;
     } catch (e) {
-      setError((e as Error).message ?? t("errors.generic"));
-    } finally {
+      const key = bookingErrorKey(e);
+      setError(key ? t(`booking.${key}`) : t("errors.generic"));
+      inFlight.current = false;
       setSubmitting(false);
     }
   }
@@ -195,6 +254,7 @@ function BookingPage() {
               name={form.name}
               email={form.email}
               phone={form.phone}
+              phoneError={phoneTouched ? phoneError : null}
               country={form.country}
               notes={form.notes}
               accent={accent}
@@ -205,15 +265,9 @@ function BookingPage() {
             <StepReview
               service={selectedService}
               lang={lang}
-              form={form}
+              form={{ ...form, phone: toE164(form.phone) }}
               onChangeTerms={(v) => setForm({ ...form, terms: v })}
             />
-          )}
-
-          {error && (
-            <p className="mt-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
-              {error}
-            </p>
           )}
 
           <div className="mt-10 flex items-center justify-between">
@@ -230,8 +284,12 @@ function BookingPage() {
               <Button
                 type="button"
                 size="md"
+                data-testid="booking-next"
                 disabled={!canNext()}
-                onClick={() => setStep((s) => (s < 5 ? ((s + 1) as Step) : s))}
+                onClick={() => {
+                  if (step === 4) setPhoneTouched(true);
+                  setStep((s) => (s < 5 ? ((s + 1) as Step) : s));
+                }}
                 style={{ backgroundColor: accent, color: onAccent }}
               >
                 {t("cta.next")} <ArrowRight className="h-4 w-4" />
@@ -240,14 +298,40 @@ function BookingPage() {
               <Button
                 type="button"
                 size="md"
+                data-testid="booking-submit"
+                // aria-busy, а не только disabled: читалка должна сказать
+                // «занято», а не молча перестать реагировать на кнопку.
+                aria-busy={submitting || undefined}
                 disabled={!canNext() || submitting}
                 onClick={submit}
                 style={{ backgroundColor: accent, color: onAccent }}
               >
-                {submitting ? "…" : t("booking.submit")}
+                {submitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                    {t("booking.sending")}
+                  </>
+                ) : (
+                  t("booking.submit")
+                )}
               </Button>
             )}
           </div>
+
+          {/* Ошибка — под самой кнопкой, а не в начале карточки.
+              Клиент жаловался, что сообщения не видно: на шаге 5 карточка
+              выше экрана, и текст над кнопкой оставался за кадром. */}
+          {error && (
+            <p
+              ref={errorRef}
+              role="alert"
+              data-testid="booking-error"
+              className="mt-4 flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+            >
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+              <span>{error}</span>
+            </p>
+          )}
         </div>
 
         <p className="mt-6 text-center text-xs text-ink-muted">

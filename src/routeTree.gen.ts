@@ -42,7 +42,7 @@ import { Route as AdminGateServicesIndexRouteImport } from './routes/admin/_gate
 import { Route as AdminGateBlogIndexRouteImport } from './routes/admin/_gate/blog/index'
 import { Route as AdminGateServicesIdRouteImport } from './routes/admin/_gate/services/$id'
 import { Route as AdminGateBlogIdRouteImport } from './routes/admin/_gate/blog/$id'
-import { Route as LangBookConfirmedRefRouteImport } from './routes/$lang/book.confirmed.$ref'
+import { Route as LangBookConfirmedRefRouteImport } from './routes/$lang/book_.confirmed.$ref'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -212,9 +212,9 @@ const AdminGateBlogIdRoute = AdminGateBlogIdRouteImport.update({
   getParentRoute: () => AdminGateRoute,
 } as any)
 const LangBookConfirmedRefRoute = LangBookConfirmedRefRouteImport.update({
-  id: '/confirmed/$ref',
-  path: '/confirmed/$ref',
-  getParentRoute: () => LangBookRoute,
+  id: '/book_/confirmed/$ref',
+  path: '/book/confirmed/$ref',
+  getParentRoute: () => LangRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -222,7 +222,7 @@ export interface FileRoutesByFullPath {
   '/$lang': typeof LangRouteRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$lang/about': typeof LangAboutRoute
-  '/$lang/book': typeof LangBookRouteWithChildren
+  '/$lang/book': typeof LangBookRoute
   '/$lang/contact': typeof LangContactRoute
   '/$lang/cookies': typeof LangCookiesRoute
   '/$lang/faq': typeof LangFaqRoute
@@ -257,7 +257,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$lang/about': typeof LangAboutRoute
-  '/$lang/book': typeof LangBookRouteWithChildren
+  '/$lang/book': typeof LangBookRoute
   '/$lang/contact': typeof LangContactRoute
   '/$lang/cookies': typeof LangCookiesRoute
   '/$lang/faq': typeof LangFaqRoute
@@ -293,7 +293,7 @@ export interface FileRoutesById {
   '/$lang': typeof LangRouteRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$lang/about': typeof LangAboutRoute
-  '/$lang/book': typeof LangBookRouteWithChildren
+  '/$lang/book': typeof LangBookRoute
   '/$lang/contact': typeof LangContactRoute
   '/$lang/cookies': typeof LangCookiesRoute
   '/$lang/faq': typeof LangFaqRoute
@@ -318,7 +318,7 @@ export interface FileRoutesById {
   '/api/public/chat': typeof ApiPublicChatRoute
   '/api/public/contact-notification': typeof ApiPublicContactNotificationRoute
   '/admin/_gate/': typeof AdminGateIndexRoute
-  '/$lang/book/confirmed/$ref': typeof LangBookConfirmedRefRoute
+  '/$lang/book_/confirmed/$ref': typeof LangBookConfirmedRefRoute
   '/admin/_gate/blog/$id': typeof AdminGateBlogIdRoute
   '/admin/_gate/services/$id': typeof AdminGateServicesIdRoute
   '/admin/_gate/blog/': typeof AdminGateBlogIndexRoute
@@ -426,7 +426,7 @@ export interface FileRouteTypes {
     | '/api/public/chat'
     | '/api/public/contact-notification'
     | '/admin/_gate/'
-    | '/$lang/book/confirmed/$ref'
+    | '/$lang/book_/confirmed/$ref'
     | '/admin/_gate/blog/$id'
     | '/admin/_gate/services/$id'
     | '/admin/_gate/blog/'
@@ -677,31 +677,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGateBlogIdRouteImport
       parentRoute: typeof AdminGateRoute
     }
-    '/$lang/book/confirmed/$ref': {
-      id: '/$lang/book/confirmed/$ref'
-      path: '/confirmed/$ref'
+    '/$lang/book_/confirmed/$ref': {
+      id: '/$lang/book_/confirmed/$ref'
+      path: '/book/confirmed/$ref'
       fullPath: '/$lang/book/confirmed/$ref'
       preLoaderRoute: typeof LangBookConfirmedRefRouteImport
-      parentRoute: typeof LangBookRoute
+      parentRoute: typeof LangRouteRoute
     }
   }
 }
 
-interface LangBookRouteChildren {
-  LangBookConfirmedRefRoute: typeof LangBookConfirmedRefRoute
-}
-
-const LangBookRouteChildren: LangBookRouteChildren = {
-  LangBookConfirmedRefRoute: LangBookConfirmedRefRoute,
-}
-
-const LangBookRouteWithChildren = LangBookRoute._addFileChildren(
-  LangBookRouteChildren,
-)
-
 interface LangRouteRouteChildren {
   LangAboutRoute: typeof LangAboutRoute
-  LangBookRoute: typeof LangBookRouteWithChildren
+  LangBookRoute: typeof LangBookRoute
   LangContactRoute: typeof LangContactRoute
   LangCookiesRoute: typeof LangCookiesRoute
   LangFaqRoute: typeof LangFaqRoute
@@ -712,11 +700,12 @@ interface LangRouteRouteChildren {
   LangTransfersRoute: typeof LangTransfersRoute
   LangIndexRoute: typeof LangIndexRoute
   LangSSlugRoute: typeof LangSSlugRoute
+  LangBookConfirmedRefRoute: typeof LangBookConfirmedRefRoute
 }
 
 const LangRouteRouteChildren: LangRouteRouteChildren = {
   LangAboutRoute: LangAboutRoute,
-  LangBookRoute: LangBookRouteWithChildren,
+  LangBookRoute: LangBookRoute,
   LangContactRoute: LangContactRoute,
   LangCookiesRoute: LangCookiesRoute,
   LangFaqRoute: LangFaqRoute,
@@ -727,6 +716,7 @@ const LangRouteRouteChildren: LangRouteRouteChildren = {
   LangTransfersRoute: LangTransfersRoute,
   LangIndexRoute: LangIndexRoute,
   LangSSlugRoute: LangSSlugRoute,
+  LangBookConfirmedRefRoute: LangBookConfirmedRefRoute,
 }
 
 const LangRouteRouteWithChildren = LangRouteRoute._addFileChildren(

@@ -118,7 +118,16 @@
     "reference": "Rezervācijas kods",
     "save_code": "Saglabājiet šo kodu",
     "back_home": "Uz sākumu",
-    "email_sent": "Apstiprinājuma e-pasts nosūtīts uz {{email}}."
+    "email_sent": "Apstiprinājuma e-pasts nosūtīts uz {{email}}.",
+    "sending": "Nosūta…",
+    "error_duplicate": "Šāds pieprasījums jau ir nosūtīts. Mēs ar Jums sazināsimies.",
+    "error_rate_limit": "No šīs e-pasta adreses nosūtīts pārāk daudz pieprasījumu. Mēģiniet vēlāk vai rakstiet mums e-pastā.",
+    "error_email": "Pārbaudiet e-pasta adresi.",
+    "error_name": "Pārbaudiet vārdu un uzvārdu.",
+    "error_date": "Pārbaudiet izvēlēto datumu.",
+    "error_persons": "Pārbaudiet personu skaitu.",
+    "error_phone": "Pārbaudiet tālruņa numuru — jānorāda arī valsts kods.",
+    "error_network": "Nav savienojuma ar serveri. Pārbaudiet internetu un mēģiniet vēlreiz."
   },
   "contact": {
     "title": "Sazinieties ar mums",
@@ -425,5 +434,16 @@
   "a11y": {
     "services_list": "Pakalpojumu saraksts",
     "faq_list": "Biežāk uzdotie jautājumi"
+  },
+  "phone": {
+    "country_code": "Valsts kods",
+    "search_country": "Meklēt valsti vai kodu",
+    "no_country": "Nav atrasta neviena valsts",
+    "number": "Tālruņa numurs",
+    "hint": "Izvēlieties valsts kodu un ievadiet numuru bez tā (piem. {{dial}} 29123456).",
+    "err_required": "Lūdzu, ievadiet tālruņa numuru.",
+    "err_too_short": "Numurs ir par īsu — pārbaudiet, vai tas ievadīts pilnībā.",
+    "err_too_long": "Numurs ir par garu — pārbaudiet, vai valsts kods nav ievadīts divreiz.",
+    "err_invalid_chars": "Numurā drīkst būt tikai cipari, atstarpes un zīmes ( ) + -"
   }
 }

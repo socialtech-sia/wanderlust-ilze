@@ -30,6 +30,7 @@ export function StepType({
             <button
               key={tp}
               type="button"
+              data-testid={`booking-type-${tp}`}
               onClick={() => onSelect(tp)}
               disabled={count === 0}
               className={cn(

@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Mail, Phone, Send } from "lucide-react";
+import { AlertCircle, Mail, Phone, Send } from "lucide-react";
+import { PhoneField } from "@/components/common/PhoneField";
+import { EMPTY_PHONE, toE164, validatePhone, type PhoneParts } from "@/lib/phone";
 import { supabase } from "@/integrations/supabase/client";
 import { getPublicContacts } from "@/lib/contacts.functions";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
@@ -27,11 +29,23 @@ function ContactPage() {
   const { email, phone } = Route.useLoaderData();
 
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  // Телефон здесь НЕ обязателен — в отличие от брони: за ответом на вопрос
+  // номер не нужен. Но если он введён, правила те же, что и в брони, иначе
+  // в базе снова оказались бы номера без кода страны.
+  const [formPhone, setFormPhone] = useState<PhoneParts>(EMPTY_PHONE);
+  const [phoneTouched, setPhoneTouched] = useState(false);
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
+  const phoneError = validatePhone(formPhone, { required: false });
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (phoneError) {
+      setPhoneTouched(true);
+      return;
+    }
+    if (state === "sending") return;
     setState("sending");
     // Идентификатор задаём здесь, а не получаем обратно из базы.
     //
@@ -48,6 +62,9 @@ function ContactPage() {
       name: form.name,
       email: form.email,
       subject: form.subject || null,
+      // Пусто — NULL, а не пустая строка: ограничение в базе проверяет формат
+      // только у заполненных номеров.
+      phone: toE164(formPhone) || null,
       message: form.message,
       language: lang,
     });
@@ -59,11 +76,18 @@ function ContactPage() {
       }).catch(() => undefined);
     }
     if (error) {
-      setErrorMsg(error.message);
+      // Сырой текст PostgREST посетителю ничего не объясняет и всегда
+      // по-английски. Для телефона причина известна точно, остальное —
+      // общий текст на языке страницы.
+      setErrorMsg(
+        /phone/i.test(error.message) ? t("booking.error_phone") : t("errors.generic"),
+      );
       setState("error");
     } else {
       setState("sent");
       setForm({ name: "", email: "", subject: "", message: "" });
+      setFormPhone(EMPTY_PHONE);
+      setPhoneTouched(false);
     }
   }
 
@@ -101,6 +125,13 @@ function ContactPage() {
                   className="rounded-md border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
                 />
               </div>
+              <PhoneField
+                lang={lang}
+                value={formPhone}
+                onChange={(next) => setFormPhone(next)}
+                error={phoneTouched ? phoneError : null}
+                id="contact-phone"
+              />
               <input
                 placeholder={t("contact.subject")}
                 value={form.subject}
@@ -115,10 +146,25 @@ function ContactPage() {
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 className="rounded-md border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
               />
-              {state === "error" && <p className="text-sm text-destructive">{errorMsg}</p>}
-              <Button type="submit" size="lg" disabled={state === "sending"} className="self-start">
-                <Send className="h-4 w-4" /> {t("contact.send")}
+              <Button
+                type="submit"
+                size="lg"
+                aria-busy={state === "sending" || undefined}
+                disabled={state === "sending"}
+                className="self-start"
+              >
+                <Send className="h-4 w-4" />{" "}
+                {state === "sending" ? t("booking.sending") : t("contact.send")}
               </Button>
+              {state === "error" && (
+                <p
+                  role="alert"
+                  className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+                >
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+                  <span>{errorMsg}</span>
+                </p>
+              )}
             </>
           )}
         </form>

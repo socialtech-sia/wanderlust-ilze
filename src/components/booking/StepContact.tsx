@@ -1,13 +1,15 @@
 import { useTranslation } from "react-i18next";
-import { Globe, Mail, MessageSquare, Phone, User } from "lucide-react";
+import { Globe, Mail, MessageSquare, User } from "lucide-react";
 import type { Service } from "@/hooks/use-services";
 import type { Lang } from "@/lib/language";
+import { PhoneField } from "@/components/common/PhoneField";
+import type { PhoneErrorCode, PhoneParts } from "@/lib/phone";
 import { BookingSummary } from "./BookingSummary";
 
 type ContactPatch = {
   name?: string;
   email?: string;
-  phone?: string;
+  phone?: PhoneParts;
   country?: string;
   notes?: string;
 };
@@ -18,6 +20,7 @@ export function StepContact({
   name,
   email,
   phone,
+  phoneError,
   country,
   notes,
   accent,
@@ -27,7 +30,8 @@ export function StepContact({
   lang: Lang;
   name: string;
   email: string;
-  phone: string;
+  phone: PhoneParts;
+  phoneError: PhoneErrorCode | null;
   country: string;
   notes: string;
   accent: string;
@@ -42,6 +46,7 @@ export function StepContact({
           <input
             required
             type="text"
+            data-testid="booking-name"
             placeholder={`${t("booking.name")} *`}
             value={name}
             onChange={(e) => onChange({ name: e.target.value })}
@@ -52,21 +57,25 @@ export function StepContact({
           <input
             required
             type="email"
+            data-testid="booking-email"
             placeholder={`${t("booking.email")} *`}
             value={email}
             onChange={(e) => onChange({ email: e.target.value })}
             className={inputCls}
           />
         </IconField>
-        <IconField icon={<Phone className="h-4 w-4" />} accent={accent}>
-          <input
-            type="tel"
-            placeholder={t("booking.phone")}
-            value={phone}
-            onChange={(e) => onChange({ phone: e.target.value })}
-            className={inputCls}
-          />
-        </IconField>
+        {/* Телефон обязателен: без него клиент не может перезвонить, а именно
+            звонком и подтверждается бронь. Код страны выбирается из списка,
+            поэтому номер без кода отправить нельзя в принципе. */}
+        <PhoneField
+          lang={lang}
+          value={phone}
+          onChange={(next) => onChange({ phone: next })}
+          error={phoneError}
+          required
+          accent={accent}
+          id="booking-phone"
+        />
         <IconField icon={<Globe className="h-4 w-4" />} accent={accent}>
           <input
             type="text"

@@ -118,7 +118,16 @@
     "reference": "Referencia de reserva",
     "save_code": "Guarda este código",
     "back_home": "Volver al inicio",
-    "email_sent": "Hemos enviado un correo de confirmación a {{email}}."
+    "email_sent": "Hemos enviado un correo de confirmación a {{email}}.",
+    "sending": "Enviando…",
+    "error_duplicate": "Ya ha enviado esta solicitud. Nos pondremos en contacto con usted.",
+    "error_rate_limit": "Demasiadas solicitudes desde esta dirección de correo. Inténtelo más tarde o escríbanos.",
+    "error_email": "Compruebe la dirección de correo electrónico.",
+    "error_name": "Compruebe el nombre.",
+    "error_date": "Compruebe la fecha seleccionada.",
+    "error_persons": "Compruebe el número de personas.",
+    "error_phone": "Compruebe el número de teléfono: el código de país es obligatorio.",
+    "error_network": "Sin conexión con el servidor. Compruebe su internet e inténtelo de nuevo."
   },
   "contact": {
     "title": "Contáctanos",
@@ -425,5 +434,16 @@
   "a11y": {
     "services_list": "Lista de servicios",
     "faq_list": "Preguntas frecuentes"
+  },
+  "phone": {
+    "country_code": "Código de país",
+    "search_country": "Buscar país o código",
+    "no_country": "No se encontró ningún país",
+    "number": "Número de teléfono",
+    "hint": "Elija el código de país e introduzca el número sin él (p. ej. {{dial}} 29123456).",
+    "err_required": "Introduzca un número de teléfono.",
+    "err_too_short": "El número parece demasiado corto: compruebe que esté completo.",
+    "err_too_long": "El número parece demasiado largo: compruebe que el código de país no esté dos veces.",
+    "err_invalid_chars": "El número solo puede contener dígitos, espacios y ( ) + -"
   }
 }

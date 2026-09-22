@@ -63,6 +63,7 @@ export function StepWhen({
           <PopoverTrigger asChild>
             <button
               type="button"
+              data-testid="booking-date-trigger"
               className={cn(
                 "flex w-full items-center justify-between rounded-md border border-border bg-background px-4 py-3 text-left text-sm outline-none transition-colors hover:border-ink-soft focus:border-foreground",
                 !selectedDate && "text-ink-soft",
@@ -111,6 +112,7 @@ export function StepWhen({
                     <button
                       key={slot}
                       type="button"
+                      data-testid="booking-time-slot"
                       onClick={() => onChange({ time: slot })}
                       className={cn(
                         "rounded-full border px-2 py-1.5 text-sm font-medium transition-all",

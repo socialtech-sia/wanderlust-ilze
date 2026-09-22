@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { BookingReplyDialog } from "@/components/admin/BookingReplyDialog";
 import { AlertTriangle } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { describeNotificationError } from "@/lib/notification-status";
 import {
   Table,
   TableBody,
@@ -152,16 +154,7 @@ function AdminBookings() {
                 <TableRow key={b.id} className="cursor-pointer" onClick={() => setOpenId(openId === b.id ? null : b.id)}>
                   <TableCell className="font-mono text-xs">
                     {b.reference_code}
-                    {b.notification_error ? (
-                      <Badge
-                        variant="destructive"
-                        className="ml-2 gap-1"
-                        title={b.notification_error}
-                      >
-                        <AlertTriangle className="h-3 w-3" />
-                        E-pasts
-                      </Badge>
-                    ) : null}
+                    <NotificationBadge error={b.notification_error} />
                   </TableCell>
                   <TableCell>
                     <span className="font-medium">{b.customer_name}</span>
@@ -217,9 +210,9 @@ function AdminBookings() {
                               </a>
                             </Button>
                           </div>
-                          {b.notification_error ? (
-                            <p className="text-xs text-destructive">
-                              Paziņojuma kļūda: {b.notification_error}
+                          {describeNotificationError(b.notification_error)?.hint ? (
+                            <p className="text-xs text-muted-foreground">
+                              {describeNotificationError(b.notification_error)!.hint}
                             </p>
                           ) : null}
                         </div>
@@ -233,5 +226,39 @@ function AdminBookings() {
         </Table>
       </div>
     </>
+  );
+}
+
+/**
+ * Бейдж «письмо не ушло».
+ *
+ * Подпись и подсказка — обычным латышским языком; сырой notification_error
+ * в интерфейс не попадает вовсе (см. src/lib/notification-status.ts).
+ * TooltipProvider стоит здесь, а не в корне админки: подсказка нужна ровно
+ * в этом месте, и провайдер на всё приложение ради неё избыточен.
+ */
+function NotificationBadge({ error }: { error: string | null }) {
+  const problem = describeNotificationError(error);
+  if (!problem) return null;
+  return (
+    <TooltipProvider delayDuration={200}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Badge
+            variant="outline"
+            // Не destructive: бронь принята, красный здесь читается как
+            // «заявка потеряна» и пугает без повода.
+            className="ml-2 gap-1 border-amber-500/50 bg-amber-50 font-normal text-amber-900"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <AlertTriangle className="h-3 w-3" aria-hidden />
+            {problem.label}
+          </Badge>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" className="max-w-xs text-xs leading-relaxed">
+          {problem.hint}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
