@@ -6,11 +6,9 @@
  */
 
 import { useEffect, useState } from "react";
-import {
-  EG_LOGO_ASSET,
-  ENTER_GAUJA_ROOT_URL,
-  type EnterGaujaCategoryInfo,
-} from "@/lib/enter-gauja";
+import { EG_LOGO_ASSET, type EnterGaujaCategoryInfo } from "@/lib/enter-gauja";
+import { egUrl } from "@/lib/entergauja-urls";
+import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { EnterGaujaLogo } from "./EnterGaujaLogo";
 
 export { EnterGaujaLogo } from "./EnterGaujaLogo";
@@ -21,6 +19,7 @@ interface Props {
 }
 
 export function EnterGaujaPartnerBadge({ category, href }: Props) {
+  const lang = useCurrentLanguage();
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 240);
@@ -29,7 +28,7 @@ export function EnterGaujaPartnerBadge({ category, href }: Props) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const target = href ?? category?.url ?? ENTER_GAUJA_ROOT_URL;
+  const target = href ?? egUrl(category?.key ?? "root", lang);
 
   return (
     <a
@@ -67,7 +66,8 @@ export function EnterGaujaPartnerChip({
 }: {
   category?: EnterGaujaCategoryInfo;
 }) {
-  const target = category?.url ?? ENTER_GAUJA_ROOT_URL;
+  const lang = useCurrentLanguage();
+  const target = egUrl(category?.key ?? "root", lang);
   return (
     <a
       href={target}

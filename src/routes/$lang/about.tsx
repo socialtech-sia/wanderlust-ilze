@@ -3,7 +3,9 @@ import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
 import { tField } from "@/lib/language";
-import { Award, Languages } from "lucide-react";
+import { Award, ExternalLink, Languages } from "lucide-react";
+import { egUrl } from "@/lib/entergauja-urls";
+import { EnterGaujaLogo } from "@/components/entergauja/EnterGaujaLogo";
 
 import { routeHead } from "@/lib/route-head";
 import { getAboutData } from "@/lib/profile.functions";
@@ -102,6 +104,29 @@ function AboutPage() {
               </p>
             </div>
           ) : null}
+
+          {/* Два раздела Enter Gauja, где как раз ищут гида: каталог экскурсий
+              и «возьми местного». Уместны именно здесь, на странице гида. */}
+          <div>
+            <div className="mb-2 flex items-center gap-2 text-eyebrow">
+              <EnterGaujaLogo className="h-4 w-4" size={16} /> {t("entergauja.guide_title")}
+            </div>
+            <ul className="space-y-1.5 text-sm">
+              {(["excursions", "rentalocal"] as const).map((key) => (
+                <li key={key}>
+                  <a
+                    href={egUrl(key, lang)}
+                    target="_blank"
+                    rel="noopener"
+                    className="group inline-flex items-center gap-1.5 text-foreground transition-colors hover:text-ink-muted"
+                  >
+                    {t(`entergauja.guide_${key}`)}
+                    <ExternalLink className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-70" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </aside>
       </section>
     </>

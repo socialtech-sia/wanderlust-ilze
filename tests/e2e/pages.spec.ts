@@ -20,7 +20,7 @@ const STATIC_PATHS = [
 
 /** Ключ i18n, просочившийся в текст: "home.hero_trust", "cta.book_now". */
 const I18N_KEY = /\b[a-z][a-z0-9]*(?:_[a-z0-9]+)*(?:\.[a-z][a-z0-9_]*){1,3}\b/;
-const I18N_ALLOW = /\.(lv|com|eu|org|net|jpg|png|webp|svg|xml|json)\b|wanderlust\.lv|entergauja\.lv|@/;
+const I18N_ALLOW = /\.(lv|com|eu|org|net|jpg|png|webp|svg|xml|json)\b|wanderlust\.lv|entergauja\.com|@/;
 
 interface Collected {
   consoleErrors: string[];

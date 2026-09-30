@@ -7,6 +7,7 @@
  */
 
 import { LANGUAGES, DEFAULT_LANG, type Lang } from "@/lib/language";
+import { egUrl } from "@/lib/entergauja-urls";
 import {
   getEnterGaujaCategory,
   type EnterGaujaKey,
@@ -197,7 +198,7 @@ export function buildServiceSchema(s: ServiceSchemaInput): object {
     isPartOf: {
       "@type": "TouristDestination",
       name: "Gauja National Park",
-      url: s.category.url,
+      url: egUrl(s.category.key, s.lang),
     },
   };
   if (s.locationName) {

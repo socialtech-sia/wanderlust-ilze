@@ -5,6 +5,7 @@ import { useSiteSettings } from "@/hooks/use-services";
 import { Instagram, Facebook, Mail, Phone, ExternalLink } from "lucide-react";
 import { openConsentSettings } from "@/lib/cookie-consent";
 import { ENTER_GAUJA_ORDER, ENTER_GAUJA_CATEGORIES } from "@/lib/enter-gauja";
+import { egUrl } from "@/lib/entergauja-urls";
 import { EnterGaujaLogo } from "@/components/entergauja/EnterGaujaLogo";
 import { Logo } from "@/components/brand/Logo";
 
@@ -97,7 +98,7 @@ export function Footer() {
         <div className="container-editorial flex flex-col items-start gap-3 py-4 md:flex-row md:flex-wrap md:items-center md:justify-between">
           <div className="flex items-center gap-2.5">
             <a
-              href="https://entergauja.com/"
+              href={egUrl("root", lang)}
               target="_blank"
               rel="noopener"
               className="opacity-50 grayscale transition hover:opacity-100 hover:grayscale-0"
@@ -122,7 +123,7 @@ export function Footer() {
               return (
                 <a
                   key={k}
-                  href={c.url}
+                  href={egUrl(k, lang)}
                   target="_blank"
                   rel="noopener"
                   className="group inline-flex items-center gap-1.5 text-eyebrow tracking-[0.16em] transition-colors hover:text-foreground"

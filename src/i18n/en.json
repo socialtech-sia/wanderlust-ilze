@@ -341,7 +341,10 @@
     "partner_body": "Wanderlust.lv is an Enter Gauja community partner — part of the unified Gauja National Park tourism network that connects nature, history, culture and active recreation.",
     "backlink_body": "We are Enter Gauja community partners. Discover more nature trails, castles and cultural events across the Gauja Valley.",
     "cta_view": "View Enter Gauja",
-    "cta_view_category": "View {{category}}"
+    "cta_view_category": "View {{category}}",
+    "guide_title": "Guides on Enter Gauja",
+    "guide_excursions": "Enter Excursions",
+    "guide_rentalocal": "Rent a Local"
   },
   "facts": {
     "certified_title": "Certified guide",

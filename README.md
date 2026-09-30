@@ -640,7 +640,7 @@ Step 5: **Confirmation page**
 - Category badges appear on service cards and detail pages
 - Filter bar on service list pages: "All | Action | Nature | History | Culture"
 - Home page has dedicated "Explore Gauja" block with 4 category tiles
-- Footer includes: "Enter Gauja sadarbības tīkla partneris" + logo + link to entergauja.com
+- Footer includes: "Enter Gauja sadarbības tīkla partneris" + logo + link to entergauja.com (адреса — в src/lib/entergauja-urls.ts)
 
 ---
 

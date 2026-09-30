@@ -14,6 +14,7 @@ import {
   type EnterGaujaCategoryInfo,
 } from "@/lib/enter-gauja";
 import { useCurrentLanguage } from "@/hooks/use-current-language";
+import { egUrl } from "@/lib/entergauja-urls";
 
 /** First one-and-a-half to two sentences of the official intro. */
 function shorten(text: string): string {
@@ -29,7 +30,7 @@ export function EnterGaujaBacklinkBlock({
 }) {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
-  const href = category?.url ?? "https://entergauja.lv/";
+  const href = egUrl(category?.key ?? "root", lang);
   const color = category?.color ?? "#7A8A2E";
   const block = category ? EG_BLOCK_ASSET[category.key] : undefined;
 

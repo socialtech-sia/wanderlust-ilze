@@ -3,9 +3,11 @@
  * Source: EnterGauja Vadlīnijas 2025 (brand guidelines).
  *
  * Primary categories: Nature, History, Culture, Action, Get-around.
- * Each has an official plate/accent color (guidelines §2), symbol,
- * dedicated hub URL on entergauja.lv, and a schema.org type for
- * structured data on partner pages.
+ * Each has an official plate/accent color (guidelines §2), symbol
+ * and a schema.org type for structured data on partner pages.
+ *
+ * Адресов Enter Gauja здесь нет: они зависят от языка и живут
+ * в `@/lib/entergauja-urls` (см. `egUrl`).
  */
 
 import logoAsset from "@/assets/entergauja/entergauja_logo.png";
@@ -43,7 +45,6 @@ export interface EnterGaujaCategoryInfo {
   color: string;
   /** Hover / active — unified Enter Gauja olive (#A9AD00). */
   colorActive: string;
-  url: string;
   schemaType:
     | "TouristAttraction"
     | "LandmarksOrHistoricalBuildings"
@@ -63,7 +64,6 @@ export const ENTER_GAUJA_CATEGORIES: Record<EnterGaujaKey, EnterGaujaCategoryInf
     slug: "enter-nature",
     color: "#4F6F19",
     colorActive: EG_OLIVE,
-    url: "https://entergauja.lv/enter-nature/",
     schemaType: "TouristAttraction",
     symbol: "deer",
   },
@@ -73,7 +73,6 @@ export const ENTER_GAUJA_CATEGORIES: Record<EnterGaujaKey, EnterGaujaCategoryInf
     slug: "enter-history",
     color: "#D1701A",
     colorActive: EG_OLIVE,
-    url: "https://entergauja.lv/enter-history/",
     schemaType: "LandmarksOrHistoricalBuildings",
     symbol: "castle",
   },
@@ -83,7 +82,6 @@ export const ENTER_GAUJA_CATEGORIES: Record<EnterGaujaKey, EnterGaujaCategoryInf
     slug: "enter-culture",
     color: "#51869D",
     colorActive: EG_OLIVE,
-    url: "https://entergauja.lv/enter-culture/",
     schemaType: "Event",
     symbol: "austra",
   },
@@ -93,7 +91,6 @@ export const ENTER_GAUJA_CATEGORIES: Record<EnterGaujaKey, EnterGaujaCategoryInf
     slug: "enter-action",
     color: "#F05366",
     colorActive: EG_OLIVE,
-    url: "https://entergauja.lv/enter-action/",
     schemaType: "SportsActivityLocation",
     symbol: "lightning",
   },
@@ -103,7 +100,6 @@ export const ENTER_GAUJA_CATEGORIES: Record<EnterGaujaKey, EnterGaujaCategoryInf
     slug: "gauja-get-around",
     color: "#6987B6",
     colorActive: EG_OLIVE,
-    url: "https://entergauja.lv/gauja-get-around/",
     schemaType: "TravelAction",
     symbol: "horse",
   },
@@ -116,8 +112,6 @@ export const ENTER_GAUJA_ORDER: EnterGaujaKey[] = [
   "action",
   "getaround",
 ];
-
-export const ENTER_GAUJA_ROOT_URL = "https://entergauja.lv/";
 
 /** Home page default per grant application. */
 export const EG_HOMEPAGE_DEFAULT: EnterGaujaKey = "action";
