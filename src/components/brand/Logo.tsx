@@ -104,15 +104,30 @@ export function Logo({
     </span>
   );
 
+  /*
+    Подпись лежит на hero-фотографии, которую клиент меняет из админки, и до
+    этой правки была набрана 8.4 px краской в 70 % — на засвеченном небе это
+    1.37:1, то есть её там просто не было.
+
+    Кегль поднят до 11 px, краска до 85 %. Разрядка при этом ужата с 0.16em до
+    0.10em намеренно: при новом кегле прежняя разрядка растянула бы подпись на
+    226 px и выдавила бы меню из строки на узких десктопах. С 0.10em блок
+    логотипа шире прежнего примерно на 30 px — ровно на столько же ужаты
+    зазоры в меню (Header.tsx).
+
+    Контраст на подложке шапки (.header-scrim, худший случай — белый кадр):
+    5.30:1. На тёмном лесу — 8.48:1.
+  */
   const caption = (
     <span
       className="text-utility"
       style={{
         fontFamily: '"Archivo Narrow", sans-serif',
+        fontWeight: 650,
         textTransform: "uppercase",
-        letterSpacing: "0.16em",
-        fontSize: Math.max(8, size * 0.21),
-        color: `color-mix(in oklab, ${color} 70%, transparent)`,
+        letterSpacing: "0.10em",
+        fontSize: Math.max(10, size * 0.275),
+        color: `color-mix(in oklab, ${color} 85%, transparent)`,
       }}
     >
       {tagline}

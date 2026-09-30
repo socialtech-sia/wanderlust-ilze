@@ -153,15 +153,22 @@ export function Header() {
     : "border-[color-mix(in_oklab,var(--pine)_14%,transparent)] bg-[color-mix(in_oklab,var(--sand)_94%,transparent)]";
   // NB: root theme is dark-first, so `text-foreground` is bone — unusable on the light pill.
   const textColor = isDark ? "text-bone" : "text-pine";
-  const mutedColor = isDark
-    ? "text-bone-muted hover:text-bone"
-    : "text-[color-mix(in_oklab,var(--pine)_70%,transparent)] hover:text-pine";
 
 
   const shadowClass = isDark ? "text-shadow-sm" : "";
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40" data-tone={tone}>
+      {/*
+        Подложка шапки. Единственное, что гарантирует контраст меню: hero-фото
+        приходит из админки, и подбирать под него цвет текста нельзя. Плотность
+        и стопы — в styles.css (.header-scrim), там же посчитанные цифры.
+        Цвет краски берётся из --scrim-ink и переключается вместе с тоном
+        секции, поэтому над светлой секцией подложка песочная и не читается
+        как тёмная полоса.
+      */}
+      <div className="header-scrim" aria-hidden="true" />
+
       <div className="container-editorial relative z-10">
         <div
           ref={pillRef}
@@ -197,7 +204,10 @@ export function Header() {
           />
         </Link>
 
-        <nav className={cn("hidden items-center gap-7 md:flex", shadowClass)}>
+        {/* Шрифт вырос с 11 px до 13 px, поэтому зазоры ужаты на узких
+            десктопах: строка меню в итоге не шире прежней (в испанском и
+            латышском она самая длинная), а на xl зазор возвращается к 28 px. */}
+        <nav className={cn("hidden items-center gap-3 md:flex lg:gap-5 xl:gap-7", shadowClass)}>
           {NAV.map((item) => {
             const active = !!matchRoute({ to: item.to, params: { lang } });
             return (
@@ -205,10 +215,9 @@ export function Header() {
                 key={item.key}
                 to={item.to}
                 params={{ lang }}
-                className={cn(
-                  "text-utility text-[11px] transition-colors",
-                  active ? textColor : mutedColor,
-                )}
+                className="nav-link"
+                data-active={active}
+                aria-current={active ? "page" : undefined}
               >
                 {t(`nav.${item.key}`)}
               </Link>
@@ -242,17 +251,22 @@ export function Header() {
       {mobileOpen && (
         <div className="surface-dark relative z-10 border-t border-border md:hidden">
           <nav className="container-editorial flex flex-col gap-1 py-4">
-            {NAV.map((item) => (
-              <Link
-                key={item.key}
-                to={item.to}
-                params={{ lang }}
-                onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-base text-foreground hover:bg-accent"
-              >
-                {t(`nav.${item.key}`)}
-              </Link>
-            ))}
+            {NAV.map((item) => {
+              const active = !!matchRoute({ to: item.to, params: { lang } });
+              return (
+                <Link
+                  key={item.key}
+                  to={item.to}
+                  params={{ lang }}
+                  onClick={() => setMobileOpen(false)}
+                  data-active={active}
+                  aria-current={active ? "page" : undefined}
+                  className="nav-link-mobile"
+                >
+                  {t(`nav.${item.key}`)}
+                </Link>
+              );
+            })}
             <Button asChild className="mt-2 w-full">
               <Link
                 to="/$lang/book"

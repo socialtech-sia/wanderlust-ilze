@@ -240,6 +240,151 @@
   background-color: var(--pine-deep);
 }
 
+/* ── Шапка поверх hero ──────────────────────────────────────────────────
+   Hero-картинку клиент меняет из админки, и там может оказаться что угодно:
+   засвеченное небо, пёстрый кадр, тёмный лес. Подбирать цвет меню под
+   конкретную фотографию поэтому нельзя — читаемость держит подложка
+   .header-scrim, а цвета ниже рассчитаны от её худшего случая.
+
+   Худший случай — сплошной белый кадр. На высоте строки меню подложка
+   даёт не меньше 84 % краски, и поверх белого это:
+     активный пункт  --nav-ink       #E4DED1 — 6.61:1
+     остальные       --nav-ink-idle  #D0CABE — 5.43:1
+     подпись логотипа (85 % от --nav-ink)    — 5.30:1
+   На любом более тёмном кадре больше: светлое небо #C9DCEA — 7.26/5.96/5.77,
+   тёмный лес #1A2416 — 11.18/9.19/8.48. Ниже строки меню подложка сходит
+   на нет, чтобы не срезать верх фотографии.
+
+   Минимум, при котором #D0CABE берёт 4.5:1 на белом, — 78.5 % краски;
+   84 % взято с запасом на то, что строка может сесть на пару пикселей
+   ниже расчётной. */
+header[data-tone="dark"] {
+  --scrim-ink: var(--pine);
+  --nav-ink: var(--bone);                /* #E4DED1 */
+  --nav-ink-idle: oklch(0.84 0.018 86);  /* #D0CABE — на 3 ступени плотнее прежнего --bone-muted */
+}
+
+/* Светлые секции под шапкой — плоские, фотографии под ними нет, но
+   подложка держится симметрично: на чёрном кадре под песком это всё ещё
+   9.09:1 для активного пункта и 4.71:1 для остальных. */
+header[data-tone="light"] {
+  --scrim-ink: var(--sand);
+  --nav-ink: var(--pine);                /* #1E2B1F */
+  --nav-ink-idle: oklch(0.44 0.02 147);  /* #4C564C */
+}
+
+.header-scrim {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 140px;
+  pointer-events: none;
+  /* Смена тона (hero -> светлая секция) должна догонять островок шапки, у
+     него на цвет те же 500 мс. Структура градиента в обоих тонах одна,
+     меняется только --scrim-ink, поэтому переход интерполируется. */
+  transition: background 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--scrim-ink) 88%, transparent) 0,
+    color-mix(in oklab, var(--scrim-ink) 84%, transparent) 58px,
+    color-mix(in oklab, var(--scrim-ink) 46%, transparent) 88px,
+    color-mix(in oklab, var(--scrim-ink) 14%, transparent) 116px,
+    transparent 140px
+  );
+}
+
+/* Плато держится до низа строки шапки: 64 px на телефоне, 80 px на
+   десктопе, плюс запас. Дальше спад. */
+@media (min-width: 768px) {
+  .header-scrim {
+    height: 168px;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--scrim-ink) 88%, transparent) 0,
+      color-mix(in oklab, var(--scrim-ink) 84%, transparent) 66px,
+      color-mix(in oklab, var(--scrim-ink) 46%, transparent) 104px,
+      color-mix(in oklab, var(--scrim-ink) 14%, transparent) 138px,
+      transparent 168px
+    );
+  }
+}
+
+.nav-link {
+  position: relative;
+  font-family: var(--font-utility);
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8125rem;   /* было 11px */
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--nav-ink-idle);
+  transition: color 200ms ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: var(--nav-ink);
+}
+
+/* Активный пункт помечен тремя признаками сразу — цветом, весом и чертой.
+   Одного цвета на фотографии мало: разница #D0CABE / #E4DED1 на пёстром
+   кадре считывается плохо.
+
+   Черта набрана currentColor, а не песчаником: #C36E3C на засвеченном небе
+   не дотягивает даже до 3:1 — ему потребовалось бы 91.5 % краски в
+   подложке против наших 84 %. */
+.nav-link[data-active="true"] {
+  color: var(--nav-ink);
+  font-weight: 700;
+}
+
+.nav-link[data-active="true"]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -0.5rem;
+  height: 2px;
+  border-radius: 2px;
+  background-color: currentColor;
+}
+
+/* Тот же пункт в раскрывающемся меню телефона. Цвета здесь жёстко костяные,
+   а не из --nav-ink: при светлом тоне шапки --nav-ink хвойный, и на хвойном
+   же фоне списка (.surface-dark) он бы исчез. Фотографии под списком нет,
+   фон плоский — bone на хвое это 11.03:1.
+
+   Шрифт утилитарный (Archivo Narrow, ось 500–700), а не основной Archivo:
+   у того ось кончается на 600, и вес активного пункта схлопнулся бы к весу
+   остальных. */
+.nav-link-mobile {
+  font-family: var(--font-utility);
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: color-mix(in oklab, var(--bone) 88%, transparent);  /* 8.87:1 на хвое */
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.nav-link-mobile:hover,
+.nav-link-mobile:focus-visible {
+  background-color: color-mix(in oklab, var(--bone) 10%, transparent);
+  color: var(--bone);
+}
+
+.nav-link-mobile[data-active="true"] {
+  font-weight: 700;
+  color: var(--bone);
+  background-color: color-mix(in oklab, var(--bone) 10%, transparent);
+  /* Песчаник здесь можно: фон плоский и известный, 3.95:1 — выше порога
+     3:1 для нетекстового указателя. На фотографии он бы не прошёл. */
+  box-shadow: inset 2px 0 0 var(--sandstone-bright);
+}
+
 /* Admin stays a light, dense working tool — only type + radii change. */
 .admin-scope {
   --background: var(--sand);
