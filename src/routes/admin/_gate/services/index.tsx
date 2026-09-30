@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { SERVICE_TYPE_LABEL as TYPE_LABEL } from "@/lib/booking-service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -19,12 +20,6 @@ export const Route = createFileRoute("/admin/_gate/services/")({
 
 type Service = Tables<"services">;
 type ServiceType = Service["type"];
-
-const TYPE_LABEL: Record<ServiceType, string> = {
-  excursion: "Ekskursija",
-  hiking: "Pārgājiens",
-  transfer: "Transfērs",
-};
 
 function AdminServices() {
   const queryClient = useQueryClient();

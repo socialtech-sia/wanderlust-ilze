@@ -12,6 +12,8 @@ import { BookingReplyDialog } from "@/components/admin/BookingReplyDialog";
 import { AlertTriangle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { describeNotificationError } from "@/lib/notification-status";
+import { bookingServiceInfo } from "@/lib/booking-service";
+import { BookingServiceLine } from "@/components/admin/BookingServiceLine";
 import {
   Table,
   TableBody,
@@ -26,8 +28,17 @@ export const Route = createFileRoute("/admin/_gate/bookings")({
   component: AdminBookings,
 });
 
-type Booking = Tables<"bookings">;
+/**
+ * Джойн `services` здесь — только запасной вариант: название берётся из
+ * `service_snapshot`, см. `@/lib/booking-service`. Услуга может быть уже
+ * удалена, поэтому связь необязательная и строка бывает null.
+ */
+type Booking = Tables<"bookings"> & {
+  services: Pick<Tables<"services">, "type" | "title_lv" | "title_en"> | null;
+};
 type BookingStatus = Booking["status"];
+/** Что реально пишется в таблицу — без джойна. */
+type BookingPatch = Partial<Tables<"bookings">>;
 
 const STATUSES: BookingStatus[] = ["pending", "confirmed", "declined", "completed", "cancelled", "no_show"];
 
@@ -59,7 +70,7 @@ function AdminBookings() {
     queryFn: async (): Promise<Booking[]> => {
       const { data, error } = await supabase
         .from("bookings")
-        .select("*")
+        .select("*, services(type, title_lv, title_en)")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data ?? [];
@@ -80,7 +91,7 @@ function AdminBookings() {
   }, [queryClient]);
 
   const update = useMutation({
-    mutationFn: async ({ id, patch }: { id: string; patch: Partial<Booking> }) => {
+    mutationFn: async ({ id, patch }: { id: string; patch: BookingPatch }) => {
       const { error } = await supabase.from("bookings").update(patch).eq("id", id);
       if (error) throw error;
     },
@@ -94,7 +105,7 @@ function AdminBookings() {
   const rows = filter === "all" ? bookings : bookings.filter((b) => b.status === filter);
 
   function setStatus(booking: Booking, status: BookingStatus) {
-    const patch: Partial<Booking> = { status };
+    const patch: BookingPatch = { status };
     if (status === "confirmed") patch.confirmed_at = new Date().toISOString();
     if (status === "cancelled" || status === "declined") patch.cancelled_at = new Date().toISOString();
     update.mutate({ id: booking.id, patch });
@@ -152,9 +163,10 @@ function AdminBookings() {
             {rows.map((b) => (
               <>
                 <TableRow key={b.id} className="cursor-pointer" onClick={() => setOpenId(openId === b.id ? null : b.id)}>
-                  <TableCell className="font-mono text-xs">
-                    {b.reference_code}
+                  <TableCell className="align-top">
+                    <span className="font-mono text-xs">{b.reference_code}</span>
                     <NotificationBadge error={b.notification_error} />
+                    <BookingServiceLine info={bookingServiceInfo(b.service_snapshot, b.services)} />
                   </TableCell>
                   <TableCell>
                     <span className="font-medium">{b.customer_name}</span>
@@ -188,6 +200,13 @@ function AdminBookings() {
                     <TableCell colSpan={6} className="bg-muted/40">
                       <div className="grid gap-4 py-2 sm:grid-cols-2">
                         <div className="space-y-1 text-sm">
+                          <p>
+                            <span className="text-muted-foreground">Pakalpojums: </span>
+                            <BookingServiceLine
+                              inline
+                              info={bookingServiceInfo(b.service_snapshot, b.services)}
+                            />
+                          </p>
                           <p><span className="text-muted-foreground">Tālrunis: </span>{b.customer_phone ?? "—"}</p>
                           <p><span className="text-muted-foreground">Valsts: </span>{b.customer_country ?? "—"}</p>
                           <p><span className="text-muted-foreground">Valoda: </span>{b.customer_language ?? "—"}</p>
