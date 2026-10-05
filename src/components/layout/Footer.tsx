@@ -8,6 +8,7 @@ import { ENTER_GAUJA_ORDER, ENTER_GAUJA_CATEGORIES } from "@/lib/enter-gauja";
 import { egUrl } from "@/lib/entergauja-urls";
 import { EnterGaujaLogo } from "@/components/entergauja/EnterGaujaLogo";
 import { Logo } from "@/components/brand/Logo";
+import { ProjectSupportNotice } from "@/components/funding/ProjectSupportNotice";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -142,6 +143,8 @@ export function Footer() {
         </div>
       </div>
 
+      {/* Funding visibility notice — must stay in the server-rendered HTML. */}
+      <ProjectSupportNotice lang={lang} />
 
       <div className="border-t border-border/50">
         <div className="container-editorial flex flex-col items-start justify-between gap-3 py-5 text-xs text-ink-muted md:flex-row md:items-center">
