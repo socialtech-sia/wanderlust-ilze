@@ -15,8 +15,11 @@
  *    (`--pine-raised`); the light scopes (`.surface-light`, `.admin-scope`)
  *    never contain it. In that variant the emblem is a white keyline rectangle
  *    with white stars on a transparent field, which is exactly how the emblem
- *    is reproduced on a dark background — so it needs no plate under it. The
- *    colour variant is kept at /eu-nap-logo-color.svg for a light surface.
+ *    is reproduced on a dark background — so it needs no plate under it. Only
+ *    this one file ships: the colour variant and the bare-emblem PNG from the
+ *    same kit were deliberately NOT kept in public/, because anything in there
+ *    is served at a public URL and weighs on the image. They are in the
+ *    client's archive if a light surface ever needs the colour one.
  *    Reproduced as supplied: no opacity, no recolor, no overlay, no crop, no
  *    distortion. Only the surrounding block is muted.
  * 3. Size. The EU emblem *inside* the lockup must stay at least 40px tall. The
